@@ -7,34 +7,16 @@ import java.util.Date;
  */
 public class Product {
     private Long id;
+    private Long ownerId;
+    private Long shopId;
     private String name;
     private String price;
     private Date createDate;
     private Date modifyDate;
     private String detail;
-
-    private Shop shop;
-    private Owner owner;
     private String category;
     private String brand;
-    private Photo photo;
-
-    public Shop getShop() {
-        return shop;
-    }
-
-    public void setShop(Shop shop) {
-        this.shop = shop;
-    }
-
-    public Owner getOwner() {
-        return owner;
-    }
-
-    public void setOwner(Owner owner) {
-        this.owner = owner;
-    }
-
+    private Long productPhotoId;
 
     public Long getId() {
         return id;
@@ -44,28 +26,20 @@ public class Product {
         this.id = id;
     }
 
-    public String getCategory() {
-        return category;
+    public Long getOwnerId() {
+        return ownerId;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setOwnerId(Long ownerId) {
+        this.ownerId = ownerId;
     }
 
-    public String getBrand() {
-        return brand;
+    public Long getShopId() {
+        return shopId;
     }
 
-    public void setBrand(String brand) {
-        this.brand = brand;
-    }
-
-    public Photo getPhoto() {
-        return photo;
-    }
-
-    public void setPhoto(Photo photo) {
-        this.photo = photo;
+    public void setShopId(Long shopId) {
+        this.shopId = shopId;
     }
 
     public String getName() {
@@ -106,5 +80,29 @@ public class Product {
 
     public void setDetail(String detail) {
         this.detail = detail;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    public Long getProductPhotoId() {
+        return productPhotoId;
+    }
+
+    public void setProductPhotoId(Long productPhotoId) {
+        this.productPhotoId = productPhotoId;
     }
 }

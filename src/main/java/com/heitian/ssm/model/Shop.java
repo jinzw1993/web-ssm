@@ -6,24 +6,13 @@ import java.util.List;
  * Created by oasis on 11/26/16.
  */
 public class Shop {
-
     private Long id;
+    private Long ownerId;
+    private String name;
     private String contact;
     private String email;
     private String telephone;
-    private Short status;
-
-    private List<Product> productList;
-
-    private Owner owner;
-
-    public Owner getOwner() {
-        return owner;
-    }
-
-    public void setOwner(Owner owner) {
-        this.owner = owner;
-    }
+    private String status;
 
     public Long getId() {
         return id;
@@ -31,6 +20,22 @@ public class Shop {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(Long ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getContact() {
@@ -57,19 +62,11 @@ public class Shop {
         this.telephone = telephone;
     }
 
-    public Short getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(Short status) {
+    public void setStatus(String status) {
         this.status = status;
-    }
-
-    public List<Product> getProductList() {
-        return productList;
-    }
-
-    public void setProductList(List<Product> productList) {
-        this.productList = productList;
     }
 }

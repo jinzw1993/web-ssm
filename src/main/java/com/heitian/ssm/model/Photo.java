@@ -9,8 +9,7 @@ public class Photo {
     private Long id;
     private File path;
     private String hash;
-
-    private Product product;
+    private Product productId;
 
     public Long getId() {
         return id;
@@ -36,11 +35,11 @@ public class Photo {
         this.hash = hash;
     }
 
-    public Product getProduct() {
-        return product;
+    public Product getProductId() {
+        return productId;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setProductId(Product productId) {
+        this.productId = productId;
     }
 }

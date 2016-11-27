@@ -6,11 +6,9 @@ package com.heitian.ssm.model;
 
 public class Owner {
     private Long id;
-    private String ownerName;
-    private String ownerPwd;
-    private Short status;
-
-    private Shop shop;
+    private String name;
+    private String password;
+    private Long status;
 
     public Long getId() {
         return id;
@@ -20,35 +18,27 @@ public class Owner {
         this.id = id;
     }
 
-    public String getOwnerName() {
-        return ownerName;
+    public String getName() {
+        return name;
     }
 
-    public void setOwnerName(String ownerName) {
-        this.ownerName = ownerName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getOwnerPwd() {
-        return ownerPwd;
+    public String getPassword() {
+        return password;
     }
 
-    public void setOwnerPwd(String ownerPwd) {
-        this.ownerPwd = ownerPwd;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public Short getStatus() {
+    public Long getStatus() {
         return status;
     }
 
-    public void setStatus(Short status) {
+    public void setStatus(Long status) {
         this.status = status;
-    }
-
-    public Shop getShop() {
-        return shop;
-    }
-
-    public void setShop(Shop shop) {
-        this.shop = shop;
     }
 }
