@@ -1,7 +1,5 @@
 package com.heitian.ssm.model;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 /**
  * Created by oasis on 11/26/16.
  */
