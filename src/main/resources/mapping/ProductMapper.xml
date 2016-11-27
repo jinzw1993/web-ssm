@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.heitian.ssm.dao.OwnerDao">
+
+    <resultMap id="ProductBaseMap" type="com.heitian.ssm.model.Owner">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="shop_id" property="shopId"/>
+        <result column="product_photo_id" property="productPhotoId"/>
+        <result column="name" property="name" />
+        <result column="price" property="price" />
+        <result column="detail" property="detail"/>
+        <result column="create_at" property="createDate"/>
+        <result column="modified_at" property="modifiedDate"/>
+        <result column="strbrand" property="brand"/>
+        <result column="strcategory" property="category"/>
+    </resultMap>
+
+    <insert id="insertProduct" parameterType="com.heitian.ssm.model.Product">
+        SELECT category.id as cid brand.id as bid
+        FROM product JOIN brand JOIN category
+        ON    product.brand=brand.brand and product.category=category.category
+        WHERE #{brand}=brand.brand AND #{category}=category.category
+        insert into product VALUES
+        (
+        #{id},#{ownerId}, #{shopId},
+        bid,#{productPhotoId},#{name},
+        #{price},cid,#{detail},
+        #{createDate},#{modifyDate}
+        )
+    </insert>
+
+    <delete id="deleteProductById" parameterType="java.lang.Long">
+        DELETE FROM product WHERE id=#{id}
+    </delete>
+
+    <update id="updateProduct" parameterType="com.heitian.ssm.model.Product">
+        SELECT category.id as cid brand.id as bid
+        FROM product JOIN brand JOIN category
+        ON    product.brand=brand.brand and product.category=category.category
+        WHERE #{brand}=brand.brand AND #{category}=category.category
+
+        update product set
+        owner_id=#{ownerId},shop_id= #{shopId},
+        brand_id=bid, product_photo_id=#{productPhotoId},name=#{name},
+        price=#{price},category_id=cid, detail=#{detail},
+        created_at=#{createDate}, modified_at=#{modifyDate}
+        WHERE id=#{id}
+    </update>
+
+    <select id="selectByName" parameterType="java.lang.String" resultMap="ProductBaseMap">
+        SELECT brand.brand as strbrand, category.category as strcategroy
+        FROM product JOIN brand JOIN category
+        ON    product.brand=brand.brand and product.category=category.category
+        WHERE name=%#{name}%
+    </select>
+
+
+
+
+
+
+</mapper>

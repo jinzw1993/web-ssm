@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.heitian.ssm.dao.OwnerDao">
+
+    <resultMap id="OwnerBaseMap" type="com.heitian.ssm.model.Owner">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="integer"/>
+    </resultMap>
+
+    <select id="selectOwnerById" parameterType="java.lang.Long" resultMap="OwnerBaseMap">
+        SELECT id,name,password,status
+        FROM owner
+        WHERE id = #{id}
+    </select>
+
+    <select id="selectOwnerByName" parameterType="java.lang.String" resultMap="OwnerBaseMap">
+        SELECT id,name,password,status
+        FROM owner
+        WHERE name = #{ownerName}
+    </select>
+
+    <select id="selectAllOwners" resultMap="OwnerBaseMap">
+        SELECT id,name,password,status
+        FROM owner
+    </select>
+
+    <insert id="insertOwner" parameterType="com.heitian.ssm.model.Owner">
+        insert into owner VALUES
+          (#{id},#{name},#{status},#{password})
+    </insert>
+
+    <update id="updateOwner" parameterType="com.heitian.ssm.model.Owner">
+        UPDATE owner set name=#{name}, password=#{password}, status=#{status} WHERE id=#{id}
+    </update>
+
+    <delete id="deleteById" parameterType="java.lang.Long" >
+        DELETE from owner WHERE id=#{id}
+    </delete>
+
+    <delete id="deleteByName" parameterType="java.lang.String">
+        DELETE FROM owner WHERE name=#{ownerName}
+    </delete>
+</mapper>
