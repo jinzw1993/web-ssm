@@ -28,7 +28,7 @@
 
     <insert id="insertOwner" useGeneratedKeys="true" parameterType="com.heitian.ssm.model.Owner">
         insert into owner VALUES
-          (#{owner.id},#{owner.name},#{owner.status},#{owner.password})
+          (#{owner.name},#{owner.status},#{owner.password})
     </insert>
 
     <update id="updateOwner" parameterType="com.heitian.ssm.model.Owner">
