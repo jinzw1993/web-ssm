@@ -10,7 +10,7 @@ import java.util.List;
  */
 @Repository
 public interface ShopDao {
-    Shop selectShopByName(String name);
+    List<Shop> selectShopByName(String name);
 
     List<Shop> selectAllShops();
 

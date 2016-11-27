@@ -8,7 +8,7 @@
     <select id="selectShopByName" parameterType="java.lang.String" resultMap="ShopBaseMap">
         SELECT id,owner_id,name,contact,email,telephone,status
         FROM SHOP
-        WHERE name=#{name}
+        WHERE name=%#{name}%
     </select>
     <select id="selectAllShops" resultMap="ShopBaseMap">
         SELECT id,owner_id,name,contact,email,telephone,status
@@ -16,7 +16,7 @@
     </select>
     <insert id="insertShop" useGeneratedKeys="true" keyProperty="id" parameterType="com.heitian.ssm.model.Shop">
         INSERT INTO SHOP(owner_id,name,contact,email,telephone,status)
-        VALUES(#{ownerId},#{name},#{contact},#{email},#{telephone},#{status})
+        VALUES(#{name},#{contact},#{email},#{telephone},#{status})
     </insert>
     <update id="updateShop" parameterType="com.heitian.ssm.model.Shop">
         UPDATE SHOP SET

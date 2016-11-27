@@ -12,7 +12,7 @@ public class Shop {
     private String contact;
     private String email;
     private String telephone;
-    private String status;
+    private Long status;
 
     public Long getId() {
         return id;
@@ -62,11 +62,11 @@ public class Shop {
         this.telephone = telephone;
     }
 
-    public String getStatus() {
+    public Long getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Long status) {
         this.status = status;
     }
 }
