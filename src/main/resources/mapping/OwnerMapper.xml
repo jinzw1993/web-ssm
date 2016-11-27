@@ -26,13 +26,13 @@
         FROM owner
     </select>
 
-    <insert id="insertOwner" parameterType="com.heitian.ssm.model.Owner">
+    <insert id="insertOwner" useGeneratedKeys="true" parameterType="com.heitian.ssm.model.Owner">
         insert into owner VALUES
-          (#{id},#{name},#{status},#{password})
+          (#{owner.id},#{owner.name},#{owner.status},#{owner.password})
     </insert>
 
     <update id="updateOwner" parameterType="com.heitian.ssm.model.Owner">
-        UPDATE owner set name=#{name}, password=#{password}, status=#{status} WHERE id=#{id}
+        UPDATE owner set name=#{owner.name}, password=#{owner.password}, status=#{owner.status} WHERE id=#{owner.id}
     </update>
 
     <delete id="deleteById" parameterType="java.lang.Long" >

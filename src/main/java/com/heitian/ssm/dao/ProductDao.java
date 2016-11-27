@@ -11,11 +11,11 @@ import java.util.List;
  */
 @Repository
 public interface ProductDao {
-    public boolean insertProduct(@Param("product")Product product);
+    public Object insertProduct(@Param("product")Product product);
 
-    public boolean deleteProductById(@Param("id") long id);
+    public int deleteProductById(@Param("id") long id);
 
-    public boolean updateProduct(@Param("product")Product product);
+    public int updateProduct(@Param("product")Product product);
 
  //   public Product  selectById(@Param("productId") long id);
     public List<Product> selectByName(@Param("name") String name);
