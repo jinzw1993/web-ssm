@@ -43,7 +43,10 @@
 <<<<<<< HEAD
 =======
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> origin/owner-dev
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/heitian/ssm/dao/ShopDao.java" afterPath="$PROJECT_DIR$/src/main/java/com/heitian/ssm/dao/ShopDao.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/heitian/ssm/model/Shop.java" afterPath="$PROJECT_DIR$/src/main/java/com/heitian/ssm/model/Shop.java" />
 >>>>>>> origin/owner-dev
@@ -240,6 +243,9 @@
                 <element signature="e#1255#1256#0" expanded="true" />
                 <element signature="e#1315#1316#0" expanded="true" />
 =======
+<<<<<<< HEAD
+>>>>>>> origin/owner-dev
+=======
 >>>>>>> origin/owner-dev
       <file leaf-file-name="ShopDao.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/heitian/ssm/dao/ShopDao.java">
@@ -255,8 +261,11 @@
         </entry>
       </file>
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> origin/owner-dev
       <file leaf-file-name="OwnerService.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/heitian/ssm/service/OwnerService.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -350,8 +359,11 @@
         <option value="$PROJECT_DIR$/src/main/java/com/heitian/ssm/service/PhotoService.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/heitian/ssm/service/impl/PhotoServiceImpl.java" />
 <<<<<<< HEAD
+<<<<<<< HEAD
         <option value="$PROJECT_DIR$/src/main/java/com/heitian/ssm/controller/UserController.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/heitian/ssm/controller/ShopController.java" />
+=======
+>>>>>>> origin/owner-dev
 =======
 >>>>>>> origin/owner-dev
 >>>>>>> origin/owner-dev
@@ -726,9 +738,12 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
 <<<<<<< HEAD
+<<<<<<< HEAD
               <option name="myItemId" value="controller" />
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> origin/owner-dev
               <option name="myItemId" value="dao" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -1475,9 +1490,12 @@
       <workItem from="1480229719931" duration="452000" />
       <workItem from="1480230258343" duration="10732000" />
 <<<<<<< HEAD
+<<<<<<< HEAD
       <workItem from="1480250144612" duration="11848000" />
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> origin/owner-dev
       <workItem from="1480250144612" duration="6723000" />
       <workItem from="1480258923648" duration="1407000" />
       <workItem from="1480260808779" duration="178000" />
@@ -1485,15 +1503,21 @@
 =======
       <workItem from="1480250144612" duration="10137000" />
 >>>>>>> origin/owner-dev
+<<<<<<< HEAD
+>>>>>>> origin/owner-dev
+=======
 >>>>>>> origin/owner-dev
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
 <<<<<<< HEAD
+<<<<<<< HEAD
     <option name="totallyTimeSpent" value="45614000" />
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> origin/owner-dev
     <option name="totallyTimeSpent" value="43115000" />
   </component>
   <component name="ToolWindowManager">
@@ -1578,7 +1602,10 @@
 <<<<<<< HEAD
 =======
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> origin/owner-dev
     <entry file="file://$PROJECT_DIR$/src/main/java/com/heitian/ssm/service/UserService.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="135">
@@ -1588,6 +1615,9 @@
       </provider>
     </entry>
 >>>>>>> origin/owner-dev
+<<<<<<< HEAD
+>>>>>>> origin/owner-dev
+=======
 >>>>>>> origin/owner-dev
     <entry file="file://$PROJECT_DIR$/src/main/resources/spring-mybatis.xml">
       <provider selected="true" editor-type-id="text-editor">
