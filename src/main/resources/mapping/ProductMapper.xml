@@ -22,7 +22,7 @@
         WHERE #{brand}=brand.brand AND #{category}=category.category
         insert into product VALUES
         (
-        #{product.id},#{product.ownerId}, #{product.shopId},
+        #{product.ownerId}, #{product.shopId},
         bid,#{product.productPhotoId},#{product.name},
         #{product.price},cid,#{product.detail},
         #{product.createDate},#{product.modifyDate}
