@@ -3,15 +3,33 @@
 <mapper namespace="com.heitian.ssm.dao.UserDao">
     <resultMap id="ShopBaseMap" type="com.heitian.ssm.model.Shop">
         <id column="shop.id" property="id" />
-        <result column="shop.name" property="name" />
-        <result column="shop.status" property="status" />
-        <association property="owner" javaType="com.heitian.ssm.model.Owner">
-            <id column="owner.id" property="id" />
-            <result column="owner.status" property="status" />
-            <result column="owner.name" property="ownerName" />
-            <result column="owner.password" property="ownerPwd" />
-        </association>
-
+        <result column="owner_id" property="ownerId" />
     </resultMap>
-
+    <select id="selectShopByName" parameterType="java.lang.String" resultMap="ShopBaseMap">
+        SELECT id,owner_id,name,contact,email,telephone,status
+        FROM SHOP
+        WHERE name=#{name}
+    </select>
+    <select id="selectAllShops" resultMap="ShopBaseMap">
+        SELECT id,owner_id,name,contact,email,telephone,status
+        FROM SHOP
+    </select>
+    <insert id="insertShop" useGeneratedKeys="true" keyProperty="id" parameterType="com.heitian.ssm.model.Shop">
+        INSERT INTO SHOP(owner_id,name,contact,email,telephone,status)
+        VALUES(#{ownerId},#{name},#{contact},#{email},#{telephone},#{status})
+    </insert>
+    <update id="updateShop" parameterType="com.heitian.ssm.model.Shop">
+        UPDATE SHOP SET
+        owner_id=#{ownerId},
+        name=#{name},
+        contact=#{contact},
+        email=#{email},
+        telephone=#{telephone},
+        status=#{status},
+        WHERE id=#{id}
+    </update>
+    <delete id="deleteShopByName" parameterType="java.lang.String">
+        DELETE FROM SHOP
+        WHERE name=#{name}
+    </delete>
 </mapper>

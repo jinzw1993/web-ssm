@@ -10,7 +10,7 @@ public class Product {
     private Long ownerId;
     private Long shopId;
     private String name;
-    private String price;
+    private Double price;
     private Date createDate;
     private Date modifyDate;
     private String detail;
@@ -50,11 +50,11 @@ public class Product {
         this.name = name;
     }
 
-    public String getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 

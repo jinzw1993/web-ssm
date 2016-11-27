@@ -14,9 +14,9 @@ public interface ShopDao {
 
     List<Shop> selectAllShops();
 
-    boolean deleteShopByName(String name);
+    int deleteShopByName(String name);
 
-    boolean updateShopByName(String name, Shop shop);
+    int updateShop(Shop shop);
 
-    boolean insertShopByName(Shop shop);
+    Object insertShop(Shop shop);
 }
