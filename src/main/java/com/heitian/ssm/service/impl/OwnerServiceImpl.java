@@ -20,6 +20,7 @@ public class OwnerServiceImpl implements OwnerService{
 
     public boolean insertOwner( Owner owner) {
         return ownerDao.insertOwner(owner)!=null;
+
     }
 
     public boolean changeStatus(long status, Owner owner) {

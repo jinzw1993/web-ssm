@@ -17,7 +17,9 @@ public class ProductServiceImpl implements ProductService{
     private ProductDao productDao;
 
     public boolean insertProduct(Product product) {
+
         return productDao.insertProduct(product)!=null;
+
     }
 
     public boolean deleteProductById( long id) {
