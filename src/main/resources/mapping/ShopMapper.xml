@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.heitian.ssm.dao.UserDao">
+<mapper namespace="com.heitian.ssm.dao.ShopDao">
     <resultMap id="ShopBaseMap" type="com.heitian.ssm.model.Shop">
         <id column="shop.id" property="id" />
         <result column="owner_id" property="ownerId" />
     </resultMap>
     <select id="selectShopByName" parameterType="java.lang.String" resultMap="ShopBaseMap">
         SELECT id,owner_id,name,contact,email,telephone,status
-        FROM SHOP
+        FROM shop
         WHERE name=%#{name}%
     </select>
     <select id="selectAllShops" resultMap="ShopBaseMap">
         SELECT id,owner_id,name,contact,email,telephone,status
-        FROM SHOP
+        FROM shop
     </select>
     <insert id="insertShop" useGeneratedKeys="true" keyProperty="id" parameterType="com.heitian.ssm.model.Shop">
-        INSERT INTO SHOP(owner_id,name,contact,email,telephone,status)
-        VALUES(#{name},#{contact},#{email},#{telephone},#{status})
+        INSERT INTO shop(owner_id,name,contact,email,telephone,status)
+        VALUES(#{ownerId},#{name},#{contact},#{email},#{telephone},#{status})
     </insert>
     <update id="updateShop" parameterType="com.heitian.ssm.model.Shop">
-        UPDATE SHOP SET
+        UPDATE shop SET
         owner_id=#{ownerId},
         name=#{name},
         contact=#{contact},
@@ -29,7 +29,7 @@
         WHERE id=#{id}
     </update>
     <delete id="deleteShopByName" parameterType="java.lang.String">
-        DELETE FROM SHOP
+        DELETE FROM shop
         WHERE name=#{name}
     </delete>
 </mapper>

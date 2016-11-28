@@ -14,6 +14,18 @@ public class Shop {
     private String telephone;
     private Long status;
 
+    public Shop() {
+    }
+
+    public Shop(Long ownerId, String name, String contact, String email, String telephone, Long status) {
+        this.ownerId = ownerId;
+        this.name = name;
+        this.contact = contact;
+        this.email = email;
+        this.telephone = telephone;
+        this.status = status;
+    }
+
     public Long getId() {
         return id;
     }

@@ -7,9 +7,9 @@ import java.io.File;
  */
 public class Photo {
     private Long id;
-    private File path;
+    private String path;
     private String hash;
-    private Product productId;
+    private Long productId;
 
     public Long getId() {
         return id;
@@ -19,11 +19,11 @@ public class Photo {
         this.id = id;
     }
 
-    public File getPath() {
+    public String getPath() {
         return path;
     }
 
-    public void setPath(File path) {
+    public void setPath(String path) {
         this.path = path;
     }
 
@@ -35,11 +35,11 @@ public class Photo {
         this.hash = hash;
     }
 
-    public Product getProductId() {
+    public Long getProductId() {
         return productId;
     }
 
-    public void setProductId(Product productId) {
+    public void setProductId(Long productId) {
         this.productId = productId;
     }
 }
