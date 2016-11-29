@@ -41,6 +41,12 @@
       <version>7.0</version>
     </dependency>
 
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>3.1.0</version>
+    </dependency>
+
     <!-- 添加junit4依赖 -->
     <dependency>
       <groupId>junit</groupId>
@@ -101,6 +107,7 @@
       <groupId>org.springframework</groupId>
       <artifactId>spring-test</artifactId>
       <version>${spring.version}</version>
+      <scope>test</scope>
     </dependency>
 
     <!-- 添加mybatis依赖 -->
@@ -191,22 +198,17 @@
       <artifactId>commons-codec</artifactId>
       <version>1.9</version>
     </dependency>
+
+    <dependency>
+      <groupId>com.thetransactioncompany</groupId>
+      <artifactId>cors-filter</artifactId>
+      <version>1.7.1</version>
+    </dependency>
+
   </dependencies>
 
 
   <build>
     <finalName>web-ssm</finalName>
-    <!--<resources>-->
-      <!--<resource>-->
-        <!--<directory>${basedir}/src/main/resources</directory>-->
-        <!--<includes>-->
-          <!--<include>**/*.properties</include>-->
-          <!--<include>**/*.xml</include>-->
-        <!--</includes>-->
-      <!--</resource>-->
-      <!--<resource>-->
-        <!--<directory>${basedir}/src/main/resources</directory>-->
-      <!--</resource>-->
-    <!--</resources>-->
   </build>
 </project>
