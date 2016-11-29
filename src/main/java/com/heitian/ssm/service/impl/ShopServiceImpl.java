@@ -16,7 +16,7 @@ public class ShopServiceImpl implements ShopService {
     @Autowired
     private ShopDao shopDao;
 
-    public List<Shop> getShopByName(String name) {
+    public Shop getShopByName(String name) {
         return shopDao.selectShopByName(name);
     }
 
@@ -25,7 +25,7 @@ public class ShopServiceImpl implements ShopService {
     }
 
     public boolean insertShop(Shop shop) {
-        if(shopDao.insertShop(shop) == null) {
+        if(shopDao.insertShop(shop) == 0) {
             return false;
         } else
             return true;

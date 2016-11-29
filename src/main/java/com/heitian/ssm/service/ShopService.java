@@ -8,7 +8,7 @@ import java.util.List;
  * Created by oasis on 11/27/16.
  */
 public interface ShopService {
-    List<Shop> getShopByName(String name);
+    Shop getShopByName(String name);
 
     List<Shop> getAllShops();
 

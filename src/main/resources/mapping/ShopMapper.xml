@@ -8,7 +8,7 @@
     <select id="selectShopByName" parameterType="java.lang.String" resultMap="ShopBaseMap">
         SELECT id,owner_id,name,contact,email,telephone,status
         FROM shop
-        WHERE name=%#{name}%
+        WHERE name=#{name}
     </select>
     <select id="selectAllShops" resultMap="ShopBaseMap">
         SELECT id,owner_id,name,contact,email,telephone,status
