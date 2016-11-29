@@ -1,5 +1,6 @@
 package com.heitian.ssm.service;
 
+import com.heitian.ssm.bo.Result;
 import com.heitian.ssm.model.Photo;
 
 import java.util.List;
@@ -8,13 +9,15 @@ import java.util.List;
  * Created by oasis on 11/27/16.
  */
 public interface PhotoService {
-    boolean insertPhoto(Photo photo);
+    Result insertPhoto(Photo photo);
 
-    boolean deletePhoto(int id);
+    Long insertPhoto(String path);
 
-    boolean updatePhoto(Photo photo);
+    Result deletePhoto(Long productId, Long url);
+
+    Result updatePhoto(Photo photo);
 
     List<Photo> getPhotosByProduct(int productId);
 
-    Photo getPhotoById(int id);
+    Photo getPhotoById(Long id);
 }

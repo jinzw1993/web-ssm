@@ -1,6 +1,7 @@
 package com.heitian.ssm.dao;
 
 import com.heitian.ssm.model.Shop;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.List;
 public interface ShopDao {
     Shop selectShopByName(String name);
 
-    List<Shop> selectAllShops();
+    List<Shop> selectShops(@Param("start") int start,@Param("count") int count);
 
     int deleteShopByName(String name);
 
