@@ -13,6 +13,7 @@ import java.util.List;
 public interface PhotoDao {
     int insertPhoto(Photo photo);
     int deletePhoto(@Param("productId") Long productId,@Param("path") String  path);
+
     int updatePhoto(@Param("productId") Photo photo);
     List<Photo> selectPhotosByProduct(Long productId);
     Photo selectPhotoById(Long id);

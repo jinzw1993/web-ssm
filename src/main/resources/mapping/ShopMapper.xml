@@ -11,6 +11,11 @@
         FROM shop
         WHERE name=#{name}
     </select>
+    <select id="selectShopByOwnerId" resultMap="ShopBaseMap">
+        SELECT id,owner_id,name,contact,email,telephone,status
+        FROM shop
+        WHERE owner_id=#{id}
+    </select>
     <select id="selectShops" resultMap="ShopBaseMap">
         SELECT id,owner_id,name,contact,email,telephone,status
         FROM shop
@@ -33,4 +38,11 @@
         DELETE FROM shop
         WHERE name=#{name}
     </delete>
+    <select id="selectUrlByOwnerId">
+        SELECT path FROM owner_photo
+        WHERE owner_id = #{id}
+    </select>
+    <select id="selectCount">
+        SELECT count(*) FROM shop
+    </select>
 </mapper>

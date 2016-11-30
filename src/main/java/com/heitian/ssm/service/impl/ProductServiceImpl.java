@@ -5,6 +5,7 @@ import com.heitian.ssm.bo.ProductCondition;
 
 import com.heitian.ssm.bo.Result;
 import com.heitian.ssm.dao.PhotoDao;
+
 import com.heitian.ssm.dao.ProductDao;
 import com.heitian.ssm.model.Photo;
 import com.heitian.ssm.model.Product;
@@ -102,6 +103,7 @@ public class ProductServiceImpl implements ProductService {
         int i= productDao.updateProduct(product);
 
         return returnRes(i);
+
 
     }
 }
