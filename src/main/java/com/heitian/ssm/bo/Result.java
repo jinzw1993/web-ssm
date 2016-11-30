@@ -23,8 +23,5 @@ public class Result {
 
         this.status = status;
     }
-<<<<<<< HEAD
+
 }
-=======
-}
->>>>>>> origin/owner-dev
