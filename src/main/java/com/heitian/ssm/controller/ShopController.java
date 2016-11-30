@@ -22,19 +22,19 @@ public class ShopController {
     @Autowired
     private ShopService shopService;
 
-    @RequestMapping(value="/getShopByName")
+    @RequestMapping(value="/getShop")
     public @ResponseBody
     ShopBo getShopByName(@RequestParam String name) {
         log.info("查询店铺:" + name);
         return shopService.getShopByName(name);
     }
 
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
     public @ResponseBody
-    Result addNewShop(@RequestBody Shop shop, @CookieValue(value = "OwnerName",defaultValue = "swc") String name) {
+    Result addNewShop(@RequestBody ShopBo shopBo, @CookieValue(value = "OwnerName",defaultValue = "swc") String name) {
         log.info("新店注册");
         if(name != null)
-            return shopService.addShop(shop);
+            return shopService.addShop(shopBo);
         else{
             Result result = new Result();
             result.setStatus(0);
@@ -45,15 +45,15 @@ public class ShopController {
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public @ResponseBody
-    Result update(@RequestBody Shop shop, @CookieValue(value = "OwnerName",defaultValue = "swc") String name) {
+    Result update(@RequestBody ShopBo shopBo, @CookieValue(value = "OwnerName",defaultValue = "swc") String name) {
         if("swc".equals(name)) {
             Result result = new Result();
             result.setStatus(0);
             result.setMessage("you haven't log in");
             return result;
         }
-        log.info("店铺更新" + shop.getName());
-        return shopService.updateShop(shop, name);
+        log.info("店铺更新" + shopBo.getName());
+        return shopService.updateShop(shopBo, name);
     }
 
     @RequestMapping(value= "/getShops")

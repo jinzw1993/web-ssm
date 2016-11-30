@@ -3,8 +3,10 @@ package com.heitian.ssm.service.impl;
 import com.heitian.ssm.bo.Result;
 import com.heitian.ssm.bo.ShopBo;
 import com.heitian.ssm.dao.OwnerDao;
+import com.heitian.ssm.dao.OwnerPhotoDaO;
 import com.heitian.ssm.dao.ShopDao;
 import com.heitian.ssm.model.Owner;
+import com.heitian.ssm.model.OwnerPhoto;
 import com.heitian.ssm.model.Shop;
 import com.heitian.ssm.service.ShopService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,8 @@ public class ShopServiceImpl implements ShopService {
     private ShopDao shopDao;
     @Autowired
     private OwnerDao ownerDao;
+    @Autowired
+    private OwnerPhotoDaO photoDao;
 
     private Result result = new Result();
 
@@ -49,11 +53,20 @@ public class ShopServiceImpl implements ShopService {
         }
     }
 
-    public Result addShop(Shop shop) {
-        if(shopDao.selectShopByName(shop.getName()) != null) {
+    public Result addShop(ShopBo shopBo) {
+        if(shopDao.selectShopByName(shopBo.getName()) != null) {
             result.setStatus(0);
             result.setMessage("failed, the shop name has been used.");
-        } else if(shopDao.insertShop(shop) == 0) {
+            return result;
+        }
+        Shop tmp = shopDao.selectShopByOwnerId(shopBo.getOwnerId());
+        if(tmp != null && tmp.getStatus() != 2) {   
+            result.setStatus(0);
+            result.setMessage("failed, the shop owner has a shop.");
+            return result;
+        }
+        photoDao.insertPhoto(new OwnerPhoto(shopBo.getIdPhotoUrl()));
+        if(shopDao.insertShop(shopBo) == 0) {
             result.setStatus(0);
             result.setMessage("failed");
         } else {
@@ -63,13 +76,14 @@ public class ShopServiceImpl implements ShopService {
         return result;
     }
 
-    public Result updateShop(Shop shop, String name) {
+    public Result updateShop(ShopBo shopBo, String name) {
         Owner owner = ownerDao.selectOwnerByName(name);
-        if (owner == null || owner.getId() != shop.getOwnerId()){
+        if (owner == null || owner.getId() != shopBo.getOwnerId()){
             result.setStatus(0);
             result.setMessage("failed, you don't have right");
         } else {
-            if (shopDao.updateShop(shop) > 0) {
+            photoDao.updatePhoto(new OwnerPhoto(shopBo.getIdPhotoUrl(), shopBo.getOwnerId()));
+            if (shopDao.updateShop(shopBo) > 0) {
                 result.setStatus(1);
                 result.setMessage("success");
             } else {

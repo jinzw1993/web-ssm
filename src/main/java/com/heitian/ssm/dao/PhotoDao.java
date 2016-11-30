@@ -12,9 +12,9 @@ import java.util.List;
 @Repository
 public interface PhotoDao {
     int insertPhoto(Photo photo);
-    int deletePhoto(@Param("productId") Long productId,@Param("path") Long path);
+    int deletePhoto(@Param("productId") Long productId,@Param("path") String path);
     int updatePhoto(@Param("productId") Photo photo);
-    List<Photo> selectPhotosByProduct(int productId);
+    List<Photo> selectPhotosByProduct(Long productId);
     Photo selectPhotoById(Long id);
     Long selectMaxId();
 }
