@@ -60,7 +60,7 @@ public class ShopServiceImpl implements ShopService {
             return result;
         }
         Shop tmp = shopDao.selectShopByOwnerId(shopBo.getOwnerId());
-        if(tmp != null && tmp.getStatus() != 2) {   
+        if(tmp != null && tmp.getStatus() != 2) {
             result.setStatus(0);
             result.setMessage("failed, the shop owner has a shop.");
             return result;

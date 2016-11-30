@@ -40,7 +40,7 @@ public class PhotoServiceImpl implements PhotoService {
         return (long)0;
     }
 
-    public Result deletePhoto(Long productId, Long url) {
+    public Result deletePhoto(Long productId, String url) {
         if(photoDao.deletePhoto(productId, url) > 0) {
             result.setStatus(1);
             result.setMessage("success");
@@ -62,7 +62,7 @@ public class PhotoServiceImpl implements PhotoService {
         return result;
     }
 
-    public List<Photo> getPhotosByProduct(int productId) {
+    public List<Photo> getPhotosByProduct(Long productId) {
         List<Photo> list = photoDao.selectPhotosByProduct(productId);
         if(list == null)
             return new ArrayList<>();

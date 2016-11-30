@@ -13,11 +13,11 @@ public interface PhotoService {
 
     Long insertPhoto(String path);
 
-    Result deletePhoto(Long productId, Long url);
+    Result deletePhoto(Long productId, String url);
 
     Result updatePhoto(Photo photo);
 
-    List<Photo> getPhotosByProduct(int productId);
+    List<Photo> getPhotosByProduct(Long productId);
 
     Photo getPhotoById(Long id);
 }
