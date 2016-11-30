@@ -13,15 +13,6 @@
     <!-- 自动扫描  @Controller-->
     <context:component-scan base-package="com.heitian.ssm.controller"/>
 
-    <!--&lt;!&ndash; API 接口跨域配置 &ndash;&gt;-->
-    <!--<mvc:cors>-->
-        <!--<mvc:mapping path="/api/**"-->
-                     <!--allowed-origins="*"-->
-                     <!--allowed-methods="POST, GET, OPTIONS, DELETE, PUT"-->
-                     <!--allowed-headers="Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With"-->
-                     <!--allow-credentials="true" />-->
-    <!--</mvc:cors>-->
-
     <!--避免IE执行AJAX时，返回JSON出现下载文件 -->
     <bean id="mappingJacksonHttpMessageConverter"
           class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
