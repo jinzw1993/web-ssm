@@ -2,16 +2,21 @@ package com.heitian.ssm.service.impl;
 
 import com.heitian.ssm.bo.ProductBo;
 import com.heitian.ssm.bo.ProductCondition;
+
+import com.heitian.ssm.bo.Result;
+import com.heitian.ssm.dao.PhotoDao;
+
 import com.heitian.ssm.dao.ProductDao;
+import com.heitian.ssm.model.Photo;
 import com.heitian.ssm.model.Product;
 import com.heitian.ssm.service.ProductService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.sql.Time;
+
 import java.util.ArrayList;
-import java.util.Collection;
+
 import java.util.List;
 
 /**
@@ -22,6 +27,7 @@ import java.util.List;
 public class ProductServiceImpl implements ProductService {
     @Resource
     private ProductDao productDao;
+    private PhotoDao photoDao;
 
     public List<ProductBo> searchProductBos(ProductCondition productCondition)
     {
@@ -31,21 +37,73 @@ public class ProductServiceImpl implements ProductService {
             products = productDao.searchByNone(productCondition.getStart(), productCondition.getNum());
         else
             products = productDao.searchWithKeyword(productCondition);
-        for(int i=0;i<products.size();i++)
-        {
-            String path=productDao.searchPhotoURL(products.get(i).getProductPhotoId());
-            ProductBo productBo=new ProductBo(products.get(i));
-            productBo.setPhotoURL(path);
-            productBos.add(productBo);
+
+        if(products!=null) {
+            for (int i = 0; i < products.size(); i++) {
+                String path = productDao.searchPhotoURL(products.get(i).getProductPhotoId());
+                ProductBo productBo = new ProductBo(products.get(i));
+                productBo.setPhotoURL(path);
+                productBos.add(productBo);
+            }
         }
         return productBos;
     }
 
     public ProductBo searchProductBo(Long id) {
         Product product=productDao.searchProductById(id);
-        String path=productDao.searchPhotoURL(product.getId());
-        ProductBo productBo=new ProductBo(product);
-        productBo.setPhotoURL(path);
+
+        ProductBo productBo=new ProductBo();
+        if(product!=null) {
+            String path=productDao.searchPhotoURL(product.getId());
+            productBo=new ProductBo(product);
+            productBo.setPhotoURL(path);
+        }
         return productBo;
+    }
+    private Result returnRes(int i) {
+        Result result = new Result();
+        if(i!=0) {
+            result.setStatus(1);
+            result.setMessage("success");
+        } else {
+            result.setMessage("failed");
+            result.setStatus(0);
+        }
+        return result;
+    }
+    public Result addProduct(ProductBo prdtBo) {
+
+
+        Photo photo=new Photo();
+        photo.setPath(prdtBo.getPhotoURL());
+        photoDao.insertPhoto(photo);
+
+        long pId=photoDao.selectMaxId();
+
+        prdtBo.setProductPhotoId(pId);
+        int i= productDao.insertProduct((Product)prdtBo);
+        return returnRes(i);
+
+
+    }
+    public Result deleteProduct(ProductBo prdtBo) {
+
+        photoDao.deletePhoto(prdtBo.getId(),prdtBo.getPhotoURL());
+        int i = productDao.deleteProduct((Product)prdtBo);
+        return returnRes(i);
+    }
+    public Result updateProduct(ProductBo prdtBo) {
+        Photo photo = new Photo();
+        photo.setPath(prdtBo.getPhotoURL());
+        photo.setProductId(prdtBo.getId());
+        photo.setId(prdtBo.getProductPhotoId());
+        photoDao.updatePhoto(photo);
+        Product product = (Product)prdtBo;
+
+        int i= productDao.updateProduct(product);
+
+        return returnRes(i);
+
+
     }
 }

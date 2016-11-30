@@ -5,7 +5,7 @@
         <id column="id" property="id" jdbcType="BIGINT"/>
         <result column="own_id" property="ownId" jdbcType="BIGINT"/>
         <result column="shop_id" property="shopId" jdbcType="BIGINT"/>
-        <result column="band_id" property="brandId" jdbcType="BIGINT"/>
+
         <result column="product_photo_id" property="productPhotoId" jdbcType="BIGINT"/>
         <result column="name" property="name" jdbcType="VARCHAR"/>
         <result column="price" property="price" jdbcType="BIGINT"/>
@@ -19,6 +19,7 @@
         SELECT * FROM  product
         ORDER BY id
         limit #{start},#{num}
+
     </select>
 
     <select id="searchWithKeyword" resultMap="ProductBaseMap" parameterType="com.heitian.ssm.bo.ProductCondition">
@@ -27,9 +28,7 @@
         <if test="categoryId != null and categoryId != ''">
             AND category_id= #{categoryId}
         </if>
-        <if test="brand != null and keyword != ''">
-            AND brand= #{band}
-        </if>
+
         <if test="highPrice != null and highPrice != ''">
             <![CDATA[ AND price< #{highPrice} ]]>
         </if>
@@ -53,4 +52,37 @@
         WHERE id=#{id}
     </select>
 
+
+
+    <insert id="insertProduct" parameterType="com.heitian.ssm.model.Product">
+        insert into
+                product(owner_id, shop_id, product_photo_id, name, price, cateogory_id, detail, created_at, modified_at)
+        VALUES (#{product.ownId}, #{product.shopId},#{product.productPhotoId}, #{product.name}, #{product.price},
+                #{product.categoryId}, #{product.detail}, #{product.createdAt}, #{product.modifiedAt})
+    </insert>
+
+    <delete id="deleteProduct" parameterType="com.heitian.ssm.model.Product">
+        DELETE FROM product WHERE id=#{product.id}
+    </delete>
+
+    <update id="updateProduct" parameterType="com.heitian.ssm.model.Product">
+        UPDATE product set
+                product_photo_id=#{product.productPhotoId}, name= #{product.name},
+                price=#{product.price},
+                category_id=#{product.categoryId}, detail=#{product.detail}, create_at=#{product.createdAt},
+                modified_at=#{product.modifiedAt}
+    </update>
+
+
+    <select id="searchPhotoURL" parameterType="java.lang.Long" resultType="java.lang.String">
+        select path from product_photo
+        WHERE id=#{productPhotoId}
+    </select>
+
+    <select id="searchProductById" parameterType="java.lang.Long" resultMap="ProductBaseMap">
+        select * from product
+        WHERE id=#{id}
+    </select>
+
 </mapper>
+

@@ -17,4 +17,10 @@ public interface ProductDao {
     List<Product> searchWithKeyword(ProductCondition productCondition);
     String searchPhotoURL(Long productPhotoId);
     Product searchProductById(Long id);
+
+    int insertProduct(Product product);
+    int deleteProduct(Product product);
+    int updateProduct(Product product);
+
 }
+

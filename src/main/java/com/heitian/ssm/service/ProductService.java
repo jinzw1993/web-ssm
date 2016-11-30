@@ -2,7 +2,8 @@ package com.heitian.ssm.service;
 
 import com.heitian.ssm.bo.ProductBo;
 import com.heitian.ssm.bo.ProductCondition;
-import com.heitian.ssm.model.Product;
+import com.heitian.ssm.bo.Result;
+
 
 import java.util.List;
 
@@ -12,4 +13,8 @@ import java.util.List;
 public interface ProductService {
     List<ProductBo> searchProductBos(ProductCondition productCondition);
     ProductBo searchProductBo(Long id);
+
+    Result addProduct(ProductBo product);
+    Result deleteProduct(ProductBo product);
+    Result updateProduct(ProductBo product);
 }

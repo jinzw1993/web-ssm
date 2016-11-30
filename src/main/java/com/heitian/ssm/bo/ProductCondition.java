@@ -76,4 +76,5 @@ public class ProductCondition {
     public void setLowPrice(Long lowPrice) {
         this.lowPrice = lowPrice;
     }
+
 }
