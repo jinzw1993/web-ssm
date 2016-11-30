@@ -1,5 +1,7 @@
 package com.heitian.ssm.dao;
 
+import com.heitian.ssm.bo.ProductBo;
+import com.heitian.ssm.bo.ProductCondition;
 import com.heitian.ssm.model.Product;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -7,20 +9,17 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 /**
- * Created by unname on 2016/11/27.
+ * Created by Lanting on 2016/11/26.
  */
 @Repository
 public interface ProductDao {
-    public Object insertProduct(@Param("product")Product product);
+    List<Product> searchByNone(@Param("start")int start, @Param("num")int num);
+    List<Product> searchWithKeyword(ProductCondition productCondition);
+    String searchPhotoURL(Long productPhotoId);
+    Product searchProductById(Long id);
 
-    public int deleteProductById(@Param("id") long id);
+    int insertProduct(Product product);
+    int deleteProduct(Product product);
+    int updateProduct(Product product);
 
-    public int updateProduct(@Param("product")Product product);
-
- //   public Product  selectById(@Param("productId") long id);
-    public List<Product> selectByName(@Param("name") String name);
-    public List<Product> selectByShopId(@Param("shopId") long id);
-    public List<Product> selectByShopName(@Param("shopName") String name);
-    public List<Product> selectByBrand(@Param("brand") String brand);
-    public List<Product> selectByCategory(@Param("category") String category);
 }

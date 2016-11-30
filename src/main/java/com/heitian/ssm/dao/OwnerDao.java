@@ -11,11 +11,15 @@ import java.util.List;
 @Repository
 public interface OwnerDao {
 
-    public Object insertOwner(@Param("owner") Owner owner);
+    public int insertOwner(@Param("owner") Owner owner);
     public int deleteOwnerById(@Param("id") long id);
     public int deleteOwnerByName(@Param("ownerName") String ownerName);
     public int updateOwner(@Param("owner") Owner owner);
+
     public Owner selectOwnerById(@Param("id") long id);
     public Owner selectOwnerByName(@Param("ownerName") String ownerName);
-    public List<Owner> selectAllOwners();
+
+//    public List<Owner> selectAllOwners();
+    public List<Owner> selectAllOwners(@Param("start") int start,@Param("pageNum") int pageNum);
+    public List<Owner> getAllUnverifiedOwner(@Param("start") int start,@Param("pageNum") int pageNum);
 }

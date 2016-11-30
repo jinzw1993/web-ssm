@@ -1,22 +1,23 @@
 package com.heitian.ssm.model;
 
-import java.util.Date;
+import java.io.Serializable;
+import java.sql.Time;
 
 /**
- * Created by oasis on 11/26/16.
+ * Created by Lanting on 2016/11/26.
  */
-public class Product {
+public class Product implements Serializable{
     private Long id;
-    private Long ownerId;
+    private Long ownId;
     private Long shopId;
-    private String name;
-    private Double price;
-    private Date createDate;
-    private Date modifyDate;
-    private String detail;
-    private String category;
-    private String brand;
+    private Long brandId;
     private Long productPhotoId;
+    private String name;
+    private Long price;
+    private Long categoryId;
+    private String detail;
+    private Time createdAt;
+    private Time modifiedAt;
 
     public Long getId() {
         return id;
@@ -26,12 +27,12 @@ public class Product {
         this.id = id;
     }
 
-    public Long getOwnerId() {
-        return ownerId;
+    public Long getOwnId() {
+        return ownId;
     }
 
-    public void setOwnerId(Long ownerId) {
-        this.ownerId = ownerId;
+    public void setOwnId(Long ownId) {
+        this.ownId = ownId;
     }
 
     public Long getShopId() {
@@ -50,28 +51,20 @@ public class Product {
         this.name = name;
     }
 
-    public Double getPrice() {
+    public Long getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(Long price) {
         this.price = price;
     }
 
-    public Date getCreateDate() {
-        return createDate;
+    public Long getCategoryId() {
+        return categoryId;
     }
 
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
-
-    public Date getModifyDate() {
-        return modifyDate;
-    }
-
-    public void setModifyDate(Date modifyDate) {
-        this.modifyDate = modifyDate;
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
     }
 
     public String getDetail() {
@@ -82,20 +75,12 @@ public class Product {
         this.detail = detail;
     }
 
-    public String getCategory() {
-        return category;
+    public Long getBrandId() {
+        return brandId;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public String getBrand() {
-        return brand;
-    }
-
-    public void setBrand(String brand) {
-        this.brand = brand;
+    public void setBrandId(Long brandId) {
+        this.brandId = brandId;
     }
 
     public Long getProductPhotoId() {
@@ -104,5 +89,21 @@ public class Product {
 
     public void setProductPhotoId(Long productPhotoId) {
         this.productPhotoId = productPhotoId;
+    }
+
+    public Time getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Time createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Time getModifiedAt() {
+        return modifiedAt;
+    }
+
+    public void setModifiedAt(Time modifiedAt) {
+        this.modifiedAt = modifiedAt;
     }
 }

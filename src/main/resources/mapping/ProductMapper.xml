@@ -1,89 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.heitian.ssm.dao.ProductDao">
-
     <resultMap id="ProductBaseMap" type="com.heitian.ssm.model.Product">
         <id column="id" property="id" jdbcType="BIGINT"/>
-        <result column="shop_id" property="shopId"/>
-        <result column="product_photo_id" property="productPhotoId"/>
-        <result column="name" property="name" />
-        <result column="price" property="price" />
-        <result column="detail" property="detail"/>
-        <result column="create_at" property="createDate"/>
-        <result column="modified_at" property="modifiedDate"/>
-        <result column="strbrand" property="brand"/>
-        <result column="strcategory" property="category"/>
+        <result column="own_id" property="ownId" jdbcType="BIGINT"/>
+        <result column="shop_id" property="shopId" jdbcType="BIGINT"/>
+        <result column="band_id" property="brandId" jdbcType="BIGINT"/>
+        <result column="product_photo_id" property="productPhotoId" jdbcType="BIGINT"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="price" property="price" jdbcType="BIGINT"/>
+        <result column="category_id" property="categoryId" jdbcType="BIGINT"/>
+        <result column="detail" property="detail" jdbcType="VARCHAR"/>
+        <result column="created_at" property="createdAt" jdbcType="TIME"/>
+        <result column="modified_at" property="modifiedAt" jdbcType="TIME"/>
     </resultMap>
 
-    <insert id="insertProduct" useGeneratedKeys="true" parameterType="com.heitian.ssm.model.Product">
-        SELECT category.id as cid brand.id as bid
-        FROM product JOIN brand JOIN category
-        ON    product.brand=brand.brand and product.category=category.category
-        WHERE #{brand}=brand.brand AND #{category}=category.category
-        insert into product VALUES
-        (
-        #{product.ownerId}, #{product.shopId},
-        bid,#{product.productPhotoId},#{product.name},
-        #{product.price},cid,#{product.detail},
-        #{product.createDate},#{product.modifyDate}
-        )
+    <select id="searchByNone" resultMap="ProductBaseMap">
+        SELECT * FROM  product
+        ORDER BY id
+        limit #{start},#{num}
+    </select>
+
+    <select id="searchWithKeyword" resultMap="ProductBaseMap" parameterType="com.heitian.ssm.bo.ProductCondition">
+        SELECT *from product
+        WHERE 1=1
+        <if test="categoryId != null and categoryId != ''">
+            AND category_id= #{categoryId}
+        </if>
+        <if test="brand != null and keyword != ''">
+            AND brand_id= #{brand}
+        </if>
+        <if test="highPrice != null and highPrice != ''">
+            <![CDATA[ AND price< #{highPrice} ]]>
+        </if>
+        <if test="lowPrice != null and lowPrice != ''">
+            <![CDATA[ AND price> #{lowPrice} ]]>
+        </if>
+        <if test="keyWord != null and keyWord != ''">
+            AND name LIKE "%"#{keyWord,jdbcType=VARCHAR}"%"
+        </if>
+        ORDER BY id
+        limit #{start},#{num}
+    </select>
+
+    <select id="searchPhotoURL" parameterType="java.lang.Long" resultType="java.lang.String">
+        select path from product_photo
+        WHERE id=#{productPhotoId}
+    </select>
+
+    <select id="searchProductById" parameterType="java.lang.Long" resultMap="ProductBaseMap">
+        select * from product
+        WHERE id=#{id}
+    </select>
+
+
+
+    <insert id="insertProduct" parameterType="com.heitian.ssm.model.Product">
+        insert into
+                product(owner_id, shop_id, brand_id, product_photo_id, name, price, cateogory_id, detail, created_at, modified_at)
+        VALUES (#{product.ownId}, #{product.shopId},#{product.brandId},#{product.productPhotoId}, #{product.name}, #{product.price},
+                #{product.categoryId}, #{product.detail}, #{product.createdAt}, #{product.modifiedAt})
     </insert>
 
-    <delete id="deleteProductById" parameterType="java.lang.Long">
-        DELETE FROM product WHERE id=#{id}
+    <delete id="deleteProduct" parameterType="com.heitian.ssm.model.Product">
+        DELETE FROM product WHERE id=#{product.id}
     </delete>
 
     <update id="updateProduct" parameterType="com.heitian.ssm.model.Product">
-        SELECT category.id as cid brand.id as bid
-        FROM product JOIN brand JOIN category
-        ON    product.brand=brand.brand and product.category=category.category
-        WHERE #{brand}=brand.brand AND #{category}=category.category
-
-        update product set
-        owner_id=#{product.ownerId},shop_id= #{product.shopId},
-        brand_id=bid, product_photo_id=#{product.productPhotoId},name=#{product.name},
-        price=#{product.price},category_id=cid, detail=#{product.detail},
-        created_at=#{product.createDate}, modified_at=#{product.modifyDate}
-        WHERE id=#{id}
+        UPDATE product set brand_id=#{product.brandId}, product_photo_id=#{product.productPhotoId}, name= #{product.name},
+                price=#{product.price},
+                category_id=#{product.categoryId}, detail=#{product.detail}, create_at=#{product.createdAt},
+                modified_at=#{product.modifiedAt}
     </update>
-
-    <select id="selectByName" parameterType="java.lang.String" resultMap="ProductBaseMap">
-        SELECT brand.brand as strbrand, category.category as strcategroy,
-               id, owner_id, shop_id, product_photo_id,name, price, detail, create_at, modified_at
-        FROM product JOIN brand JOIN category
-        ON    product.brand=brand.brand and product.category=category.category
-        WHERE name=%#{name}%
-    </select>
-
-    <select id="selectByShopId" parameterType="java.lang.Long" resultMap="ProductBaseMap">
-        SELECT brand.brand as strbrand, category.category as strcategroy,
-               id, owner_id, shop_id, product_photo_id, name, price, detail, create_at, modified_at
-        FROM product JOIN brand JOIN category
-        ON    product.brand=brand.brand and product.category=category.category
-        WHERE shop_id=#{shopId}
-    </select>
-
-    <select id="selectByShopName" parameterType="java.lang.String" resultMap="ProductBaseMap">
-        SELECT brand.brand as strbrand, category.category as strcategroy,
-        id, owner_id, shop_id, product_photo_id, name, price, detail, create_at, modified_at
-        FROM product JOIN brand JOIN category JOIN shop
-        ON    product.brand=brand.brand and product.category=category.category product.shop_id=shop.id
-        WHERE shop.name=#{shopName}
-    </select>
-
-    <select id="selectByBrand" parameterType="java.lang.String" resultMap="ProductBaseMap">
-        SELECT brand.brand as strbrand, category.category as strcategroy,
-        id, owner_id, shop_id, product_photo_id, name, price, detail, create_at, modified_at
-        FROM product JOIN brand JOIN category
-        ON    product.brand=brand.brand and product.category=category.category
-        WHERE strbrand=#{brand}
-    </select>
-
-    <select id="selectByCategory" parameterType="java.lang.String" resultMap="ProductBaseMap">
-        SELECT brand.brand as strbrand, category.category as strcategroy,
-        id, owner_id, shop_id, product_photo_id, name, price, detail, create_at, modified_at
-        FROM product JOIN brand JOIN category
-        ON    product.brand=brand.brand and product.category=category.category
-        WHERE strcategory=#{category}
-    </select>
 </mapper>

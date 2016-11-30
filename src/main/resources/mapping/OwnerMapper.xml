@@ -23,17 +23,24 @@
 
     <select id="selectAllOwners" resultMap="OwnerBaseMap">
         SELECT id,name,password,status
+        FROM owner limit #{start}, #{pageNum}
+    </select>
+
+    <select id="getAllUnverifiedOwner" resultMap="OwnerBaseMap">
+        SELECT id,name,password,status
         FROM owner
+        WHERE status=3 limit #{start}, #{pageNum}
     </select>
 
     <insert id="insertOwner" useGeneratedKeys="true" parameterType="com.heitian.ssm.model.Owner">
-        insert into owner VALUES
+        insert into owner(name,status,password) VALUES
           (#{owner.name},#{owner.status},#{owner.password})
     </insert>
 
     <update id="updateOwner" parameterType="com.heitian.ssm.model.Owner">
-        UPDATE owner set name=#{owner.name}, password=#{owner.password}, status=#{owner.status} WHERE id=#{owner.id}
+        UPDATE owner set  password=#{owner.password}, status=#{owner.status} WHERE name=#{owner.name}
     </update>
+
 
     <delete id="deleteById" parameterType="java.lang.Long" >
         DELETE from owner WHERE id=#{id}

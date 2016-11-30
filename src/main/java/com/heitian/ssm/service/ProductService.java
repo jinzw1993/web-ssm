@@ -1,23 +1,20 @@
 package com.heitian.ssm.service;
 
+import com.heitian.ssm.bo.ProductBo;
+import com.heitian.ssm.bo.ProductCondition;
+import com.heitian.ssm.bo.Result;
 import com.heitian.ssm.model.Product;
-
 
 import java.util.List;
 
 /**
- * Created by unname on 2016/11/27.
+ * Created by Lanting on 2016/11/26.
  */
 public interface ProductService {
-    public boolean insertProduct(Product product);
+    List<ProductBo> searchProductBos(ProductCondition productCondition);
+    ProductBo searchProductBo(Long id);
 
-    public boolean deleteProductById( long id);
-
-    public boolean updateProduct(Product product);
-
-    public List<Product> selectByName( String name);
-    public List<Product> selectByShopId(long id);
-    public List<Product> selectByShopName(String name);
-    public List<Product> selectByBrand( String brand);
-    public List<Product> selectByCategory( String category);
+    Result addProduct(ProductBo product);
+    Result deleteProduct(ProductBo product);
+    Result updateProduct(ProductBo product);
 }
