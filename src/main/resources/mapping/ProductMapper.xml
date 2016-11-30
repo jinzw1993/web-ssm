@@ -5,7 +5,7 @@
         <id column="id" property="id" jdbcType="BIGINT"/>
         <result column="own_id" property="ownId" jdbcType="BIGINT"/>
         <result column="shop_id" property="shopId" jdbcType="BIGINT"/>
-        <result column="band_id" property="brandId" jdbcType="BIGINT"/>
+
         <result column="product_photo_id" property="productPhotoId" jdbcType="BIGINT"/>
         <result column="name" property="name" jdbcType="VARCHAR"/>
         <result column="price" property="price" jdbcType="BIGINT"/>
@@ -28,9 +28,7 @@
         <if test="categoryId != null and categoryId != ''">
             AND category_id= #{categoryId}
         </if>
-        <if test="brand != null and keyword != ''">
-            AND brand_id= #{brand}
-        </if>
+
         <if test="highPrice != null and highPrice != ''">
             <![CDATA[ AND price< #{highPrice} ]]>
         </if>
@@ -58,8 +56,8 @@
 
     <insert id="insertProduct" parameterType="com.heitian.ssm.model.Product">
         insert into
-                product(owner_id, shop_id, brand_id, product_photo_id, name, price, cateogory_id, detail, created_at, modified_at)
-        VALUES (#{product.ownId}, #{product.shopId},#{product.brandId},#{product.productPhotoId}, #{product.name}, #{product.price},
+                product(owner_id, shop_id, product_photo_id, name, price, cateogory_id, detail, created_at, modified_at)
+        VALUES (#{product.ownId}, #{product.shopId},#{product.productPhotoId}, #{product.name}, #{product.price},
                 #{product.categoryId}, #{product.detail}, #{product.createdAt}, #{product.modifiedAt})
     </insert>
 
@@ -68,7 +66,8 @@
     </delete>
 
     <update id="updateProduct" parameterType="com.heitian.ssm.model.Product">
-        UPDATE product set brand_id=#{product.brandId}, product_photo_id=#{product.productPhotoId}, name= #{product.name},
+        UPDATE product set
+                product_photo_id=#{product.productPhotoId}, name= #{product.name},
                 price=#{product.price},
                 category_id=#{product.categoryId}, detail=#{product.detail}, create_at=#{product.createdAt},
                 modified_at=#{product.modifiedAt}

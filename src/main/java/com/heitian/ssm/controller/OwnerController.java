@@ -6,10 +6,7 @@ import com.heitian.ssm.service.OwnerService;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
@@ -28,11 +25,16 @@ public class OwnerController {
     private OwnerService ownerService;
 
     @ResponseBody
-    @RequestMapping("/register")
+    @RequestMapping(value="/register")
     public Result ownerRegister(@RequestBody Owner owner) {
         log.info("注册新店主");
-        Result result = ownerService.ownerRegister(owner);
-        return result;
+        return ownerService.ownerRegister(owner);
+    }
+
+    @ResponseBody
+    @RequestMapping(value="/activate",method = RequestMethod.GET)
+    public Result ownerActivate( @RequestParam String email) {
+        return ownerService.processActivate(email);
     }
 
     @ResponseBody
@@ -57,8 +59,7 @@ public class OwnerController {
     @RequestMapping("/update")
     public Result updateOwner(@RequestBody Owner owner) {
         log.info("更新Owner");
-        Result result = ownerService.updateOwner(owner);
-        return result;
+        return ownerService.updateOwner(owner);
     }
 
     @ResponseBody
@@ -87,4 +88,15 @@ public class OwnerController {
         return ownerService.getAllUnverifiedOwner(page,pageNum);
     }
 
+    @ResponseBody
+    @RequestMapping("/getOwnerNum")
+    public int getOwnerNum() {
+        return ownerService.getOwnerNum();
+    }
+
+    @ResponseBody
+    @RequestMapping("getUnverifiedNum")
+    public int getUnverifiedNum() {
+        return ownerService.getUnverifiedNum();
+    }
 }

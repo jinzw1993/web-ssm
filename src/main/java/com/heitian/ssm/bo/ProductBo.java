@@ -15,7 +15,6 @@ public class ProductBo extends Product implements Serializable {
         this.setId(product.getId());
         this.setOwnId(product.getOwnId());
         this.setShopId(product.getShopId());
-        this.setBrandId(product.getBrandId());
         this.setProductPhotoId(product.getProductPhotoId());
         this.setName(product.getName());
         this.setPrice(product.getPrice());
@@ -31,8 +30,5 @@ public class ProductBo extends Product implements Serializable {
     public void setPhotoURL(String photoURL) {
         this.photoURL = photoURL;
     }
-<<<<<<< HEAD
+
 }
-=======
-}
->>>>>>> origin/owner-dev

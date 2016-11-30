@@ -10,7 +10,7 @@ public class Product implements Serializable{
     private Long id;
     private Long ownId;
     private Long shopId;
-    private Long brandId;
+
     private Long productPhotoId;
     private String name;
     private Long price;
@@ -75,13 +75,6 @@ public class Product implements Serializable{
         this.detail = detail;
     }
 
-    public Long getBrandId() {
-        return brandId;
-    }
-
-    public void setBrandId(Long brandId) {
-        this.brandId = brandId;
-    }
 
     public Long getProductPhotoId() {
         return productPhotoId;

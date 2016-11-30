@@ -7,38 +7,57 @@
         <result column="name" property="name" jdbcType="VARCHAR"/>
         <result column="password" property="password" jdbcType="VARCHAR"/>
         <result column="status" property="status"/>
+        <result column="email" property="email"/>
+        <result column="is_email_verified" property="isEmailVerified"/>
     </resultMap>
 
     <select id="selectOwnerById" parameterType="java.lang.Long" resultMap="OwnerBaseMap">
-        SELECT id,name,password,status
+        SELECT id,name,password,status, email, is_email_verified
         FROM owner
         WHERE id = #{id}
     </select>
 
     <select id="selectOwnerByName" parameterType="java.lang.String" resultMap="OwnerBaseMap">
-        SELECT id,name,password,status
+        SELECT id,name,password,status,email, is_email_verified
         FROM owner
         WHERE name = #{ownerName}
     </select>
 
+    <select id="selectOwnerByEmail" parameterType="java.lang.String" resultMap="OwnerBaseMap">
+        SELECT id,name,password,status,email, is_email_verified
+        FROM owner
+        WHERE email = #{email}
+    </select>
+
     <select id="selectAllOwners" resultMap="OwnerBaseMap">
-        SELECT id,name,password,status
+        SELECT id,name,password,status, email, is_email_verified
         FROM owner limit #{start}, #{pageNum}
     </select>
 
     <select id="getAllUnverifiedOwner" resultMap="OwnerBaseMap">
-        SELECT id,name,password,status
+        SELECT id,name,password,status, email, is_email_verified
         FROM owner
-        WHERE status=3 limit #{start}, #{pageNum}
+        WHERE is_email_verified=0 limit #{start}, #{pageNum}
+    </select>
+
+
+    <select id="getOwnerNum" >
+        SELECT count(*) FROM owner
+    </select>
+
+    <select id="getUnverifiedNum" >
+        SELECT count(*) FROM owner
+        WHERE is_email_verified=0
     </select>
 
     <insert id="insertOwner" useGeneratedKeys="true" parameterType="com.heitian.ssm.model.Owner">
-        insert into owner(name,status,password) VALUES
-          (#{owner.name},#{owner.status},#{owner.password})
+        insert into owner(name,status,password,email,is_email_verified) VALUES
+          (#{owner.name},#{owner.status},#{owner.password},#{owner.email},#{owner.isEmailVerified})
     </insert>
 
     <update id="updateOwner" parameterType="com.heitian.ssm.model.Owner">
-        UPDATE owner set  password=#{owner.password}, status=#{owner.status} WHERE name=#{owner.name}
+        UPDATE owner set  password=#{owner.password}, status=#{owner.status}, is_email_verified=#{owner.isEmailVerified}
+        WHERE email=#{owner.email}
     </update>
 
 

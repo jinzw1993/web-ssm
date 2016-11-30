@@ -11,17 +11,28 @@ import java.util.List;
  */
 public interface OwnerService {
 
-    public Result ownerLogin(Owner owner);
-    public Result ownerRegister(Owner owner);
-    public Result updateOwner(Owner owner);
+    Result ownerLogin(Owner owner);
 
-    public Owner selectOwnerById( long id);
-    public Owner selectOwnerByName(String ownerName);
+    Result ownerRegister(Owner owner);
 
- //   public List<Owner> selectAllOwners();
+    Result updateOwner(Owner owner);
 
-    public List<Owner> selectAllOwners(int page, int pageNum);
-    public List<Owner> getAllUnverifiedOwner(int page, int pageNum);
+  //  void processRegister(String email);
+
+    Result processActivate(String email);
+
+    Owner selectOwnerById(long id);
+
+    Owner selectOwnerByName(String ownerName);
+
+    Owner selectOwnerByEmail(String email);
+
+    int getOwnerNum();
+    int getUnverifiedNum();
+
+    List<Owner> selectAllOwners(int page, int pageNum);
+
+    List<Owner> getAllUnverifiedOwner(int page, int pageNum);
 
     //  public Result insertOwner(Owner owner);
     //    public boolean deleteOwnerById(long id);

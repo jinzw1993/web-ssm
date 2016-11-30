@@ -1,5 +1,7 @@
 package com.heitian.ssm.model;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
+
 /**
  * Created by oasis on 11/26/16.
  */
@@ -9,6 +11,25 @@ public class Owner {
     private String name;
     private String password;
     private Long status;
+    private String email;
+
+    private Integer isEmailVerified;
+
+    public Integer getIsEmailVerified() {
+        return isEmailVerified;
+    }
+
+    public void setIsEmailVerified(Integer isEmailVerified) {
+        this.isEmailVerified = isEmailVerified;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public Long getId() {
         return id;
