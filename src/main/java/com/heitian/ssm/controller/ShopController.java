@@ -1,6 +1,7 @@
 package com.heitian.ssm.controller;
 
 import com.heitian.ssm.bo.Result;
+import com.heitian.ssm.bo.ShopBo;
 import com.heitian.ssm.model.Shop;
 import com.heitian.ssm.service.ShopService;
 import org.apache.log4j.Logger;
@@ -23,7 +24,7 @@ public class ShopController {
 
     @RequestMapping(value="/getShopByName")
     public @ResponseBody
-    Shop getShopByName(@RequestParam String name) {
+    ShopBo getShopByName(@RequestParam String name) {
         log.info("查询店铺:" + name);
         return shopService.getShopByName(name);
     }
@@ -57,8 +58,18 @@ public class ShopController {
 
     @RequestMapping(value= "/getShops")
     public @ResponseBody
-    List<Shop> getShops(@RequestParam int page, @RequestParam int count) {
+    List<ShopBo> getShops(@RequestParam int page, @RequestParam int count) {
         log.info("查询店铺列表");
         return shopService.getShops(page, count);
+    }
+
+    @RequestMapping(value = "/count")
+    public @ResponseBody
+    Result getCount() {
+        log.info("查询店铺数量");
+        Result result = new Result();
+        result.setStatus(1);
+        result.setMessage(String.valueOf(shopService.getCount()));
+        return result;
     }
 }

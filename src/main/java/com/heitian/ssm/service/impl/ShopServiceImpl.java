@@ -1,6 +1,7 @@
 package com.heitian.ssm.service.impl;
 
 import com.heitian.ssm.bo.Result;
+import com.heitian.ssm.bo.ShopBo;
 import com.heitian.ssm.dao.OwnerDao;
 import com.heitian.ssm.dao.ShopDao;
 import com.heitian.ssm.model.Owner;
@@ -26,19 +27,26 @@ public class ShopServiceImpl implements ShopService {
 
     private Result result = new Result();
 
-    public Shop getShopByName(String name) {
+    public ShopBo getShopByName(String name) {
         Shop shop =  shopDao.selectShopByName(name);
         if(shop == null)
-            return new Shop();
-        return shop;
+            return new ShopBo();
+        ShopBo shopBo = new ShopBo(shop);
+        shopBo.setIdPhotoUrl(shopDao.selectUrlByOwnerId(shop.getOwnerId()));
+        return shopBo;
     }
 
-    public List<Shop> getShops(int pageNum, int pageCount) {
+    public List<ShopBo> getShops(int pageNum, int pageCount) {
         List<Shop> shops = shopDao.selectShops((pageNum - 1)*pageCount, pageCount);
         if(shops == null)
-            return new ArrayList<Shop>();
-        else
-            return shops;
+            return new ArrayList<>();
+        else {
+            List<ShopBo> shopBos = new ArrayList<>();
+            for(Shop shop : shops) {
+                shopBos.add(new ShopBo(shop, shopDao.selectUrlByOwnerId(shop.getOwnerId())));
+            }
+            return shopBos;
+        }
     }
 
     public Result addShop(Shop shop) {
@@ -70,5 +78,9 @@ public class ShopServiceImpl implements ShopService {
             }
         }
         return result;
+    }
+
+    public int getCount() {
+        return shopDao.selectCount();
     }
 }

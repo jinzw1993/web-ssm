@@ -20,4 +20,8 @@ public interface ShopDao {
     int updateShop(Shop shop);
 
     int insertShop(Shop shop);
+
+    String selectUrlByOwnerId(Long id);
+
+    int selectCount();
 }
