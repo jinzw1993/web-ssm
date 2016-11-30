@@ -19,6 +19,7 @@
         SELECT * FROM  product
         ORDER BY id
         limit #{start},#{num}
+
     </select>
 
     <select id="searchWithKeyword" resultMap="ProductBaseMap" parameterType="com.heitian.ssm.bo.ProductCondition">
@@ -72,4 +73,17 @@
                 category_id=#{product.categoryId}, detail=#{product.detail}, create_at=#{product.createdAt},
                 modified_at=#{product.modifiedAt}
     </update>
+
+
+    <select id="searchPhotoURL" parameterType="java.lang.Long" resultType="java.lang.String">
+        select path from product_photo
+        WHERE id=#{productPhotoId}
+    </select>
+
+    <select id="searchProductById" parameterType="java.lang.Long" resultMap="ProductBaseMap">
+        select * from product
+        WHERE id=#{id}
+    </select>
+
 </mapper>
+

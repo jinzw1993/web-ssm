@@ -1,5 +1,6 @@
 package com.heitian.ssm.service;
 
+import com.heitian.ssm.bo.Result;
 import com.heitian.ssm.model.Shop;
 
 import java.util.List;
@@ -8,13 +9,11 @@ import java.util.List;
  * Created by oasis on 11/27/16.
  */
 public interface ShopService {
-    List<Shop> getShopByName(String name);
+    Shop getShopByName(String name);
 
-    List<Shop> getAllShops();
+    List<Shop> getShops(int pageNum, int pageCount);
 
-    boolean changeStatus(Shop shop, Long status);
+    Result updateShop(Shop shop, String name);
 
-    boolean updateShop(Shop shop);
-
-    boolean insertShop(Shop shop);
+    Result addShop(Shop shop);
 }

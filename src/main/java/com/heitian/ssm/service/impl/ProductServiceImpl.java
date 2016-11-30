@@ -2,7 +2,10 @@ package com.heitian.ssm.service.impl;
 
 import com.heitian.ssm.bo.ProductBo;
 import com.heitian.ssm.bo.ProductCondition;
+<<<<<<< HEAD
 import com.heitian.ssm.bo.Result;
+=======
+>>>>>>> origin/owner-dev
 import com.heitian.ssm.dao.ProductDao;
 import com.heitian.ssm.model.Product;
 import com.heitian.ssm.service.ProductService;
@@ -32,6 +35,7 @@ public class ProductServiceImpl implements ProductService {
             products = productDao.searchByNone(productCondition.getStart(), productCondition.getNum());
         else
             products = productDao.searchWithKeyword(productCondition);
+<<<<<<< HEAD
         if(products!=null) {
             for(int i=0;i<products.size();i++)
             {
@@ -40,12 +44,21 @@ public class ProductServiceImpl implements ProductService {
                 productBo.setPhotoURL(path);
                 productBos.add(productBo);
             }
+=======
+        for(int i=0;i<products.size();i++)
+        {
+            String path=productDao.searchPhotoURL(products.get(i).getProductPhotoId());
+            ProductBo productBo=new ProductBo(products.get(i));
+            productBo.setPhotoURL(path);
+            productBos.add(productBo);
+>>>>>>> origin/owner-dev
         }
         return productBos;
     }
 
     public ProductBo searchProductBo(Long id) {
         Product product=productDao.searchProductById(id);
+<<<<<<< HEAD
         ProductBo productBo=new ProductBo();
         if(product!=null) {
             String path=productDao.searchPhotoURL(product.getId());
@@ -109,5 +122,11 @@ public class ProductServiceImpl implements ProductService {
             result.setStatus(0);
         }
         return result;
+=======
+        String path=productDao.searchPhotoURL(product.getId());
+        ProductBo productBo=new ProductBo(product);
+        productBo.setPhotoURL(path);
+        return productBo;
+>>>>>>> origin/owner-dev
     }
 }

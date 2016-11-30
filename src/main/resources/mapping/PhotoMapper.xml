@@ -7,23 +7,28 @@
     </resultMap>
 
     <insert id="insertPhoto" useGeneratedKeys="true" keyProperty="id" parameterType="com.heitian.ssm.model.Photo">
-        INSERT INTO PRODUCT_PHOTO(product_id,hash,path)
-        VALUES (#{productId},#{hash},#{path})
+        INSERT INTO PRODUCT_PHOTO(product_id,path)
+        VALUES (#{productId},#{path})
     </insert>
     <update id="updatePhoto" parameterType="com.heitian.ssm.model.Photo">
-        UPDATE PRODUCT_PHOTO(product_id,hash,path)
-        SET product_id=#{productId},hash=#{hash},path=${path}
+        UPDATE PRODUCT_PHOTO(product_id,path)
+        SET product_id=#{productId}
+        WHERE id=#{id}
     </update>
     <delete id="deletePhoto">
         DELETE FROM PRODUCT_PHOTO
-        WHERE id=#{id}
+        WHERE product_id=#{productId},path=#{path}
     </delete>
     <select id="selectPhotoById" resultMap="PhotoBaseMap">
-        SELECT id,product_id,hash,path
+        SELECT id,product_id,path
         FROM product_photo WHERE id=#{id}
     </select>
     <select id="selectPhotosByProduct" resultMap="PhotoBaseMap">
-        SELECT  id,product_id,has,path
+        SELECT id,product_id,path
         FROM product_photo WHERE product_id=#{productId}
+    </select>
+    <select id="selectMaxId">
+        SELECT MAX(id)
+        FROM product_photo
     </select>
 </mapper>

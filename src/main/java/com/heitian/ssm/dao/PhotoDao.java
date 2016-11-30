@@ -1,6 +1,7 @@
 package com.heitian.ssm.dao;
 
 import com.heitian.ssm.model.Photo;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -10,9 +11,10 @@ import java.util.List;
  */
 @Repository
 public interface PhotoDao {
-    Object insertPhoto(Photo photo);
-    int deletePhoto(int id);
-    int updatePhoto(Photo photo);
+    int insertPhoto(Photo photo);
+    int deletePhoto(@Param("productId") Long productId,@Param("path") Long path);
+    int updatePhoto(@Param("productId") Photo photo);
     List<Photo> selectPhotosByProduct(int productId);
-    Photo selectPhotoById(int id);
+    Photo selectPhotoById(Long id);
+    Long selectMaxId();
 }

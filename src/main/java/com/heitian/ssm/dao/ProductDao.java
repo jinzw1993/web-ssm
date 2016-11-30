@@ -23,3 +23,4 @@ public interface ProductDao {
     int updateProduct(Product product);
 
 }
+

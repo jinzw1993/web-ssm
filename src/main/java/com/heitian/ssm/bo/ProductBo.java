@@ -31,4 +31,8 @@ public class ProductBo extends Product implements Serializable {
     public void setPhotoURL(String photoURL) {
         this.photoURL = photoURL;
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> origin/owner-dev

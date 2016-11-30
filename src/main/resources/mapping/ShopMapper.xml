@@ -4,15 +4,17 @@
     <resultMap id="ShopBaseMap" type="com.heitian.ssm.model.Shop">
         <id column="shop.id" property="id" />
         <result column="owner_id" property="ownerId" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
     </resultMap>
     <select id="selectShopByName" parameterType="java.lang.String" resultMap="ShopBaseMap">
         SELECT id,owner_id,name,contact,email,telephone,status
         FROM shop
-        WHERE name=%#{name}%
+        WHERE name=#{name}
     </select>
-    <select id="selectAllShops" resultMap="ShopBaseMap">
+    <select id="selectShops" resultMap="ShopBaseMap">
         SELECT id,owner_id,name,contact,email,telephone,status
         FROM shop
+        limit #{start},#{count}
     </select>
     <insert id="insertShop" useGeneratedKeys="true" keyProperty="id" parameterType="com.heitian.ssm.model.Shop">
         INSERT INTO shop(owner_id,name,contact,email,telephone,status)
@@ -20,13 +22,12 @@
     </insert>
     <update id="updateShop" parameterType="com.heitian.ssm.model.Shop">
         UPDATE shop SET
-        owner_id=#{ownerId},
         name=#{name},
         contact=#{contact},
         email=#{email},
         telephone=#{telephone},
-        status=#{status},
-        WHERE id=#{id}
+        status=#{status}
+        WHERE name=#{name}
     </update>
     <delete id="deleteShopByName" parameterType="java.lang.String">
         DELETE FROM shop

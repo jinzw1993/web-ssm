@@ -1,7 +1,5 @@
 package com.heitian.ssm.model;
 
-import java.util.List;
-
 /**
  * Created by oasis on 11/26/16.
  */

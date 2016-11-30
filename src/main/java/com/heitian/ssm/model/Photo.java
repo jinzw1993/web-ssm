@@ -8,7 +8,6 @@ import java.io.File;
 public class Photo {
     private Long id;
     private String path;
-    private String hash;
     private Long productId;
 
     public Long getId() {
@@ -25,14 +24,6 @@ public class Photo {
 
     public void setPath(String path) {
         this.path = path;
-    }
-
-    public String getHash() {
-        return hash;
-    }
-
-    public void setHash(String hash) {
-        this.hash = hash;
     }
 
     public Long getProductId() {
