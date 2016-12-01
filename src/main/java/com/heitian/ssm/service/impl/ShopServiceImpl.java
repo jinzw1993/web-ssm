@@ -3,7 +3,7 @@ package com.heitian.ssm.service.impl;
 import com.heitian.ssm.bo.Result;
 import com.heitian.ssm.bo.ShopBo;
 import com.heitian.ssm.dao.OwnerDao;
-import com.heitian.ssm.dao.OwnerPhotoDaO;
+import com.heitian.ssm.dao.OwnerPhotoDao;
 import com.heitian.ssm.dao.ShopDao;
 import com.heitian.ssm.model.Owner;
 import com.heitian.ssm.model.OwnerPhoto;
@@ -27,7 +27,7 @@ public class ShopServiceImpl implements ShopService {
     @Autowired
     private OwnerDao ownerDao;
     @Autowired
-    private OwnerPhotoDaO photoDao;
+    private OwnerPhotoDao photoDao;
 
     private Result result = new Result();
 
@@ -65,7 +65,7 @@ public class ShopServiceImpl implements ShopService {
             result.setMessage("failed, the shop owner has a shop.");
             return result;
         }
-        photoDao.insertPhoto(new OwnerPhoto(shopBo.getIdPhotoUrl()));
+        photoDao.insertPhoto(shopBo.getIdPhotoUrl());
         if(shopDao.insertShop(shopBo) == 0) {
             result.setStatus(0);
             result.setMessage("failed");

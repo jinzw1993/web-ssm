@@ -6,25 +6,17 @@
         <result column="owner_id" property="ownerId"/>
     </resultMap>
 
-    <insert id="insertPhoto" useGeneratedKeys="true" keyProperty="id" parameterType="com.heitian.ssm.model.OwnerPhoto">
-        INSERT INTO OWNER_PHOTO(owner_id,path)
-        VALUES (#{ownerId},#{path})
+    <insert id="insertPhoto" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO OWNER_PHOTO(path)
+        VALUES (#{path})
     </insert>
     <update id="updatePhoto" parameterType="com.heitian.ssm.model.OwnerPhoto">
-        UPDATE OWNER_PHOTO(owner_id,path)
-        SET owner_id=#{ownerId}
+        UPDATE OWNER_PHOTO
+        SET owner_id=#{ownerId},path=#{path}
         WHERE id=#{id}
     </update>
     <delete id="deletePhoto">
         DELETE FROM OWNER_PHOTO
         WHERE owner_id=#{ownerId},path=#{path}
     </delete>
-    <select id="selectPhotoById" resultMap="PhotoBaseMap">
-        SELECT id,owner_id,path
-        FROM owner_photo WHERE id=#{id}
-    </select>
-    <select id="selectMaxId">
-        SELECT MAX(id)
-        FROM owner_photo
-    </select>
 </mapper>
