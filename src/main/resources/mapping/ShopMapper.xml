@@ -27,7 +27,6 @@
     </insert>
     <update id="updateShop" parameterType="com.heitian.ssm.model.Shop">
         UPDATE shop SET
-        name=#{name},
         contact=#{contact},
         email=#{email},
         telephone=#{telephone},
@@ -38,11 +37,11 @@
         DELETE FROM shop
         WHERE name=#{name}
     </delete>
-    <select id="selectUrlByOwnerId">
+    <select id="selectUrlByOwnerId" resultType="java.lang.String">
         SELECT path FROM owner_photo
         WHERE owner_id = #{id}
     </select>
-    <select id="selectCount">
+    <select id="selectCount" resultType="java.lang.Integer">
         SELECT count(*) FROM shop
     </select>
 </mapper>

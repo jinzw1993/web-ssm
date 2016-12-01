@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface OwnerPhotoDao {
-    int insertPhoto(String path);
+    int insertPhoto(OwnerPhoto photo);
     int deletePhoto(@Param("ownerId") Long ownerId, @Param("path") String path);
     int updatePhoto(OwnerPhoto photo);
 }

@@ -65,7 +65,8 @@ public class ShopServiceImpl implements ShopService {
             result.setMessage("failed, the shop owner has a shop.");
             return result;
         }
-        photoDao.insertPhoto(shopBo.getIdPhotoUrl());
+        photoDao.insertPhoto(new OwnerPhoto(shopBo.getIdPhotoUrl(), shopBo.getOwnerId()));
+        shopBo.setStatus((long)0);
         if(shopDao.insertShop(shopBo) == 0) {
             result.setStatus(0);
             result.setMessage("failed");

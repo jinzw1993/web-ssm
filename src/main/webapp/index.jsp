@@ -10,15 +10,18 @@
 <script type="text/javascript">
     $.ajax(
             {
-                url: "product/add",
-                type:"POST",
+                url: "shop/count",
+                //type:"POST",
                 contentType:"application/json",
                 dataType:"json",
-                data: JSON.stringify({ ownId:1,shopId:2,
-                                name:"Maxwell",price:299.9,categoryId:2,detail:"this coffee is very good",
-                                photoURL:"C:\\Users\\unname\\Pictures\\Encyclopedia\\aclogo.jpg"}),
-            //    data: JSON.stringify({id:1},{name:"pname"},{}),
-            //    data:{},
+//                data: JSON.stringify({ ownerId:2,
+//                    name:"Maxwell",
+//                    contact:"contact here3",
+//                    email:"123@123.com3",
+//                    telephone:"213143",
+//                    status:0,
+//                    idPhotoUrl:"C:\\Users\\unname\\Pictures\\Encyclopedia\\aclogo3.jpg"}),
+//                data:{page:1,count:2},
                 success: function(){
 
                 alert("success");
