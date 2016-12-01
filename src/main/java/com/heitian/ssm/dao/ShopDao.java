@@ -15,7 +15,11 @@ public interface ShopDao {
 
     Shop selectShopByOwnerId(Long id);
 
+    List<Shop> selectShopsByName(String name);
+
     List<Shop> selectShops(@Param("start") int start,@Param("count") int count);
+
+    List<Shop> selectVerifiedShops(@Param("start") int start,@Param("count") int count);
 
     int deleteShopByName(String name);
 
@@ -26,4 +30,6 @@ public interface ShopDao {
     String selectUrlByOwnerId(Long id);
 
     int selectCount();
+
+    int selectVerifiedCount();
 }

@@ -78,18 +78,14 @@ public class ProductServiceImpl implements ProductService {
         photo.setPath(prdtBo.getPhotoURL());
         photoDao.insertPhoto(prdtBo.getPhotoURL());
         long pId=photoDao.selectMaxId();
-
         prdtBo.setProductPhotoId((long)pId);
-
         Product product=(Product)prdtBo;
         int i= productDao.insertProduct(product);
         long pdId= productDao.selectMaxId();
-
         photo.setId((long)pId);
         photo.setProductId(pdId);
         photoDao.updatePhoto(photo);
         return returnRes(i);
-
     }
     public Result deleteProduct(ProductBo prdtBo) {
 
@@ -110,5 +106,22 @@ public class ProductServiceImpl implements ProductService {
         int i= productDao.updateProduct(product);
 
         return returnRes(i);
+    }
+
+    public List<ProductBo> searchProductBosByOwner(long ownerId,int page, int pageNum) {
+        List<ProductBo> productBos=new ArrayList<>();
+        List<Product> products= productDao.searByOwner(ownerId,(page-1)*pageNum,pageNum);
+        if(products!=null) {
+            for (int i = 0; i < products.size(); i++) {
+                String path = productDao.searchPhotoURL(products.get(i).getProductPhotoId());
+                ProductBo productBo = new ProductBo(products.get(i));
+                productBo.setPhotoURL(path);
+                productBos.add(productBo);
+            }
+        }
+        return productBos;
+    }
+    public int getOwnerProductCount(Long ownerId) {
+        return productDao.getOwnerProductCount(ownerId);
     }
 }

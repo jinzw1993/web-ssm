@@ -7,8 +7,8 @@
     </resultMap>
 
     <insert id="insertPhoto"  parameterType="java.lang.String">
-        INSERT INTO product_photo(path)
-        VALUES (#{photo})
+        INSERT INTO product_photo(productId, path)
+        VALUES (0, #{photo})
     </insert>
 
     <update id="updatePhoto" parameterType="com.heitian.ssm.model.Photo">
@@ -18,7 +18,7 @@
     </update>
     <delete id="deletePhoto">
         DELETE FROM product_photo
-        WHERE product_id=#{productId},path=#{path}
+        WHERE product_id=#{productId} AND path=#{path}
     </delete>
     <select id="selectPhotoById" resultMap="PhotoBaseMap">
         SELECT id,product_id,path
