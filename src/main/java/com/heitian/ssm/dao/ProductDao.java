@@ -20,7 +20,8 @@ public interface ProductDao {
 
     int insertProduct(@Param("product") Product product);
     int deleteProduct(@Param("product") Product product);
-    int updateProduct(Product product);
+    int updateProduct(@Param("product") Product product);
 
+    int selectMaxId();
 }
 

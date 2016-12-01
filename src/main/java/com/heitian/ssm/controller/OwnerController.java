@@ -27,7 +27,7 @@ public class OwnerController {
     /**
      * 注册
      * @param owner 需要name, password, email
-     * @return
+     * @return result.status=0失败，1成功
      */
     @ResponseBody
     @RequestMapping(value="/register")
@@ -39,7 +39,7 @@ public class OwnerController {
     /**
      * 激活成功页面
      * @param email
-     * @return
+     * @return result.status=0失败，1成功
      */
     @ResponseBody
     @RequestMapping(value="/activate",method = RequestMethod.GET)
@@ -51,7 +51,7 @@ public class OwnerController {
      * 登录
      * @param owner  需要email, password
      * @param response
-     * @return
+     * @return result.status=0失败，1成功
      */
     @ResponseBody
     @RequestMapping("/login")
@@ -75,7 +75,7 @@ public class OwnerController {
      * 根据Owner.email更新Owner密码或Status
      *
      * @param owner 对象需要 email, password, status, isEmailVerified
-     * @return true or false
+     * @return result.status=0失败，1成功
      */
     @ResponseBody
     @RequestMapping("/update")
@@ -85,9 +85,9 @@ public class OwnerController {
     }
 
     /**
-     *
+     *根据name查找Owner
      * @param name Owner name
-     * @return
+     * @return result.status=0失败，1成功
      */
     @ResponseBody
     @RequestMapping("/getByName")
@@ -98,9 +98,9 @@ public class OwnerController {
     }
 
     /**
-     *
+     *根据id查找Owner
      * @param id Owner id
-     * @return
+     * @return Owner对象
      */
     @ResponseBody
     @RequestMapping("getById")
@@ -111,10 +111,10 @@ public class OwnerController {
     }
 
     /**
-     *
+     *得到所有Owner
      * @param page 第page页
      * @param pageNum 每页条目数
-     * @return
+     * @return Owner List
      */
     @ResponseBody
     @RequestMapping("/getAllOwner")
@@ -124,10 +124,10 @@ public class OwnerController {
     }
 
     /**
-     *
+     *得到所有未邮件认证的Owner
      * @param page 第page页
      * @param pageNum 每页条目数
-     * @return
+     * @return Owner List
      */
     @ResponseBody
     @RequestMapping("/getAllUnverified")
