@@ -97,4 +97,17 @@ public class ShopController {
         return result;
     }
 
+    @RequestMapping(value = "/verify")
+    public @ResponseBody
+    Result verify(@RequestBody ShopBo shopBo) {
+        log.info("店铺更新" + shopBo.getName());
+        return shopService.verifyShop(shopBo);
+    }
+
+    @RequestMapping(value = "/reject")
+    public @ResponseBody
+    Result reject(@RequestBody ShopBo shopBo) {
+        log.info("店铺更新" + shopBo.getName());
+        return shopService.rejectShop(shopBo);
+    }
 }
