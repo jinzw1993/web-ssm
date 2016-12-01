@@ -20,7 +20,7 @@ public class SendEmail {
     public static final String PROTOCOL = "smtp";
     public static final int PORT = 25;
     public static final String FROM = "ParknShop007@163.com";//发件人的email
-    public static final String PWD = "Idon'tknow";//发件人密码
+    public static final String PWD = "Whois007";//发件人密码
 
     /**
      * 获取Session

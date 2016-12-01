@@ -17,6 +17,7 @@ import javax.annotation.Resource;
 
 import java.util.ArrayList;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -73,11 +74,13 @@ public class ProductServiceImpl implements ProductService {
     }
     public Result addProduct(ProductBo prdtBo) {
 
+        Date date=new Date();
+        prdtBo.setCreatedAt(new java.sql.Time(date.getTime()));
+        prdtBo.setModifiedAt(new java.sql.Time(date.getTime()));
 
         Photo photo=new Photo();
         photo.setPath(prdtBo.getPhotoURL());
         photoDao.insertPhoto(photo);
-
         long pId=photoDao.selectMaxId();
 
         prdtBo.setProductPhotoId(pId);
@@ -89,10 +92,17 @@ public class ProductServiceImpl implements ProductService {
     public Result deleteProduct(ProductBo prdtBo) {
 
         photoDao.deletePhoto(prdtBo.getId(),prdtBo.getPhotoURL());
-        int i = productDao.deleteProduct((Product)prdtBo);
+
+        Product product=(Product)prdtBo;
+        int i = productDao.deleteProduct(product);
         return returnRes(i);
     }
     public Result updateProduct(ProductBo prdtBo) {
+
+        Date date=new Date();
+
+        prdtBo.setModifiedAt(new java.sql.Time(date.getTime()));
+
         Photo photo = new Photo();
         photo.setPath(prdtBo.getPhotoURL());
         photo.setProductId(prdtBo.getId());

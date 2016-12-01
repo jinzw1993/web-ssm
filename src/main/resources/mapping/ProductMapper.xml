@@ -56,7 +56,7 @@
 
     <insert id="insertProduct" parameterType="com.heitian.ssm.model.Product">
         insert into
-                product(owner_id, shop_id, product_photo_id, name, price, cateogory_id, detail, created_at, modified_at)
+                product(owner_id, shop_id, product_photo_id, name, price, category_id, detail, created_at, modified_at)
         VALUES (#{product.ownId}, #{product.shopId},#{product.productPhotoId}, #{product.name}, #{product.price},
                 #{product.categoryId}, #{product.detail}, #{product.createdAt}, #{product.modifiedAt})
     </insert>
@@ -67,22 +67,15 @@
 
     <update id="updateProduct" parameterType="com.heitian.ssm.model.Product">
         UPDATE product set
-                product_photo_id=#{product.productPhotoId}, name= #{product.name},
+                product_photo_id=#{product.productPhotoId},
+                name= #{product.name},
                 price=#{product.price},
-                category_id=#{product.categoryId}, detail=#{product.detail}, create_at=#{product.createdAt},
+                category_id=#{product.categoryId},
+                detail=#{product.detail},
                 modified_at=#{product.modifiedAt}
     </update>
 
 
-    <select id="searchPhotoURL" parameterType="java.lang.Long" resultType="java.lang.String">
-        select path from product_photo
-        WHERE id=#{productPhotoId}
-    </select>
-
-    <select id="searchProductById" parameterType="java.lang.Long" resultMap="ProductBaseMap">
-        select * from product
-        WHERE id=#{id}
-    </select>
 
 </mapper>
 

@@ -11,10 +11,11 @@ import java.util.List;
  */
 @Repository
 public interface PhotoDao {
-    int insertPhoto(Photo photo);
+    int insertPhoto(@Param("photo") Photo photo);
+
     int deletePhoto(@Param("productId") Long productId,@Param("path") String  path);
 
-    int updatePhoto(@Param("productId") Photo photo);
+    int updatePhoto(@Param("photo") Photo photo);
     List<Photo> selectPhotosByProduct(Long productId);
     Photo selectPhotoById(Long id);
     Long selectMaxId();

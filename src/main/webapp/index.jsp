@@ -10,13 +10,17 @@
 <script type="text/javascript">
     $.ajax(
             {
-                url: "shop/getShops",
+                url: "product/add",
                 type:"POST",
-                //contentType:"application/json",
+                contentType:"application/json",
                 dataType:"json",
-                //data: JSON.stringify({ownerId:"7", name:"店2",contact:"cont",email:"123@qwe.com",telephone:"1234123",status:"0"}),
-                data:{page:2,count:5},
+                data: JSON.stringify({ ownId:1,shopId:2,
+                                name:"Maxwell",price:299.9,categoryId:2,detail:"this coffee is very good",
+                                photoURL:"C:\\Users\\unname\\Pictures\\Encyclopedia\\aclogo.jpg"}),
+            //    data: JSON.stringify({id:1},{name:"pname"},{}),
+            //    data:{},
                 success: function(){
+
                 alert("success");
             }}
     );

@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
- * Created by LanTing on 2016/11/28.
+ * Created by S.W on 2016/11/28.
  */
 @Controller
 @RequestMapping("/owner")
@@ -24,6 +24,11 @@ public class OwnerController {
     @Resource
     private OwnerService ownerService;
 
+    /**
+     * 注册
+     * @param owner 需要name, password, email
+     * @return
+     */
     @ResponseBody
     @RequestMapping(value="/register")
     public Result ownerRegister(@RequestBody Owner owner) {
@@ -31,15 +36,26 @@ public class OwnerController {
         return ownerService.ownerRegister(owner);
     }
 
+    /**
+     * 激活成功页面
+     * @param email
+     * @return
+     */
     @ResponseBody
     @RequestMapping(value="/activate",method = RequestMethod.GET)
     public Result ownerActivate( @RequestParam String email) {
         return ownerService.processActivate(email);
     }
 
+    /**
+     * 登录
+     * @param owner  需要email, password
+     * @param response
+     * @return
+     */
     @ResponseBody
     @RequestMapping("/login")
-    public Result ownerLogin(@RequestBody Owner owner, Model model, HttpServletResponse response) {
+    public Result ownerLogin(@RequestBody Owner owner, HttpServletResponse response) {
         log.info("店主登录");
 
         Result result = ownerService.ownerLogin(owner);
@@ -55,6 +71,12 @@ public class OwnerController {
         return result;
     }
 
+    /**
+     * 根据Owner.email更新Owner密码或Status
+     *
+     * @param owner 对象需要 email, password, status, isEmailVerified
+     * @return true or false
+     */
     @ResponseBody
     @RequestMapping("/update")
     public Result updateOwner(@RequestBody Owner owner) {
@@ -62,6 +84,11 @@ public class OwnerController {
         return ownerService.updateOwner(owner);
     }
 
+    /**
+     *
+     * @param name Owner name
+     * @return
+     */
     @ResponseBody
     @RequestMapping("/getByName")
     public Owner getOwnerByName(@RequestParam String name) {
@@ -69,6 +96,12 @@ public class OwnerController {
         Owner o = ownerService.selectOwnerByName(name);
         return o;
     }
+
+    /**
+     *
+     * @param id Owner id
+     * @return
+     */
     @ResponseBody
     @RequestMapping("getById")
     public Owner getOwnerById(@RequestParam long id) {
@@ -76,27 +109,55 @@ public class OwnerController {
         Owner o = ownerService.selectOwnerById(id);
         return o;
     }
+
+    /**
+     *
+     * @param page 第page页
+     * @param pageNum 每页条目数
+     * @return
+     */
     @ResponseBody
     @RequestMapping("/getAllOwner")
     public List<Owner> getAllOwner(@RequestParam int page, @RequestParam int pageNum) {
         List<Owner> o = ownerService.selectAllOwners(page,pageNum);
         return o;
     }
+
+    /**
+     *
+     * @param page 第page页
+     * @param pageNum 每页条目数
+     * @return
+     */
     @ResponseBody
     @RequestMapping("/getAllUnverified")
     public List<Owner> getAllUnverified(@RequestParam int page, @RequestParam int pageNum)  {
         return ownerService.getAllUnverifiedOwner(page,pageNum);
     }
 
+    /**
+     * 得到owner数量
+     * @return 存到result.message中
+     */
     @ResponseBody
     @RequestMapping("/getOwnerNum")
-    public int getOwnerNum() {
-        return ownerService.getOwnerNum();
+    public Result getOwnerNum() {
+        Result result =new Result();
+        result.setMessage(Integer.toString(ownerService.getOwnerNum()));
+        result.setStatus(1);
+        return result;
     }
 
+    /**
+     * 得到未进行邮件认证的owner数量
+     * @return 存到result.message中
+     */
     @ResponseBody
     @RequestMapping("getUnverifiedNum")
-    public int getUnverifiedNum() {
-        return ownerService.getUnverifiedNum();
+    public Result getUnverifiedNum() {
+        Result result =new Result();
+        result.setMessage(Integer.toString(ownerService.getUnverifiedNum()));
+        result.setStatus(1);
+        return result;
     }
 }

@@ -49,12 +49,22 @@ public class ProductController {
         return productService.addProduct(product);
     }
 
+    /**
+     * 删除商品
+     * @param productBo 需要id
+     * @return
+     */
     @ResponseBody
     @RequestMapping("/delete")
-    public Result deleteProduct(@RequestBody ProductBo product) {
-        return productService.deleteProduct(product);
+    public Result deleteProduct(@RequestBody ProductBo productBo) {
+        return productService.deleteProduct(productBo);
     }
 
+    /**
+     * 更新商品
+     * @param productBo  不需要createdAt, modifiedAt, id
+     * @return
+     */
     @ResponseBody
     @RequestMapping("/update")
     public Result updateProduct(@RequestBody ProductBo productBo) {

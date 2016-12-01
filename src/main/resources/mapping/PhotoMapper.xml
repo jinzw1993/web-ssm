@@ -7,13 +7,14 @@
     </resultMap>
 
     <insert id="insertPhoto" useGeneratedKeys="true" keyProperty="id" parameterType="com.heitian.ssm.model.Photo">
-        INSERT INTO PRODUCT_PHOTO(product_id,path)
-        VALUES (#{productId},#{path})
+        INSERT INTO product_photo(path)
+        VALUES (#{photo.path})
     </insert>
+
     <update id="updatePhoto" parameterType="com.heitian.ssm.model.Photo">
         UPDATE PRODUCT_PHOTO(product_id,path)
-        SET product_id=#{productId}
-        WHERE id=#{id}
+        SET product_id=#{photo.product_id}, path=#{photo.path}
+        WHERE id=#{photo.id}
     </update>
     <delete id="deletePhoto">
         DELETE FROM PRODUCT_PHOTO

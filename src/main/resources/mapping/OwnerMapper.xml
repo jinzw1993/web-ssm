@@ -41,11 +41,11 @@
     </select>
 
 
-    <select id="getOwnerNum" >
+    <select id="getOwnerNum" resultType="java.lang.Integer">
         SELECT count(*) FROM owner
     </select>
 
-    <select id="getUnverifiedNum" >
+    <select id="getUnverifiedNum" resultType="java.lang.Integer">
         SELECT count(*) FROM owner
         WHERE is_email_verified=0
     </select>

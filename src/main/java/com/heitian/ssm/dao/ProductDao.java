@@ -19,7 +19,7 @@ public interface ProductDao {
     Product searchProductById(Long id);
 
     int insertProduct(Product product);
-    int deleteProduct(Product product);
+    int deleteProduct(@Param("product") Product product);
     int updateProduct(Product product);
 
 }

@@ -10,7 +10,6 @@ public class Product implements Serializable{
     private Long id;
     private Long ownId;
     private Long shopId;
-
     private Long productPhotoId;
     private String name;
     private Long price;
