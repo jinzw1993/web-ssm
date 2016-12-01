@@ -52,7 +52,7 @@
         WHERE id=#{id}
     </select>
 
-    <select id="selectMaxId" >
+    <select id="selectMaxId" resultType="java.lang.Integer">
         SELECT MAX(id)
         FROM product
     </select>

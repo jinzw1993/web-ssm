@@ -55,7 +55,7 @@ public class ProductController {
 
     /**
      * 添加商品
-     * @param productBo 需要 ownerId, shopId, name, price, categoryId, detail, photoURL
+     * @param productBo 需要 ownId, shopId, name, price, categoryId, detail, photoURL
      * @return result.status=0失败，1成功
      */
     @ResponseBody
