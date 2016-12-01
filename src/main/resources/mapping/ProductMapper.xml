@@ -3,7 +3,7 @@
 <mapper namespace="com.heitian.ssm.dao.ProductDao">
     <resultMap id="ProductBaseMap" type="com.heitian.ssm.model.Product">
         <id column="id" property="id" jdbcType="BIGINT"/>
-        <result column="own_id" property="ownId" jdbcType="BIGINT"/>
+        <result column="owner_id" property="ownId" jdbcType="BIGINT"/>
         <result column="shop_id" property="shopId" jdbcType="BIGINT"/>
 
         <result column="product_photo_id" property="productPhotoId" jdbcType="BIGINT"/>
@@ -22,13 +22,23 @@
 
     </select>
 
+    <select id="searByOwner" resultMap="ProductBaseMap">
+        SELECT id, owner_id, shop_id, product_photo_id, name, price, category_id, detail, created_at, modified_at
+        FROM  product
+        WHERE owner_id=#{ownerId}
+        limit #{start},#{pageNum}
+    </select>
+
+    <select id="getOwnerProductCount" resultType="java.lang.Integer">
+        SELECT count(*) FROM product WHERE owner_id=#{ownerId}
+    </select>
+
     <select id="searchWithKeyword" resultMap="ProductBaseMap" parameterType="com.heitian.ssm.bo.ProductCondition">
         SELECT *from product
         WHERE 1=1
         <if test="categoryId != null and categoryId != ''">
             AND category_id= #{categoryId}
         </if>
-
         <if test="highPrice != null and highPrice != ''">
             <![CDATA[ AND price< #{highPrice} ]]>
         </if>
