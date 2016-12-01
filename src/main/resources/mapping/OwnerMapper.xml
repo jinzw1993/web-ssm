@@ -61,7 +61,7 @@
     </update>
 
 
-    <delete id="deleteById" parameterType="java.lang.Long" >
+    <delete id="deleteById" parameterType="java.lang.Integer" >
         DELETE from owner WHERE id=#{id}
     </delete>
 

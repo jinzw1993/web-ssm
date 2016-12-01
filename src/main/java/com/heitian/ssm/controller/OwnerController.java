@@ -37,7 +37,7 @@ public class OwnerController {
     }
 
     /**
-     * 激活成功页面
+     * 激活链接的请求
      * @param email
      * @return result.status=0失败，1成功
      */

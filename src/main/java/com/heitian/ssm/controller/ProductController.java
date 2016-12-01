@@ -8,10 +8,8 @@ import com.heitian.ssm.service.ProductService;
 import org.apache.log4j.Logger;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -42,7 +40,7 @@ public class ProductController {
 
     /**
      *  根据id搜索商品
-     * @param request 需要id
+     * @param request 需要参数id
      * @return ProductBo List
      */
     @ResponseBody
@@ -66,7 +64,7 @@ public class ProductController {
 
     /**
      * 删除商品
-     * @param productBo 需要id
+     * @param productBo 需要id, photoURL
      * @return result.status=0失败，1成功
      */
     @ResponseBody
@@ -84,5 +82,32 @@ public class ProductController {
     @RequestMapping("/update")
     public Result updateProduct(@RequestBody ProductBo productBo) {
         return productService.updateProduct(productBo);
+    }
+
+    /**
+     * 根据Owner查找product
+     * @param ownerId
+     * @param page
+     * @param pageNum
+     * @return ProductBo List
+     */
+    @ResponseBody
+    @RequestMapping(value="/searchByOwner",method= RequestMethod.GET)
+    public List<ProductBo> searchByOwner(@RequestParam long ownerId, @RequestParam int page, @RequestParam int pageNum) {
+        return productService.searchProductBosByOwner(ownerId,page,pageNum);
+    }
+
+    /**
+     * 得到当前owner的product数量
+     * @param ownerId
+     * @return 存到result.message中
+     */
+    @ResponseBody
+    @RequestMapping(value="/getNum",method= RequestMethod.GET)
+    public Result getProductsNum(@RequestParam long ownerId) {
+        Result result =new Result();
+        result.setMessage(Integer.toString(productService.getOwnerProductCount(ownerId)));
+        result.setStatus(1);
+        return result;
     }
 }

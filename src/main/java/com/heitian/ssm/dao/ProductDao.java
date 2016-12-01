@@ -15,6 +15,10 @@ import java.util.List;
 public interface ProductDao {
     List<Product> searchByNone(@Param("start")int start, @Param("num")int num);
     List<Product> searchWithKeyword(ProductCondition productCondition);
+
+    List<Product> searByOwner(@Param("ownerId") Long ownerId,@Param("start") int start,@Param("pageNum") int pageNum);
+    Integer getOwnerProductCount(Long ownerId);
+
     String searchPhotoURL(Long productPhotoId);
     Product searchProductById(Long id);
 

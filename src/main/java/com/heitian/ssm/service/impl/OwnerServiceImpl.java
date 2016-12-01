@@ -56,8 +56,12 @@ public class OwnerServiceImpl implements OwnerService {
                         result.setStatus(0);
                     }
                 }
+                else {//密码错误
+                    result.setStatus(0);
+                    result.setMessage("failed, user name or password is wrong");
+                }
             }
-            else {//用户不存在或密码错误
+            else {//用户不存
                 result.setStatus(0);
                 result.setMessage("failed, user name or password is wrong");
             }
@@ -90,7 +94,7 @@ public class OwnerServiceImpl implements OwnerService {
                 result.setMessage("failed, email has already been used");
             } else {
 
-                owner.setStatus((long) 0);
+                owner.setStatus(0);
                 owner.setIsEmailVerified(0);
                 int num = ownerDao.insertOwner(owner);
                 if (num == 0) {

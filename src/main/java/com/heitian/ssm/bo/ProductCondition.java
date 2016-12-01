@@ -6,7 +6,7 @@ package com.heitian.ssm.bo;
 public class ProductCondition {
     private String keyWord;
     private Long categoryId;
-    private Long brand;
+
     private Long highPrice;
     private Long lowPrice;
     private int page=1;
@@ -27,14 +27,6 @@ public class ProductCondition {
 
     public void setCategoryId(Long categoryId) {
         this.categoryId = categoryId;
-    }
-
-    public Long getBrand() {
-        return brand;
-    }
-
-    public void setBrand(Long brand) {
-        this.brand = brand;
     }
 
     public int getPage() {
