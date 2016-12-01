@@ -30,7 +30,6 @@
     </select>
 
     <select id="selectMaxId" resultType="java.lang.Long">
-        SELECT MAX(id)
         FROM product_photo
     </select>
 </mapper>

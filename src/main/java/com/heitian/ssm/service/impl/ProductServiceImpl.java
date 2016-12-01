@@ -17,7 +17,6 @@ import javax.annotation.Resource;
 
 import java.util.ArrayList;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -77,22 +76,17 @@ public class ProductServiceImpl implements ProductService {
 
         Photo photo=new Photo();
         photo.setPath(prdtBo.getPhotoURL());
-        //插
         photoDao.insertPhoto(prdtBo.getPhotoURL());
-        //抽
         long pId=photoDao.selectMaxId();
 
         prdtBo.setProductPhotoId((long)pId);
 
         Product product=(Product)prdtBo;
-        //插
         int i= productDao.insertProduct(product);
-        //抽
         long pdId= productDao.selectMaxId();
 
         photo.setId((long)pId);
         photo.setProductId(pdId);
-        //插
         photoDao.updatePhoto(photo);
         return returnRes(i);
 
@@ -100,7 +94,6 @@ public class ProductServiceImpl implements ProductService {
     public Result deleteProduct(ProductBo prdtBo) {
 
         photoDao.deletePhoto(prdtBo.getId(),prdtBo.getPhotoURL());
-
         Product product=(Product)prdtBo;
         int i = productDao.deleteProduct(product);
         return returnRes(i);
@@ -112,13 +105,10 @@ public class ProductServiceImpl implements ProductService {
         photo.setProductId(prdtBo.getId());
         photo.setId(prdtBo.getProductPhotoId());
         photoDao.updatePhoto(photo);
-
         Product product = (Product)prdtBo;
 
         int i= productDao.updateProduct(product);
 
         return returnRes(i);
-
-
     }
 }

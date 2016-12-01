@@ -25,6 +25,4 @@ public class Result {
 
         this.status = status;
     }
-
-
 }
