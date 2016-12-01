@@ -94,7 +94,7 @@ public class OwnerServiceImpl implements OwnerService {
                 result.setMessage("failed, email has already been used");
             } else {
 
-                owner.setStatus(0);
+                owner.setStatus((long)0);
                 owner.setIsEmailVerified(0);
                 int num = ownerDao.insertOwner(owner);
                 if (num == 0) {

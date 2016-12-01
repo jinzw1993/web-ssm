@@ -29,7 +29,7 @@ public class ProductController {
 
     /**
      *根据条件搜索商品
-     * @param productCondition 需要page(默认1), num(默认30), 和其他任意ProductCondition的属性
+     * @param productCondition ProductCondition对象，需要page(默认1), num(默认30), 和其他任意ProductCondition的属性
      * @return ProductBo List
      */
     @ResponseBody
@@ -53,7 +53,7 @@ public class ProductController {
 
     /**
      * 添加商品
-     * @param productBo 需要 ownId, shopId, name, price, categoryId, detail, photoURL
+     * @param productBo ProductBo对象，需要 ownId, shopId, name, price, categoryId, detail, photoURL
      * @return result.status=0失败，1成功
      */
     @ResponseBody
@@ -64,7 +64,7 @@ public class ProductController {
 
     /**
      * 删除商品
-     * @param productBo 需要id, photoURL
+     * @param productBo ProductBo对象，需要id, photoURL
      * @return result.status=0失败，1成功
      */
     @ResponseBody
@@ -75,7 +75,7 @@ public class ProductController {
 
     /**
      * 更新商品
-     * @param productBo  需要id, name, detail, categoryId, photoURL, price, productPhotoId
+     * @param productBo  ProductBo对象，需要id, name, detail, categoryId, photoURL, price, productPhotoId
      * @return result.status=0失败，1成功
      */
     @ResponseBody
@@ -86,9 +86,9 @@ public class ProductController {
 
     /**
      * 根据Owner查找product
-     * @param ownerId
-     * @param page
-     * @param pageNum
+     * @param ownerId 当前owner的ownerId
+     * @param page 当前页
+     * @param pageNum 每页条目数
      * @return ProductBo List
      */
     @ResponseBody
@@ -99,7 +99,7 @@ public class ProductController {
 
     /**
      * 得到当前owner的product数量
-     * @param ownerId
+     * @param ownerId 当前owner的ownerId
      * @return 存到result.message中
      */
     @ResponseBody
