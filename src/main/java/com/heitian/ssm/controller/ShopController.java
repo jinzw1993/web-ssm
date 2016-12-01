@@ -33,7 +33,7 @@ public class ShopController {
     public @ResponseBody
     Result addNewShop(@RequestBody ShopBo shopBo, @CookieValue(value = "OwnerName",defaultValue = "swc") String name) {
         log.info("新店注册");
-        if(name != null)
+        if("!swc".equals(name))
             return shopService.addShop(shopBo);
         else{
             Result result = new Result();

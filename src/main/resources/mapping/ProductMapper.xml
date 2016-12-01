@@ -52,13 +52,16 @@
         WHERE id=#{id}
     </select>
 
-
+    <select id="selectMaxId" resultType="java.lang.Integer">
+        SELECT MAX(id)
+        FROM product
+    </select>
 
     <insert id="insertProduct" parameterType="com.heitian.ssm.model.Product">
         insert into
-                product(owner_id, shop_id, product_photo_id, name, price, cateogory_id, detail, created_at, modified_at)
+                product(owner_id, shop_id, product_photo_id, name, price, category_id, detail)
         VALUES (#{product.ownId}, #{product.shopId},#{product.productPhotoId}, #{product.name}, #{product.price},
-                #{product.categoryId}, #{product.detail}, #{product.createdAt}, #{product.modifiedAt})
+                #{product.categoryId}, #{product.detail})
     </insert>
 
     <delete id="deleteProduct" parameterType="com.heitian.ssm.model.Product">
@@ -66,23 +69,12 @@
     </delete>
 
     <update id="updateProduct" parameterType="com.heitian.ssm.model.Product">
-        UPDATE product set
-                product_photo_id=#{product.productPhotoId}, name= #{product.name},
-                price=#{product.price},
-                category_id=#{product.categoryId}, detail=#{product.detail}, create_at=#{product.createdAt},
-                modified_at=#{product.modifiedAt}
+        UPDATE product SET
+          name=#{product.name},
+          price=#{product.price},
+          category_id=#{product.categoryId},
+          detail=#{product.detail}
+        WHERE id=#{product.id}
     </update>
-
-
-    <select id="searchPhotoURL" parameterType="java.lang.Long" resultType="java.lang.String">
-        select path from product_photo
-        WHERE id=#{productPhotoId}
-    </select>
-
-    <select id="searchProductById" parameterType="java.lang.Long" resultMap="ProductBaseMap">
-        select * from product
-        WHERE id=#{id}
-    </select>
-
 </mapper>
 

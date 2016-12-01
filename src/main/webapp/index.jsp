@@ -10,12 +10,18 @@
 <script type="text/javascript">
     $.ajax(
             {
-                url: "shop/getShops",
+                url: "product/add",
                 type:"POST",
-                //contentType:"application/json",
+                contentType:"application/json",
                 dataType:"json",
-                //data: JSON.stringify({ownerId:"7", name:"店2",contact:"cont",email:"123@qwe.com",telephone:"1234123",status:"0"}),
-                data:{page:2,count:5},
+                data: JSON.stringify({ ownId:2,
+                    shopId:2,
+                    price:10,
+                    categoryId:3,
+                    detail:'hello',
+                    name:"Maxwell",
+                    photoURL:"C:\\Users\\unname\\Pictures\\Encyclopedia\\aclogo3.jpg"}),
+//                data:{page:1,count:2},
                 success: function(){
                 alert("success");
             }}

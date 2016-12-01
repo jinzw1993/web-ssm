@@ -22,7 +22,7 @@ public class PhotoServiceImpl implements PhotoService {
     private Result result = new Result();
 
     public Result insertPhoto(Photo photo) {
-        if(photoDao.insertPhoto(photo) == 0) {
+        if(photoDao.insertPhoto(photo.getPath()) == 0) {
             result.setStatus(0);
             result.setMessage("failed");
         } else {
@@ -40,7 +40,7 @@ public class PhotoServiceImpl implements PhotoService {
         return (long)0;
     }
 
-    public Result deletePhoto(Long productId, Long url) {
+    public Result deletePhoto(Long productId, String url) {
         if(photoDao.deletePhoto(productId, url) > 0) {
             result.setStatus(1);
             result.setMessage("success");
@@ -62,7 +62,7 @@ public class PhotoServiceImpl implements PhotoService {
         return result;
     }
 
-    public List<Photo> getPhotosByProduct(int productId) {
+    public List<Photo> getPhotosByProduct(Long productId) {
         List<Photo> list = photoDao.selectPhotosByProduct(productId);
         if(list == null)
             return new ArrayList<>();

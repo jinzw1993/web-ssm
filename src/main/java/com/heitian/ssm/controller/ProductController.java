@@ -29,12 +29,22 @@ public class ProductController {
     @Resource
     private ProductService productService;
 
+    /**
+     *根据条件搜索商品
+     * @param productCondition 需要page(默认1), num(默认30), 和其他任意ProductCondition的属性
+     * @return ProductBo List
+     */
     @ResponseBody
     @RequestMapping("/search")
     public List<ProductBo> searchProductBos(@RequestBody ProductCondition productCondition) {
         return productService.searchProductBos(productCondition);
     }
 
+    /**
+     *  根据id搜索商品
+     * @param request 需要id
+     * @return ProductBo List
+     */
     @ResponseBody
     @RequestMapping(value="/id",method= RequestMethod.GET)
     public ProductBo searchProductBo(HttpServletRequest request) {
@@ -43,18 +53,33 @@ public class ProductController {
         return productService.searchProductBo(id);
     }
 
+    /**
+     * 添加商品
+     * @param productBo 需要 ownId, shopId, name, price, categoryId, detail, photoURL
+     * @return result.status=0失败，1成功
+     */
     @ResponseBody
     @RequestMapping("/add")
-    public Result addProduct(@RequestBody ProductBo product) {
-        return productService.addProduct(product);
+    public Result addProduct(@RequestBody ProductBo productBo) {
+        return productService.addProduct(productBo);
     }
 
+    /**
+     * 删除商品
+     * @param productBo 需要id
+     * @return result.status=0失败，1成功
+     */
     @ResponseBody
     @RequestMapping("/delete")
-    public Result deleteProduct(@RequestBody ProductBo product) {
-        return productService.deleteProduct(product);
+    public Result deleteProduct(@RequestBody ProductBo productBo) {
+        return productService.deleteProduct(productBo);
     }
 
+    /**
+     * 更新商品
+     * @param productBo  需要id, name, detail, categoryId, photoURL, price, productPhotoId
+     * @return result.status=0失败，1成功
+     */
     @ResponseBody
     @RequestMapping("/update")
     public Result updateProduct(@RequestBody ProductBo productBo) {

@@ -6,17 +6,18 @@
         <result column="product_id" property="productId"/>
     </resultMap>
 
-    <insert id="insertPhoto" useGeneratedKeys="true" keyProperty="id" parameterType="com.heitian.ssm.model.Photo">
-        INSERT INTO PRODUCT_PHOTO(product_id,path)
-        VALUES (#{productId},#{path})
+    <insert id="insertPhoto"  parameterType="java.lang.String">
+        INSERT INTO product_photo(path)
+        VALUES (#{photo})
     </insert>
+
     <update id="updatePhoto" parameterType="com.heitian.ssm.model.Photo">
-        UPDATE PRODUCT_PHOTO(product_id,path)
-        SET product_id=#{productId}
+        UPDATE product_photo
+        SET product_id=#{productId}, path=#{path}
         WHERE id=#{id}
     </update>
     <delete id="deletePhoto">
-        DELETE FROM PRODUCT_PHOTO
+        DELETE FROM product_photo
         WHERE product_id=#{productId},path=#{path}
     </delete>
     <select id="selectPhotoById" resultMap="PhotoBaseMap">
@@ -27,8 +28,8 @@
         SELECT id,product_id,path
         FROM product_photo WHERE product_id=#{productId}
     </select>
-    <select id="selectMaxId">
-        SELECT MAX(id)
+
+    <select id="selectMaxId" resultType="java.lang.Long">
         FROM product_photo
     </select>
 </mapper>

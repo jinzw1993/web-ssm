@@ -27,6 +27,7 @@ import java.util.List;
 public class ProductServiceImpl implements ProductService {
     @Resource
     private ProductDao productDao;
+    @Resource
     private PhotoDao photoDao;
 
     public List<ProductBo> searchProductBos(ProductCondition productCondition)
@@ -73,26 +74,32 @@ public class ProductServiceImpl implements ProductService {
     }
     public Result addProduct(ProductBo prdtBo) {
 
-
         Photo photo=new Photo();
         photo.setPath(prdtBo.getPhotoURL());
-        photoDao.insertPhoto(photo);
-
+        photoDao.insertPhoto(prdtBo.getPhotoURL());
         long pId=photoDao.selectMaxId();
 
-        prdtBo.setProductPhotoId(pId);
-        int i= productDao.insertProduct((Product)prdtBo);
-        return returnRes(i);
+        prdtBo.setProductPhotoId((long)pId);
 
+        Product product=(Product)prdtBo;
+        int i= productDao.insertProduct(product);
+        long pdId= productDao.selectMaxId();
+
+        photo.setId((long)pId);
+        photo.setProductId(pdId);
+        photoDao.updatePhoto(photo);
+        return returnRes(i);
 
     }
     public Result deleteProduct(ProductBo prdtBo) {
 
         photoDao.deletePhoto(prdtBo.getId(),prdtBo.getPhotoURL());
-        int i = productDao.deleteProduct((Product)prdtBo);
+        Product product=(Product)prdtBo;
+        int i = productDao.deleteProduct(product);
         return returnRes(i);
     }
     public Result updateProduct(ProductBo prdtBo) {
+
         Photo photo = new Photo();
         photo.setPath(prdtBo.getPhotoURL());
         photo.setProductId(prdtBo.getId());
@@ -103,7 +110,5 @@ public class ProductServiceImpl implements ProductService {
         int i= productDao.updateProduct(product);
 
         return returnRes(i);
-
-
     }
 }
