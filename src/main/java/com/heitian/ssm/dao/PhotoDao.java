@@ -14,7 +14,7 @@ public interface PhotoDao {
 
     int insertPhoto(@Param("photo") String photo);
     int deletePhoto(@Param("productId") Long productId,@Param("path") String path);
-    int updatePhoto(@Param("photo") Photo photo);
+    int updatePhoto(Photo photo);
     List<Photo> selectPhotosByProduct(Long productId);
     Photo selectPhotoById(Long id);
     Long selectMaxId();
