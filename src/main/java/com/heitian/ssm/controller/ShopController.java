@@ -75,7 +75,7 @@ public class ShopController {
             return result;
         }
         log.info("店铺更新" + shopBo.getName());
-        return shopService.updateShop(shopBo, name);
+        return shopService.updateInfo(shopBo, name);
     }
 
     @RequestMapping(value = "/count")

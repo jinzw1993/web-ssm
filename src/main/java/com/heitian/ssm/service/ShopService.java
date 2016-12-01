@@ -25,4 +25,10 @@ public interface ShopService {
     int getCount();
 
     int getVerifiedCount();
+
+    Result verifyShop(ShopBo shopBo);
+
+    Result rejectShop(ShopBo shopBo);
+
+    Result updateInfo(ShopBo shopBo, String name);
 }
