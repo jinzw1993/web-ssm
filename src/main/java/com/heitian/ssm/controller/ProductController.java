@@ -62,7 +62,7 @@ public class ProductController {
 
     /**
      * 更新商品
-     * @param productBo  不需要createdAt, modifiedAt, id
+     * @param productBo  不需要createdAt, modifiedAt
      * @return
      */
     @ResponseBody

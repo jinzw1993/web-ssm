@@ -18,7 +18,7 @@ public interface ProductDao {
     String searchPhotoURL(Long productPhotoId);
     Product searchProductById(Long id);
 
-    int insertProduct(Product product);
+    int insertProduct(@Param("product") Product product);
     int deleteProduct(@Param("product") Product product);
     int updateProduct(Product product);
 

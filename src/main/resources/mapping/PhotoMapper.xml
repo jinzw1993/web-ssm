@@ -6,7 +6,7 @@
         <result column="product_id" property="productId"/>
     </resultMap>
 
-    <insert id="insertPhoto" useGeneratedKeys="true" keyProperty="id" parameterType="com.heitian.ssm.model.Photo">
+    <insert id="insertPhoto" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO PRODUCT_PHOTO(path)
         VALUES (#{path})
     </insert>

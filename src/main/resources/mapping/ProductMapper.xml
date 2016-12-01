@@ -56,9 +56,9 @@
 
     <insert id="insertProduct" parameterType="com.heitian.ssm.model.Product">
         insert into
-                product(owner_id, shop_id, product_photo_id, name, price, category_id, detail, created_at, modified_at)
+                product(owner_id, shop_id, product_photo_id, name, price, category_id, detail)
         VALUES (#{product.ownId}, #{product.shopId},#{product.productPhotoId}, #{product.name}, #{product.price},
-                #{product.categoryId}, #{product.detail}, #{product.createdAt}, #{product.modifiedAt})
+                #{product.categoryId}, #{product.detail})
     </insert>
 
     <delete id="deleteProduct" parameterType="com.heitian.ssm.model.Product">
@@ -73,6 +73,7 @@
                 category_id=#{product.categoryId},
                 detail=#{product.detail},
                 modified_at=#{product.modifiedAt}
+        WHERE  id=#{product.id}
     </update>
 
 

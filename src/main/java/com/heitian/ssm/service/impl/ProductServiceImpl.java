@@ -74,19 +74,16 @@ public class ProductServiceImpl implements ProductService {
     }
     public Result addProduct(ProductBo prdtBo) {
 
-        Date date=new Date();
-        prdtBo.setCreatedAt(new java.sql.Time(date.getTime()));
-        prdtBo.setModifiedAt(new java.sql.Time(date.getTime()));
-
         Photo photo=new Photo();
         photo.setPath(prdtBo.getPhotoURL());
-        photoDao.insertPhoto(photo);
-        long pId=photoDao.selectMaxId();
+     //   photoDao.insertPhoto(prdtBo.getPhotoURL());
+    //    long pId=photoDao.selectMaxId();
 
-        prdtBo.setProductPhotoId(pId);
-        int i= productDao.insertProduct((Product)prdtBo);
+        prdtBo.setProductPhotoId((long)1);
+
+        Product product=(Product)prdtBo;
+        int i= productDao.insertProduct(product);
         return returnRes(i);
-
 
     }
     public Result deleteProduct(ProductBo prdtBo) {

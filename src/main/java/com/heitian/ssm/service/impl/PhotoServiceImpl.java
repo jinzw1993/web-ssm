@@ -22,7 +22,7 @@ public class PhotoServiceImpl implements PhotoService {
     private Result result = new Result();
 
     public Result insertPhoto(Photo photo) {
-        if(photoDao.insertPhoto(photo) == 0) {
+        if(photoDao.insertPhoto(photo.getPath()) == 0) {
             result.setStatus(0);
             result.setMessage("failed");
         } else {
