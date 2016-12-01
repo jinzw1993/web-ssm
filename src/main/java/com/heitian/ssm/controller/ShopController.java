@@ -99,7 +99,7 @@ public class ShopController {
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     public @ResponseBody
-    Result delete(@RequestBody ShopBo shopBo, @CookieValue(value = "OwnerName",defaultValue = "sdf") String name) {
+    Result delete(@RequestBody ShopBo shopBo, @CookieValue(value = "OwnerName",defaultValue = "swc") String name) {
         if("swc".equals(name)) {
             Result result = new Result();
             result.setStatus(0);
