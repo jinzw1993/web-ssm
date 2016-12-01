@@ -14,9 +14,15 @@ public interface ShopService {
 
     List<ShopBo> getShops(int pageNum, int pageCount);
 
+    List<ShopBo> getShopsByName(String name);
+
+    List<ShopBo> getVerifiedShops(int pageNum, int pageCount);
+
     Result updateShop(ShopBo shop, String name);
 
     Result addShop(ShopBo shop);
 
     int getCount();
+
+    int getVerifiedCount();
 }

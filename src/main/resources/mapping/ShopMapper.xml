@@ -11,6 +11,11 @@
         FROM shop
         WHERE name=#{name}
     </select>
+    <select id="selectShopsByName" parameterType="java.lang.String" resultMap="ShopBaseMap">
+        SELECT id,owner_id,name,contact,email,telephone,status
+        FROM shop
+        WHERE name LIKE "%"#{name}"%"
+    </select>
     <select id="selectShopByOwnerId" resultMap="ShopBaseMap">
         SELECT id,owner_id,name,contact,email,telephone,status
         FROM shop
@@ -19,6 +24,12 @@
     <select id="selectShops" resultMap="ShopBaseMap">
         SELECT id,owner_id,name,contact,email,telephone,status
         FROM shop
+        limit #{start},#{count}
+    </select>
+    <select id="selectVerifiedShops" resultMap="ShopBaseMap">
+        SELECT id,owner_id,name,contact,email,telephone,status
+        FROM shop
+        WHERE status = 3
         limit #{start},#{count}
     </select>
     <insert id="insertShop" useGeneratedKeys="true" keyProperty="id" parameterType="com.heitian.ssm.model.Shop">
@@ -43,5 +54,9 @@
     </select>
     <select id="selectCount" resultType="java.lang.Integer">
         SELECT count(*) FROM shop
+    </select>
+    <select id="selectVerifiedCount" resultType="java.lang.Integer">
+        SELECT count(*) FROM shop
+        WHERE status = 3
     </select>
 </mapper>

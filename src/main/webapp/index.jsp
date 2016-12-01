@@ -10,18 +10,18 @@
 <script type="text/javascript">
     $.ajax(
             {
-                url: "product/add",
+                url: "shop/verifiedCount",
                 type:"POST",
-                contentType:"application/json",
+//                contentType:"application/json",
                 dataType:"json",
-                data: JSON.stringify({ ownId:2,
-                    shopId:2,
-                    price:10,
-                    categoryId:3,
-                    detail:'hello',
-                    name:"Maxwell",
-                    photoURL:"C:\\Users\\unname\\Pictures\\Encyclopedia\\aclogo3.jpg"}),
-//                data:{page:1,count:2},
+//                data: {name:"Maxwell"},
+//                data: JSON.stringify({ ownerId:5,
+//                    name: "Maxwell5",
+//                    contact:'hello',
+//                    email:"adsfadskj",
+//                    telephone:"2312412",
+//                    idPhotoUrl:"C:\\Users\\unname\\Pictures\\Encyclopedia\\aclogo3.jpg"}),
+                //data:{page:1,count:2},
                 success: function(){
                 alert("success");
             }}
