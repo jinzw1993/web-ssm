@@ -78,28 +78,14 @@ public class ProductServiceImpl implements ProductService {
         photo.setPath(prdtBo.getPhotoURL());
         photoDao.insertPhoto(prdtBo.getPhotoURL());
         long pId=photoDao.selectMaxId();
-<<<<<<< HEAD
         prdtBo.setProductPhotoId((long)pId);
         Product product=(Product)prdtBo;
         int i= productDao.insertProduct(product);
         long pdId= productDao.selectMaxId();
-=======
-
-        prdtBo.setProductPhotoId((long)pId);
-
-        Product product=(Product)prdtBo;
-        int i= productDao.insertProduct(product);
-        long pdId= productDao.selectMaxId();
-
->>>>>>> origin/master
         photo.setId((long)pId);
         photo.setProductId(pdId);
         photoDao.updatePhoto(photo);
         return returnRes(i);
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/master
     }
     public Result deleteProduct(ProductBo prdtBo) {
 
@@ -120,7 +106,6 @@ public class ProductServiceImpl implements ProductService {
         int i= productDao.updateProduct(product);
 
         return returnRes(i);
-<<<<<<< HEAD
     }
 
     public List<ProductBo> searchProductBosByOwner(long ownerId,int page, int pageNum) {
@@ -138,7 +123,5 @@ public class ProductServiceImpl implements ProductService {
     }
     public int getOwnerProductCount(Long ownerId) {
         return productDao.getOwnerProductCount(ownerId);
-=======
->>>>>>> origin/master
     }
 }

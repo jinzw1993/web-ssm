@@ -97,6 +97,20 @@ public class ShopController {
         return result;
     }
 
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    public @ResponseBody
+    Result delete(@RequestBody ShopBo shopBo, @CookieValue(value = "OwnerName",defaultValue = "sdf") String name) {
+        if("swc".equals(name)) {
+            Result result = new Result();
+            result.setStatus(0);
+            result.setMessage("you haven't log in");
+            return result;
+        }
+        log.info("店铺删除" + shopBo.getName());
+        shopBo.setStatus((long)2);
+        return shopService.updateShop(shopBo, name);
+    }
+
     @RequestMapping(value = "/verify")
     public @ResponseBody
     Result verify(@RequestBody ShopBo shopBo) {

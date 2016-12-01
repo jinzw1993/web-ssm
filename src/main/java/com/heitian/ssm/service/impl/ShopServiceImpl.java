@@ -95,7 +95,7 @@ public class ShopServiceImpl implements ShopService {
 
     public Result updateInfo(ShopBo shopBo, String name) {
         shopBo.setStatus((long)0);
-        return updateShop(shopBo, name);
+        return updateShop(shopBo,name);
     }
 
     public Result verifyShop(ShopBo shopBo) {
