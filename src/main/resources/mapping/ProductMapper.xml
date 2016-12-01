@@ -52,7 +52,10 @@
         WHERE id=#{id}
     </select>
 
-
+    <select id="selectMaxId" >
+        SELECT MAX(id)
+        FROM product
+    </select>
 
     <insert id="insertProduct" parameterType="com.heitian.ssm.model.Product">
         insert into
@@ -66,14 +69,12 @@
     </delete>
 
     <update id="updateProduct" parameterType="com.heitian.ssm.model.Product">
-        UPDATE product set
-                product_photo_id=#{product.productPhotoId},
-                name= #{product.name},
-                price=#{product.price},
-                category_id=#{product.categoryId},
-                detail=#{product.detail},
-                modified_at=#{product.modifiedAt}
-        WHERE  id=#{product.id}
+        UPDATE product SET
+          name=#{product.name},
+          price=#{product.price},
+          category_id=#{product.categoryId},
+          detail=#{product.detail}
+        WHERE id=#{product.id}
     </update>
 
 

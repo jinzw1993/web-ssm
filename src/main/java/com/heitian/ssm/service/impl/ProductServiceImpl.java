@@ -28,6 +28,7 @@ import java.util.List;
 public class ProductServiceImpl implements ProductService {
     @Resource
     private ProductDao productDao;
+    @Resource
     private PhotoDao photoDao;
 
     public List<ProductBo> searchProductBos(ProductCondition productCondition)
@@ -76,13 +77,23 @@ public class ProductServiceImpl implements ProductService {
 
         Photo photo=new Photo();
         photo.setPath(prdtBo.getPhotoURL());
-     //   photoDao.insertPhoto(prdtBo.getPhotoURL());
-    //    long pId=photoDao.selectMaxId();
+        //插
+        photoDao.insertPhoto(prdtBo.getPhotoURL());
+        //抽
+        long pId=photoDao.selectMaxId();
 
-        prdtBo.setProductPhotoId((long)1);
+        prdtBo.setProductPhotoId((long)pId);
 
         Product product=(Product)prdtBo;
+        //插
         int i= productDao.insertProduct(product);
+        //抽
+        long pdId= productDao.selectMaxId();
+
+        photo.setId((long)pId);
+        photo.setProductId(pdId);
+        //插
+        photoDao.updatePhoto(photo);
         return returnRes(i);
 
     }
@@ -96,15 +107,12 @@ public class ProductServiceImpl implements ProductService {
     }
     public Result updateProduct(ProductBo prdtBo) {
 
-        Date date=new Date();
-
-        prdtBo.setModifiedAt(new java.sql.Time(date.getTime()));
-
         Photo photo = new Photo();
         photo.setPath(prdtBo.getPhotoURL());
         photo.setProductId(prdtBo.getId());
         photo.setId(prdtBo.getProductPhotoId());
         photoDao.updatePhoto(photo);
+
         Product product = (Product)prdtBo;
 
         int i= productDao.updateProduct(product);

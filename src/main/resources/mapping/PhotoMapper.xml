@@ -6,9 +6,9 @@
         <result column="product_id" property="productId"/>
     </resultMap>
 
-    <insert id="insertPhoto" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertPhoto"  parameterType="java.lang.String">
         INSERT INTO product_photo(path)
-        VALUES (#{path})
+        VALUES (#{photo})
     </insert>
 
     <update id="updatePhoto" parameterType="com.heitian.ssm.model.Photo">
@@ -28,7 +28,8 @@
         SELECT id,product_id,path
         FROM product_photo WHERE product_id=#{productId}
     </select>
-    <select id="selectMaxId">
+
+    <select id="selectMaxId" resultType="java.lang.Long">
         SELECT MAX(id)
         FROM product_photo
     </select>
