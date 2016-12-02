@@ -37,18 +37,18 @@ public class ShopController {
         return shopService.getShopsByName(name);
     }
 
-    @RequestMapping(value="/searchVerified")
+    @RequestMapping(value="/searchByStatus")
     public @ResponseBody
-    List<ShopBo> getVerifiedShops(@RequestParam int page, @RequestParam int count) {
-        log.info("查询待审核列表");
-        return shopService.getVerifiedShops(page, count);
+    List<ShopBo> getShopsByStatus(@RequestParam int page, @RequestParam int count, @RequestParam long status) {
+        log.info("根据status查询列表");
+        return shopService.getShops(page, count, status);
     }
 
     @RequestMapping(value= "/searchAll")
     public @ResponseBody
     List<ShopBo> getShops(@RequestParam int page, @RequestParam int count) {
         log.info("查询店铺列表");
-        return shopService.getShops(page, count);
+        return shopService.getShops(page, count ,(long)0);
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
@@ -76,16 +76,16 @@ public class ShopController {
         log.info("查询店铺数量");
         Result result = new Result();
         result.setStatus(1);
-        result.setMessage(String.valueOf(shopService.getCount()));
+        result.setMessage(String.valueOf(shopService.getCount((long)0)));
         return result;
     }
-    @RequestMapping(value = "/verifiedCount")
+    @RequestMapping(value = "/countByStatus")
     public @ResponseBody
-    Result getVerifiedCount() {
+    Result getCountByStatus(@RequestParam Long status) {
         log.info("查询店铺数量");
         Result result = new Result();
         result.setStatus(1);
-        result.setMessage(String.valueOf(shopService.getVerifiedCount()));
+        result.setMessage(String.valueOf(shopService.getCount(status)));
         return result;
     }
 

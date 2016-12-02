@@ -21,16 +21,10 @@
         FROM shop
         WHERE owner_id=#{id}
     </select>
-    <select id="selectShops" resultMap="ShopBaseMap">
+    <select id="selectShops" resultMap="ShopBaseMap" parameterType="map">
         SELECT id,owner_id,name,contact,email,telephone,status
         FROM shop
-        WHERE status = 0
-        limit #{start},#{count}
-    </select>
-    <select id="selectVerifiedShops" resultMap="ShopBaseMap">
-        SELECT id,owner_id,name,contact,email,telephone,status
-        FROM shop
-        WHERE status = 3
+        WHERE status = #{status}
         limit #{start},#{count}
     </select>
     <insert id="insertShop" useGeneratedKeys="true" keyProperty="id" parameterType="com.heitian.ssm.model.Shop">
@@ -54,12 +48,8 @@
         SELECT path FROM owner_photo
         WHERE owner_id = #{id}
     </select>
-    <select id="selectCount" resultType="java.lang.Integer">
+    <select id="selectCount" resultType="java.lang.Integer" parameterType="java.lang.Long">
         SELECT count(*) FROM shop
-        WHERE status = 0
-    </select>
-    <select id="selectVerifiedCount" resultType="java.lang.Integer">
-        SELECT count(*) FROM shop
-        WHERE status = 3
+        WHERE status = #{status}
     </select>
 </mapper>

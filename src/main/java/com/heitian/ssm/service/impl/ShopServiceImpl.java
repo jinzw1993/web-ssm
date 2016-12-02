@@ -51,13 +51,8 @@ public class ShopServiceImpl implements ShopService {
         return getPhotos(shops);
     }
 
-    public List<ShopBo> getShops(int pageNum, int pageCount) {
-        List<Shop> shops = shopDao.selectShops((pageNum - 1)*pageCount, pageCount);
-        return getPhotos(shops);
-    }
-
-    public List<ShopBo> getVerifiedShops(int pageNum, int pageCount) {
-        List<Shop> shops = shopDao.selectVerifiedShops((pageNum -1) * pageCount, pageCount);
+    public List<ShopBo> getShops(int pageNum, int pageCount, Long status) {
+        List<Shop> shops = shopDao.selectShops((pageNum - 1)*pageCount, pageCount, status);
         return getPhotos(shops);
     }
 
@@ -104,11 +99,7 @@ public class ShopServiceImpl implements ShopService {
         return result;
     }
 
-    public int getCount() {
-        return shopDao.selectCount();
-    }
-
-    public int getVerifiedCount() {
-        return shopDao.selectVerifiedCount();
+    public int getCount(Long status) {
+        return shopDao.selectCount(status);
     }
 }
