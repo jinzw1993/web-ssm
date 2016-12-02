@@ -7,6 +7,7 @@ import com.heitian.ssm.service.OwnerService;
 import com.heitian.ssm.util.SendEmail;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.DigestUtils;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -115,19 +116,26 @@ public class OwnerServiceImpl implements OwnerService {
         StringBuffer sb=new StringBuffer("点击下面链接激活账号，48小时生效，否则重新注册账号，链接只能使用一次，请尽快激活！</br>");
         sb.append("<a href=\"http://localhost:8080/owner/activate?email=");
         sb.append(email);
-
+        sb.append("&validateCode=");
+        sb.append(DigestUtils.md5DigestAsHex(email.getBytes()));
         sb.append("\">http://localhost:8080/owner/activate?&email=");
         sb.append(email);
-
+        sb.append("&validateCode=");
+        sb.append(DigestUtils.md5DigestAsHex(email.getBytes()).substring(0,12));
         sb.append("</a>");
     //发送邮件
         SendEmail.send(email,sb.toString());
     }
 
-    public Result processActivate(String email) {
+    public Result processActivate(String email, String validateCode) {
         Owner owner=ownerDao.selectOwnerByEmail(email);
         Result result=new Result();
         result.setStatus(0);
+        if(!validateCode.equals(DigestUtils.md5DigestAsHex(email.getBytes()))) {
+            result.setStatus(0);
+            result.setMessage("activate failed");
+            return result;
+        }
         if(owner!=null) {
             //验证用户激活状态
             if (owner.getIsEmailVerified() == 0) {

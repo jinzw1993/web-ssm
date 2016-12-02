@@ -56,7 +56,7 @@
     </insert>
 
     <update id="updateOwner" parameterType="com.heitian.ssm.model.Owner">
-        UPDATE owner set  name=#{ownername}, password=#{owner.password}, status=#{owner.status}, is_email_verified=#{owner.isEmailVerified}
+        UPDATE owner set password=#{owner.password}, status=#{owner.status}, is_email_verified=#{owner.isEmailVerified}
         WHERE email=#{owner.email}
     </update>
 

@@ -43,8 +43,8 @@ public class OwnerController {
      */
     @ResponseBody
     @RequestMapping(value="/activate",method = RequestMethod.GET)
-    public Result ownerActivate( @RequestParam String email) {
-        return ownerService.processActivate(email);
+    public Result ownerActivate( @RequestParam String email, @RequestParam String validateCode) {
+        return ownerService.processActivate(email, validateCode);
     }
 
     /**
