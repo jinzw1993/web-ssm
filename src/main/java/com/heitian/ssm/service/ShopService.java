@@ -18,7 +18,7 @@ public interface ShopService {
 
     List<ShopBo> getVerifiedShops(int pageNum, int pageCount);
 
-    Result updateShop(ShopBo shop, String name);
+    Result updateStatus(Long id, Long status);
 
     Result addShop(ShopBo shop);
 
@@ -26,9 +26,5 @@ public interface ShopService {
 
     int getVerifiedCount();
 
-    Result verifyShop(ShopBo shopBo);
-
-    Result rejectShop(ShopBo shopBo);
-
-    Result updateInfo(ShopBo shopBo, String name);
+    Result updateInfo(ShopBo shopBo);
 }

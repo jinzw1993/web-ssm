@@ -21,9 +21,9 @@ public interface ShopDao {
 
     List<Shop> selectVerifiedShops(@Param("start") int start,@Param("count") int count);
 
-    int deleteShopByName(String name);
-
     int updateShop(Shop shop);
+
+    int updateStatus(@Param("id") Long id, @Param("status") Long status);
 
     int insertShop(Shop shop);
 

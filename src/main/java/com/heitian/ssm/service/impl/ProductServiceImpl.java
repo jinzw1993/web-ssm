@@ -39,15 +39,7 @@ public class ProductServiceImpl implements ProductService {
         else
             products = productDao.searchWithKeyword(productCondition);
 
-        if(products!=null) {
-            for (int i = 0; i < products.size(); i++) {
-                String path = productDao.searchPhotoURL(products.get(i).getProductPhotoId());
-                ProductBo productBo = new ProductBo(products.get(i));
-                productBo.setPhotoURL(path);
-                productBos.add(productBo);
-            }
-        }
-        return productBos;
+        return addPhotos(productBos, products);
     }
 
     public ProductBo searchProductBo(Long id) {
@@ -61,17 +53,7 @@ public class ProductServiceImpl implements ProductService {
         }
         return productBo;
     }
-    private Result returnRes(int i) {
-        Result result = new Result();
-        if(i!=0) {
-            result.setStatus(1);
-            result.setMessage("success");
-        } else {
-            result.setMessage("failed");
-            result.setStatus(0);
-        }
-        return result;
-    }
+
     public Result addProduct(ProductBo prdtBo) {
 
         Photo photo=new Photo();
@@ -111,6 +93,13 @@ public class ProductServiceImpl implements ProductService {
     public List<ProductBo> searchProductBosByOwner(long ownerId,int page, int pageNum) {
         List<ProductBo> productBos=new ArrayList<>();
         List<Product> products= productDao.searByOwner(ownerId,(page-1)*pageNum,pageNum);
+        return addPhotos(productBos, products);
+    }
+    public int getOwnerProductCount(Long ownerId) {
+        return productDao.getOwnerProductCount(ownerId);
+    }
+
+    private List<ProductBo> addPhotos(List<ProductBo> productBos, List<Product> products) {
         if(products!=null) {
             for (int i = 0; i < products.size(); i++) {
                 String path = productDao.searchPhotoURL(products.get(i).getProductPhotoId());
@@ -121,7 +110,16 @@ public class ProductServiceImpl implements ProductService {
         }
         return productBos;
     }
-    public int getOwnerProductCount(Long ownerId) {
-        return productDao.getOwnerProductCount(ownerId);
+
+    private Result returnRes(int i) {
+        Result result = new Result();
+        if(i!=0) {
+            result.setStatus(1);
+            result.setMessage("success");
+        } else {
+            result.setMessage("failed");
+            result.setStatus(0);
+        }
+        return result;
     }
 }

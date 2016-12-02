@@ -2,10 +2,8 @@ package com.heitian.ssm.service.impl;
 
 import com.heitian.ssm.bo.Result;
 import com.heitian.ssm.bo.ShopBo;
-import com.heitian.ssm.dao.OwnerDao;
 import com.heitian.ssm.dao.OwnerPhotoDao;
 import com.heitian.ssm.dao.ShopDao;
-import com.heitian.ssm.model.Owner;
 import com.heitian.ssm.model.OwnerPhoto;
 import com.heitian.ssm.model.Shop;
 import com.heitian.ssm.service.ShopService;
@@ -24,8 +22,6 @@ import java.util.List;
 public class ShopServiceImpl implements ShopService {
     @Autowired
     private ShopDao shopDao;
-    @Autowired
-    private OwnerDao ownerDao;
     @Autowired
     private OwnerPhotoDao photoDao;
 
@@ -82,30 +78,19 @@ public class ShopServiceImpl implements ShopService {
         return judge(shopDao.insertShop(shopBo) != 0);
     }
 
-    public Result updateShop(ShopBo shopBo, String name) {
-        Owner owner = ownerDao.selectOwnerByName(name);
-        if (owner == null || owner.getId() != shopBo.getOwnerId()){
+    public Result updateInfo(ShopBo shopBo) {
+        Shop tmp = shopDao.selectShopByName(shopBo.getName());
+        if(tmp != null && tmp.getOwnerId() != shopBo.getOwnerId()) {
             result.setStatus(0);
-            result.setMessage("failed, you don't have right");
+            result.setMessage("failed, the shop name has been used");
             return result;
         }
         photoDao.updatePhoto(new OwnerPhoto(shopBo.getIdPhotoUrl(), shopBo.getOwnerId()));
         return judge(shopDao.updateShop(shopBo) > 0);
     }
 
-    public Result updateInfo(ShopBo shopBo, String name) {
-        shopBo.setStatus((long)0);
-        return updateShop(shopBo,name);
-    }
-
-    public Result verifyShop(ShopBo shopBo) {
-        shopBo.setStatus((long)0);
-        return judge(shopDao.updateShop(shopBo) > 0);
-    }
-
-    public Result rejectShop(ShopBo shopBo) {
-        shopBo.setStatus((long)1);
-        return judge(shopDao.updateShop(shopBo) > 0);
+    public Result updateStatus(Long id, Long status) {
+        return judge(shopDao.updateStatus(id, status) > 0);
     }
 
     public Result judge(boolean var) {

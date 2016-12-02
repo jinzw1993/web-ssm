@@ -53,29 +53,21 @@ public class ShopController {
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public @ResponseBody
-    Result addNewShop(@RequestBody ShopBo shopBo, @CookieValue(value = "OwnerName",defaultValue = "swc") String name) {
+    Result addNewShop(@RequestBody ShopBo shopBo, @CookieValue(value = "OwnerEmail",defaultValue = "swc") String name) {
         log.info("新店注册");
-        if(!"swc".equals(name))
-            return shopService.addShop(shopBo);
-        else{
-            Result result = new Result();
-            result.setStatus(0);
-            result.setMessage("you haven't log in");
-            return result;
-        }
+        if("swc".equals(name))
+            return returnResult();
+        return shopService.addShop(shopBo);
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public @ResponseBody
-    Result update(@RequestBody ShopBo shopBo, @CookieValue(value = "OwnerName",defaultValue = "swc") String name) {
+    Result update(@RequestBody ShopBo shopBo, @CookieValue(value = "OwnerEmail",defaultValue = "swc") String name) {
+        log.info("店铺更新" + name);
         if("swc".equals(name)) {
-            Result result = new Result();
-            result.setStatus(0);
-            result.setMessage("you haven't log in");
-            return result;
+            return returnResult();
         }
-        log.info("店铺更新" + shopBo.getName());
-        return shopService.updateInfo(shopBo, name);
+        return shopService.updateInfo(shopBo);
     }
 
     @RequestMapping(value = "/count")
@@ -99,29 +91,25 @@ public class ShopController {
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     public @ResponseBody
-    Result delete(@RequestBody ShopBo shopBo, @CookieValue(value = "OwnerName",defaultValue = "swc") String name) {
+    Result delete(@RequestParam Long id, @CookieValue(value = "OwnerEmail",defaultValue = "swc") String name) {
         if("swc".equals(name)) {
-            Result result = new Result();
-            result.setStatus(0);
-            result.setMessage("you haven't log in");
-            return result;
+            return returnResult();
         }
-        log.info("店铺删除" + shopBo.getName());
-        shopBo.setStatus((long)2);
-        return shopService.updateShop(shopBo, name);
+        log.info("店铺删除");
+        return shopService.updateStatus(id, (long)2);
     }
 
-    @RequestMapping(value = "/verify")
+    @RequestMapping(value = "/changeStatus")
     public @ResponseBody
-    Result verify(@RequestBody ShopBo shopBo) {
-        log.info("店铺审核通过" + shopBo.getName());
-        return shopService.verifyShop(shopBo);
+    Result changeStatus(@RequestParam Long id, @RequestParam Long status) {
+        log.info("店铺状态更改");
+        return shopService.updateStatus(id, status);
     }
 
-    @RequestMapping(value = "/reject")
-    public @ResponseBody
-    Result reject(@RequestBody ShopBo shopBo) {
-        log.info("店铺审核未通过" + shopBo.getName());
-        return shopService.rejectShop(shopBo);
+    public Result returnResult() {
+        Result result = new Result();
+        result.setStatus(0);
+        result.setMessage("you haven't log in");
+        return result;
     }
 }
