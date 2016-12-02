@@ -26,7 +26,7 @@ public class OwnerController {
 
     /**
      * 注册
-     * @param owner 需要name, password, email
+     * @param owner Owner对象，需要name, password, email
      * @return result.status=0失败，1成功
      */
     @ResponseBody
@@ -43,13 +43,13 @@ public class OwnerController {
      */
     @ResponseBody
     @RequestMapping(value="/activate",method = RequestMethod.GET)
-    public Result ownerActivate( @RequestParam String email) {
-        return ownerService.processActivate(email);
+    public Result ownerActivate( @RequestParam String email, @RequestParam String validateCode) {
+        return ownerService.processActivate(email, validateCode);
     }
 
     /**
      * 登录
-     * @param owner  需要email, password
+     * @param owner  Owner对象，需要email, password
      * @param response
      * @return result.status=0失败，1成功
      */
@@ -61,12 +61,21 @@ public class OwnerController {
         Result result = ownerService.ownerLogin(owner);
 
         if (result.getStatus() == 1 && response != null) {
-            Cookie nameCookie = new Cookie("OwnerName", owner.getName());
+            Cookie emailCookie = new Cookie("OwnerEmail", owner.getEmail());
             Cookie pwdCookie = new Cookie("OwnerPassword", owner.getPassword());
-            nameCookie.setMaxAge(60 * 60 * 24 * 3);
+            Cookie idCookie = new Cookie("OwnerId", owner.getId().toString());
+            emailCookie.setMaxAge(60 * 60 * 24 * 3);
             pwdCookie.setMaxAge(60 * 60 * 24 * 3);
-            response.addCookie(nameCookie);
+            idCookie.setMaxAge(60 * 60 * 24 * 3);
+            response.addCookie(emailCookie);
             response.addCookie(pwdCookie);
+            response.addCookie(idCookie);
+            if(!"success".equals(result.getMessage())) {
+                Cookie shopIdCookie = new Cookie("ShopId", result.getMessage());
+                shopIdCookie.setMaxAge(60 * 60 * 24 * 3);
+                response.addCookie(shopIdCookie);
+            }
+            result.setMessage("success");
         }
         return result;
     }
@@ -74,7 +83,7 @@ public class OwnerController {
     /**
      * 根据Owner.email更新Owner密码或Status
      *
-     * @param owner 对象需要 email, password, status, isEmailVerified
+     * @param owner Owner对象，需要 email, password, status, isEmailVerified
      * @return result.status=0失败，1成功
      */
     @ResponseBody
@@ -86,8 +95,8 @@ public class OwnerController {
 
     /**
      *根据name查找Owner
-     * @param name Owner name
-     * @return result.status=0失败，1成功
+     * @param name Owner的name
+     * @return Owner对象
      */
     @ResponseBody
     @RequestMapping("/getByName")
@@ -99,7 +108,7 @@ public class OwnerController {
 
     /**
      *根据id查找Owner
-     * @param id Owner id
+     * @param id Owner的id
      * @return Owner对象
      */
     @ResponseBody
