@@ -1,54 +1,68 @@
 package com.heitian.ssm.model;
-
-import java.io.Serializable;
-
 /**
- * Created by Lanting on 2016/11/25.
+ * 
+ * @author Zrt666
+ *
  */
-public class Customer implements Serializable{
-    private String id;
-    private String name;
-    private Long telephone;
-    private String status;
-    private String password;
 
-    public String getId() {
-        return id;
-    }
+public class Customer{
 
-    public void setId(String id) {
-        this.id = id;
-    }
+	private long id;
+	private String name;
+	private String telephone;
+	private int status;//用户状�?�：0:正常�?1：黑名单�?2：删�?
+	private String password;
+	private String email;
+	private boolean is_email_verified;
+	public long getId() {
+		return id;
+	}
+	public void setId(long id) {
+		this.id = id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getTelephone() {
+		return telephone;
+	}
+	public void setTelephone(String telphone) {
+		this.telephone = telphone;
+	}
+	public int getStatus() {
+		return status;
+	}
+	public void setStatus(int status) {
+		this.status = status;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public boolean isIs_email_verified() {
+		return is_email_verified;
+	}
+	public void setIs_email_verified(boolean is_email_verified) {
+		this.is_email_verified = is_email_verified;
+	}
+	@Override
+	public String toString() {
+		return "Customer [id=" + id + ", name=" + name + ", telephone="
+				+ telephone + ", status=" + status + ", password=" + password
+				+ ", email=" + email + ", is_email_verified="
+				+ is_email_verified + "]";
+	}
 
-    public String getName() {
-        return name;
-    }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Long getTelephone() {
-        return telephone;
-    }
-
-    public void setTelephone(Long telephone) {
-        this.telephone = telephone;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }
