@@ -33,6 +33,12 @@
         WHERE status = 3
         limit #{start},#{count}
     </select>
+    <select id="selectVerifiedShops" resultMap="ShopBaseMap">
+        SELECT id,owner_id,name,contact,email,telephone,status
+        FROM shop
+        WHERE status = 3
+        limit #{start},#{count}
+    </select>
     <insert id="insertShop" useGeneratedKeys="true" keyProperty="id" parameterType="com.heitian.ssm.model.Shop">
         INSERT INTO shop(owner_id,name,contact,email,telephone,status)
         VALUES(#{ownerId},#{name},#{contact},#{email},#{telephone},#{status})
@@ -57,6 +63,10 @@
     <select id="selectCount" resultType="java.lang.Integer">
         SELECT count(*) FROM shop
         WHERE status = 0
+    </select>
+    <select id="selectVerifiedCount" resultType="java.lang.Integer">
+        SELECT count(*) FROM shop
+        WHERE status = 3
     </select>
     <select id="selectVerifiedCount" resultType="java.lang.Integer">
         SELECT count(*) FROM shop

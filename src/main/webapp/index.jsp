@@ -24,7 +24,6 @@
                     <%--telephone:"2312412",--%>
                     <%--idPhotoUrl:"C:\\Users\\unname\\Pictures\\Encyclopedia\\aclogo3.jpg"}),--%>
 <%--//                data:{page:1,count:2},--%>
-
                 <%--success: function(){--%>
                 <%--alert("success");--%>
             <%--}}--%>
