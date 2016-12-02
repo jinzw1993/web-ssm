@@ -70,7 +70,14 @@ public class ShopServiceImpl implements ShopService {
         }
         photoDao.insertPhoto(new OwnerPhoto(shopBo.getIdPhotoUrl(), shopBo.getOwnerId()));
         shopBo.setStatus((long)3);
-        return judge(shopDao.insertShop(shopBo) != 0);
+        if(shopDao.insertShop(shopBo) != 0) {
+            result.setStatus(1);
+            result.setMessage(shopDao.selectShopByName(shopBo.getName()).getId().toString());
+        } else {
+            result.setStatus(0);
+            result.setMessage("insert failed");
+        }
+        return result;
     }
 
     public Result updateInfo(ShopBo shopBo) {

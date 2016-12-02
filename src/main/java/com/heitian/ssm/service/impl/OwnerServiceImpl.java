@@ -2,7 +2,9 @@ package com.heitian.ssm.service.impl;
 
 import com.heitian.ssm.bo.Result;
 import com.heitian.ssm.dao.OwnerDao;
+import com.heitian.ssm.dao.ShopDao;
 import com.heitian.ssm.model.Owner;
+import com.heitian.ssm.model.Shop;
 import com.heitian.ssm.service.OwnerService;
 import com.heitian.ssm.util.SendEmail;
 import org.springframework.stereotype.Service;
@@ -22,7 +24,8 @@ import java.util.Date;
 public class OwnerServiceImpl implements OwnerService {
     @Resource
     private OwnerDao ownerDao;
-
+    @Resource
+    private ShopDao shopDao;
     /**
      * Owner登录
      *
@@ -46,7 +49,12 @@ public class OwnerServiceImpl implements OwnerService {
                     int ev=own.getIsEmailVerified();
                     if (status==0&&ev==1) {
                         result.setStatus(1);
-                        result.setMessage("success");
+                        owner.setId(own.getId());
+                        Shop shop = shopDao.selectShopByOwnerId(own.getId());
+                        if(shop != null)
+                            result.setMessage(shop.getId().toString());
+                        else
+                            result.setMessage("success");
                     }
                     else if(status!=0){//账户处于黑名单、已删除或未审核
                         result.setMessage("account is in blacklist or deleted");

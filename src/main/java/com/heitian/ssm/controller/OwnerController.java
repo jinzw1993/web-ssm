@@ -63,10 +63,19 @@ public class OwnerController {
         if (result.getStatus() == 1 && response != null) {
             Cookie emailCookie = new Cookie("OwnerEmail", owner.getEmail());
             Cookie pwdCookie = new Cookie("OwnerPassword", owner.getPassword());
+            Cookie idCookie = new Cookie("OwnerId", owner.getId().toString());
             emailCookie.setMaxAge(60 * 60 * 24 * 3);
             pwdCookie.setMaxAge(60 * 60 * 24 * 3);
+            idCookie.setMaxAge(60 * 60 * 24 * 3);
             response.addCookie(emailCookie);
             response.addCookie(pwdCookie);
+            response.addCookie(idCookie);
+            if(!"success".equals(result.getMessage())) {
+                Cookie shopIdCookie = new Cookie("ShopId", result.getMessage());
+                shopIdCookie.setMaxAge(60 * 60 * 24 * 3);
+                response.addCookie(shopIdCookie);
+            }
+            result.setMessage("success");
         }
         return result;
     }
