@@ -61,11 +61,11 @@ public class OwnerController {
         Result result = ownerService.ownerLogin(owner);
 
         if (result.getStatus() == 1 && response != null) {
-            Cookie nameCookie = new Cookie("OwnerName", owner.getName());
+            Cookie emailCookie = new Cookie("OwnerEmail", owner.getEmail());
             Cookie pwdCookie = new Cookie("OwnerPassword", owner.getPassword());
-            nameCookie.setMaxAge(60 * 60 * 24 * 3);
+            emailCookie.setMaxAge(60 * 60 * 24 * 3);
             pwdCookie.setMaxAge(60 * 60 * 24 * 3);
-            response.addCookie(nameCookie);
+            response.addCookie(emailCookie);
             response.addCookie(pwdCookie);
         }
         return result;

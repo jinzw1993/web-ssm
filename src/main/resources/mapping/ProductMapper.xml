@@ -86,8 +86,5 @@
           detail=#{product.detail}
         WHERE id=#{product.id}
     </update>
-
-
-
 </mapper>
 

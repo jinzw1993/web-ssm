@@ -17,7 +17,6 @@ import javax.annotation.Resource;
 
 import java.util.ArrayList;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -40,15 +39,7 @@ public class ProductServiceImpl implements ProductService {
         else
             products = productDao.searchWithKeyword(productCondition);
 
-        if(products!=null) {
-            for (int i = 0; i < products.size(); i++) {
-                String path = productDao.searchPhotoURL(products.get(i).getProductPhotoId());
-                ProductBo productBo = new ProductBo(products.get(i));
-                productBo.setPhotoURL(path);
-                productBos.add(productBo);
-            }
-        }
-        return productBos;
+        return addPhotos(productBos, products);
     }
 
     public ProductBo searchProductBo(Long id) {
@@ -62,17 +53,7 @@ public class ProductServiceImpl implements ProductService {
         }
         return productBo;
     }
-    private Result returnRes(int i) {
-        Result result = new Result();
-        if(i!=0) {
-            result.setStatus(1);
-            result.setMessage("success");
-        } else {
-            result.setMessage("failed");
-            result.setStatus(0);
-        }
-        return result;
-    }
+
     public Result addProduct(ProductBo prdtBo) {
 
         Photo photo=new Photo();
@@ -91,7 +72,6 @@ public class ProductServiceImpl implements ProductService {
     public Result deleteProduct(ProductBo prdtBo) {
 
         photoDao.deletePhoto(prdtBo.getId(),prdtBo.getPhotoURL());
-
         Product product=(Product)prdtBo;
         int i = productDao.deleteProduct(product);
         return returnRes(i);
@@ -103,18 +83,23 @@ public class ProductServiceImpl implements ProductService {
         photo.setProductId(prdtBo.getId());
         photo.setId(prdtBo.getProductPhotoId());
         photoDao.updatePhoto(photo);
-
         Product product = (Product)prdtBo;
 
         int i= productDao.updateProduct(product);
 
         return returnRes(i);
-
     }
 
     public List<ProductBo> searchProductBosByOwner(long ownerId,int page, int pageNum) {
         List<ProductBo> productBos=new ArrayList<>();
         List<Product> products= productDao.searByOwner(ownerId,(page-1)*pageNum,pageNum);
+        return addPhotos(productBos, products);
+    }
+    public int getOwnerProductCount(Long ownerId) {
+        return productDao.getOwnerProductCount(ownerId);
+    }
+
+    private List<ProductBo> addPhotos(List<ProductBo> productBos, List<Product> products) {
         if(products!=null) {
             for (int i = 0; i < products.size(); i++) {
                 String path = productDao.searchPhotoURL(products.get(i).getProductPhotoId());
@@ -125,7 +110,16 @@ public class ProductServiceImpl implements ProductService {
         }
         return productBos;
     }
-    public int getOwnerProductCount(Long ownerId) {
-        return productDao.getOwnerProductCount(ownerId);
+
+    private Result returnRes(int i) {
+        Result result = new Result();
+        if(i!=0) {
+            result.setStatus(1);
+            result.setMessage("success");
+        } else {
+            result.setMessage("failed");
+            result.setStatus(0);
+        }
+        return result;
     }
 }

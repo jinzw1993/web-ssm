@@ -11,14 +11,20 @@
         FROM shop
         WHERE name=#{name}
     </select>
+    <select id="selectShopsByName" parameterType="java.lang.String" resultMap="ShopBaseMap">
+        SELECT id,owner_id,name,contact,email,telephone,status
+        FROM shop
+        WHERE name LIKE "%"#{name}"%" AND status = 0
+    </select>
     <select id="selectShopByOwnerId" resultMap="ShopBaseMap">
         SELECT id,owner_id,name,contact,email,telephone,status
         FROM shop
         WHERE owner_id=#{id}
     </select>
-    <select id="selectShops" resultMap="ShopBaseMap">
+    <select id="selectShops" resultMap="ShopBaseMap" parameterType="map">
         SELECT id,owner_id,name,contact,email,telephone,status
         FROM shop
+        WHERE status = #{status}
         limit #{start},#{count}
     </select>
     <insert id="insertShop" useGeneratedKeys="true" keyProperty="id" parameterType="com.heitian.ssm.model.Shop">
@@ -27,21 +33,23 @@
     </insert>
     <update id="updateShop" parameterType="com.heitian.ssm.model.Shop">
         UPDATE shop SET
+        name = #{name},
         contact=#{contact},
         email=#{email},
-        telephone=#{telephone},
-        status=#{status}
-        WHERE name=#{name}
+        telephone=#{telephone}
+        WHERE id=#{id}
     </update>
-    <delete id="deleteShopByName" parameterType="java.lang.String">
-        DELETE FROM shop
-        WHERE name=#{name}
-    </delete>
+    <update id="updateStatus">
+        UPDATE shop SET
+        status = #{status}
+        WHERE id=#{id}
+    </update>
     <select id="selectUrlByOwnerId" resultType="java.lang.String">
         SELECT path FROM owner_photo
         WHERE owner_id = #{id}
     </select>
-    <select id="selectCount" resultType="java.lang.Integer">
+    <select id="selectCount" resultType="java.lang.Integer" parameterType="java.lang.Long">
         SELECT count(*) FROM shop
+        WHERE status = #{status}
     </select>
 </mapper>

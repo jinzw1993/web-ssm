@@ -12,11 +12,15 @@ import java.util.List;
 public interface ShopService {
     ShopBo getShopByName(String name);
 
-    List<ShopBo> getShops(int pageNum, int pageCount);
+    List<ShopBo> getShops(int pageNum, int pageCount, Long status);
 
-    Result updateShop(ShopBo shop, String name);
+    List<ShopBo> getShopsByName(String name);
+
+    Result updateStatus(Long id, Long status);
 
     Result addShop(ShopBo shop);
 
-    int getCount();
+    int getCount(Long status);
+
+    Result updateInfo(ShopBo shopBo);
 }

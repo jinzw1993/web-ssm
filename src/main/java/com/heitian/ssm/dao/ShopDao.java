@@ -15,15 +15,17 @@ public interface ShopDao {
 
     Shop selectShopByOwnerId(Long id);
 
-    List<Shop> selectShops(@Param("start") int start,@Param("count") int count);
+    List<Shop> selectShopsByName(String name);
 
-    int deleteShopByName(String name);
+    List<Shop> selectShops(@Param("start") int start,@Param("count") int count,@Param("status") Long status);
 
     int updateShop(Shop shop);
+
+    int updateStatus(@Param("id") Long id, @Param("status") Long status);
 
     int insertShop(Shop shop);
 
     String selectUrlByOwnerId(Long id);
 
-    int selectCount();
+    int selectCount(Long status);
 }

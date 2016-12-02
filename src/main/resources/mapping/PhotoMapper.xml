@@ -7,8 +7,8 @@
     </resultMap>
 
     <insert id="insertPhoto"  parameterType="java.lang.String">
-        INSERT INTO product_photo(path)
-        VALUES (#{photo})
+        INSERT INTO product_photo(productId, path)
+        VALUES (0, #{photo})
     </insert>
 
     <update id="updatePhoto" parameterType="com.heitian.ssm.model.Photo">
@@ -30,7 +30,6 @@
     </select>
 
     <select id="selectMaxId" resultType="java.lang.Long">
-        SELECT MAX(id)
         FROM product_photo
     </select>
 </mapper>
