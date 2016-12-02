@@ -26,7 +26,7 @@ public class OwnerController {
 
     /**
      * 注册
-     * @param owner 需要name, password, email
+     * @param owner Owner对象，需要name, password, email
      * @return result.status=0失败，1成功
      */
     @ResponseBody
@@ -49,7 +49,7 @@ public class OwnerController {
 
     /**
      * 登录
-     * @param owner  需要email, password
+     * @param owner  Owner对象，需要email, password
      * @param response
      * @return result.status=0失败，1成功
      */
@@ -74,7 +74,7 @@ public class OwnerController {
     /**
      * 根据Owner.email更新Owner密码或Status
      *
-     * @param owner 对象需要 email, password, status, isEmailVerified
+     * @param owner Owner对象，需要 email, password, status, isEmailVerified
      * @return result.status=0失败，1成功
      */
     @ResponseBody
@@ -86,8 +86,8 @@ public class OwnerController {
 
     /**
      *根据name查找Owner
-     * @param name Owner name
-     * @return result.status=0失败，1成功
+     * @param name Owner的name
+     * @return Owner对象
      */
     @ResponseBody
     @RequestMapping("/getByName")
@@ -99,7 +99,7 @@ public class OwnerController {
 
     /**
      *根据id查找Owner
-     * @param id Owner id
+     * @param id Owner的id
      * @return Owner对象
      */
     @ResponseBody
