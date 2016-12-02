@@ -109,7 +109,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     public List<ProductBo> searchProductBosByOwner(long ownerId,int page, int pageNum) {
-        List<ProductBo> productBos=new ArrayList<>();
+        List<ProductBo> productBos=new ArrayList<ProductBo>();
         List<Product> products= productDao.searByOwner(ownerId,(page-1)*pageNum,pageNum);
         if(products!=null) {
             for (int i = 0; i < products.size(); i++) {

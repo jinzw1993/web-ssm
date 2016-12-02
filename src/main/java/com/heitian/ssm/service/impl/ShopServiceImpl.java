@@ -43,7 +43,7 @@ public class ShopServiceImpl implements ShopService {
     public List<ShopBo> getPhotos(List<Shop> shops) {
         if(shops == null)
             return new ArrayList<ShopBo>();
-        List<ShopBo> shopBos = new ArrayList<>();
+        List<ShopBo> shopBos = new ArrayList<ShopBo>();
         for(Shop shop : shops) {
             shopBos.add(new ShopBo(shop, shopDao.selectUrlByOwnerId(shop.getOwnerId())));
         }

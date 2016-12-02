@@ -1,6 +1,7 @@
 package com.heitian.ssm.dao;
 
 import com.heitian.ssm.model.Customer;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -8,6 +9,8 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface CustomerDao {
-    Customer getCustomerByTel(Long telephone);
+    Customer getCustomerByTel(String telephone);
+    Customer getCustomerByEmail(String email);
+    int activateCustomerEmail(@Param("telephone") String telephone, @Param("email") String email);
     int addCustomer(Customer customer);
 }
