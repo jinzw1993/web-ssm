@@ -61,6 +61,15 @@ public class ProductServiceImpl implements ProductService {
         }
         return productBo;
     }
+
+    public int searchProductGN(ProductCondition productCondition){
+        int count;
+        if (productCondition==null||(productCondition.getKeyWord()==null&&productCondition.getCategoryId()==null))
+            count = productDao.searchByNoneGN();
+        else
+            count = productDao.searchWithKeywordGN(productCondition);
+        return count/30;
+    }
     private Result returnRes(int i) {
         Result result = new Result();
         if(i!=0) {

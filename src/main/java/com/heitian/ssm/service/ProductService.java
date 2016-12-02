@@ -13,6 +13,7 @@ import java.util.List;
 public interface ProductService {
     List<ProductBo> searchProductBos(ProductCondition productCondition);
     ProductBo searchProductBo(Long id);
+    int searchProductGN(ProductCondition productCondition);
 
     Result addProduct(ProductBo product);
     Result deleteProduct(ProductBo product);
