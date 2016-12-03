@@ -56,11 +56,14 @@ public class ShopController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public @ResponseBody
     Result addNewShop(@RequestBody ShopBo shopBo,
-                      @CookieValue(value = "OwnerEmail",defaultValue = "swc") String name,
+                      @CookieValue(value = "OwnerEmail",defaultValue = "swc") String email,
+                      @CookieValue(value = "OnwerId", defaultValue = "") String ownerId,
                       HttpServletResponse response) {
         log.info("新店注册");
-        if(!"swc".equals(name))
+        if("swc".equals(email) || "".equals(ownerId))
             return returnResult();
+        shopBo.setEmail(email);
+        shopBo.setOwnerId(Long.valueOf(ownerId));
         Result result = shopService.addShop(shopBo);
         if(result.getStatus() == 1 && response != null) {
             Cookie shopIdCookie = new Cookie("ShopId", result.getMessage());
