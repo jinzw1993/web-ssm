@@ -42,6 +42,15 @@ public class ProductServiceImpl implements ProductService {
         return addPhotos(productBos, products);
     }
 
+    public int searchProductGN(ProductCondition productCondition) {
+        int num;
+        if (productCondition==null||(productCondition.getKeyWord()==null&&productCondition.getCategoryId()==null))
+            num = productDao.searchByNoneGN();
+        else
+            num=productDao.searchWithKeywordGN(productCondition);
+        return num/30;
+    }
+
     public ProductBo searchProductBo(Long id) {
         Product product=productDao.searchProductById(id);
 
@@ -53,6 +62,7 @@ public class ProductServiceImpl implements ProductService {
         }
         return productBo;
     }
+
 
     public Result addProduct(ProductBo prdtBo) {
 

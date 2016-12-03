@@ -11,7 +11,5 @@ import java.util.List;
 public interface OwnerPhotoDao {
     int insertPhoto(OwnerPhoto photo);
     int deletePhoto(@Param("ownerId") Long ownerId, @Param("path") String path);
-    int updatePhoto(@Param("ownerId") OwnerPhoto photo);
-    OwnerPhoto selectPhotoById(Long id);
-    Long selectMaxId();
+    int updatePhoto(OwnerPhoto photo);
 }
