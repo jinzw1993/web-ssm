@@ -1,16 +1,10 @@
 package com.heitian.ssm.model;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
-
-/**
- * Created by oasis on 11/26/16.
- */
-
 public class Owner {
     private Long id;
     private String name;
     private String password;
-    private Long status;
+    private long status;
     private String email;
 
     private Integer isEmailVerified;
@@ -55,11 +49,11 @@ public class Owner {
         this.password = password;
     }
 
-    public Long getStatus() {
+    public long getStatus() {
         return status;
     }
 
-    public void setStatus(Long status) {
+    public void setStatus(long status) {
         this.status = status;
     }
 }

@@ -3,7 +3,7 @@ package com.heitian.ssm.bo;
 public class OwnerCondition {
 	
 	private String keyWord;
-	private int status;
+	private long status;
 	private String email;
 	public String getKeyWord() {
 		return keyWord;
@@ -11,10 +11,10 @@ public class OwnerCondition {
 	public void setKeyWord(String keyWord) {
 		this.keyWord = keyWord;
 	}
-	public int getStatus() {
+	public long getStatus() {
 		return status;
 	}
-	public void setStatus(int status) {
+	public void setStatus(long status) {
 		this.status = status;
 	}
 	public String getEmail() {

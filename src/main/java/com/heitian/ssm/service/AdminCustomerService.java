@@ -5,6 +5,7 @@ import java.util.List;
 import com.heitian.ssm.bo.CustomerBo;
 import com.heitian.ssm.bo.CustomerCondition;
 import com.heitian.ssm.bo.Result;
+import com.heitian.ssm.model.Customer;
 
 public interface AdminCustomerService {
 	public CustomerBo findCustomerBoById(long id);

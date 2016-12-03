@@ -6,7 +6,7 @@ import com.heitian.ssm.model.Admin;
 /**
  * 
  * @author Zrt666
- * 管理员登�?
+ * 管理员登录
  *
  */
 public interface AdminService {

@@ -1,12 +1,13 @@
 package com.heitian.ssm.bo;
 
 import java.io.Serializable;
+import java.util.List;
+
+import com.heitian.ssm.model.Owner;
 import com.heitian.ssm.model.Owner;
 
 public class OwnerBo extends Owner implements Serializable{
 	
-	private static final long serialVersionUID = 1L;
-
 	public OwnerBo(){};
 	 
     public OwnerBo(Owner owner){

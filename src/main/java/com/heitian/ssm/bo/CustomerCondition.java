@@ -3,7 +3,7 @@ package com.heitian.ssm.bo;
 public class CustomerCondition {
 	
 	private String keyWord;
-	private int status;
+	private long status;
 	private String telephone;
 	private String email;
 	
@@ -13,10 +13,10 @@ public class CustomerCondition {
 	public void setKeyWord(String keyWord) {
 		this.keyWord = keyWord;
 	}
-	public int getStatus() {
+	public long getStatus() {
 		return status;
 	}
-	public void setStatus(int status) {
+	public void setStatus(long status) {
 		this.status = status;
 	}
 	public String getTelephone() {
