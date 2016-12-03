@@ -16,10 +16,14 @@
     </resultMap>
 
     <select id="searchByNone" resultMap="ProductBaseMap">
-        SELECT * FROM  product
-        ORDER BY id
-        limit #{start},#{num}
+    SELECT * FROM  product
+    ORDER BY id
+    limit #{start},#{num}
 
+</select>
+
+    <select id="searchByNoneGN">
+        SELECT count(*) FROM  product
     </select>
 
     <select id="searByOwner" resultMap="ProductBaseMap">
@@ -50,6 +54,23 @@
         </if>
         ORDER BY id
         limit #{start},#{num}
+    </select>
+
+    <select id="searchWithKeywordGN" parameterType="com.heitian.ssm.bo.ProductCondition">
+        SELECT count(*)from product
+        WHERE 1=1
+        <if test="categoryId != null and categoryId != ''">
+            AND category_id= #{categoryId}
+        </if>
+        <if test="highPrice != null and highPrice != ''">
+            <![CDATA[ AND price< #{highPrice} ]]>
+        </if>
+        <if test="lowPrice != null and lowPrice != ''">
+            <![CDATA[ AND price> #{lowPrice} ]]>
+        </if>
+        <if test="keyWord != null and keyWord != ''">
+            AND name LIKE "%"#{keyWord,jdbcType=VARCHAR}"%"
+        </if>
     </select>
 
     <select id="searchPhotoURL" parameterType="java.lang.Long" resultType="java.lang.String">
