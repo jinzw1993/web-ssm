@@ -28,7 +28,7 @@ public class CustomerTest {
     @Test
     public void loginTest() throws Exception {
         Customer customer = new Customer();
-        customer.setTelephone(18182428888L);
+        //customer.setTelephone(18182428888L);
         customer.setPassword("123");
         Result result = cc.customerLogin(customer);
         System.out.print(result.getStatus());
@@ -37,7 +37,7 @@ public class CustomerTest {
     @Test
     public void registerTest() throws Exception {
         Customer customer = new Customer();
-        customer.setTelephone(18182427777L);
+       // customer.setTelephone(18182427777L);
         customer.setPassword("123");
         customer.setName("gouDan");
         Result result = cc.addCustomer(customer);
