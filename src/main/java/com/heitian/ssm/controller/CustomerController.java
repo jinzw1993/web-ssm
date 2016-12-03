@@ -1,21 +1,16 @@
 package com.heitian.ssm.controller;
 
-import com.alibaba.fastjson.JSONObject;
 import com.heitian.ssm.bo.Result;
 import com.heitian.ssm.model.Customer;
 import com.heitian.ssm.service.CustomerService;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  * Created by Lanting on 2016/11/25.
@@ -48,6 +43,13 @@ public class CustomerController {
     @RequestMapping("/register")
     public Result register(@RequestBody Customer customer, Model model) {
         Result result = customerService.addCustomer(customer);
+        return result;
+    }
+
+    @ResponseBody
+    @RequestMapping(value="/activate",method= RequestMethod.GET)
+    public Result activate(@RequestParam String telephone,@RequestParam String email) {
+        Result result = customerService.customerActivate(telephone,email);
         return result;
     }
 }

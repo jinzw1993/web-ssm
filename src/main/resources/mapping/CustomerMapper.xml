@@ -6,26 +6,46 @@
         <id column="id" property="id" jdbcType="BIGINT"/>
         <result column="name" property="name" jdbcType="VARCHAR"/>
         <result column="telephone" property="telephone" jdbcType="VARCHAR"/>
-        <result column="status" property="status" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="BIGINT"/>
         <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="email" property="email" jdbcType="VARCHAR"/>
+        <result column="is_email_verified" property="isEmailVerified" jdbcType="TINYINT"/>
     </resultMap>
-    <select id="getCustomerByTel" parameterType="java.lang.Long" resultMap="customerMap">
+    
+    <select id="getCustomerByTel" parameterType="java.lang.String" resultMap="customerMap">
         SELECT * FROM customer
         WHERE telephone = #{telephone}
     </select>
+
+    <select id="getCustomerByEmail" parameterType="java.lang.String" resultMap="customerMap">
+        SELECT * FROM customer
+        WHERE email = #{email}
+    </select>
+    
+    <update id="activateCustomerEmail">
+        UPDATE customer
+        SET
+        is_email_verified = 1
+        WHERE
+        email= #{email}
+        AND
+        telephone= #{telephone}
+    </update>
 
     <insert id="addCustomer" parameterType="com.heitian.ssm.model.Customer">
         INSERT INTO customer
         (
         name,
         telephone,
-        password
+        password,
+        email
         )
         VALUES
         (
         #{name},
         #{telephone},
-        #{password}
+        #{password},
+        #{email}
         )
     </insert>
 </mapper>

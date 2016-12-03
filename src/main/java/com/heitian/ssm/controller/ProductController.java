@@ -8,6 +8,7 @@ import com.heitian.ssm.service.ProductService;
 import org.apache.log4j.Logger;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -35,8 +36,10 @@ public class ProductController {
      */
     @ResponseBody
     @RequestMapping("/search")
-    public List<ProductBo> searchProductBos(@RequestBody ProductCondition productCondition) {
-        return productService.searchProductBos(productCondition);
+    public Model searchProductBos(@RequestBody ProductCondition productCondition, Model model) {
+        model.addAttribute("List",productService.searchProductBos(productCondition));
+        model.addAttribute("MaxPage",productService.searchProductGN(productCondition));
+        return model;
     }
 
     /**

@@ -65,7 +65,7 @@ public class PhotoServiceImpl implements PhotoService {
     public List<Photo> getPhotosByProduct(Long productId) {
         List<Photo> list = photoDao.selectPhotosByProduct(productId);
         if(list == null)
-            return new ArrayList<>();
+            return new ArrayList<Photo>();
         return list;
     }
 

@@ -26,21 +26,59 @@ public class CustomerTest {
     }
 
     @Test
-    public void loginTest() throws Exception {
+    public void loginTest1() throws Exception {//0telephone/password/name/email is not allowed to be empty.
         Customer customer = new Customer();
-        customer.setTelephone(18182428888L);
+        customer.setTelephone("18182428888");
         customer.setPassword("123");
         Result result = cc.customerLogin(customer);
         System.out.print(result.getStatus());
+        System.out.print(result.getMessage());
     }
 
     @Test
-    public void registerTest() throws Exception {
+    public void loginTest2() throws Exception {//0telephone/password/name/email is not allowed to be empty.
         Customer customer = new Customer();
-        customer.setTelephone(18182427777L);
+        customer.setTelephone("18182428888");
+        customer.setEmail("1121762957@qq.com");
         customer.setPassword("123");
-        customer.setName("gouDan");
+        Result result = cc.customerLogin(customer);
+        System.out.print(result.getStatus());
+        System.out.print(result.getMessage());
+    }
+
+    @Test
+    public void loginTest3() throws Exception {//0login failed,email or telephone is not exist
+        Customer customer = new Customer();
+        customer.setTelephone("18182428888");
+        customer.setEmail("1121762957@qq.com");
+        customer.setPassword("123");
+        customer.setName("llll");
+        Result result = cc.customerLogin(customer);
+        System.out.print(result.getStatus());
+        System.out.print(result.getMessage());
+    }
+
+    @Test
+    public void loginTest4() throws Exception {
+        Customer customer = new Customer();
+        customer.setPassword("123");
+        customer.setName("llll");
+        customer.setTelephone("18182428888");
+        customer.setEmail("1121762957@qq.com");
+        Result result = cc.customerLogin(customer);
+        System.out.print(result.getStatus());
+        System.out.print(result.getMessage());
+    }
+
+    @Test
+    public void registerTest1() throws Exception {
+        Customer customer = new Customer();
+        customer.setTelephone("18182428888");
+        customer.setEmail("1121762957@qq.com");
+        customer.setPassword("123");
+        customer.setName("llll");
         Result result = cc.addCustomer(customer);
         System.out.print(result.getStatus());
+        System.out.print(result.getMessage());
     }
 }
