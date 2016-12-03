@@ -6,9 +6,7 @@ import com.heitian.ssm.model.Customer;
 
 
 public class CustomerBo extends Customer implements Serializable {
-    
-	private static final long serialVersionUID = 1L;
-	public CustomerBo(){};
+    public CustomerBo(){};
     public CustomerBo(Customer customer){
         this.setId(customer.getId());
         this.setName(customer.getName());

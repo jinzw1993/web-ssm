@@ -18,6 +18,6 @@ public interface AdminOwnerDao {
 	void whitelist(long id);
 	//删除用户信息
 	void deleteOwnerById(long id);
-	//根据用户状�?�查询用户信�?
+	//根据用户状态查询用户信息
 	List<Owner> searchOwnerWithKeyword(OwnerCondition ownerCondition);
 }
