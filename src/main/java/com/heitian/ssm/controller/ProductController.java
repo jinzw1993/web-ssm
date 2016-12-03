@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -61,7 +62,10 @@ public class ProductController {
      */
     @ResponseBody
     @RequestMapping("/add")
-    public Result addProduct(@RequestBody ProductBo productBo) {
+    public Result addProduct(@RequestBody ProductBo productBo,
+                             @CookieValue(value = "OwnerEmail",defaultValue = "swc") String email) {
+        if("swc".equals(email))
+            return returnResult();
         return productService.addProduct(productBo);
     }
 
@@ -72,7 +76,10 @@ public class ProductController {
      */
     @ResponseBody
     @RequestMapping("/delete")
-    public Result deleteProduct(@RequestBody ProductBo productBo) {
+    public Result deleteProduct(@RequestBody ProductBo productBo,
+                                @CookieValue(value = "OwnerEmail",defaultValue = "swc") String email) {
+        if("swc".equals(email))
+            return returnResult();
         return productService.deleteProduct(productBo);
     }
 
@@ -83,7 +90,10 @@ public class ProductController {
      */
     @ResponseBody
     @RequestMapping("/update")
-    public Result updateProduct(@RequestBody ProductBo productBo) {
+    public Result updateProduct(@RequestBody ProductBo productBo,
+                                @CookieValue(value = "OwnerEmail",defaultValue = "swc") String email) {
+        if("swc".equals(email))
+            return returnResult();
         return productService.updateProduct(productBo);
     }
 
@@ -96,7 +106,10 @@ public class ProductController {
      */
     @ResponseBody
     @RequestMapping(value="/searchByOwner",method= RequestMethod.GET)
-    public List<ProductBo> searchByOwner(@RequestParam long ownerId, @RequestParam int page, @RequestParam int pageNum) {
+    public List<ProductBo> searchByOwner(@RequestParam long ownerId, @RequestParam int page, @RequestParam int pageNum,
+                                         @CookieValue(value = "OwnerEmail",defaultValue = "swc") String email) {
+        if("swc".equals(email))
+            return new ArrayList<>();
         return productService.searchProductBosByOwner(ownerId,page,pageNum);
     }
 
@@ -111,6 +124,13 @@ public class ProductController {
         Result result =new Result();
         result.setMessage(Integer.toString(productService.getOwnerProductCount(ownerId)));
         result.setStatus(1);
+        return result;
+    }
+
+    public Result returnResult() {
+        Result result = new Result();
+        result.setStatus(0);
+        result.setMessage("you haven't log in");
         return result;
     }
 }
