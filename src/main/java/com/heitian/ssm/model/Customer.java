@@ -69,4 +69,5 @@ public class Customer implements Serializable{
     public void setIsEmailVerified(Integer isEmailVerified) {
         this.isEmailVerified = isEmailVerified;
     }
+
 }

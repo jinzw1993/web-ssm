@@ -16,7 +16,6 @@ import javax.annotation.Resource;
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class CustomerServiceImpl implements CustomerService {
-
     @Resource
     private CustomerDao customerDao;
 
