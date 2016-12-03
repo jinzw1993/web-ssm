@@ -2,11 +2,7 @@ package com.heitian.ssm.model;
 
 import java.io.Serializable;
 
-/**
- * 
- * @author Zrt666
- *
- */
+
 
 public class Customer implements Serializable{
     private Long id;

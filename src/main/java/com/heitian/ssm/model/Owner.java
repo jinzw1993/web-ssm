@@ -4,7 +4,7 @@ public class Owner {
     private Long id;
     private String name;
     private String password;
-    private long status;
+    private Long status;
     private String email;
 
     private Integer isEmailVerified;
@@ -49,11 +49,11 @@ public class Owner {
         this.password = password;
     }
 
-    public long getStatus() {
+    public Long getStatus() {
         return status;
     }
 
-    public void setStatus(long status) {
+    public void setStatus(Long status) {
         this.status = status;
     }
 }
