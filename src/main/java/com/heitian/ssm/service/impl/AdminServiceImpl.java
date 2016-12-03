@@ -1,5 +1,7 @@
 package com.heitian.ssm.service.impl;
 
+import javax.transaction.Transactional;
+
 import org.springframework.stereotype.Service;
 
 import com.heitian.ssm.bo.Result;
