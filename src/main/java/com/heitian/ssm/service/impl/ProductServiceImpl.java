@@ -30,11 +30,10 @@ public class ProductServiceImpl implements ProductService {
     @Resource
     private PhotoDao photoDao;
 
-    public List<ProductBo> searchProductBos(ProductCondition productCondition)
-    {
-        List<ProductBo> productBos=new ArrayList<ProductBo>();
+    public List<ProductBo> searchProductBos(ProductCondition productCondition) {
+        List<ProductBo> productBos = new ArrayList<ProductBo>();
         List<Product> products;
-        if (productCondition==null||(productCondition.getKeyWord()==null&&productCondition.getCategoryId()==null))
+        if (productCondition == null || (productCondition.getKeyWord() == null && productCondition.getCategoryId() == null))
             products = productDao.searchByNone(productCondition.getStart(), productCondition.getNum());
         else
             products = productDao.searchWithKeyword(productCondition);
