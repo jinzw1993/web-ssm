@@ -16,7 +16,7 @@ public interface OwnerDao {
 
     int updateOwner(@Param("owner") Owner owner);
 
-    Owner selectOwnerById(@Param("id") Long id);
+    Owner selectOwnerById(@Param("id") long id);
 
     Owner selectOwnerByName(@Param("ownerName") String ownerName);
 
@@ -26,7 +26,7 @@ public interface OwnerDao {
 
     List<Owner> getAllUnverifiedOwner(@Param("start") int start, @Param("pageNum") int pageNum);
 
-    int deleteOwnerById(@Param("id") int id);
+    int deleteOwnerById(@Param("id") long id);
 
     int deleteOwnerByName(@Param("ownerName") String ownerName);
 

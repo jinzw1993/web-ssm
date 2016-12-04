@@ -2,9 +2,8 @@ package com.heitian.ssm.model;
 
 import java.io.Serializable;
 
-/**
- * Created by Lanting on 2016/11/25.
- */
+
+
 public class Customer implements Serializable{
     private Long id;
     private String name;
@@ -46,10 +45,6 @@ public class Customer implements Serializable{
         this.status = status;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
     public void setPassword(String password) {
         this.password = password;
     }
@@ -69,4 +64,5 @@ public class Customer implements Serializable{
     public void setIsEmailVerified(Integer isEmailVerified) {
         this.isEmailVerified = isEmailVerified;
     }
+
 }
