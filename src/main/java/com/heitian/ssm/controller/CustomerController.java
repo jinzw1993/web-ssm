@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
@@ -48,8 +49,13 @@ public class CustomerController {
 
     @ResponseBody
     @RequestMapping(value="/activate",method= RequestMethod.GET)
-    public Result activate(@RequestParam String telephone,@RequestParam String email) {
+    public ModelAndView activate(@RequestParam String telephone,@RequestParam String email) {
         Result result = customerService.customerActivate(telephone,email);
-        return result;
+        ModelAndView mov = new ModelAndView();
+        if(result.getStatus() == 1)
+            mov.setViewName("success");
+        else
+            mov.setViewName("error");
+        return mov;
     }
 }
