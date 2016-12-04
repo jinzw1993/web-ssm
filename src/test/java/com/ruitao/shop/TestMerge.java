@@ -69,9 +69,9 @@ public class TestMerge {
     
     @Test
     public void testLogin() {
-    	Admin admin = new Admin("parknshop","123");
-    	Result result = as.adminLogin(admin);
-    	System.out.println(result.getMessage());
+//    	Admin admin = new Admin("parknshop","123");
+//    	Result result = as.adminLogin(admin);
+//    	System.out.println(result.getMessage());
     }
 
     @Test

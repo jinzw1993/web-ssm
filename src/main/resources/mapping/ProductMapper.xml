@@ -22,7 +22,7 @@
 
 </select>
 
-    <select id="searchByNoneGN">
+    <select id="searchByNoneGN" resultType="java.lang.Integer">
         SELECT count(*) FROM  product
     </select>
 
@@ -38,7 +38,7 @@
     </select>
 
     <select id="searchWithKeyword" resultMap="ProductBaseMap" parameterType="com.heitian.ssm.bo.ProductCondition">
-        SELECT *from product
+        SELECT * from product
         WHERE 1=1
         <if test="categoryId != null and categoryId != ''">
             AND category_id= #{categoryId}
@@ -56,8 +56,9 @@
         limit #{start},#{num}
     </select>
 
-    <select id="searchWithKeywordGN" parameterType="com.heitian.ssm.bo.ProductCondition">
-        SELECT count(*)from product
+
+    <select id="searchWithKeywordGN" parameterType="com.heitian.ssm.bo.ProductCondition" resultType="java.lang.Integer">
+        SELECT count(*) FROM  product
         WHERE 1=1
         <if test="categoryId != null and categoryId != ''">
             AND category_id= #{categoryId}

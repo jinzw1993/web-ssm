@@ -7,6 +7,7 @@ import com.heitian.ssm.bo.Result;
 import com.heitian.ssm.dao.PhotoDao;
 
 import com.heitian.ssm.dao.ProductDao;
+import com.heitian.ssm.dao.ShopDao;
 import com.heitian.ssm.model.Photo;
 import com.heitian.ssm.model.Product;
 import com.heitian.ssm.service.ProductService;
@@ -29,12 +30,13 @@ public class ProductServiceImpl implements ProductService {
     private ProductDao productDao;
     @Resource
     private PhotoDao photoDao;
+    @Resource
+    private ShopDao shopDao;
 
-    public List<ProductBo> searchProductBos(ProductCondition productCondition)
-    {
-        List<ProductBo> productBos=new ArrayList<ProductBo>();
+    public List<ProductBo> searchProductBos(ProductCondition productCondition) {
+        List<ProductBo> productBos = new ArrayList<ProductBo>();
         List<Product> products;
-        if (productCondition==null||(productCondition.getKeyWord()==null&&productCondition.getCategoryId()==null))
+        if (productCondition == null || (productCondition.getKeyWord() == null && productCondition.getCategoryId() == null))
             products = productDao.searchByNone(productCondition.getStart(), productCondition.getNum());
         else
             products = productDao.searchWithKeyword(productCondition);
@@ -48,7 +50,7 @@ public class ProductServiceImpl implements ProductService {
             num = productDao.searchByNoneGN();
         else
             num=productDao.searchWithKeywordGN(productCondition);
-        return num/30;
+        return num/30+1;
     }
 
     public ProductBo searchProductBo(Long id) {
@@ -63,7 +65,6 @@ public class ProductServiceImpl implements ProductService {
         return productBo;
     }
 
-
     public Result addProduct(ProductBo prdtBo) {
 
         Photo photo=new Photo();
@@ -72,6 +73,7 @@ public class ProductServiceImpl implements ProductService {
         long pId=photoDao.selectMaxId();
         prdtBo.setProductPhotoId((long)pId);
         Product product=(Product)prdtBo;
+        prdtBo.setShopId(shopDao.selectShopByOwnerId(prdtBo.getOwnId()).getId());
         int i= productDao.insertProduct(product);
         long pdId= productDao.selectMaxId();
         photo.setId((long)pId);

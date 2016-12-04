@@ -49,6 +49,10 @@ public class Customer implements Serializable{
         this.password = password;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
     public String getEmail() {
         return email;
     }
