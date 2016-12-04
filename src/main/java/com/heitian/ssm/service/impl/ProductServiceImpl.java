@@ -48,7 +48,7 @@ public class ProductServiceImpl implements ProductService {
             num = productDao.searchByNoneGN();
         else
             num=productDao.searchWithKeywordGN(productCondition);
-        return num/30;
+        return num/30+1;
     }
 
     public ProductBo searchProductBo(Long id) {
@@ -62,7 +62,6 @@ public class ProductServiceImpl implements ProductService {
         }
         return productBo;
     }
-
 
     public Result addProduct(ProductBo prdtBo) {
 
