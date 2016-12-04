@@ -28,6 +28,7 @@ public class CustomerTest {
     @Test
     public void loginTest1() throws Exception {//0telephone/password/name/email is not allowed to be empty.
         Customer customer = new Customer();
+
         customer.setTelephone("18182428888");
 
         customer.setPassword("123");

@@ -15,6 +15,5 @@ public class CustomerBo extends Customer implements Serializable {
         this.setStatus(customer.getStatus());
         this.setEmail(customer.getEmail());
         this.setIsEmailVerified(customer.getIsEmailVerified());
-    };
-   
+    }
 }
