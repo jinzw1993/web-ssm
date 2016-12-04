@@ -33,9 +33,9 @@ public class AdminController {
     @RequestMapping("/login")
     public Result login(@RequestBody Admin admin, HttpServletResponse response) {
         Result result = adminService.adminLogin(admin);
-        if (result.getStatus() == 1&&response!=null) {
-        	Cookie nameCookie = new Cookie("AdminName", admin.getName());
-            Cookie pwdCookie = new Cookie("password", admin.getPassword());
+        if (result.getStatus() == 1 && response != null) {
+        	Cookie nameCookie = new Cookie("adminName", admin.getName());
+            Cookie pwdCookie = new Cookie("adminPassword", admin.getPassword());
             nameCookie.setMaxAge(60 * 60 * 24 * 3);
             pwdCookie.setMaxAge(60 * 60 * 24 * 3);
             response.addCookie(nameCookie);

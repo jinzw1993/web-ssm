@@ -8,7 +8,7 @@
         <result column="password" property="password" jdbcType="VARCHAR"/>
         <result column="status" property="status"/>
         <result column="email" property="email"/>
-        <result column="is_email_verified" property="isEmailVerified"/>
+        <result column="isEmailVerified" property="isEmailVerified"/>
     </resultMap>
     
     <select id="findOwnerById" parameterType="java.lang.Long" resultMap="ownerMap">
@@ -41,12 +41,19 @@
         <if test="keyWord != null and keyWord != ''">
             AND name LIKE "%"#{keyWord,jdbcType=VARCHAR}"%"
         </if>
+        ORDER BY id limit #{start},#{num}
+    </select>
+    
+        <!-- 分页 -->
+    <select id="searchByNum" resultMap="ownerMap">
+    	SELECT * FROM  owner
         ORDER BY id
+        limit #{start},#{num}
     </select>
     
     <!-- 删除用户信息 -->
     <update id="deleteOwnerById" parameterType="java.lang.Long">
-    	UPDATE owner SET state=2 WHERE id = #{id}
+    	UPDATE owner SET status=2 WHERE id = #{id}
     </update>
 
 

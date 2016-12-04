@@ -104,7 +104,11 @@ public class AdminOwnerServiceImpl implements AdminOwnerService {
 	@Override
 	public List<OwnerBo> searchOwnerWithKeyword(OwnerCondition ownerCondition) {
 		List<OwnerBo> ownerBos = new ArrayList<OwnerBo>();
-		List<Owner> owners = adminOwnerDao.searchOwnerWithKeyword(ownerCondition);
+		List<Owner> owners;
+		if(ownerCondition == null) 
+			owners = adminOwnerDao.searchByNum(ownerCondition.getStart(), ownerCondition.getNum());
+		else
+			owners = adminOwnerDao.searchOwnerWithKeyword(ownerCondition);
 		if(owners != null) {
 			for(Owner owner : owners) {
 				ownerBos.add(new OwnerBo(owner));
