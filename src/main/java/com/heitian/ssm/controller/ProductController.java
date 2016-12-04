@@ -63,9 +63,13 @@ public class ProductController {
     @ResponseBody
     @RequestMapping("/add")
     public Result addProduct(@RequestBody ProductBo productBo,
-                             @CookieValue(value = "OwnerEmail",defaultValue = "swc") String email) {
+                             @CookieValue(value = "OwnerEmail",defaultValue = "swc") String email,
+                             @CookieValue(value = "OwnerId",defaultValue = "") String ownerId,
+                             @CookieValue(value = "ShopId",defaultValue = "") String shopId) {
         if("swc".equals(email))
             return returnResult();
+        productBo.setOwnId(Long.valueOf(ownerId));
+        productBo.setShopId(Long.valueOf(shopId));
         return productService.addProduct(productBo);
     }
 

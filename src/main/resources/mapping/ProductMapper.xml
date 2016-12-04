@@ -22,7 +22,7 @@
 
 </select>
 
-    <select id="searchByNoneGN">
+    <select id="searchByNoneGN" resultType="int">
         SELECT count(*) FROM  product
     </select>
 
@@ -56,7 +56,7 @@
         limit #{start},#{num}
     </select>
 
-    <select id="searchWithKeywordGN" parameterType="com.heitian.ssm.bo.ProductCondition">
+    <select id="searchWithKeywordGN" parameterType="com.heitian.ssm.bo.ProductCondition" resultType="int">
         SELECT count(*)from product
         WHERE 1=1
         <if test="categoryId != null and categoryId != ''">

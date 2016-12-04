@@ -76,9 +76,14 @@ public class ShopController {
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public @ResponseBody
-    Result update(@RequestBody ShopBo shopBo, @CookieValue(value = "OwnerEmail",defaultValue = "swc") String name) {
-        log.info("店铺更新" + name);
-        if("swc".equals(name)) {
+    Result update(@RequestBody ShopBo shopBo,
+                  @CookieValue(value = "OwnerEmail",defaultValue = "swc") String email,
+                  @CookieValue(value = "OwnerId",defaultValue = "") String ownerId,
+                  @CookieValue(value = "ShopId",defaultValue = "") String shopId) {
+        log.info("店铺更新");
+        shopBo.setOwnerId(Long.valueOf(ownerId));
+        shopBo.setId(Long.valueOf(shopId));
+        if("swc".equals(email)) {
             return returnResult();
         }
         return shopService.updateInfo(shopBo);
