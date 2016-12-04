@@ -9,36 +9,17 @@
         <result column="status" property="status" jdbcType="INTEGER"/>
         <result column="password" property="password" jdbcType="VARCHAR"/>
         <result column="email" property="email" jdbcType="VARCHAR"/>
-        <result column="is_email_verified" property="is_email_verified" jdbcType="BOOLEAN"/>
+        <result column="isEmailVerified" property="is_email_verified" jdbcType="BOOLEAN"/>
     </resultMap>
     
     <select id="findCustomerById" parameterType="java.lang.Long" resultMap="customerMap">
         SELECT * FROM customer WHERE id=#{id}
     </select>
-    
-   <!-- <select id="findCustomerByName" parameterType="java.lang.String" resultMap="customerMap">
-        SELECT * FROM customer
-        WHERE name = #{name}
-    </select> 
-    
-    <select id="findAllCustomer" resultMap="customerMap">
-        SELECT * FROM customer
-    </select>
-    
-     根据名字信息模糊查询
-    <select id="selectCustomerByName" parameterType="java.lang.String" resultMap="customerMap">
-        SELECT * FROM customer WHERE name LIKE '%${value}%'
-    </select> -->
 
 	<!-- 将用户数据拉入黑名单 -->
     <update id="blacklist" parameterType="java.lang.Long">
     	UPDATE customer SET status=1 WHERE id = #{value}
     </update>
-  
-  	<!--  查询所有处于白名单或者黑名单下的用户 -->
-   <!--  <select id="findlist" parameterType="int" resultMap="customerMap">
-        SELECT * FROM customer WHERE status= #{status}
-    </select> -->
     
     <!-- 将用户数据拉入白名单 -->
     <update id="whitelist" parameterType="java.lang.Long">
@@ -64,12 +45,19 @@
         <if test="keyWord != null and keyWord != ''">
             AND name LIKE "%"#{keyWord,jdbcType=VARCHAR}"%"
         </if>
+        ORDER BY id limit #{start},#{num}
+    </select>
+    
+    <!-- 分页 -->
+    <select id="searchByNum" resultMap="customerMap">
+    	SELECT * FROM  customer
         ORDER BY id
+        limit #{start},#{num}
     </select>
     
     <!-- 删除用户信息 -->
     <update id="deleteCustomerById" parameterType="java.lang.Long">
-    	UPDATE customer SET state=2 WHERE id = #{id}
+    	UPDATE customer SET status=2 WHERE id = #{id}
     </update>
     
 </mapper>

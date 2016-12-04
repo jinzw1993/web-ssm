@@ -2,9 +2,11 @@ package com.heitian.ssm.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.heitian.ssm.bo.OwnerCondition;
+import com.heitian.ssm.model.Customer;
 import com.heitian.ssm.model.Owner;
 
 @Repository
@@ -20,4 +22,6 @@ public interface AdminOwnerDao {
 	void deleteOwnerById(long id);
 	//根据用户状态查询用户信息
 	List<Owner> searchOwnerWithKeyword(OwnerCondition ownerCondition);
+	//分页
+	List<Owner> searchByNum(@Param("start")int start, @Param("num")int num);
 }

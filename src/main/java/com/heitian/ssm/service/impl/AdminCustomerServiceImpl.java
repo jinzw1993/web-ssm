@@ -109,7 +109,11 @@ public class AdminCustomerServiceImpl implements AdminCustomerService {
 	public List<CustomerBo> searchCustomerWithKeyword(
 			CustomerCondition customerCondition) {
 		List<CustomerBo> customerBos = new ArrayList<CustomerBo>();
-		List<Customer> customers = adminCustomerDao.searchCustomerWithKeyword(customerCondition);
+		List<Customer> customers;
+		if(customerCondition == null)
+			customers = adminCustomerDao.searchByNum(customerCondition.getStart(), customerCondition.getNum());
+		else
+			customers = adminCustomerDao.searchCustomerWithKeyword(customerCondition);
 		if(customers != null) {
 			for(Customer customer : customers) {
 				customerBos.add(new CustomerBo(customer));
