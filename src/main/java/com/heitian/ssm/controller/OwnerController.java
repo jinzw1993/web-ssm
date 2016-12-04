@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
@@ -43,8 +44,14 @@ public class OwnerController {
      */
     @ResponseBody
     @RequestMapping(value="/activate",method = RequestMethod.GET)
-    public Result ownerActivate( @RequestParam String email, @RequestParam String validateCode) {
-        return ownerService.processActivate(email, validateCode);
+    public ModelAndView ownerActivate(@RequestParam String email, @RequestParam String validateCode) {
+        Result result =  ownerService.processActivate(email, validateCode);
+        ModelAndView mov = new ModelAndView();
+        if(result.getStatus() == 1)
+            mov.setViewName("success");
+        else
+            mov.setViewName("error");
+        return mov;
     }
 
     /**
