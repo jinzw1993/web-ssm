@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
@@ -56,13 +57,13 @@ public class ShopController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public @ResponseBody
     Result addNewShop(@RequestBody ShopBo shopBo,
-                      @CookieValue(value = "OwnerEmail",defaultValue = "swc") String email,
-                      @CookieValue(value = "OnwerId", defaultValue = "") String ownerId,
+                      HttpServletRequest request,
                       HttpServletResponse response) {
         log.info("新店注册");
-        if("swc".equals(email) || "".equals(ownerId))
+        String auth = request.getHeader("Authorization");
+        if(auth == null)
             return returnResult();
-        shopBo.setEmail(email);
+        String ownerId = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
         shopBo.setOwnerId(Long.valueOf(ownerId));
         Result result = shopService.addShop(shopBo);
         if(result.getStatus() == 1 && response != null) {
@@ -77,15 +78,14 @@ public class ShopController {
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public @ResponseBody
     Result update(@RequestBody ShopBo shopBo,
-                  @CookieValue(value = "OwnerEmail",defaultValue = "swc") String email,
-                  @CookieValue(value = "OwnerId",defaultValue = "") String ownerId,
-                  @CookieValue(value = "ShopId",defaultValue = "") String shopId) {
+                  HttpServletRequest request) {
         log.info("店铺更新");
-        shopBo.setOwnerId(Long.valueOf(ownerId));
-        shopBo.setId(Long.valueOf(shopId));
-        if("swc".equals(email)) {
+        String auth = request.getHeader("Authorization");
+        if(auth == null)
             return returnResult();
-        }
+        String ownerId = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
+        shopBo.setOwnerId(Long.valueOf(ownerId));
+
         return shopService.updateInfo(shopBo);
     }
 
@@ -110,10 +110,10 @@ public class ShopController {
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     public @ResponseBody
-    Result delete(@RequestParam Long id, @CookieValue(value = "OwnerEmail",defaultValue = "swc") String name) {
-        if("swc".equals(name)) {
+    Result delete(@RequestParam Long id, HttpServletRequest request) {
+        String auth = request.getHeader("Authorization");
+        if(auth == null)
             return returnResult();
-        }
         log.info("店铺删除");
         return shopService.updateStatus(id, (long)2);
     }

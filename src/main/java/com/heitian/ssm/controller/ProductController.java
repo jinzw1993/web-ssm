@@ -70,14 +70,12 @@ public class ProductController {
      */
     @ResponseBody
     @RequestMapping("/add")
-    public Result addProduct(@RequestBody ProductBo productBo,
-                             @CookieValue(value = "OwnerEmail",defaultValue = "swc") String email,
-                             @CookieValue(value = "OwnerId",defaultValue = "") String ownerId,
-                             @CookieValue(value = "ShopId",defaultValue = "") String shopId) {
-        if("swc".equals(email))
+    public Result addProduct(@RequestBody ProductBo productBo, HttpServletRequest request) {
+        String auth = request.getHeader("Authorization");
+        if(auth == null)
             return returnResult();
+        String ownerId = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
         productBo.setOwnId(Long.valueOf(ownerId));
-        productBo.setShopId(Long.valueOf(shopId));
         return productService.addProduct(productBo);
     }
 
@@ -89,8 +87,9 @@ public class ProductController {
     @ResponseBody
     @RequestMapping("/delete")
     public Result deleteProduct(@RequestBody ProductBo productBo,
-                                @CookieValue(value = "OwnerEmail",defaultValue = "swc") String email) {
-        if("swc".equals(email))
+                                HttpServletRequest request) {
+        String auth = request.getHeader("Authorization");
+        if(auth == null)
             return returnResult();
         return productService.deleteProduct(productBo);
     }
@@ -103,8 +102,9 @@ public class ProductController {
     @ResponseBody
     @RequestMapping("/update")
     public Result updateProduct(@RequestBody ProductBo productBo,
-                                @CookieValue(value = "OwnerEmail",defaultValue = "swc") String email) {
-        if("swc".equals(email))
+                                HttpServletRequest request) {
+        String auth = request.getHeader("Authorization");
+        if(auth == null)
             return returnResult();
         return productService.updateProduct(productBo);
     }
@@ -119,8 +119,9 @@ public class ProductController {
     @ResponseBody
     @RequestMapping(value="/searchByOwner",method= RequestMethod.GET)
     public List<ProductBo> searchByOwner(@RequestParam long ownerId, @RequestParam int page, @RequestParam int pageNum,
-                                         @CookieValue(value = "OwnerEmail",defaultValue = "swc") String email) {
-        if("swc".equals(email))
+                                         HttpServletRequest request) {
+        String auth = request.getHeader("Authorization");
+        if(auth == null)
             return new ArrayList<>();
         return productService.searchProductBosByOwner(ownerId,page,pageNum);
     }

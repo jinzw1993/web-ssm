@@ -22,11 +22,7 @@
 
 </select>
 
-<<<<<<< HEAD
-    <select id="searchByNoneGN" resultType="int">
-=======
     <select id="searchByNoneGN" resultType="java.lang.Integer">
->>>>>>> origin/customer
         SELECT count(*) FROM  product
     </select>
 

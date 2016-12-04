@@ -2,8 +2,10 @@ package com.heitian.ssm.service.impl;
 
 import com.heitian.ssm.bo.Result;
 import com.heitian.ssm.bo.ShopBo;
+import com.heitian.ssm.dao.OwnerDao;
 import com.heitian.ssm.dao.OwnerPhotoDao;
 import com.heitian.ssm.dao.ShopDao;
+import com.heitian.ssm.model.Owner;
 import com.heitian.ssm.model.OwnerPhoto;
 import com.heitian.ssm.model.Shop;
 import com.heitian.ssm.service.ShopService;
@@ -24,6 +26,8 @@ public class ShopServiceImpl implements ShopService {
     private ShopDao shopDao;
     @Autowired
     private OwnerPhotoDao photoDao;
+    @Autowired
+    private OwnerDao ownerDao;
 
     private Result result = new Result();
 
@@ -68,6 +72,8 @@ public class ShopServiceImpl implements ShopService {
             result.setMessage("failed, the shop owner has a shop.");
             return result;
         }
+        Owner owner = ownerDao.selectOwnerById(shopBo.getOwnerId());
+        shopBo.setEmail(owner.getEmail());
         photoDao.insertPhoto(new OwnerPhoto(shopBo.getIdPhotoUrl(), shopBo.getOwnerId()));
         shopBo.setStatus((long)3);
         if(shopDao.insertShop(shopBo) != 0) {
@@ -81,6 +87,10 @@ public class ShopServiceImpl implements ShopService {
     }
 
     public Result updateInfo(ShopBo shopBo) {
+        Owner owner = ownerDao.selectOwnerById(shopBo.getOwnerId());
+        shopBo.setEmail(owner.getEmail());
+        shopBo.setId(shopDao.selectShopByOwnerId(shopBo.getOwnerId()).getId());
+
         Shop tmp = shopDao.selectShopByName(shopBo.getName());
         if(tmp != null && tmp.getOwnerId() != shopBo.getOwnerId()) {
             result.setStatus(0);
