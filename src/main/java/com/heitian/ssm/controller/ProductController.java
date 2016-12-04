@@ -36,10 +36,18 @@ public class ProductController {
      */
     @ResponseBody
     @RequestMapping("/search")
-    public Model searchProductBos(@RequestBody ProductCondition productCondition, Model model) {
-        model.addAttribute("List",productService.searchProductBos(productCondition));
-        model.addAttribute("MaxPage",productService.searchProductGN(productCondition));
-        return model;
+    public List<ProductBo> searchProductBos(@RequestBody ProductCondition productCondition) {
+        return productService.searchProductBos(productCondition);
+    }
+    /**
+     * 根据条件搜索商品数目
+     * @param productCondition ProductCondition对象
+     * @return int
+     */
+    @ResponseBody
+    @RequestMapping("/searchMaxPage")
+    public int searchProductMaxPage(@RequestBody ProductCondition productCondition) {
+        return productService.searchProductGN(productCondition);
     }
 
     /**
