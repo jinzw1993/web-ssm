@@ -30,11 +30,10 @@ public class ProductServiceImpl implements ProductService {
     @Resource
     private PhotoDao photoDao;
 
-    public List<ProductBo> searchProductBos(ProductCondition productCondition)
-    {
-        List<ProductBo> productBos=new ArrayList<ProductBo>();
+    public List<ProductBo> searchProductBos(ProductCondition productCondition) {
+        List<ProductBo> productBos = new ArrayList<ProductBo>();
         List<Product> products;
-        if (productCondition==null||(productCondition.getKeyWord()==null&&productCondition.getCategoryId()==null))
+        if (productCondition == null || (productCondition.getKeyWord() == null && productCondition.getCategoryId() == null))
             products = productDao.searchByNone(productCondition.getStart(), productCondition.getNum());
         else
             products = productDao.searchWithKeyword(productCondition);
@@ -48,7 +47,7 @@ public class ProductServiceImpl implements ProductService {
             num = productDao.searchByNoneGN();
         else
             num=productDao.searchWithKeywordGN(productCondition);
-        return num/30;
+        return num/30+1;
     }
 
     public ProductBo searchProductBo(Long id) {
@@ -62,7 +61,6 @@ public class ProductServiceImpl implements ProductService {
         }
         return productBo;
     }
-
 
     public Result addProduct(ProductBo prdtBo) {
 
