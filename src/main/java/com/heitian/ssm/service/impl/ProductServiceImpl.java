@@ -78,6 +78,7 @@ public class ProductServiceImpl implements ProductService {
         if(shop == null)
             returnRes(0);
         prdtBo.setShopId(shop.getId());
+
         int i= productDao.insertProduct(product);
         long pdId= productDao.selectMaxId();
         photo.setId((long)pId);

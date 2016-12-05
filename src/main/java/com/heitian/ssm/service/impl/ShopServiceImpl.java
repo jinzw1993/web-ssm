@@ -78,6 +78,7 @@ public class ShopServiceImpl implements ShopService {
             result.setMessage("failed, the shop owner account has not been activated.");
             return result;
         }
+
         shopBo.setEmail(owner.getEmail());
         photoDao.insertPhoto(new OwnerPhoto(shopBo.getIdPhotoUrl(), shopBo.getOwnerId()));
         shopBo.setStatus((long)3);

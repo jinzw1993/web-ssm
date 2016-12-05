@@ -80,6 +80,7 @@ public class ProductController {
         productBo.setPhotoURL(request.getParameter("photoURL"));
         productBo.setDetail(request.getParameter("detail"));
         productBo.setPrice(Long.valueOf(request.getParameter("price")));
+
         productBo.setOwnId(Long.valueOf(ownerId));
         return productService.addProduct(productBo);
     }
