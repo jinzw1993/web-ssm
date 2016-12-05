@@ -57,12 +57,8 @@ public class ShopController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public @ResponseBody
     Result addNewShop(@RequestBody ShopBo shopBo,
-<<<<<<< HEAD
                       HttpServletRequest request) {
-=======
-                      HttpServletRequest request,
-                      HttpServletResponse response) {
->>>>>>> origin/master
+
         log.info("新店注册");
         String auth = request.getHeader("Authorization");
         if(auth == null)
@@ -83,10 +79,7 @@ public class ShopController {
             return returnResult();
         String ownerId = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
         shopBo.setOwnerId(Long.valueOf(ownerId));
-<<<<<<< HEAD
-=======
 
->>>>>>> origin/master
         return shopService.updateInfo(shopBo);
     }
 
