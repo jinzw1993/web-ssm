@@ -73,6 +73,11 @@ public class ShopServiceImpl implements ShopService {
             return result;
         }
         Owner owner = ownerDao.selectOwnerById(shopBo.getOwnerId());
+        if(owner.getIsEmailVerified() == 0) {
+            result.setStatus(0);
+            result.setMessage("failed, the shop owner account has not been activated.");
+            return result;
+        }
         shopBo.setEmail(owner.getEmail());
         photoDao.insertPhoto(new OwnerPhoto(shopBo.getIdPhotoUrl(), shopBo.getOwnerId()));
         shopBo.setStatus((long)3);

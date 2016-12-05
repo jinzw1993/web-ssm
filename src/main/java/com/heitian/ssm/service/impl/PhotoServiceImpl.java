@@ -41,7 +41,7 @@ public class PhotoServiceImpl implements PhotoService {
     }
 
     public Result deletePhoto(Long productId, String url) {
-        if(photoDao.deletePhoto(productId, url) > 0) {
+        if(photoDao.deletePhoto(productId) > 0) {
             result.setStatus(1);
             result.setMessage("success");
         } else {

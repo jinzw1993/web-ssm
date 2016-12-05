@@ -47,14 +47,9 @@ public class OwnerServiceImpl implements OwnerService {
                     //验证账户状态
                     long status=own.getStatus();
                     int ev=own.getIsEmailVerified();
-                    if (status==0&&ev==1) {
+                    if (status==0) {
                         result.setStatus(1);
-                        owner.setId(own.getId());
-                        Shop shop = shopDao.selectShopByOwnerId(own.getId());
-                        if(shop != null)
-                            result.setMessage(shop.getId().toString());
-                        else
-                            result.setMessage("success");
+                        result.setMessage(own.getId().toString());
                     }
                     else if(status!=0){//账户处于黑名单、已删除或未审核
                         result.setMessage("account is in blacklist or deleted");
@@ -106,6 +101,7 @@ public class OwnerServiceImpl implements OwnerService {
                 owner.setStatus((long)0);
                 owner.setIsEmailVerified(0);
                 int num = ownerDao.insertOwner(owner);
+                result.setMessage((ownerDao.selectOwnerByName(owner.getName()).getId()).toString());
                 if (num == 0) {
                     result.setStatus(0);
                     result.setMessage("failed to insert into database");
@@ -122,11 +118,11 @@ public class OwnerServiceImpl implements OwnerService {
     private void processRegister(String email){
     //邮件内容
         StringBuffer sb=new StringBuffer("点击下面链接激活账号，48小时生效，否则重新注册账号，链接只能使用一次，请尽快激活！</br>");
-        sb.append("<a href=\"http://localhost:8080/owner/activate?email=");
+        sb.append("<a href=\"http://104.236.159.184:8080/web-ssm/owner/activate?email=");
         sb.append(email);
         sb.append("&validateCode=");
         sb.append(DigestUtils.md5DigestAsHex(email.getBytes()));
-        sb.append("\">http://localhost:8080/owner/activate?&email=");
+        sb.append("\">http://104.236.159.184:8080/owner/activate?&email=");
         sb.append(email);
         sb.append("&validateCode=");
         sb.append(DigestUtils.md5DigestAsHex(email.getBytes()).substring(0,12));

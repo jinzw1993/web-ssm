@@ -65,33 +65,37 @@ public class ProductController {
 
     /**
      * 添加商品
-     * @param productBo ProductBo对象，需要 ownId, shopId, name, price, categoryId, detail, photoURL
      * @return result.status=0失败，1成功
      */
     @ResponseBody
-    @RequestMapping("/add")
-    public Result addProduct(@RequestBody ProductBo productBo, HttpServletRequest request) {
+    @RequestMapping(value ="/add", method=RequestMethod.GET)
+    public Result addProduct(HttpServletRequest request) {
         String auth = request.getHeader("Authorization");
         if(auth == null)
             return returnResult();
         String ownerId = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
+        ProductBo productBo = new ProductBo();
+        productBo.setName(request.getParameter("name"));
+        productBo.setCategoryId(Long.valueOf(request.getParameter("categoryId")));
+        productBo.setPhotoURL(request.getParameter("photoURL"));
+        productBo.setDetail(request.getParameter("detail"));
+        productBo.setPrice(Long.valueOf(request.getParameter("price")));
         productBo.setOwnId(Long.valueOf(ownerId));
         return productService.addProduct(productBo);
     }
 
     /**
      * 删除商品
-     * @param productBo ProductBo对象，需要id, photoURL
      * @return result.status=0失败，1成功
      */
     @ResponseBody
     @RequestMapping("/delete")
-    public Result deleteProduct(@RequestBody ProductBo productBo,
+    public Result deleteProduct(@RequestParam Long id ,
                                 HttpServletRequest request) {
         String auth = request.getHeader("Authorization");
         if(auth == null)
             return returnResult();
-        return productService.deleteProduct(productBo);
+        return productService.deleteProduct(id);
     }
 
     /**
@@ -111,31 +115,33 @@ public class ProductController {
 
     /**
      * 根据Owner查找product
-     * @param ownerId 当前owner的ownerId
-     * @param page 当前页
-     * @param pageNum 每页条目数
+
      * @return ProductBo List
      */
     @ResponseBody
-    @RequestMapping(value="/searchByOwner",method= RequestMethod.GET)
-    public List<ProductBo> searchByOwner(@RequestParam long ownerId, @RequestParam int page, @RequestParam int pageNum,
-                                         HttpServletRequest request) {
+    @RequestMapping(value="/searchByOwn",method= RequestMethod.GET)
+    public List<ProductBo> searchByOwner(HttpServletRequest request) {
         String auth = request.getHeader("Authorization");
         if(auth == null)
             return new ArrayList<>();
-        return productService.searchProductBosByOwner(ownerId,page,pageNum);
+        String ownerId = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
+        return productService.searchProductBosByOwner(Long.valueOf(ownerId),1,40);
     }
 
     /**
      * 得到当前owner的product数量
-     * @param ownerId 当前owner的ownerId
      * @return 存到result.message中
      */
     @ResponseBody
     @RequestMapping(value="/getNum",method= RequestMethod.GET)
-    public Result getProductsNum(@RequestParam long ownerId) {
+    public Result getProductsNum(HttpServletRequest request) {
+        String auth = request.getHeader("Authorization");
+        if(auth == null)
+            return new Result();
+        String ownerId = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
+
         Result result =new Result();
-        result.setMessage(Integer.toString(productService.getOwnerProductCount(ownerId)));
+        result.setMessage(Integer.toString(productService.getOwnerProductCount(Long.valueOf(ownerId))));
         result.setStatus(1);
         return result;
     }

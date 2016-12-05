@@ -76,7 +76,7 @@
 
     <select id="searchPhotoURL" parameterType="java.lang.Long" resultType="java.lang.String">
         select path from product_photo
-        WHERE id=#{productPhotoId}
+        WHERE product_id=#{productPhotoId}
     </select>
 
     <select id="searchProductById" parameterType="java.lang.Long" resultMap="ProductBaseMap">
@@ -96,8 +96,8 @@
                 #{product.categoryId}, #{product.detail})
     </insert>
 
-    <delete id="deleteProduct" parameterType="com.heitian.ssm.model.Product">
-        DELETE FROM product WHERE id=#{product.id}
+    <delete id="deleteProduct">
+        DELETE FROM product WHERE id=#{productId}
     </delete>
 
     <update id="updateProduct" parameterType="com.heitian.ssm.model.Product">

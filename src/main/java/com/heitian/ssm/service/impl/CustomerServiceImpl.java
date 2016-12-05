@@ -37,13 +37,13 @@ public class CustomerServiceImpl implements CustomerService {
                     String email = customer.getEmail();
                     String telephone = customer.getTelephone();
                     StringBuffer sb = new StringBuffer("点击下面链接激活账号，48小时生效，否则重新注册账号，链接只能使用一次，请尽快激活！</br>");
-                    sb.append("<a href=\"http://localhost:8080/customer/activate?email=");
+                    sb.append("<a href=\"http://104.236.159.184:8080/customer/activate?email=");
                     sb.append(email);
                     sb.append("&");
                     sb.append("telephone=");
                     sb.append(telephone);
 
-                    sb.append("\">http://localhost:8080/customer/activate?email=");
+                    sb.append("\">http://104.236.159.184:8080/customer/activate?email=");
                     sb.append(email);
                     sb.append("&");
                     sb.append("telephone=");
@@ -55,7 +55,7 @@ public class CustomerServiceImpl implements CustomerService {
                     result.setMessage("success");
                 } catch (Exception e) {
                     result.setStatus(0);
-                    result.setMessage("failed,please register again.");
+                    result.setMessage("failed, please register again.");
                     return result;
                 }
                 int num = customerDao.addCustomer(customer);//添加用户

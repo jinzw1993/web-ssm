@@ -16,7 +16,7 @@ public interface ProductService {
     int searchProductGN(ProductCondition productCondition);
 
     Result addProduct(ProductBo product);
-    Result deleteProduct(ProductBo product);
+    Result deleteProduct(Long productId);
     Result updateProduct(ProductBo product);
     List<ProductBo> searchProductBosByOwner(long ownerId,int page, int pageNum);
     int getOwnerProductCount(Long ownerId);

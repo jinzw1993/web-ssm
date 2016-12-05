@@ -10,19 +10,24 @@
 <%--<script type="text/javascript">--%>
     <%--$.ajax(--%>
             <%--{--%>
-                <%--url: "adminCustomer/searchCustomer",--%>
+                <%--url: "/product/add",--%>
                 <%--type:"POST",--%>
-                <%--contentType:"application/json;charseutf-8",--%>
+                <%--contentType:"application/json",--%>
                 <%--dataType:"json",--%>
 <%--//                data: {name:"Maxwell"},--%>
                 <%--data: JSON.stringify({--%>
-                	<%--telephone : "parknshop",--%>
-               <%--// password:"parknshop"--%>
-	<%--}),--%>
+                    <%--ownId : 2,--%>
+                    <%--categoryId:1,--%>
+                    <%--name:"nihao",--%>
+<%--//                    photoURL:"http://lajkdsf?jljfdas",--%>
+                    <%--price:21,--%>
+                    <%--detail:"hdsakfjhjk"--%>
+                    <%--// password:"parknshop"--%>
+                <%--}),--%>
 <%--//                data:{page:1,count:2},--%>
                 <%--success: function(){--%>
-                <%--alert("success");--%>
-            <%--}}--%>
+                    <%--alert("success");--%>
+                <%--}}--%>
     <%--);--%>
 <%--</script>--%>
 </head>

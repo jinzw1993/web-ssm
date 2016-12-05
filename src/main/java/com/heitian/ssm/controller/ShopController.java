@@ -57,8 +57,7 @@ public class ShopController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public @ResponseBody
     Result addNewShop(@RequestBody ShopBo shopBo,
-                      HttpServletRequest request,
-                      HttpServletResponse response) {
+                      HttpServletRequest request) {
         log.info("新店注册");
         String auth = request.getHeader("Authorization");
         if(auth == null)
@@ -66,12 +65,6 @@ public class ShopController {
         String ownerId = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
         shopBo.setOwnerId(Long.valueOf(ownerId));
         Result result = shopService.addShop(shopBo);
-        if(result.getStatus() == 1 && response != null) {
-            Cookie shopIdCookie = new Cookie("ShopId", result.getMessage());
-            result.setMessage("success");
-            shopIdCookie.setMaxAge(60 * 60 * 24 * 3);
-            response.addCookie(shopIdCookie);
-        }
         return result;
     }
 
@@ -85,7 +78,6 @@ public class ShopController {
             return returnResult();
         String ownerId = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
         shopBo.setOwnerId(Long.valueOf(ownerId));
-
         return shopService.updateInfo(shopBo);
     }
 
@@ -108,7 +100,7 @@ public class ShopController {
         return result;
     }
 
-    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    @RequestMapping(value = "/delete")
     public @ResponseBody
     Result delete(@RequestParam Long id, HttpServletRequest request) {
         String auth = request.getHeader("Authorization");

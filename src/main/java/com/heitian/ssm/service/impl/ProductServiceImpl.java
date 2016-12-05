@@ -10,6 +10,7 @@ import com.heitian.ssm.dao.ProductDao;
 import com.heitian.ssm.dao.ShopDao;
 import com.heitian.ssm.model.Photo;
 import com.heitian.ssm.model.Product;
+import com.heitian.ssm.model.Shop;
 import com.heitian.ssm.service.ProductService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -73,7 +74,10 @@ public class ProductServiceImpl implements ProductService {
         long pId=photoDao.selectMaxId();
         prdtBo.setProductPhotoId((long)pId);
         Product product=(Product)prdtBo;
-        prdtBo.setShopId(shopDao.selectShopByOwnerId(prdtBo.getOwnId()).getId());
+        Shop shop = shopDao.selectShopByOwnerId(prdtBo.getOwnId());
+        if(shop == null)
+            returnRes(0);
+        prdtBo.setShopId(shop.getId());
         int i= productDao.insertProduct(product);
         long pdId= productDao.selectMaxId();
         photo.setId((long)pId);
@@ -81,11 +85,10 @@ public class ProductServiceImpl implements ProductService {
         photoDao.updatePhoto(photo);
         return returnRes(i);
     }
-    public Result deleteProduct(ProductBo prdtBo) {
+    public Result deleteProduct(Long productId) {
 
-        photoDao.deletePhoto(prdtBo.getId(),prdtBo.getPhotoURL());
-        Product product=(Product)prdtBo;
-        int i = productDao.deleteProduct(product);
+        photoDao.deletePhoto(productId);
+        int i = productDao.deleteProduct(productId);
         return returnRes(i);
     }
     public Result updateProduct(ProductBo prdtBo) {
@@ -93,7 +96,6 @@ public class ProductServiceImpl implements ProductService {
         Photo photo = new Photo();
         photo.setPath(prdtBo.getPhotoURL());
         photo.setProductId(prdtBo.getId());
-        photo.setId(prdtBo.getProductPhotoId());
         photoDao.updatePhoto(photo);
         Product product = (Product)prdtBo;
 
