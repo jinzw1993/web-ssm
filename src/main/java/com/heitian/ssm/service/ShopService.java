@@ -12,6 +12,8 @@ import java.util.List;
 public interface ShopService {
     ShopBo getShopByName(String name);
 
+    ShopBo getShopByOwnerId(Long id);
+
     List<ShopBo> getShops(int pageNum, int pageCount, Long status);
 
     List<ShopBo> getShopsByName(String name);

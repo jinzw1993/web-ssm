@@ -40,6 +40,15 @@ public class ShopServiceImpl implements ShopService {
         return shopBo;
     }
 
+    public ShopBo getShopByOwnerId(Long id) {
+        Shop shop =  shopDao.selectShopByOwnerId(id);
+        if(shop == null || shop.getStatus() == 3)
+            return new ShopBo();
+        ShopBo shopBo = new ShopBo(shop);
+        shopBo.setIdPhotoUrl(shopDao.selectUrlByOwnerId(shop.getOwnerId()));
+        return shopBo;
+    }
+
     public List<ShopBo> getPhotos(List<Shop> shops) {
         if(shops == null)
             return new ArrayList<ShopBo>();
@@ -94,8 +103,19 @@ public class ShopServiceImpl implements ShopService {
 
     public Result updateInfo(ShopBo shopBo) {
         Owner owner = ownerDao.selectOwnerById(shopBo.getOwnerId());
+        if(owner == null) {
+            result.setStatus(0);
+            result.setMessage("failed, the shop owner doesn't exist");
+            return result;
+        }
         shopBo.setEmail(owner.getEmail());
-        shopBo.setId(shopDao.selectShopByOwnerId(shopBo.getOwnerId()).getId());
+        Shop shop = shopDao.selectShopByOwnerId(shopBo.getOwnerId());
+        if(shop == null) {
+            result.setStatus(0);
+            result.setMessage("failed, the shop doesn't exist or has been deleted");
+            return result;
+        }
+        shopBo.setId(shop.getId());
 
         Shop tmp = shopDao.selectShopByName(shopBo.getName());
         if(tmp != null && tmp.getOwnerId() != shopBo.getOwnerId()) {
