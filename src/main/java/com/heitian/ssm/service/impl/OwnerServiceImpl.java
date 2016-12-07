@@ -118,11 +118,11 @@ public class OwnerServiceImpl implements OwnerService {
     private void processRegister(String email){
     //邮件内容
         StringBuffer sb=new StringBuffer("点击下面链接激活账号，48小时生效，否则重新注册账号，链接只能使用一次，请尽快激活！</br>");
-        sb.append("<a href=\"http://104.236.159.184:8080/web-ssm/owner/activate?email=");
+        sb.append("<a href=\"http://106.14.70.91:8080/web-ssm/owner/activate?email=");
         sb.append(email);
         sb.append("&validateCode=");
         sb.append(DigestUtils.md5DigestAsHex(email.getBytes()));
-        sb.append("\">http://104.236.159.184:8080/owner/activate?&email=");
+        sb.append("\">http://106.14.70.91:8080/owner/activate?&email=");
         sb.append(email);
         sb.append("&validateCode=");
         sb.append(DigestUtils.md5DigestAsHex(email.getBytes()).substring(0,12));
