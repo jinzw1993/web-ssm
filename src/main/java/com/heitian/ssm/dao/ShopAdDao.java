@@ -11,5 +11,5 @@ import java.util.Date;
  */
 @Repository
 public interface ShopAdDao {
-    int insertShopAd(Long shopId, Date date);
+    int insertShopAd(@Param("shopId") Long shopId, @Param("date") Date date);
 }

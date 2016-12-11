@@ -27,14 +27,14 @@ public class ProductAdServiceImpl implements ProductAdService {
     public Result addProductAd(Long id) {
         if(productDao.searchProductById(id) == null ) {
             result.setMessage("product doesn't exist");
-            result.setStatus(1);
+            result.setStatus(0);
         }
         if(productAdDao.addProductAd(id, new Date()) > 0) {
             result.setMessage("success");
-            result.setStatus(0);
+            result.setStatus(1);
         } else {
             result.setMessage("failed");
-            result.setStatus(1);
+            result.setStatus(0);
         }
         return result;
     }
