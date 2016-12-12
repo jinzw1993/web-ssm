@@ -11,9 +11,9 @@
         <result column="date" property="date"/>
     </resultMap>
 
-    <select id="insertShopAd" parameterType="com.heitian.ssm.dao.ShopAdDao" resultMap="OwnerBaseMap">
+    <insert id="insertShopAd">
         INSERT INTO shop_advertisement(shop_id, status, rank, date)
         VALUE (#{shopId}, 1, 0, #{date});
-    </select>
+    </insert>
 
 </mapper>
