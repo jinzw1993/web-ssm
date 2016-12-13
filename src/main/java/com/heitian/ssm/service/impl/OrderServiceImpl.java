@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * Created by unname on 2016/12/12.
@@ -21,7 +22,7 @@ public class OrderServiceImpl implements OrderService {
     public Result changeProcessStatus(Long orderId, Long status) {
         Result result = new Result();
         int i = orderDao.changeOrderProcessStatus(orderId, status);
-        if(i>0) {
+        if (i > 0) {
             result.setStatus(1);
             result.setMessage("success");
         } else {
@@ -30,7 +31,16 @@ public class OrderServiceImpl implements OrderService {
         }
         return result;
     }
+
     public OrderBo getOrderBoById(Long orderId) {
         return orderDao.getOrderById(orderId);
+    }
+
+    public List<OrderBo> getOwnerOrderBoByPStatus(Long processSatuts, Long ownerId, int page, int pageNum) {
+        return orderDao.getOwnerOrderBoByProcessStatus(processSatuts, ownerId, (page - 1) * pageNum, pageNum);
+    }
+
+    public int getOwnerOrderBoByPStatusNum(Long prcessStatus, Long ownerId) {
+        return orderDao.getOwnerOrderBoByProcessStatusNum(prcessStatus, ownerId);
     }
 }

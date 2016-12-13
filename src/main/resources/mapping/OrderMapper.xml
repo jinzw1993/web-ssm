@@ -70,11 +70,32 @@
           join customer on `order`.customer_id=customer.id
     </sql>
 
+
+    <!-- ____________________________________________ Luxuriant Splitter______________________________________  -->
     <select id="getOrderById" parameterType="java.lang.Long" resultMap="orderBoMap">
         <include refid="selectOrder"/>
         <include refid="fromOrder"/>
         WHERE id=#{orderId}
     </select>
+
+
+    <select id="getOwnerOrderBoByProcessStatus" resultMap="orderBoMap">
+        <include refid="selectOrder"/>
+        <include refid="fromOrder"/>
+        WHERE process_status=#{processStatus} AND `order`.owner_id=#{ownerId} limit #{start}, #{pageNum}
+    </select>
+
+    <select id="getOrderBoByProcessStatusNum" resultMap="orderBoMap">
+        SELECT count(*)
+        FROM order
+        WHERE process_status=#{processStatus} AND owner_id=#{ownerId}
+    </select>
+
+    <update id="changeOrderProcessStatus" >
+        UPDATE `order` set process_status=#{status}
+        WHERE id=#{orderId}
+    </update>
+    <!-- ____________________________________________ End of Luxuriant Splitter______________________________  -->
 
 
     <select id="selectOrderDaily" parameterType="map" resultMap="orderTimeBoMap">
@@ -114,9 +135,6 @@
         order by yearflg desc
     </select>
 
-    <update id="changeOrderProcessStatus" >
-        UPDATE `order` set process_status=#{status}
-        WHERE id=#{orderId}
-    </update>
+
 
 </mapper>
