@@ -11,5 +11,5 @@ import java.util.Date;
  */
 @Repository
 public interface ProductAdDao {
-    int addProductAd(@Param(value="proId") Long proId, @Param(value="date") Date date);
+    int addProductAd(@Param(value="productId") Long proId, @Param(value="date") Date date);
 }

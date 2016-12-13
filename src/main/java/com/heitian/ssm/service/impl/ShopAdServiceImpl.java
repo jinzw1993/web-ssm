@@ -23,7 +23,7 @@ public class ShopAdServiceImpl implements ShopAdService {
     @Resource
     private ShopDao shopDao;
 
-    public Result addShopAd(Long ownerId, Date date) {
+    public Result addShopAd(Long ownerId) {
         Shop shop = shopDao.selectShopByOwnerId(ownerId);
         Result result = new Result();
         if(shop==null) {
@@ -38,7 +38,7 @@ public class ShopAdServiceImpl implements ShopAdService {
             return result;
         }
         Long shopId = shop.getId();
-        int i = shopAdDao.insertShopAd(shopId, date);
+        int i = shopAdDao.insertShopAd(shopId, new Date());
         if(i!=0) {
             result.setMessage("success");
             result.setStatus(1);

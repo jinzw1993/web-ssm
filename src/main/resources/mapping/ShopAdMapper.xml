@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
-<mapper namespace="com.heitian.ssm.dao.OwnerDao">
+<mapper namespace="com.heitian.ssm.dao.ShopAdDao">
 
-    <resultMap id="ShopAdBaseMap" type="com.heitian.ssm.model.ShopAd">
-        <id column="id" property="id"/>
-        <result column="shop_id" property="shopId" />
-        <result column="status" property="status"/>
-        <result column="rank" property="rank"/>
-        <result column="date" property="date"/>
-    </resultMap>
+<resultMap id="ShopAdBaseMap" type="com.heitian.ssm.model.ShopAd">
+    <id column="id" property="id"/>
+    <result column="shop_id" property="shopId" />
+    <result column="status" property="status"/>
+    <result column="rank" property="rank"/>
+    <result column="date" property="date"/>
+</resultMap>
 
-    <insert id="insertShopAd">
-        INSERT INTO shop_advertisement(shop_id, status, rank, date)
-        VALUE (#{shopId}, 1, 0, #{date});
-    </insert>
+<insert id="insertShopAd" parameterType="map">
+    INSERT INTO shop_advertisement(shop_id, status, rank, date)
+    VALUE (#{shopId}, 1, 0, #{date});
+</insert>
 
 </mapper>

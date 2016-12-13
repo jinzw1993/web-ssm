@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.heitian.ssm.dao.OrderDao">
+    <resultMap id="orderMap" type="com.heitian.ssm.model.Order">
+        <id column="id" property="id" />
+        <result column="customer_id" property="customerId" />
+        <result column="owner_id" property="ownerId" />
+        <result column="express_id" property="expressId" />
+        <result column="commission_rate" property="commissionRate" />
+        <result column="process_status" property="processStatus" />
+        <result column="created_at" property="createdAt" />
+    </resultMap>
+
+    <update id="changeOrderProcessStatus" >
+        UPDATE `order` set process_status=#{status}
+        WHERE id=#{orderId}
+    </update>
+</mapper>
