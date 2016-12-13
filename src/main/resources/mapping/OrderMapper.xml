@@ -10,6 +10,7 @@
         <result column="process_status" property="processStatus" />
         <result column="created_at" property="createdAt" />
     </resultMap>
+
     <resultMap id="orderBoMap" type="com.heitian.ssm.bo.OrderBo">
         <id column="id" property="id" />
         <result column="express_id" property="expressId" />
@@ -69,4 +70,10 @@
         group by weekflg,monthflg,yearflg,dayflg
         order by weekflg desc,monthflg desc,weekflg desc,dayflg desc
     </select>
+
+    <update id="changeOrderProcessStatus" >
+        UPDATE `order` set process_status=#{status}
+        WHERE id=#{orderId}
+    </update>
+
 </mapper>
