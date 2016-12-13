@@ -1,6 +1,7 @@
 package com.heitian.ssm.bo;
 
-import java.util.Date;
+
+import java.sql.Time;
 
 /**
  * Created by oasis on 12/12/16.
@@ -16,7 +17,7 @@ public class OrderBo {
     private Long commission;
     private Long status;
     private Long processStatus;
-    private Date createdAt;
+    private Time createdAt;
 
     public Long getId() {
         return id;
@@ -98,11 +99,11 @@ public class OrderBo {
         this.processStatus = processStatus;
     }
 
-    public Date getCreatedAt() {
+    public Time getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(Time createdAt) {
         this.createdAt = createdAt;
     }
 }

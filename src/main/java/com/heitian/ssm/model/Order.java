@@ -1,6 +1,6 @@
 package com.heitian.ssm.model;
 
-import java.util.Date;
+import java.sql.Time;
 
 /**
  * Created by oasis on 12/12/16.
@@ -17,6 +17,15 @@ public class Order {
     Long commissionRate;
     Long status;
     Long processStatus;
+    Time createdAt;
+
+    public Time getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Time createdAt) {
+        this.createdAt = createdAt;
+    }
 
     public Long getId() {
         return id;
@@ -106,13 +115,4 @@ public class Order {
         this.processStatus = processStatus;
     }
 
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    Date createdAt;
 }
