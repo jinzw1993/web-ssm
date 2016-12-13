@@ -12,6 +12,8 @@ import java.util.List;
 public interface OrderService {
     Result changeProcessStatus(Long orderId, Long status);
     OrderBo getOrderBoById(Long orderId);
-    int getOwnOrderCompleteNum(Long orderId);
+    Result getOwnOrderCompleteNum(Long ownerId);
     List<OrderTimeBo> getOwnOrderByTime(Long orderId, int page, int num, int i);
+    List<OrderBo> getOwnerOrderBoByPStatus(Long processStatus, Long ownerId, int page, int pageNum);
+    Result getOwnerOrderBoByPStatusNum(Long processStatus, Long ownerId);
 }

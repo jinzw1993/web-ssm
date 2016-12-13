@@ -16,4 +16,10 @@
         FROM product_comment
         WHERE product_id=#{productId} limit #{start}, #{pageNum}
     </select>
+
+    <select id="getCommentNum" >
+        SELECT count(*)
+        FROM product_comment
+        WHERE product_id=#{productId}
+    </select>
 </mapper>

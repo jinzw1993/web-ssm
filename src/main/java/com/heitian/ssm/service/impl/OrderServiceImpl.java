@@ -20,22 +20,24 @@ import java.util.List;
 public class OrderServiceImpl implements OrderService {
     @Resource
     private OrderDao orderDao;
+    private Result result = new Result();
 
     public Result changeProcessStatus(Long orderId, Long status) {
-        Result result = new Result();
         int i = orderDao.changeOrderProcessStatus(orderId, status);
-        if(i>0) {
+        if (i > 0) {
             result.setStatus(1);
             result.setMessage("success");
         } else {
             result.setStatus(0);
-            result.setMessage("failded");
+            result.setMessage("failed");
         }
         return result;
     }
+
     public OrderBo getOrderBoById(Long orderId) {
         return orderDao.getOrderById(orderId);
     }
+
 
     public List<OrderTimeBo> getOwnOrderByTime(Long id, int page, int num, int i) {
         List<OrderTimeBo> list = new ArrayList<>();
@@ -52,7 +54,19 @@ public class OrderServiceImpl implements OrderService {
         return list;
     }
 
-    public int getOwnOrderCompleteNum(Long orderId) {
-        return orderDao.getOwnOrderCompleteNum(orderId);
+    public Result getOwnOrderCompleteNum(Long ownerId) {
+        result.setStatus(1);
+        result.setMessage(String.valueOf(orderDao.getOwnOrderCompleteNum(ownerId)));
+        return result;
+    }
+
+    public List<OrderBo> getOwnerOrderBoByPStatus(Long processStatus, Long ownerId, int page, int pageNum) {
+        return orderDao.getOwnerOrderBoByProcessStatus(processStatus, ownerId, (page - 1) * pageNum, pageNum);
+    }
+
+    public Result getOwnerOrderBoByPStatusNum(Long processStatus, Long ownerId) {
+        result.setStatus(1);
+        result.setMessage(String.valueOf(orderDao.getOwnerOrderBoByProcessStatusNum(processStatus, ownerId)));
+        return result;
     }
 }

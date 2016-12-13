@@ -69,6 +69,8 @@
           join customer on `order`.customer_id=customer.id
     </sql>
 
+
+    <!-- ____________________________________________ Luxuriant Splitter______________________________________  -->
     <select id="getOrderById" parameterType="java.lang.Long" resultMap="orderBoMap">
         <include refid="selectOrder"/>
         <include refid="fromOrder"/>
@@ -76,14 +78,33 @@
     </select>
 
 
-    <select id="getOwnOrderDaily" parameterType="map" resultMap="orderTimeBoMap">
+    <select id="getOwnerOrderBoByProcessStatus" resultMap="orderBoMap">
+        <include refid="selectOrder"/>
+        <include refid="fromOrder"/>
+        WHERE process_status=#{processStatus} AND `order`.owner_id=#{ownerId} limit #{start}, #{pageNum}
+    </select>
+
+    <select id="getOrderBoByProcessStatusNum" resultMap="orderBoMap">
+        SELECT count(*)
+        FROM order
+        WHERE process_status=#{processStatus} AND owner_id=#{ownerId}
+    </select>
+
+    <update id="changeOrderProcessStatus" >
+        UPDATE `order` set process_status=#{status}
+        WHERE id=#{orderId}
+    </update>
+    <!-- ____________________________________________ End of Luxuriant Splitter______________________________  -->
+
+
+    <select id="selectOrderDaily" parameterType="map" resultMap="orderTimeBoMap">
         <include refid="selectOrder" />
         <include refid="daily" />
         <include refid="fromOrder" />
         where `order`.owner_id=#{id} and `order`.process_status=4 and `order`.status=1
         limit #{page},#{count}
         group by monthflg,yearflg,dayflg
-        order by monthflg desc,yearflg desc,dayflg desc
+        order by created_at desc
     </select>
     <select id="getOwnOrderWeekly" parameterType="map" resultMap="orderTimeBoMap">
         <include refid="selectOrder" />
@@ -92,7 +113,7 @@
         where `order`.owner_id=#{id} and `order`.process_status=4 and `order`.status=1
         limit #{page},#{count}
         group by weekflg,monthflg,yearflg
-        order by yearflg desc,monthflg desc,weekflg desc
+        order by created_at desc
     </select>
 
     <select id="getOwnOrderMonthly" parameterType="map" resultMap="orderTimeBoMap">
@@ -102,7 +123,7 @@
         where `order`.owner_id=#{id} and `order`.process_status=4 and `order`.status=1
         limit #{page},#{count}
         group by monthflg,yearflg
-        order by monthflg desc,yearflg desc
+        order by created_at desc
     </select>
     <select id="getOwnOrderYearly" parameterType="map" resultMap="orderTimeBoMap">
         <include refid="selectOrder" />
@@ -111,13 +132,10 @@
         where `order`.owner_id=#{id} and `order`.process_status=4 and `order`.status=1
         limit #{page},#{count}
         group by yearflg
-        order by yearflg desc
+        order by created_at desc
     </select>
 
-    <update id="changeOrderProcessStatus" >
-        UPDATE `order` set process_status=#{status}
-        WHERE id=#{orderId}
-    </update>
+
 
     <!--店主所有已完成的订单数量，用于天周月年查询分页-->
     <select id="getOwnOrderCompleteNum">
