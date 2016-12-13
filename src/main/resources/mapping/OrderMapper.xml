@@ -10,4 +10,63 @@
         <result column="process_status" property="processStatus" />
         <result column="created_at" property="createdAt" />
     </resultMap>
+    <resultMap id="orderBoMap" type="com.heitian.ssm.bo.OrderBo">
+        <id column="id" property="id" />
+        <result column="express_id" property="expressId" />
+        <result column="order_status" property="status" />
+        <result column="process_status" property="processStatus" />
+        <result column="created_at" property="createdAt" />
+        <!--<result column="yearflg" property="year" />-->
+        <!--<result column="monthflg" property="month" />-->
+        <!--<result column="weekflg" property="week" />-->
+        <!--<result column="dayflg" property="day" />-->
+    </resultMap>
+
+    <sql id="selectOrder">
+        select `order`.id id,
+          owner.email ownerEmail,
+          shop.name shopName,
+          customer.email customerEmail,
+          express_id,
+          price,
+          amount,
+          commission,
+          `order`.status order_status,
+          process_status,
+          created_at,
+    </sql>
+
+    <sql id="daily">
+        year(created_at) yearflg,
+        month(created_at) monthflg,
+        day(created_at) dayflg
+    </sql>
+    <sql id="weekly">
+        year(created_at) yearflg,
+        month(created_at) monthflg,
+        week(created_at) weekflg,
+    </sql>
+    <sql id="monthly">
+        year(created_at) yearflg,
+        month(created_at) monthflg,
+    </sql>
+    <sql id="yearly">
+        year(created_at) yearflg,
+    </sql>
+    <sql id="fromOder">
+        from `order`
+          join owner on `order`.owner_id=owner.id
+          join shop on `order`.shop_id=shop.id
+          join customer on `order`.customer_id=customer.id
+    </sql>
+
+    <select id="selectOrderDaily" parameterType="map" resultMap="orderBoMap">
+        <include refid="selectOrder" />
+        <include refid="daily" />
+        <include refid="fromOrder" />
+        where `order`.process_status=4 and `order`.status=1
+        limit #{page},#{count}
+        group by weekflg,monthflg,yearflg,dayflg
+        order by weekflg desc,monthflg desc,weekflg desc,dayflg desc
+    </select>
 </mapper>
