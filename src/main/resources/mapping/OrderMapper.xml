@@ -70,6 +70,13 @@
           join customer on `order`.customer_id=customer.id
     </sql>
 
+    <select id="getOrderById" parameterType="java.lang.Long" resultMap="orderBoMap">
+        <include refid="selectOrder"/>
+        <include refid="fromOrder"/>
+        WHERE id=#{orderId}
+    </select>
+
+
     <select id="selectOrderDaily" parameterType="map" resultMap="orderTimeBoMap">
         <include refid="selectOrder" />
         <include refid="daily" />

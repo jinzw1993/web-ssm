@@ -1,5 +1,6 @@
 package com.heitian.ssm.service;
 
+import com.heitian.ssm.bo.OrderBo;
 import com.heitian.ssm.bo.Result;
 
 /**
@@ -7,4 +8,5 @@ import com.heitian.ssm.bo.Result;
  */
 public interface OrderService {
     Result changeProcessStatus(Long orderId, Long status);
+    OrderBo getOrderBoById(Long orderId);
 }

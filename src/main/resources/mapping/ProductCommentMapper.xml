@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.heitian.ssm.dao.ProductAdDao">
+
+    <resultMap id="ProductCommentBaseMap" type="com.heitian.ssm.model.ProductComment">
+        <id column="id" property="id" />
+        <result column="product_id" property="productId" />
+        <result column="customer_id" property="customerId" />
+        <result column="comment" property="comment"/>
+        <result column="created_at" property="createdAt"/>
+
+    </resultMap>
+
+    <select id="getComment" resultMap="ProductCommentBaseMap">
+        SELECT id, customer_id, comment, created_at
+        FROM product_comment
+        WHERE product_id=#{productId} limit #{start}, #{pageNum}
+    </select>
+</mapper>

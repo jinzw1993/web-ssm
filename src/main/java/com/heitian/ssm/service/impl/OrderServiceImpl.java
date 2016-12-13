@@ -1,5 +1,6 @@
 package com.heitian.ssm.service.impl;
 
+import com.heitian.ssm.bo.OrderBo;
 import com.heitian.ssm.bo.Result;
 import com.heitian.ssm.dao.OrderDao;
 import com.heitian.ssm.service.OrderService;
@@ -28,5 +29,8 @@ public class OrderServiceImpl implements OrderService {
             result.setMessage("failded");
         }
         return result;
+    }
+    public OrderBo getOrderBoById(Long orderId) {
+        return orderDao.getOrderById(orderId);
     }
 }

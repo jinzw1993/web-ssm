@@ -1,5 +1,7 @@
 package com.heitian.ssm.dao;
 
+import com.heitian.ssm.bo.OrderBo;
+import com.heitian.ssm.model.Order;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -8,5 +10,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface OrderDao {
     int changeOrderProcessStatus(Long orderId, Long status);
-
+    OrderBo getOrderById(Long orderId);
 }
