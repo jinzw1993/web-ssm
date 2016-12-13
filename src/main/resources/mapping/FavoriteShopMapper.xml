@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.heitian.ssm.dao.FavoriteShopDao">
+    <resultMap id="FavoriteShopBaseMap" type="com.heitian.ssm.model.FavoriteShop">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="shop_id" property="shopId" jdbcType="BIGINT"/>
+        <result column="customer_id" property="customerId" jdbcType="BIGINT"/>
+        <result column="created_at" property="createdAt" jdbcType="TIME"/>
+    </resultMap>
+    
+    <insert id="insertFavoriteShop" parameterType="com.heitian.ssm.model.FavoriteShop">
+        insert into
+                favorite_shop(shop_id, customer_id, created_at)
+        VALUES (#{favoriteShop.shopId}, #{favoriteShop.customerId},#{favoriteShop.createdAt})
+    </insert>
+    
+    <select id="searchFavoriteShop" resultMap="FavoriteShopBaseMap">
+	    SELECT * FROM  favorite_shop
+	    ORDER BY id
+	</select>
+    
+</mapper>
