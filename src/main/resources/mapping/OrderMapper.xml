@@ -42,27 +42,28 @@
           commission,
           `order`.status order_status,
           process_status,
-          created_at,
+          created_at
     </sql>
 
     <sql id="daily">
-        year(created_at) yearflg,
+        ,year(created_at) yearflg,
         month(created_at) monthflg,
         day(created_at) dayflg
     </sql>
     <sql id="weekly">
-        year(created_at) yearflg,
+        ,year(created_at) yearflg,
         month(created_at) monthflg,
         week(created_at) weekflg,
     </sql>
     <sql id="monthly">
-        year(created_at) yearflg,
-        month(created_at) monthflg,
+        ,year(created_at) yearflg,
+        month(created_at) monthflg
     </sql>
     <sql id="yearly">
-        year(created_at) yearflg,
+        ,year(created_at) yearflg
     </sql>
-    <sql id="fromOder">
+
+    <sql id="fromOrder">
         from `order`
           join owner on `order`.owner_id=owner.id
           join shop on `order`.shop_id=shop.id
@@ -84,7 +85,7 @@
         WHERE process_status=#{processStatus} AND `order`.owner_id=#{ownerId} limit #{start}, #{pageNum}
     </select>
 
-    <select id="getOrderBoByProcessStatusNum" resultMap="orderBoMap">
+    <select id="getOwnerOrderBoByProcessStatusNum" resultMap="orderBoMap">
         SELECT count(*)
         FROM order
         WHERE process_status=#{processStatus} AND owner_id=#{ownerId}
@@ -97,7 +98,7 @@
     <!-- ____________________________________________ End of Luxuriant Splitter______________________________  -->
 
 
-    <select id="selectOrderDaily" parameterType="map" resultMap="orderTimeBoMap">
+    <select id="selectOwnOrderDaily" parameterType="map" resultMap="orderTimeBoMap">
         <include refid="selectOrder" />
         <include refid="daily" />
         <include refid="fromOrder" />
