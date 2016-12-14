@@ -56,12 +56,12 @@
     </insert>
 
     <update id="updateOwner" parameterType="com.heitian.ssm.model.Owner">
-        UPDATE owner set password=#{owner.password}, status=#{owner.status}, is_email_verified=#{owner.isEmailVerified}
+        UPDATE owner set  password=#{owner.password}, status=#{owner.status}, is_email_verified=#{owner.isEmailVerified}
         WHERE email=#{owner.email}
     </update>
 
 
-    <delete id="deleteById" parameterType="java.lang.Integer" >
+    <delete id="deleteById" parameterType="java.lang.Long" >
         DELETE from owner WHERE id=#{id}
     </delete>
 

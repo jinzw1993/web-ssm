@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
@@ -56,11 +57,14 @@ public class ShopController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public @ResponseBody
     Result addNewShop(@RequestBody ShopBo shopBo,
-                      @CookieValue(value = "OwnerEmail",defaultValue = "swc") String name,
+                      HttpServletRequest request,
                       HttpServletResponse response) {
         log.info("新店注册");
-        if(!"swc".equals(name))
+        String auth = request.getHeader("Authorization");
+        if(auth == null)
             return returnResult();
+        String ownerId = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
+        shopBo.setOwnerId(Long.valueOf(ownerId));
         Result result = shopService.addShop(shopBo);
         if(result.getStatus() == 1 && response != null) {
             Cookie shopIdCookie = new Cookie("ShopId", result.getMessage());
@@ -73,11 +77,15 @@ public class ShopController {
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public @ResponseBody
-    Result update(@RequestBody ShopBo shopBo, @CookieValue(value = "OwnerEmail",defaultValue = "swc") String name) {
-        log.info("店铺更新" + name);
-        if("swc".equals(name)) {
+    Result update(@RequestBody ShopBo shopBo,
+                  HttpServletRequest request) {
+        log.info("店铺更新");
+        String auth = request.getHeader("Authorization");
+        if(auth == null)
             return returnResult();
-        }
+        String ownerId = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
+        shopBo.setOwnerId(Long.valueOf(ownerId));
+
         return shopService.updateInfo(shopBo);
     }
 
@@ -102,10 +110,10 @@ public class ShopController {
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     public @ResponseBody
-    Result delete(@RequestParam Long id, @CookieValue(value = "OwnerEmail",defaultValue = "swc") String name) {
-        if("swc".equals(name)) {
+    Result delete(@RequestParam Long id, HttpServletRequest request) {
+        String auth = request.getHeader("Authorization");
+        if(auth == null)
             return returnResult();
-        }
         log.info("店铺删除");
         return shopService.updateStatus(id, (long)2);
     }

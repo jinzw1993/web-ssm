@@ -20,7 +20,7 @@
     ORDER BY id
     limit #{start},#{num}
 
-</select>
+	</select>
 
     <select id="searchByNoneGN" resultType="java.lang.Integer">
         SELECT count(*) FROM  product
@@ -55,6 +55,7 @@
         ORDER BY id
         limit #{start},#{num}
     </select>
+
 
     <select id="searchWithKeywordGN" parameterType="com.heitian.ssm.bo.ProductCondition" resultType="java.lang.Integer">
         SELECT count(*) FROM  product

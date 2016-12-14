@@ -7,6 +7,7 @@ import com.heitian.ssm.bo.Result;
 import com.heitian.ssm.dao.PhotoDao;
 
 import com.heitian.ssm.dao.ProductDao;
+import com.heitian.ssm.dao.ShopDao;
 import com.heitian.ssm.model.Photo;
 import com.heitian.ssm.model.Product;
 import com.heitian.ssm.service.ProductService;
@@ -29,6 +30,8 @@ public class ProductServiceImpl implements ProductService {
     private ProductDao productDao;
     @Resource
     private PhotoDao photoDao;
+    @Resource
+    private ShopDao shopDao;
 
     public List<ProductBo> searchProductBos(ProductCondition productCondition) {
         List<ProductBo> productBos = new ArrayList<ProductBo>();
@@ -70,6 +73,7 @@ public class ProductServiceImpl implements ProductService {
         long pId=photoDao.selectMaxId();
         prdtBo.setProductPhotoId((long)pId);
         Product product=(Product)prdtBo;
+        prdtBo.setShopId(shopDao.selectShopByOwnerId(prdtBo.getOwnId()).getId());
         int i= productDao.insertProduct(product);
         long pdId= productDao.selectMaxId();
         photo.setId((long)pId);

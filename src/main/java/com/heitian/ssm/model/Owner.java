@@ -1,11 +1,5 @@
 package com.heitian.ssm.model;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
-
-/**
- * Created by oasis on 11/26/16.
- */
-
 public class Owner {
     private Long id;
     private String name;

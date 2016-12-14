@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.heitian.ssm.dao.ProductInCartDao">
+    <resultMap id="ProductInCartBaseMap" type="com.heitian.ssm.model.ProductInCart">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="cart_id" property="cartId" jdbcType="BIGINT"/>
+        <result column="product_id" property="productId" jdbcType="BIGINT"/>
+        <result column="created_at" property="createdAt" jdbcType="TIME"/>
+    </resultMap>
+
+	<select id="searchProductInCartById" resultMap="ProductInCartBaseMap">
+	    SELECT * FROM  product_in_cart WHERE id = #{id}
+	</select>
+	
+	<select id="searchProductInCartByCartId" resultMap="ProductInCartBaseMap">
+	    SELECT * FROM  product_in_cart WHERE cart_id = #{cartId}
+	</select>
+	
+	<select id="searchProductInCartByCartIdAndProductId" resultMap="ProductInCartBaseMap">
+	    SELECT * FROM  product_in_cart WHERE cart_id = #{cartId} AND product_id = #{productId}
+	</select>
+	
+	<update id="updateProductInCart" parameterType="com.heitian.ssm.model.ProductInCart">
+        UPDATE product_in_cart set  amount=#{productInCart.amount}, created_at=#{productInCart.createdAt}
+        WHERE product_id = #{productInCart.productId} AND cart_id = #{productInCart.cartId}
+    </update>
+    
+    <insert id="insertProductInCart" useGeneratedKeys="true" parameterType="com.heitian.ssm.model.ProductInCart">
+        insert into product_in_cart(product_id,cart_id,amount,created_at) VALUES
+          (#{productInCart.productId},#{productInCart.cartId},#{productInCart.amount},#{productInCart.createdAt})
+    </insert>
+    
+    <delete id="deleteProductInCart" parameterType="com.heitian.ssm.model.ProductInCart">
+        DELETE FROM product_in_cart WHERE cart_id = #{productInCart.cartId} AND product_id = #{productInCart.productId}
+    </delete>
+    
+    
+</mapper>

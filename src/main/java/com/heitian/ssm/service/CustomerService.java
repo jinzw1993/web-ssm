@@ -11,4 +11,6 @@ public interface CustomerService {
     public Result addCustomer(Customer customer);
     public Result customerLogin(Customer customer);
     public Result customerActivate(String telephone, String email);
+
 }
+
