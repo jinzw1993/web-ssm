@@ -5,7 +5,6 @@ import com.heitian.ssm.model.Owner;
 import com.heitian.ssm.service.OwnerService;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -44,7 +43,7 @@ public class OwnerController {
     @ResponseBody
     @RequestMapping(value="/activate",method = RequestMethod.GET)
     public Result ownerActivate( @RequestParam String email) {
-        return ownerService.processActivate(email);
+        return ownerService.processActivate(email,email);
     }
 
     /**

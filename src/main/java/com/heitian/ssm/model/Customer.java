@@ -2,67 +2,83 @@ package com.heitian.ssm.model;
 
 import java.io.Serializable;
 
+public class Customer implements Serializable {
+	private Long id;
+	private String name;
+	private String telephone;
+	private Long status;
+	private String password;
+	private String email;
+	private Integer isEmailVerified;
 
+	public Long getId()
+	{
+		return id;
+	}
 
-public class Customer implements Serializable{
-    private Long id;
-    private String name;
-    private String telephone;
-    private Long status;
-    private String password;
-    private String email;
-    private Integer isEmailVerified;
+	public void setId(Long id)
+	{
+		this.id = id;
+	}
 
-    public Long getId() {
-        return id;
-    }
+	public String getName()
+	{
+		return name;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public void setName(String name)
+	{
+		this.name = name;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public String getTelephone()
+	{
+		return telephone;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setTelephone(String telephone)
+	{
+		this.telephone = telephone;
+	}
 
-    public String getTelephone() {
-        return telephone;
-    }
+	public Long getStatus()
+	{
+		return status;
+	}
 
-    public void setTelephone(String telephone) {
-        this.telephone = telephone;
-    }
+	public void setStatus(Long status)
+	{
+		this.status = status;
+	}
 
-    public Long getStatus() {
-        return status;
-    }
+	public void setPassword(String password)
+	{
+		this.password = password;
+	}
 
-    public void setStatus(Long status) {
-        this.status = status;
-    }
+	public String getEmail()
+	{
+		return email;
+	}
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+	public void setEmail(String email)
+	{
+		this.email = email;
+	}
 
-    public String getEmail() {
-        return email;
-    }
+	public Integer getIsEmailVerified()
+	{
+		return isEmailVerified;
+	}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	public void setIsEmailVerified(Integer isEmailVerified)
+	{
+		this.isEmailVerified = isEmailVerified;
+	}
 
-    public Integer getIsEmailVerified() {
-        return isEmailVerified;
-    }
-
-    public void setIsEmailVerified(Integer isEmailVerified) {
-        this.isEmailVerified = isEmailVerified;
-    }
+	public String getPassword()
+	{
+		return password;
+	}
 
 }
