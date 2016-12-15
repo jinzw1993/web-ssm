@@ -1,5 +1,6 @@
 package com.heitian.ssm.dao;
 
+import com.heitian.ssm.bo.ProductCommentBo;
 import com.heitian.ssm.model.ProductComment;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -11,6 +12,6 @@ import java.util.List;
  */
 @Repository
 public interface ProductCommentDao {
-    List<ProductComment> getComment(@Param("productId") Long productId, @Param("start") int start, @Param("pageNum") int pageNum);
+    List<ProductCommentBo> getCommentBos(@Param("productId") Long productId, @Param("start") int start, @Param("pageNum") int pageNum);
     int getCommentNum(Long productId);
 }

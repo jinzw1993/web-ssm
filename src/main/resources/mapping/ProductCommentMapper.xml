@@ -11,9 +11,19 @@
 
     </resultMap>
 
-    <select id="getComment" resultMap="ProductCommentBaseMap">
-        SELECT id, customer_id, comment, created_at
-        FROM product_comment
+    <resultMap id="CommentBoMap" type="com.heitian.ssm.bo.ProductCommentBo">
+        <id column="id" property="id" />
+        <result column="product_id" property="productId" />
+        <result column="customer_id" property="customerId" />
+        <result column="comment" property="comment"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="email" property="customerEmail"/>
+
+    </resultMap>
+
+    <select id="getCommentBos" resultMap="CommentBoMap">
+        SELECT id, customer_id, product_id, comment, created_at, customer.email
+        FROM product_comment JOIN customer ON product_comment.customer_id=customer.id
         WHERE product_id=#{productId} limit #{start}, #{pageNum}
     </select>
 
