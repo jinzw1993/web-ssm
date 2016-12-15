@@ -16,6 +16,11 @@
         SET  path=#{path}
         WHERE product_id=#{productId}
     </update>
+    <update id="updatePhotoProId" parameterType="com.heitian.ssm.model.Photo">
+        UPDATE product_photo
+        SET product_id = #{productId}
+        WHERE id = #{id}
+    </update>
     <delete id="deletePhoto">
         DELETE FROM product_photo
         WHERE product_id=#{productId}

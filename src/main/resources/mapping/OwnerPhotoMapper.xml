@@ -9,6 +9,8 @@
     <insert id="insertPhoto" useGeneratedKeys="true" keyProperty="id" parameterType="com.heitian.ssm.model.OwnerPhoto">
         INSERT INTO owner_photo(owner_id, path)
         VALUES (#{ownerId}, #{path})
+        ON DUPLICATE KEY UPDATE
+        path = #{path}
     </insert>
     <update id="updatePhoto" parameterType="com.heitian.ssm.model.OwnerPhoto">
         UPDATE owner_photo

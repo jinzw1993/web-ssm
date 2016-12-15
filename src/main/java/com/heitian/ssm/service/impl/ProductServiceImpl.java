@@ -74,16 +74,18 @@ public class ProductServiceImpl implements ProductService {
         long pId=photoDao.selectMaxId();
         prdtBo.setProductPhotoId((long)pId);
         Product product=(Product)prdtBo;
+        if(prdtBo.getOwnId() == null)
+            return returnRes(0);
         Shop shop = shopDao.selectShopByOwnerId(prdtBo.getOwnId());
         if(shop == null)
-            returnRes(0);
+            return returnRes(0);
         prdtBo.setShopId(shop.getId());
 
         int i= productDao.insertProduct(product);
         long pdId= productDao.selectMaxId();
         photo.setId((long)pId);
         photo.setProductId(pdId);
-        photoDao.updatePhoto(photo);
+        photoDao.updatePhotoProId(photo);
         return returnRes(i);
     }
     public Result deleteProduct(Long productId) {
