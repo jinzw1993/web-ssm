@@ -13,11 +13,17 @@ import org.springframework.transaction.annotation.Transactional;
 import com.heitian.ssm.bo.CartBo;
 import com.heitian.ssm.bo.Result;
 import com.heitian.ssm.dao.CartDao;
+import com.heitian.ssm.dao.CategoryDao;
+import com.heitian.ssm.dao.OwnerDao;
 import com.heitian.ssm.dao.ProductDao;
 import com.heitian.ssm.dao.ProductInCartDao;
+import com.heitian.ssm.dao.ShopDao;
 import com.heitian.ssm.model.Cart;
+import com.heitian.ssm.model.Category;
+import com.heitian.ssm.model.Owner;
 import com.heitian.ssm.model.Product;
 import com.heitian.ssm.model.ProductInCart;
+import com.heitian.ssm.model.Shop;
 import com.heitian.ssm.service.CartService;
 
 @Service
@@ -30,6 +36,13 @@ public class CartServiceImpl implements CartService {
 	private ProductInCartDao productInCartDao;
 	@Resource
 	private ProductDao productDao;
+	@Resource
+	private CategoryDao categoryDao;
+	@Resource
+	private OwnerDao ownerDao;
+	@Resource
+	private ShopDao shopDao;
+	
 	
 	@Override
 	public Result findCart(Long customerId) {
@@ -60,12 +73,15 @@ public class CartServiceImpl implements CartService {
 		} else {
 			List<ProductInCart> productInCarts = productInCartDao.searchProductInCartByCartId(cart.getId());
 			
-			for(ProductInCart productInCart : productInCarts) {
+			for(ProductInCart productInCart : productInCarts) {				
 				Product product = productDao.searchProductById(productInCart.getProductId());
+				
+				String path=productDao.searchPhotoURL(product.getId());
 				CartBo cartBo = new CartBo(product);
 				cartBo.setAmount(productInCart.getAmount());
 				cartBo.setSubPrice(productInCart.getAmount() * product.getPrice());
-				
+				cartBo.setPhotoURL(path);
+
 				cartBos.add(cartBo);
 			}
 		}
