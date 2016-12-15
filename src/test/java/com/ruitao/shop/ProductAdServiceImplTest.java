@@ -8,10 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
+import com.heitian.ssm.bo.Result;
 import com.heitian.ssm.dao.ProductAdDao;
 import com.heitian.ssm.dao.ShopAdDao;
 import com.heitian.ssm.model.ProductAd;
 import com.heitian.ssm.model.ShopAd;
+import com.heitian.ssm.service.ProductAdService;
+import com.heitian.ssm.service.ShopAdService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
@@ -22,6 +25,10 @@ public class ProductAdServiceImplTest {
 	private ProductAdDao ppa;
 	@Autowired
 	private ShopAdDao sha;
+	@Autowired
+	private ShopAdService sas;
+	@Autowired
+	private ProductAdService ps;
 
 	
 	public void testShowProductAd()
@@ -41,10 +48,11 @@ public class ProductAdServiceImplTest {
 		List<ShopAd> pro = sha.applyShopAd();
 		System.out.println("-----------------------\n" + pro.size());
 	}
-	
+	@Test
 	public void testAddProductAd()
 	{
-		ppa.addProductAd(10L, new Date(1010020010L));
+		Result i=ps.addProductAd(10L, new Date(1010020010L));
+		System.out.println(i.getMessage());
 	}
 	
 	
@@ -54,24 +62,30 @@ public class ProductAdServiceImplTest {
 	public void testShowShopAd()
 	{
 		List<ShopAd> productAds = sha.showShopAd();
+		for(ShopAd s : productAds) {
+			System.out.println(s.getDate());
+		}
 		System.out.println("-----------------------\n" + productAds.size());
 
 	}
-	@Test
+	
+	
 	public void testDeleteShopAd()
 	{
-		sha.deleteShopAd(2L);
+		sas.deleteShopAd(2L);
 	}
-
+	
 	public void testApplyShopAd()
 	{
-		List<ShopAd> pro = sha.applyShopAd();
+		List<ShopAd> pro = sas.applyShopAd();
 		System.out.println("-----------------------\n" + pro.size());
 	}
 	
+	
 	public void testAddShopAd()
 	{
-		sha.addShopAd(Long.valueOf("2"), new Date(1010020010L));
+		Result r = sas.addShopAd(Long.valueOf("3"), new Date(1010020010L));
+		System.out.println(r.getMessage());
 	}
 
 }
