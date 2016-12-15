@@ -72,7 +72,6 @@ public class ProductController {
     @RequestMapping("/add")
     public Result addProduct(@RequestBody ProductBo productBo, HttpServletRequest request) {
         String auth = request.getHeader("Authorization");
-        System.out.println("auth :::::" + auth);
         if(auth == null)
             return returnResult();
         String ownerId = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));

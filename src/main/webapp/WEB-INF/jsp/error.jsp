@@ -9,9 +9,9 @@
 <html>
 <head>
     <title>Error</title>
-    <a href="localhost:8080">Home page</a>
+    
 </head>
 <body>
-
+      <a href="localhost:8080">Home page</a>
 </body>
 </html>

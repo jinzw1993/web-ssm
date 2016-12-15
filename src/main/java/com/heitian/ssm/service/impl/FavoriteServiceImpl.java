@@ -49,13 +49,14 @@ public class FavoriteServiceImpl implements FavoriteService {
 	public List<ProductBo> searchFavoriteProduct() {
 		List<ProductBo> productBos = new ArrayList<ProductBo>();
 		List<FavoriteProduct> favoriteProducts = favoriteProductDao.searchFavoriteProduct();
-		if(favoriteProducts != null) {
+		if(favoriteProducts != null && favoriteProducts.size() > 0) {
 			for(FavoriteProduct favoriteProduct : favoriteProducts) {
 				Long productId = favoriteProduct.getProductId();
 				Product product = productDao.searchProductById(productId);
 				ProductBo pb = new ProductBo(product);
 				String photoURL = productDao.searchPhotoURL(product.getProductPhotoId());
 				pb.setPhotoURL(photoURL);
+				
 				productBos.add(pb);
 			}
 		}

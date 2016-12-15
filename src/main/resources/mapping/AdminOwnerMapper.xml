@@ -8,7 +8,7 @@
         <result column="password" property="password" jdbcType="VARCHAR"/>
         <result column="status" property="status"/>
         <result column="email" property="email"/>
-        <result column="is_email_verified" property="isEmailVerified"/>
+        <result column="isEmailVerified" property="isEmailVerified"/>
     </resultMap>
     
     <select id="findOwnerById" parameterType="java.lang.Long" resultMap="ownerMap">

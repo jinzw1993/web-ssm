@@ -41,6 +41,8 @@ public class FavoriteController {
         String s[] = auth.split(";");//前提是，传参为ownerId=xxx;customerId=xxx;adress=xxx...格式
         Long customerId = Long.valueOf(s[1].substring(11));
         
+		//long customerId = 1;
+		
         Long productId = Long.valueOf(request.getParameter("id"));
         
         return favoriteService.addFavoriteProduct(productId, customerId);

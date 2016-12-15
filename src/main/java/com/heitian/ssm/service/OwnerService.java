@@ -19,7 +19,7 @@ public interface OwnerService {
 
   //  void processRegister(String email);
 
-    Result processActivate(String email);
+    Result processActivate(String email, String validateCode);
 
     Owner selectOwnerById(long id);
 

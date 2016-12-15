@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.heitian.ssm.bo.OwnerCondition;
+import com.heitian.ssm.model.Customer;
 import com.heitian.ssm.model.Owner;
 
 @Repository

@@ -2,11 +2,14 @@ package com.heitian.ssm.service.impl;
 
 import com.heitian.ssm.bo.Result;
 import com.heitian.ssm.dao.OwnerDao;
+import com.heitian.ssm.dao.ShopDao;
 import com.heitian.ssm.model.Owner;
+import com.heitian.ssm.model.Shop;
 import com.heitian.ssm.service.OwnerService;
 import com.heitian.ssm.util.SendEmail;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.DigestUtils;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -21,7 +24,8 @@ import java.util.Date;
 public class OwnerServiceImpl implements OwnerService {
     @Resource
     private OwnerDao ownerDao;
-
+    @Resource
+    private ShopDao shopDao;
     /**
      * Owner登录
      *
@@ -45,7 +49,12 @@ public class OwnerServiceImpl implements OwnerService {
                     int ev=own.getIsEmailVerified();
                     if (status==0&&ev==1) {
                         result.setStatus(1);
-                        result.setMessage("success");
+                        owner.setId(own.getId());
+                        Shop shop = shopDao.selectShopByOwnerId(own.getId());
+                        if(shop != null)
+                            result.setMessage(shop.getId().toString());
+                        else
+                            result.setMessage("success");
                     }
                     else if(status!=0){//账户处于黑名单、已删除或未审核
                         result.setMessage("account is in blacklist or deleted");
@@ -56,8 +65,12 @@ public class OwnerServiceImpl implements OwnerService {
                         result.setStatus(0);
                     }
                 }
+                else {//密码错误
+                    result.setStatus(0);
+                    result.setMessage("failed, user name or password is wrong");
+                }
             }
-            else {//用户不存在或密码错误
+            else {//用户不存
                 result.setStatus(0);
                 result.setMessage("failed, user name or password is wrong");
             }
@@ -90,7 +103,7 @@ public class OwnerServiceImpl implements OwnerService {
                 result.setMessage("failed, email has already been used");
             } else {
 
-                owner.setStatus((long) 0);
+                owner.setStatus((long)0);
                 owner.setIsEmailVerified(0);
                 int num = ownerDao.insertOwner(owner);
                 if (num == 0) {
@@ -111,19 +124,26 @@ public class OwnerServiceImpl implements OwnerService {
         StringBuffer sb=new StringBuffer("点击下面链接激活账号，48小时生效，否则重新注册账号，链接只能使用一次，请尽快激活！</br>");
         sb.append("<a href=\"http://localhost:8080/owner/activate?email=");
         sb.append(email);
-
+        sb.append("&validateCode=");
+        sb.append(DigestUtils.md5DigestAsHex(email.getBytes()));
         sb.append("\">http://localhost:8080/owner/activate?&email=");
         sb.append(email);
-
+        sb.append("&validateCode=");
+        sb.append(DigestUtils.md5DigestAsHex(email.getBytes()).substring(0,12));
         sb.append("</a>");
     //发送邮件
         SendEmail.send(email,sb.toString());
     }
 
-    public Result processActivate(String email) {
+    public Result processActivate(String email, String validateCode) {
         Owner owner=ownerDao.selectOwnerByEmail(email);
         Result result=new Result();
         result.setStatus(0);
+        if(!validateCode.equals(DigestUtils.md5DigestAsHex(email.getBytes()))) {
+            result.setStatus(0);
+            result.setMessage("activate failed");
+            return result;
+        }
         if(owner!=null) {
             //验证用户激活状态
             if (owner.getIsEmailVerified() == 0) {

@@ -20,7 +20,7 @@
     ORDER BY id
     limit #{start},#{num}
 
-	</select>
+</select>
 
     <select id="searchByNoneGN" resultType="java.lang.Integer">
         SELECT count(*) FROM  product
