@@ -26,20 +26,6 @@ public class CartController {
     @Resource
     private CartService cartService;
     
-    @ResponseBody
-    @RequestMapping(value="/find",method = RequestMethod.GET)
-    public Result findCart(HttpServletRequest request) {
-    	String auth = request.getHeader("Authorization");
-    	if(auth == null)
-    		returnResult();
-    	
-    	String s[] = auth.split(";");//前提是，传参为ownerId=xxx;customerId=xxx;adress=xxx...格式
-		Long customerId = Long.valueOf(s[1].substring(11));
-    	
-    	Result result = cartService.findCart(customerId);
-    	return result;
-    }
-    
     /**
      * 查询购物车及其条目
      * @param request
