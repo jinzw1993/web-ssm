@@ -153,7 +153,7 @@ public class ProductController {
     }
 
     @ResponseBody
-    @RequestMapping("/listComment")
+    @RequestMapping("/getComments")
     public List<ProductCommentBo> getProductComments(@RequestParam Long id,
                                                      @RequestParam int page,
                                                      @RequestParam int count) {

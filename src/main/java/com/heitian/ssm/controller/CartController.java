@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.heitian.ssm.bo.CartBo;
-import com.heitian.ssm.bo.ProductBo;
 import com.heitian.ssm.bo.Result;
 import com.heitian.ssm.service.CartService;
 
@@ -114,7 +113,7 @@ public class CartController {
         return result;
     }
     
-    public Result returnResult() {
+    private Result returnResult() {
 		Result result = new Result();
 		result.setStatus(0);
 		result.setMessage("you haven't log in");

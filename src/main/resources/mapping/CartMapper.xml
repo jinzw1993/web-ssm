@@ -4,7 +4,7 @@
     <resultMap id="CartBaseMap" type="com.heitian.ssm.model.Cart">
         <id column="id" property="id" jdbcType="BIGINT"/>
         <result column="customer_id" property="customerId" jdbcType="BIGINT"/>
-        <result column="status" property="status" jdbcType="BOOLEAN"/>
+        <result column="amount" property="amount" jdbcType="BIGINT"/>
     </resultMap>
 
     <select id="searchCartById" resultMap="CartBaseMap">
@@ -16,16 +16,16 @@
 	</select>
 	
 	<insert id="insertCart" useGeneratedKeys="true" parameterType="java.lang.Long">
-        insert into cart(customer_id) VALUES
-          (#{customerId})
+        insert into cart(customer_id,amount) VALUES
+          (#{customerId},0)
     </insert>
-    
-    <update id="verify" parameterType="java.lang.Long">
-    	UPDATE cart SET status=1 WHERE id = #{value}
-    </update>
     
     <delete id="deleteCart" parameterType="java.lang.Long">
         DELETE FROM cart WHERE id=#{id}
     </delete>
+    
+    <update id="updateCartAmount" parameterType="java.lang.Long">
+    	UPDATE cart SET amount = #{amount} WHERE id = #{customerId}
+    </update>
     
 </mapper>
