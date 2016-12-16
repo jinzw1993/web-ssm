@@ -115,7 +115,7 @@ public class CustomerServiceImpl implements CustomerService {
         } else {
             if (cus.getStatus() == 0) {
                 result.setStatus(1);
-                result.setMessage("login successful");
+                result.setMessage(String.valueOf(cus.getId()));
             } else {
                 result.setMessage("Login failed,the account is invalid.");
             }

@@ -27,16 +27,8 @@ public class CustomerController {
 
     @ResponseBody
     @RequestMapping("/login")
-    public Result login(@RequestBody Customer customer, Model model, HttpServletResponse response) {
+    public Result login(@RequestBody Customer customer) {
         Result result = customerService.customerLogin(customer);
-        if (result.getStatus() == 1&&response!=null) {
-            Cookie nameCookie = new Cookie("telephone", customer.getTelephone() + "");
-            Cookie pwdCookie = new Cookie("password", customer.getPassword());
-            nameCookie.setMaxAge(60 * 60 * 24 * 3);
-            pwdCookie.setMaxAge(60 * 60 * 24 * 3);
-            response.addCookie(nameCookie);
-            response.addCookie(pwdCookie);
-        }
         return result;
     }
 
