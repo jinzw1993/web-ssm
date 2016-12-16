@@ -39,35 +39,13 @@ public class CartServiceImpl implements CartService {
 	private OwnerDao ownerDao;
 	@Resource
 	private ShopDao shopDao;
-	
-	
-	@Override
-	public Result findCart(Long customerId) {
-		Cart cart = cartDao.searchCartByCustomerId(customerId);
-		Result result = new Result();
-		if(cart == null) {
-			result.setStatus(0);
-			result.setMessage("Cart did not create");
-			cartDao.insertCart(customerId);
-			return result;
-		} else {
-			result.setStatus(1);
-			result.setMessage("Cart has been created");
-			return result;
-		}
-		
-	}
 
 	@Override
 	public List<CartBo> searchCart(Long customerId) {
 		
 		Cart cart = cartDao.searchCartByCustomerId(customerId);
 		List<CartBo> cartBos = new ArrayList<CartBo>();
-
-		if(cart == null) {
-				cartDao.insertCart(customerId);
-				return cartBos;
-		} else {
+		if(cart != null) {
 			List<ProductInCart> productInCarts = productInCartDao.searchProductInCartByCartId(cart.getId());
 			
 			for(ProductInCart productInCart : productInCarts) {				
@@ -128,29 +106,8 @@ public class CartServiceImpl implements CartService {
 				}
 			}
 			
-		} else {
-			cartDao.insertCart(customerId);
-			returnRes(i);
 		}
 		
-		/*Map<Long,ProductInCart> map=new LinkedHashMap<Long, ProductInCart>();
-		for(ProductInCart productInCart : productInCarts) {
-			map.put(productInCart.getProductId(), productInCart);
-		}
-		
-		if(map.containsKey(productId)) {
-			ProductInCart pic = map.get(productId);
-			pic.setAmount(amount + pic.getAmount()); 
-			pic.setCreatedAt(new java.sql.Timestamp(new Date().getTime()));
-			map.put(productId, pic);
-		} else {
-			ProductInCart _productInCart = new ProductInCart();
-			_productInCart.setAmount(amount);
-			_productInCart.setProductId(productId);
-			_productInCart.setCreatedAt(new java.sql.Timestamp(new Date().getTime()));
-			_productInCart.setCartId(cart.getId());
-			map.put(productId, _productInCart);
-		}*/
 		return returnRes(i);
 	}
 	
@@ -171,6 +128,7 @@ public class CartServiceImpl implements CartService {
 			Long amount) {
 		int i = 0;
 		Cart cart = cartDao.searchCartByCustomerId(customerId);
+		
 		if(cart != null) {
 			ProductInCart productInCart = productInCartDao.searchProductInCartByCartIdAndProductId(cart.getId(), productId);
 			productInCart.setAmount(amount);

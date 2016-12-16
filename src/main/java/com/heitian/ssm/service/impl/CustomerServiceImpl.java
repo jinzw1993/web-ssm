@@ -1,14 +1,16 @@
 package com.heitian.ssm.service.impl;
 
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.heitian.ssm.bo.Result;
+import com.heitian.ssm.dao.CartDao;
 import com.heitian.ssm.dao.CustomerDao;
 import com.heitian.ssm.model.Customer;
 import com.heitian.ssm.service.CustomerService;
 import com.heitian.ssm.util.SendEmail;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import javax.annotation.Resource;
 
 /**
  * Created by Lanting on 2016/11/25.
@@ -18,6 +20,8 @@ import javax.annotation.Resource;
 public class CustomerServiceImpl implements CustomerService {
     @Resource
     private CustomerDao customerDao;
+    @Resource
+    private CartDao cartDao;
 
     //customer register method
     public Result addCustomer(Customer customer) {
@@ -82,6 +86,7 @@ public class CustomerServiceImpl implements CustomerService {
             } else {
                 int num = customerDao.activateCustomerEmail(telephone, email);
                 result.setStatus(num);
+                cartDao.insertCart(customer.getId());
             }
         }
         return result;
