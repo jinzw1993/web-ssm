@@ -1,12 +1,19 @@
 package com.heitian.ssm.service;
 
+import java.sql.Date;
+import java.util.List;
 import com.heitian.ssm.bo.Result;
-
-import java.util.Date;
+import com.heitian.ssm.model.ShopAd;
 
 /**
- * Created by unname on 2016/12/11.
+ * Created by oasis on 12/11/16.
  */
 public interface ShopAdService {
-    Result addShopAd(Long ownerId);
+	Result addShopAd(Long shopId, Date date);
+
+	List<ShopAd> showShopAd();
+
+	Result deleteShopAd(Long id);
+
+	List<ShopAd> applyShopAd();
 }

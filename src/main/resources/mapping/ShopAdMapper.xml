@@ -1,19 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-
 <mapper namespace="com.heitian.ssm.dao.ShopAdDao">
+	<resultMap type="com.heitian.ssm.model.ShopAd" id="shopAd">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="shop_id" property="shopId" jdbcType="BIGINT" />
+	<result column="status" property="status" jdbcType="BIGINT" />
+		<result column="rank" property="rank" jdbcType="BIGINT" />
+		<result column="date" property="date" jdbcType="DATE" />
+	</resultMap>
 
-<resultMap id="ShopAdBaseMap" type="com.heitian.ssm.model.ShopAd">
-    <id column="id" property="id"/>
-    <result column="shop_id" property="shopId" />
-    <result column="status" property="status"/>
-    <result column="rank" property="rank"/>
-    <result column="date" property="date"/>
-</resultMap>
+	<insert id="addShopAd" parameterType="map">
+		INSERT INTO
+		shop_advertisement(shop_id, status, rank, date)
+		VALUE
+		(#{shopId}, 1, 0,#{date});
+	</insert>
 
-<insert id="insertShopAd" parameterType="map">
-    INSERT INTO shop_advertisement(shop_id, status, rank, date)
-    VALUE (#{shopId}, 1, 0, #{date});
-</insert>
+
+	<delete id="deleteShopAd" parameterType="java.lang.Long">
+		DELETE FROM
+		shop_advertisement
+		WHERE
+		shop_id=#{shopId}
+	</delete>
+
+
+	<select id="showShopAd" resultMap="shopAd">
+		SELECT * FROM
+		shop_advertisement
+		WHERE
+		`status`=0
+	</select>
+
+	<select id="applyShopAd" resultMap="shopAd">
+		SELECT * FROM
+		shop_advertisement
+		WHERE
+		`status`=1
+	</select>
 
 </mapper>

@@ -5,7 +5,6 @@ import com.heitian.ssm.model.Owner;
 import com.heitian.ssm.service.OwnerService;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 

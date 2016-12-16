@@ -1,12 +1,14 @@
 package com.heitian.ssm.controller;
 
+import java.sql.Date;
+import java.util.List;
 import com.heitian.ssm.bo.Result;
+import com.heitian.ssm.model.ShopAd;
 import com.heitian.ssm.service.ShopAdService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -15,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 @RequestMapping("shopAd")
 public class ShopAdController {
-    @Autowired
+    @Resource
     private ShopAdService shopAdService;
 
     private Result result = new Result();
@@ -30,6 +32,36 @@ public class ShopAdController {
             return result;
         }
         String id = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
-        return shopAdService.addShopAd(Long.valueOf(id));
+		Date d=new Date(new java.util.Date().getTime());
+        return shopAdService.addShopAd(Long.valueOf(id),d);
     }
+
+	@RequestMapping("/show")
+	@ResponseBody
+	public  List<ShopAd> showShopAd()
+	{
+		return shopAdService.showShopAd();
+	}
+
+	@RequestMapping("/apply")
+	@ResponseBody
+	public  List<ShopAd> applyShopAd()
+	{
+		return shopAdService.applyShopAd();
+	}
+
+	@RequestMapping("/delete")
+	@ResponseBody
+	public  Result deleteShopAd(HttpServletRequest request)
+	{
+		String auth = request.getHeader("Authorization");
+		if(auth == null) {
+			result.setMessage("haven't log in");
+			result.setStatus(0);
+			return result;
+		}
+		String id = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
+		return shopAdService.deleteShopAd(Long.valueOf(id));
+	}
+
 }
