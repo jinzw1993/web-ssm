@@ -66,4 +66,19 @@ public class ShopAdServiceImpl implements ShopAdService {
 		return result;
 	}
 
+	@Override
+	public Result rejectShopAd(Long id)
+	{
+		int i = shopAdDao.rejectShopAd(id);
+		return returnRes(i);
+	}
+
+	@Override
+	public Result agreeShopAd(Long id)
+	{
+		int i = shopAdDao.agreeShopAd(id);
+		return returnRes(i);
+	}
+
+	
 }

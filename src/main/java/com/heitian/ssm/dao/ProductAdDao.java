@@ -14,8 +14,13 @@ public interface ProductAdDao {
 	int addProductAd(@Param(value = "productId") Long proId, @Param(value = "date") Date date);
 
 	int deleteProductAd(@Param(value = "productId") Long proId);
+	
+	int agreeProductAd(@Param(value = "productId") Long proId);
+	
+	int rejectProductAd(@Param(value = "productId") Long proId);
 
 	List<ProductAd> showProductAd();
 
 	List<ProductAd> applyProductAd();
+	
 }

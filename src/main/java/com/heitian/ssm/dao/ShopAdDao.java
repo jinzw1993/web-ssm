@@ -16,5 +16,9 @@ public interface ShopAdDao {
 	List<ShopAd> showShopAd();
 
 	int addShopAd(@Param(value = "shopId") Long shopId, @Param(value = "date") Date date);
+	
+	int agreeShopAd(@Param(value = "shopId") Long shopId);
+	
+	int rejectShopAd(@Param(value = "shopId") Long shopId);
 
 }

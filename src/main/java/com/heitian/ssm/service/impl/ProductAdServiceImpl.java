@@ -66,4 +66,18 @@ public class ProductAdServiceImpl implements ProductAdService {
 		return result;
 	}
 
+	@Override
+	public Result rejectProductAd(Long proId)
+	{
+		int i = productAdDao.rejectProductAd(proId);
+		return returnRes(i);
+	}
+
+	@Override
+	public Result agreeProductAd(Long proId)
+	{
+		int i = productAdDao.agreeProductAd(proId);
+		return returnRes(i);
+	}
+
 }

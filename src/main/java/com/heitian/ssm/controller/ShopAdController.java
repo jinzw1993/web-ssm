@@ -55,13 +55,41 @@ public class ShopAdController {
 	public  Result deleteShopAd(HttpServletRequest request)
 	{
 		String auth = request.getHeader("Authorization");
-		if(auth == null) {
+		if (auth == null) {
 			result.setMessage("haven't log in");
 			result.setStatus(0);
 			return result;
 		}
 		String id = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
 		return shopAdService.deleteShopAd(Long.valueOf(id));
+	}
+	
+	@RequestMapping("/agree")
+	@ResponseBody
+	public  Result agreeShopAd(HttpServletRequest request)
+	{
+		String auth = request.getHeader("Authorization");
+		if (auth == null) {
+			result.setMessage("haven't log in");
+			result.setStatus(0);
+			return result;
+		}
+		String id = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
+		return shopAdService.agreeShopAd(Long.valueOf(id));
+	}
+	
+	@RequestMapping("/reject")
+	@ResponseBody
+	public  Result rejectShopAd(HttpServletRequest request)
+	{
+		String auth = request.getHeader("Authorization");
+		if (auth == null) {
+			result.setMessage("haven't log in");
+			result.setStatus(0);
+			return result;
+		}
+		String id = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
+		return shopAdService.rejectShopAd(Long.valueOf(id));
 	}
 
 }

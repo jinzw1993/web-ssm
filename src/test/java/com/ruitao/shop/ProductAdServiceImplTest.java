@@ -48,12 +48,27 @@ public class ProductAdServiceImplTest {
 		List<ShopAd> pro = sha.applyShopAd();
 		System.out.println("-----------------------\n" + pro.size());
 	}
-	@Test
+	
 	public void testAddProductAd()
 	{
 		Result i=ps.addProductAd(10L, new Date(1010020010L));
 		System.out.println(i.getMessage());
 	}
+	
+	
+	public void testRejectProductAd()
+	{
+		Result i=ps.rejectProductAd(3L);
+		System.out.println(i.getMessage());
+	}
+	
+	
+	public void testAgreeProductAd()
+	{
+		Result i=ps.agreeProductAd(3L);
+		System.out.println(i.getMessage());
+	}
+	
 	
 	
 
@@ -87,5 +102,17 @@ public class ProductAdServiceImplTest {
 		Result r = sas.addShopAd(Long.valueOf("3"), new Date(1010020010L));
 		System.out.println(r.getMessage());
 	}
-
+	@Test
+	public void testRejectShopAd()
+	{
+		Result i=sas.rejectShopAd(3L);
+		System.out.println(i.getMessage());
+	}
+	
+	
+	public void testAgreeShopAd()
+	{
+		Result i=sas.agreeShopAd(3L);
+		System.out.println(i.getMessage());
+	}
 }

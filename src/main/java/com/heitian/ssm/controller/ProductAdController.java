@@ -65,5 +65,32 @@ public class ProductAdController {
 		String id = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
 		return productAdService.deleteProductAd(Long.valueOf(id));
 	}
+	
+	@RequestMapping("/agree")
+	@ResponseBody
+	public  Result agreeProductAd( HttpServletRequest request)
+	{
+		String auth = request.getHeader("Authorization");
+		if (auth == null) {
+			result.setMessage("haven't log in");
+			result.setStatus(0);
+			return result;
+		}
+		String id = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
+		return productAdService.agreeProductAd(Long.valueOf(id));
+	}
 
+	@RequestMapping("/reject")
+	@ResponseBody
+	public  Result rejectProductAd( HttpServletRequest request)
+	{
+		String auth = request.getHeader("Authorization");
+		if (auth == null) {
+			result.setMessage("haven't log in");
+			result.setStatus(0);
+			return result;
+		}
+		String id = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
+		return productAdService.rejectProductAd(Long.valueOf(id));
+	}
 }

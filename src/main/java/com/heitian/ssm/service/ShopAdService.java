@@ -16,4 +16,8 @@ public interface ShopAdService {
 	Result deleteShopAd(Long id);
 
 	List<ShopAd> applyShopAd();
+
+	Result rejectShopAd(Long id);
+	
+	Result agreeShopAd(Long id);
 }
