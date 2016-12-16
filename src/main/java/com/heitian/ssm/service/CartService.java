@@ -9,8 +9,6 @@ public interface CartService {
 
 	public List<CartBo> searchCart(Long customerId);
 
-	public Result findCart(Long customerId);
-
 	public Result addCart(Long productId, Long customerId, Long amount);
 	
 	public Result deleteProductInCart(Long productId, Long customerId);
