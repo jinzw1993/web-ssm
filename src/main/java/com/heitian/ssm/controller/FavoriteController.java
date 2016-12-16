@@ -26,6 +26,23 @@ public class FavoriteController {
 	@Resource
 	private FavoriteService favoriteService;
 	
+	@ResponseBody
+    @RequestMapping(value="/deleteProduct",method= RequestMethod.GET)
+    public Result deleteProduct(HttpServletRequest request) {
+        String auth = request.getHeader("Authorization");
+        if(auth == null)
+            return returnResult();
+        
+        String s[] = auth.split(";");//前提是，传参为ownerId=xxx;customerId=xxx;adress=xxx...格式
+        Long customerId = Long.valueOf(s[1].substring(11));
+        
+		//long customerId = 1;
+		
+        Long productId = Long.valueOf(request.getParameter("id"));
+        
+        return favoriteService.deleteFavoriteProduct(productId, customerId);
+    }
+	
 	/**
 	 * 
 	 * @param request
@@ -62,6 +79,23 @@ public class FavoriteController {
         return favoriteService.searchFavoriteProduct();
     }
 	
+	@ResponseBody
+    @RequestMapping(value="/deleteShop",method= RequestMethod.GET)
+    public Result deleteShop(HttpServletRequest request) {
+        String auth = request.getHeader("Authorization");
+        if(auth == null)
+            return returnResult();
+        
+        String s[] = auth.split(";");//前提是，传参为ownerId=xxx;customerId=xxx;adress=xxx...格式
+        Long customerId = Long.valueOf(s[1].substring(11));
+        
+		//long customerId = 1;
+		
+        Long shopId = Long.valueOf(request.getParameter("id"));
+        
+        return favoriteService.deleteFavoriteShop(shopId, customerId);
+    }
+	
 	/**
 	 * 
 	 * @param request
@@ -76,6 +110,8 @@ public class FavoriteController {
         
         String s[] = auth.split(";");//前提是，传参为ownerId=xxx;customerId=xxx;adress=xxx...格式
         Long customerId = Long.valueOf(s[1].substring(11));
+		
+		//long customerId = 1;
         
         Long shopId = Long.valueOf(request.getParameter("id"));
         

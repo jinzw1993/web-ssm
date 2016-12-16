@@ -19,11 +19,8 @@ import com.heitian.ssm.dao.ProductDao;
 import com.heitian.ssm.dao.ProductInCartDao;
 import com.heitian.ssm.dao.ShopDao;
 import com.heitian.ssm.model.Cart;
-import com.heitian.ssm.model.Category;
-import com.heitian.ssm.model.Owner;
 import com.heitian.ssm.model.Product;
 import com.heitian.ssm.model.ProductInCart;
-import com.heitian.ssm.model.Shop;
 import com.heitian.ssm.service.CartService;
 
 @Service

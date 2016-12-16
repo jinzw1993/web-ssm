@@ -13,5 +13,7 @@ public interface FavoriteProductDao {
 	
 	public int insertFavoriteProduct(@Param("favoriteProduct") FavoriteProduct favoriteProduct);
 	public List<FavoriteProduct> searchFavoriteProduct();
+	public FavoriteProduct searchFavoriteProductByCidAndPid(@Param("productId") Long productId, @Param("customerId") Long customerId);
+	public int deleteFavoriteProduct(@Param("productId") Long productId, @Param("customerId") Long customerId);
 
 }
