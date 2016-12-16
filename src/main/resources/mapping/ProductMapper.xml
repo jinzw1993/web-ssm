@@ -76,7 +76,7 @@
 
 	<select id="searchPhotoURL" parameterType="java.lang.Long" resultType="java.lang.String">
 		select path from product_photo
-		WHERE id=#{productPhotoId}
+		WHERE product_id=#{productPhotoId}
 	</select>
 
 	<select id="searchProductById" parameterType="java.lang.Long" resultMap="ProductBaseMap">

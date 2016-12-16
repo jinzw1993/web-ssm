@@ -119,7 +119,7 @@ public class ProductServiceImpl implements ProductService {
     private List<ProductBo> addPhotos(List<ProductBo> productBos, List<Product> products) {
         if(products!=null) {
             for (int i = 0; i < products.size(); i++) {
-                String path = productDao.searchPhotoURL(products.get(i).getProductPhotoId());
+                String path = productDao.searchPhotoURL(products.get(i).getId());
                 ProductBo productBo = new ProductBo(products.get(i));
                 productBo.setPhotoURL(path);
                 productBos.add(productBo);
