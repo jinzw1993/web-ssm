@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.heitian.ssm.dao.OrderDao">
-    <resultMap id="orderMap" type="com.heitian.ssm.model.Order">
+    <resultMap id="OrderMap" type="com.heitian.ssm.model.Order">
         <id column="id" property="id" />
         <result column="customer_id" property="customerId" />
         <result column="owner_id" property="ownerId" />
@@ -11,28 +11,16 @@
         <result column="created_at" property="createdAt" />
     </resultMap>
 
-    <resultMap id="orderBoMap" type="com.heitian.ssm.bo.OrderBo">
+    <resultMap id="OrderBoMap" type="com.heitian.ssm.bo.OrderBo">
         <id column="id" property="id" />
         <result column="express_id" property="expressId" />
         <result column="order_status" property="status" />
         <result column="process_status" property="processStatus" />
         <result column="created_at" property="createdAt" />
-    </resultMap>
-
-    <resultMap id="orderTimeBoMap" type="com.heitian.ssm.bo.OrderTimeBo">
-        <id column="id" property="id" />
-        <result column="express_id" property="expressId" />
-        <result column="order_status" property="status" />
-        <result column="process_status" property="processStatus" />
-        <result column="created_at" property="createdAt" />
-        <result column="yearflg" property="year" />
-        <result column="monthflg" property="month" />
-        <result column="weekflg" property="week" />
-        <result column="dayflg" property="day" />
     </resultMap>
 
     <sql id="selectOrder">
-        select `order`.id id,
+        select `order`.id,
           owner.email ownerEmail,
           shop.name shopName,
           customer.email customerEmail,
@@ -45,24 +33,6 @@
           created_at
     </sql>
 
-    <sql id="daily">
-        ,year(created_at) yearflg,
-        month(created_at) monthflg,
-        day(created_at) dayflg
-    </sql>
-    <sql id="weekly">
-        ,year(created_at) yearflg,
-        month(created_at) monthflg,
-        week(created_at) weekflg,
-    </sql>
-    <sql id="monthly">
-        ,year(created_at) yearflg,
-        month(created_at) monthflg
-    </sql>
-    <sql id="yearly">
-        ,year(created_at) yearflg
-    </sql>
-
     <sql id="fromOrder">
         from `order`
           join owner on `order`.owner_id=owner.id
@@ -72,22 +42,22 @@
 
 
     <!-- ____________________________________________ Luxuriant Splitter______________________________________  -->
-    <select id="getOrderById" parameterType="java.lang.Long" resultMap="orderBoMap">
+    <select id="getOrderById" parameterType="java.lang.Long" resultMap="OrderBoMap">
         <include refid="selectOrder"/>
         <include refid="fromOrder"/>
-        WHERE id=#{orderId}
+        WHERE `order`.id=#{orderId}
     </select>
 
 
-    <select id="getOwnerOrderBoByProcessStatus" resultMap="orderBoMap">
+    <select id="getOwnerOrderBoByProcessStatus" resultMap="OrderBoMap">
         <include refid="selectOrder"/>
         <include refid="fromOrder"/>
         WHERE process_status=#{processStatus} AND `order`.owner_id=#{ownerId} limit #{start}, #{pageNum}
     </select>
 
-    <select id="getOwnerOrderBoByProcessStatusNum" resultMap="orderBoMap">
+    <select id="getOwnerOrderBoByProcessStatusNum" resultType="_int">
         SELECT count(*)
-        FROM order
+        FROM `order`
         WHERE process_status=#{processStatus} AND owner_id=#{ownerId}
     </select>
 
@@ -98,50 +68,53 @@
     <!-- ____________________________________________ End of Luxuriant Splitter______________________________  -->
 
 
-    <select id="selectOwnOrderDaily" parameterType="map" resultMap="orderTimeBoMap">
-        <include refid="selectOrder" />
-        <include refid="daily" />
-        <include refid="fromOrder" />
-        where `order`.owner_id=#{id} and `order`.process_status=4 and `order`.status=1
-        limit #{page},#{count}
-        group by monthflg,yearflg,dayflg
-        order by created_at desc
-    </select>
-    <select id="getOwnOrderWeekly" parameterType="map" resultMap="orderTimeBoMap">
-        <include refid="selectOrder" />
-        <include refid="weekly" />
-        <include refid="fromOrder" />
-        where `order`.owner_id=#{id} and `order`.process_status=4 and `order`.status=1
-        limit #{page},#{count}
-        group by weekflg,monthflg,yearflg
-        order by created_at desc
-    </select>
-
-    <select id="getOwnOrderMonthly" parameterType="map" resultMap="orderTimeBoMap">
-        <include refid="selectOrder" />
-        <include refid="monthly" />
-        <include refid="fromOrder" />
-        where `order`.owner_id=#{id} and `order`.process_status=4 and `order`.status=1
-        limit #{page},#{count}
-        group by monthflg,yearflg
-        order by created_at desc
-    </select>
-    <select id="getOwnOrderYearly" parameterType="map" resultMap="orderTimeBoMap">
-        <include refid="selectOrder" />
-        <include refid="yearly" />
-        <include refid="fromOrder" />
-        where `order`.owner_id=#{id} and `order`.process_status=4 and `order`.status=1
-        limit #{page},#{count}
-        group by yearflg
-        order by created_at desc
+    <!--天周月年查询店主所有已完成的订单-->
+    <select id="getOwnerOrders" parameterType="map" resultMap="OrderBoMap">
+      <include refid="selectOrder" />
+      <include refid="fromOrder" />
+      <where>
+          <choose>
+              <when test="time.id == 0">
+                  AND #{time.year} = year(created_at) AND #{time.month} = month(created_at) AND #{time.day} = day(created_at)
+              </when>
+              <when test="time.id == 1">
+                  AND #{time.year} = year(created_at) AND #{time.week} = week(created_at)
+              </when>
+              <when test="time.id == 2">
+                  AND #{time.year} = year(created_at) AND #{time.month} = month(created_at)
+              </when>
+              <when test="time.id == 3">
+                  AND #{time.year} = year(created_at)
+              </when>
+          </choose>
+      </where>
+      AND `order`.owner_id=#{id} AND `order`.process_status=4 AND `order`.status=1
+      order by `order`.created_at desc
+      limit #{time.start},#{time.count}
     </select>
 
 
 
     <!--店主所有已完成的订单数量，用于天周月年查询分页-->
-    <select id="getOwnOrderCompleteNum">
+    <select id="getOwnOrderCompleteNum" parameterType="map" resultType="int">
         select count(*)
-        from `order`
-        where `order`.owner_id=#{id} and `order`.process_status=4 and `order`.status=1
+        <include refid="fromOrder" />
+        <where>
+            <choose>
+                <when test="time.id == 0">
+                    AND #{time.year} = year(created_at) AND #{time.month} = month(created_at) AND #{time.day} = day(created_at)
+                </when>
+                <when test="time.id == 1">
+                    AND #{time.year} = year(created_at) AND #{time.week} = week(created_at)
+                </when>
+                <when test="time.id == 2">
+                    AND #{time.year} = year(created_at) AND #{time.month} = month(created_at)
+                </when>
+                <when test="time.id == 3">
+                    AND #{time.year} = year(created_at)
+                </when>
+            </choose>
+        </where>
+        AND `order`.owner_id=#{id} and `order`.process_status=4 and `order`.status=1
     </select>
 </mapper>

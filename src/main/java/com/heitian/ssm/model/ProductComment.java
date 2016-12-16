@@ -1,17 +1,17 @@
 package com.heitian.ssm.model;
 
-import java.sql.Time;
 
+import java.sql.Date;
 
 /**
- * Created by unname on 2016/12/13.
+ * Created by unname on 2016/12/13.import java.sql.Time;
  */
 public class ProductComment {
     private Long id;
     private Long productId;
     private Long customerId;
     private String comment;
-    private Time createdAt;
+    private Date createdAt;
 
     public Long getId() {
         return id;
@@ -45,11 +45,11 @@ public class ProductComment {
         this.comment = comment;
     }
 
-    public Time getCreatedAt() {
+    public Date getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Time createdAt) {
+    public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
 

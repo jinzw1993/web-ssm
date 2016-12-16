@@ -1,9 +1,11 @@
 package com.heitian.ssm.controller;
 
 import com.heitian.ssm.bo.ProductBo;
+import com.heitian.ssm.bo.ProductCommentBo;
 import com.heitian.ssm.bo.ProductCondition;
 
 import com.heitian.ssm.bo.Result;
+import com.heitian.ssm.service.ProductCommentService;
 import com.heitian.ssm.service.ProductService;
 import org.apache.log4j.Logger;
 
@@ -28,6 +30,9 @@ public class ProductController {
 
     @Resource
     private ProductService productService;
+    @Resource
+    private ProductCommentService productCommentService;
+
 
     /**
      *根据条件搜索商品
@@ -145,6 +150,21 @@ public class ProductController {
         result.setMessage(Integer.toString(productService.getOwnerProductCount(Long.valueOf(ownerId))));
         result.setStatus(1);
         return result;
+    }
+
+    @ResponseBody
+    @RequestMapping("/listComment")
+    public List<ProductCommentBo> getProductComments(@RequestParam Long id,
+                                                     @RequestParam int page,
+                                                     @RequestParam int count) {
+        return productCommentService.getProductCommentBos(id, page, count);
+
+    }
+
+    @ResponseBody
+    @RequestMapping("/commentNum")
+    public Result getProductCommentNum(@RequestParam Long id) {
+        return productCommentService.getCommentNum(id);
     }
 
     public Result returnResult() {

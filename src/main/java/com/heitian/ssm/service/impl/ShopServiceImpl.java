@@ -68,6 +68,10 @@ public class ShopServiceImpl implements ShopService {
         List<Shop> shops = shopDao.selectShops((pageNum - 1)*pageCount, pageCount, status);
         return getPhotos(shops);
     }
+    public List<ShopBo> getAllShops(int pageNum, int pageCount) {
+        List<Shop> shops = shopDao.selectAllShops((pageNum - 1)*pageCount, pageCount);
+        return getPhotos(shops);
+    }
 
     public Result addShop(ShopBo shopBo) {
         if(shopDao.selectShopByName(shopBo.getName()) != null) {

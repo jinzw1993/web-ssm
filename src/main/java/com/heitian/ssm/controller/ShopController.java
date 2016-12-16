@@ -58,7 +58,7 @@ public class ShopController {
     public @ResponseBody
     List<ShopBo> getShops(@RequestParam int page, @RequestParam int count) {
         log.info("查询店铺列表");
-        return shopService.getShops(page, count ,(long)0);
+        return shopService.getAllShops(page, count);
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)

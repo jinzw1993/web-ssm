@@ -1,11 +1,13 @@
 package com.heitian.ssm.controller;
 
 import com.heitian.ssm.bo.OrderBo;
-import com.heitian.ssm.bo.OrderTimeBo;
+import com.heitian.ssm.bo.ProductInOrderBo;
 import com.heitian.ssm.bo.Result;
+import com.heitian.ssm.bo.TimeCondition;
 import com.heitian.ssm.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -93,22 +95,18 @@ public class OrderController {
     /**
      * 店主按日周月年查询正常订单列表，time的值 0天 1周 2月 3年
      * @param time
-     * @param page
-     * @param count
      * @param request
      * @return
      */
     @RequestMapping("/listByOwnerTime")
     public @ResponseBody
-    List<OrderTimeBo> getListByOwnerTime(@RequestParam int time,
-                                         @RequestParam int page,
-                                         @RequestParam int count,
+    List<OrderBo> getListByOwnerTime(@RequestBody TimeCondition time,
                                          HttpServletRequest request) {
         String auth = request.getHeader("Authorization");
         if(auth == null)
             return new ArrayList<>();
         String ownerId = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
-        return orderService.getOwnOrderByTime(Long.valueOf(ownerId), page, count, time);
+        return orderService.getOwnOrderByTime(Long.valueOf(ownerId), time);
     }
 
     /**
@@ -118,13 +116,25 @@ public class OrderController {
      */
     @RequestMapping("/listByOwnerTimeNum")
     public @ResponseBody
-    Result getListByOwnerTimeNum(HttpServletRequest request) {
+    Result getListByOwnerTimeNum(@RequestBody TimeCondition time,
+                                 HttpServletRequest request) {
         String auth = request.getHeader("Authorization");
         if(auth == null) {
             returnFailResult();
         }
         String ownerId = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
-        return orderService.getOwnOrderCompleteNum(Long.valueOf(ownerId));
+        return orderService.getOwnOrderByTimeNum(Long.valueOf(ownerId), time);
+    }
+
+    /**
+     * 根据订单查询商品
+     * @param id
+     * @return
+     */
+    @RequestMapping("/products")
+    public @ResponseBody
+    List<ProductInOrderBo> getProductInOrder(@RequestParam Long id) {
+        return orderService.getProductInOrder(id);
     }
 
     private Result returnFailResult() {

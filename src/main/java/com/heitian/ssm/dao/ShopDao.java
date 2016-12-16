@@ -19,6 +19,8 @@ public interface ShopDao {
 
     List<Shop> selectShops(@Param("start") int start,@Param("count") int count,@Param("status") Long status);
 
+    List<Shop> selectAllShops(@Param("start") int start,@Param("count") int count);
+
     int updateShop(Shop shop);
 
     int updateStatus(@Param("id") Long id, @Param("status") Long status);

@@ -16,6 +16,8 @@ public interface ShopService {
 
     List<ShopBo> getShops(int pageNum, int pageCount, Long status);
 
+    List<ShopBo> getAllShops(int pageNum, int pageCount);
+
     List<ShopBo> getShopsByName(String name);
 
     Result updateStatus(Long id, Long status);

@@ -27,6 +27,11 @@
         WHERE status = #{status}
         limit #{start},#{count}
     </select>
+    <select id="selectAllShops" resultMap="ShopBaseMap" parameterType="map">
+        SELECT id,owner_id,name,contact,email,telephone,status
+        FROM shop
+        limit #{start},#{count}
+    </select>
     <insert id="insertShop" useGeneratedKeys="true" keyProperty="id" parameterType="com.heitian.ssm.model.Shop">
         INSERT INTO shop(owner_id,name,contact,email,telephone,status)
         VALUES(#{ownerId},#{name},#{contact},#{email},#{telephone},#{status})
