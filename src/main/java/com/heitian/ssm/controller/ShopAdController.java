@@ -17,79 +17,79 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 @RequestMapping("shopAd")
 public class ShopAdController {
-    @Resource
-    private ShopAdService shopAdService;
-
-    private Result result = new Result();
-
-    @RequestMapping("/add")
-    public @ResponseBody
-    Result addShopAd(HttpServletRequest request) {
-        String auth = request.getHeader("Authorization");
-        if(auth == null) {
-            result.setMessage("haven't log in");
-            result.setStatus(0);
-            return result;
-        }
-        String id = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
-		Date d=new Date(new java.util.Date().getTime());
-        return shopAdService.addShopAd(Long.valueOf(id),d);
-    }
-
-	@RequestMapping("/show")
-	@ResponseBody
-	public  List<ShopAd> showShopAd()
-	{
-		return shopAdService.showShopAd();
-	}
-
-	@RequestMapping("/apply")
-	@ResponseBody
-	public  List<ShopAd> applyShopAd()
-	{
-		return shopAdService.applyShopAd();
-	}
-
-	@RequestMapping("/delete")
-	@ResponseBody
-	public  Result deleteShopAd(HttpServletRequest request)
-	{
-		String auth = request.getHeader("Authorization");
-		if (auth == null) {
-			result.setMessage("haven't log in");
-			result.setStatus(0);
-			return result;
-		}
-		String id = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
-		return shopAdService.deleteShopAd(Long.valueOf(id));
-	}
-	
-	@RequestMapping("/agree")
-	@ResponseBody
-	public  Result agreeShopAd(HttpServletRequest request)
-	{
-		String auth = request.getHeader("Authorization");
-		if (auth == null) {
-			result.setMessage("haven't log in");
-			result.setStatus(0);
-			return result;
-		}
-		String id = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
-		return shopAdService.agreeShopAd(Long.valueOf(id));
-	}
-	
-	@RequestMapping("/reject")
-	@ResponseBody
-	public  Result rejectShopAd(HttpServletRequest request)
-	{
-		String auth = request.getHeader("Authorization");
-		if (auth == null) {
-			result.setMessage("haven't log in");
-			result.setStatus(0);
-			return result;
-		}
-		String id = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
-		return shopAdService.rejectShopAd(Long.valueOf(id));
-	}
+//    @Resource
+//    private ShopAdService shopAdService;
+//
+//    private Result result = new Result();
+//
+//    @RequestMapping("/add")
+//    public @ResponseBody
+//    Result addShopAd(HttpServletRequest request) {
+//        String auth = request.getHeader("Authorization");
+//        if(auth == null) {
+//            result.setMessage("haven't log in");
+//            result.setStatus(0);
+//            return result;
+//        }
+//        String id = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
+//		Date d=new Date(new java.util.Date().getTime());
+//        return shopAdService.addShopAd(Long.valueOf(id),d);
+//    }
+//
+//	@RequestMapping("/show")
+//	@ResponseBody
+//	public  List<ShopAd> showShopAd()
+//	{
+//		return shopAdService.showShopAd();
+//	}
+//
+//	@RequestMapping("/apply")
+//	@ResponseBody
+//	public  List<ShopAd> applyShopAd()
+//	{
+//		return shopAdService.applyShopAd();
+//	}
+//
+//	@RequestMapping("/delete")
+//	@ResponseBody
+//	public  Result deleteShopAd(HttpServletRequest request)
+//	{
+//		String auth = request.getHeader("Authorization");
+//		if (auth == null) {
+//			result.setMessage("haven't log in");
+//			result.setStatus(0);
+//			return result;
+//		}
+//		String id = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
+//		return shopAdService.deleteShopAd(Long.valueOf(id));
+//	}
+//
+//	@RequestMapping("/agree")
+//	@ResponseBody
+//	public  Result agreeShopAd(HttpServletRequest request)
+//	{
+//		String auth = request.getHeader("Authorization");
+//		if (auth == null) {
+//			result.setMessage("haven't log in");
+//			result.setStatus(0);
+//			return result;
+//		}
+//		String id = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
+//		return shopAdService.agreeShopAd(Long.valueOf(id));
+//	}
+//
+//	@RequestMapping("/reject")
+//	@ResponseBody
+//	public  Result rejectShopAd(HttpServletRequest request)
+//	{
+//		String auth = request.getHeader("Authorization");
+//		if (auth == null) {
+//			result.setMessage("haven't log in");
+//			result.setStatus(0);
+//			return result;
+//		}
+//		String id = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
+//		return shopAdService.rejectShopAd(Long.valueOf(id));
+//	}
 
 }

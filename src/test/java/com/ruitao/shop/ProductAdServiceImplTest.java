@@ -43,11 +43,11 @@ public class ProductAdServiceImplTest {
 		ppa.deleteProductAd(2L);
 	}
 
-	public void testApplyProductAd()
-	{
-		List<ShopAd> pro = sha.applyShopAd();
-		System.out.println("-----------------------\n" + pro.size());
-	}
+//	public void testApplyProductAd()
+//	{
+//		List<ShopAd> pro = sha.applyShopAd();
+//		System.out.println("-----------------------\n" + pro.size());
+//	}
 	
 	public void testAddProductAd()
 	{
@@ -74,45 +74,45 @@ public class ProductAdServiceImplTest {
 
 
 	
-	public void testShowShopAd()
-	{
-		List<ShopAd> productAds = sha.showShopAd();
-		for(ShopAd s : productAds) {
-			System.out.println(s.getDate());
-		}
-		System.out.println("-----------------------\n" + productAds.size());
-
-	}
-	
-	
-	public void testDeleteShopAd()
-	{
-		sas.deleteShopAd(2L);
-	}
-	
-	public void testApplyShopAd()
-	{
-		List<ShopAd> pro = sas.applyShopAd();
-		System.out.println("-----------------------\n" + pro.size());
-	}
-	
-	
-	public void testAddShopAd()
-	{
-		Result r = sas.addShopAd(Long.valueOf("3"), new Date(1010020010L));
-		System.out.println(r.getMessage());
-	}
-	@Test
-	public void testRejectShopAd()
-	{
-		Result i=sas.rejectShopAd(3L);
-		System.out.println(i.getMessage());
-	}
-	
-	
-	public void testAgreeShopAd()
-	{
-		Result i=sas.agreeShopAd(3L);
-		System.out.println(i.getMessage());
-	}
+//	public void testShowShopAd()
+//	{
+//		List<ShopAd> productAds = sha.showShopAd();
+//		for(ShopAd s : productAds) {
+//			System.out.println(s.getDate());
+//		}
+//		System.out.println("-----------------------\n" + productAds.size());
+//
+//	}
+//
+//
+//	public void testDeleteShopAd()
+//	{
+//		sas.deleteShopAd(2L);
+//	}
+//
+//	public void testApplyShopAd()
+//	{
+//		List<ShopAd> pro = sas.applyShopAd();
+//		System.out.println("-----------------------\n" + pro.size());
+//	}
+//
+//
+//	public void testAddShopAd()
+//	{
+//		Result r = sas.addShopAd(Long.valueOf("3"), new Date(1010020010L));
+//		System.out.println(r.getMessage());
+//	}
+//	@Test
+//	public void testRejectShopAd()
+//	{
+//		Result i=sas.rejectShopAd(3L);
+//		System.out.println(i.getMessage());
+//	}
+//
+//
+//	public void testAgreeShopAd()
+//	{
+//		Result i=sas.agreeShopAd(3L);
+//		System.out.println(i.getMessage());
+//	}
 }

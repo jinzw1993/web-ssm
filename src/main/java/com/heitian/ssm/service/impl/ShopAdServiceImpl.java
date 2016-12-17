@@ -1,13 +1,14 @@
 package com.heitian.ssm.service.impl;
 
-import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Resource;
+
+import com.heitian.ssm.bo.ShopAdBo;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.heitian.ssm.bo.Result;
 import com.heitian.ssm.dao.ShopAdDao;
-import com.heitian.ssm.model.ShopAd;
 import com.heitian.ssm.service.ShopAdService;
 
 @Service
@@ -18,14 +19,33 @@ public class ShopAdServiceImpl implements ShopAdService {
 	private ShopAdDao shopAdDao;
 
 	@Override
-	public List<ShopAd> showShopAd()
+	public Result addShopAd(Long shopId, String photoUrl)
 	{
+		int i = shopAdDao.addShopAd(shopId, photoUrl);
+		return returnRes(i);
+	}
 
-		List<ShopAd> Shop = shopAdDao.showShopAd();
-		if (Shop == null || Shop.size() == 0) {
-			return null;
-		}
-		return Shop;
+	@Override
+	public Result showShopAdStatus(Long shopId)
+	{
+        Result result = new Result();
+		Long status = shopAdDao.selectStatus(shopId);
+        if(status == null) {
+            result.setStatus(-1);
+            result.setMessage("haven't applied");
+        } else {
+            result.setStatus(status.intValue());
+            if(status == 0) {
+                result.setMessage("wait for verified");
+            } else if(status == 1) {
+                result.setMessage("verified");
+            } else if(status == 2) {
+                result.setMessage("rejected");
+            } else if(shopId == 3) {
+                result.setMessage("out of date");
+            }
+        }
+		return result;
 	}
 
 	@Override
@@ -35,23 +55,26 @@ public class ShopAdServiceImpl implements ShopAdService {
 		return returnRes(i);
 	}
 
-	@Override
-	public List<ShopAd> applyShopAd()
-	{
-		List<ShopAd> Shop = shopAdDao.applyShopAd();
-		if (Shop == null || Shop.size() == 0) {
-			return null;
-		}
+    @Override
+    public Result changeShopAdStatus(Long id, Long status)
+    {
+        int i = shopAdDao.changeShopAdStatus(id, status);
+        return returnRes(i);
+    }
 
-		return Shop;
-	}
+    public List<ShopAdBo> verifiedShopAd(){
+        List<ShopAdBo> list = shopAdDao.verifiedShopAdBo();
+        if(list == null)
+            return new ArrayList<>();
+        else return list;
+    }
 
-	@Override
-	public Result addShopAd(Long shopId, Date date)
-	{
-		int i = shopAdDao.addShopAd(shopId, date);
-		return returnRes(i);
-	}
+    public List<ShopAdBo> unverifiedShopAd(int page, int count){
+        List<ShopAdBo> list = shopAdDao.unverifiedShopAdBo((page-1)*count, count);
+        if(list == null)
+            return new ArrayList<>();
+        else return list;
+    }
 
 	private Result returnRes(int i)
 	{
@@ -65,20 +88,4 @@ public class ShopAdServiceImpl implements ShopAdService {
 		}
 		return result;
 	}
-
-	@Override
-	public Result rejectShopAd(Long id)
-	{
-		int i = shopAdDao.rejectShopAd(id);
-		return returnRes(i);
-	}
-
-	@Override
-	public Result agreeShopAd(Long id)
-	{
-		int i = shopAdDao.agreeShopAd(id);
-		return returnRes(i);
-	}
-
-	
 }
