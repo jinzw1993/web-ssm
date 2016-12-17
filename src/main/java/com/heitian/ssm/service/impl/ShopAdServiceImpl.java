@@ -29,9 +29,17 @@ public class ShopAdServiceImpl implements ShopAdService {
         Shop tmp = shopDao.selectShopByOwnerId(ownerId);
         Long shopId = tmp.getId();
         if(shopId == null || tmp.getStatus() != 0)
-            return returnRes(1);
-		int i = shopAdDao.addShopAd(shopId, photoUrl);
-		return returnRes(i);
+            return returnRes(0);
+        Long status = shopAdDao.selectStatus(shopId);
+        if(status == null || status > 1) {
+            int i = shopAdDao.addShopAd(shopId, photoUrl);
+            return returnRes(i);
+        } else {
+            Result result = new Result();
+            result.setStatus(0);
+            result.setMessage("have applied before");
+            return result;
+        }
 	}
 
 	@Override
@@ -40,7 +48,7 @@ public class ShopAdServiceImpl implements ShopAdService {
         Shop tmp = shopDao.selectShopByOwnerId(ownerId);
         Long shopId = tmp.getId();
         if(shopId == null || tmp.getStatus() != 0)
-            return returnRes(1);
+            return returnRes(0);
         Result result = new Result();
 		Long status = shopAdDao.selectStatus(shopId);
         if(status == null) {
@@ -67,18 +75,21 @@ public class ShopAdServiceImpl implements ShopAdService {
         Shop tmp = shopDao.selectShopByOwnerId(ownerId);
         Long shopId = tmp.getId();
         if(shopId == null || tmp.getStatus() != 0)
-            return returnRes(1);
+            return returnRes(0);
 		int i = shopAdDao.deleteShopAd(shopId);
 		return returnRes(i);
 	}
 
     @Override
-    public Result changeShopAdStatus(Long ownerId, Long status)
+    public Result changeShopAdStatus(Long shopId, Long status)
     {
-        Shop tmp = shopDao.selectShopByOwnerId(ownerId);
-        Long shopId = tmp.getId();
-        if(shopId == null || tmp.getStatus() != 0)
-            return returnRes(1);
+        if(status == 1)
+            if(shopAdDao.getNum(1L) > 4) {
+                Result result = new Result();
+                result.setStatus(0);
+                result.setMessage("you have verified 5 shops");
+                return result;
+            }
         int i = shopAdDao.changeShopAdStatus(shopId, status);
         return returnRes(i);
     }
@@ -99,7 +110,7 @@ public class ShopAdServiceImpl implements ShopAdService {
 
     public Result getNum(Long status) {
         Result result = new Result();
-        result.setStatus(0);
+        result.setStatus(1);
         result.setMessage(String.valueOf(shopAdDao.getNum(status)));
         return result;
     }

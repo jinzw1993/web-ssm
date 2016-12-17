@@ -14,8 +14,7 @@
 		VALUE
 		(#{shopId}, 0, 0, now(), #{photoUrl})
 		ON DUPLICATE KEY
-		UPATE shop_advertisement set status=0, rank=0, date=now(), path=#{photoUrl}
-		WHERE shop_id = #{shopId}
+		UPDATE status=0, rank=0, date=now(), path=#{photoUrl}
 	</insert>
 
 
