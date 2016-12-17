@@ -72,9 +72,9 @@ public class ShopAdController {
 
 	@RequestMapping("/num")
 	@ResponseBody
-	public  Result getNum(@RequestParam Long status)
+	public  Result getNum()
 	{
-		return shopAdService.getNum(status);
+		return shopAdService.getNum(0L);
 	}
 
     @RequestMapping("/unverified")
