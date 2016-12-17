@@ -16,30 +16,46 @@
 	</resultMap>
 
 	<select id="searchByNone" resultMap="ProductBaseMap">
-		SELECT * FROM  product
-		ORDER BY id
+		SELECT product.id, product.owner_id, shop_id, product_photo_id, product.name, price, category_id, detail, created_at, modified_at
+		FROM  product JOIN shop ON product.shop_id=shop.id
+		WHERE shop.status =0
+		ORDER BY product.id
 		limit #{start},#{num}
-
 	</select>
 
 	<select id="searchByNoneGN" resultType="java.lang.Integer">
-		SELECT count(*) FROM  product
+		SELECT count(*) FROM  product JOIN shop ON product.shop_id=shop.id
+		WHERE shop.status =0
 	</select>
 
 	<select id="searByOwner" resultMap="ProductBaseMap">
-		SELECT id, owner_id, shop_id, product_photo_id, name, price, category_id, detail, created_at, modified_at
-		FROM  product
-		WHERE owner_id=#{ownerId}
+		SELECT product.id, product.owner_id, shop_id, product_photo_id, product.name, price, category_id, detail, created_at, modified_at
+		FROM  product JOIN shop ON product.shop_id=shop.id
+		WHERE product.owner_id=#{ownerId} AND shop.status !=2
 		limit #{start},#{pageNum}
 	</select>
 
 	<select id="getOwnerProductCount" resultType="java.lang.Integer">
-		SELECT count(*) FROM product WHERE owner_id=#{ownerId}
+		SELECT count(*) FROM  product JOIN shop ON product.shop_id=shop.id
+		 WHERE product.owner_id=#{ownerId} AND shop.status !=2
+	</select>
+
+	<select id="searByShop" resultMap="ProductBaseMap">
+		SELECT product.id, product.owner_id, shop_id, product_photo_id, product.name, price, category_id, detail, created_at, modified_at
+		FROM  product JOIN shop ON product.shop_id=shop.id
+		WHERE product.shop_id=#{id} AND shop.status !=2
+		limit #{start},#{pageNum}
+	</select>
+
+	<select id="getShopProductCount" resultType="java.lang.Integer">
+		SELECT count(*) FROM  product JOIN shop ON product.shop_id=shop.id
+		 WHERE product.shop_id=#{id} AND shop.status !=2
 	</select>
 
 	<select id="searchWithKeyword" resultMap="ProductBaseMap" parameterType="com.heitian.ssm.bo.ProductCondition">
-		SELECT * from product
-		WHERE 1=1
+		SELECT product.id, product.owner_id, shop_id, product_photo_id, product.name, price, category_id, detail, created_at, modified_at
+		from product JOIN shop ON product.shop_id=shop.id
+		WHERE shop.status =0
 		<if test="categoryId != null and categoryId != ''">
 			AND category_id= #{categoryId}
 		</if>
@@ -50,16 +66,16 @@
 			<![CDATA[ AND price> #{lowPrice} ]]>
 		</if>
 		<if test="keyWord != null and keyWord != ''">
-			AND name LIKE "%"#{keyWord,jdbcType=VARCHAR}"%"
+			AND product.name LIKE "%"#{keyWord,jdbcType=VARCHAR}"%"
 		</if>
-		ORDER BY id
+		ORDER BY product.id
 		limit #{start},#{num}
 	</select>
 
 
 	<select id="searchWithKeywordGN" parameterType="com.heitian.ssm.bo.ProductCondition" resultType="java.lang.Integer">
-		SELECT count(*) FROM  product
-		WHERE 1=1
+		SELECT count(*) FROM  product JOIN shop ON product.shop_id=shop.id
+		WHERE shop.status =0
 		<if test="categoryId != null and categoryId != ''">
 			AND category_id= #{categoryId}
 		</if>
@@ -70,7 +86,7 @@
 			<![CDATA[ AND price> #{lowPrice} ]]>
 		</if>
 		<if test="keyWord != null and keyWord != ''">
-			AND name LIKE "%"#{keyWord,jdbcType=VARCHAR}"%"
+			AND product.name LIKE "%"#{keyWord,jdbcType=VARCHAR}"%"
 		</if>
 	</select>
 

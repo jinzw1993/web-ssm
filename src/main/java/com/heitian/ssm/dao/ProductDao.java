@@ -20,6 +20,8 @@ public interface ProductDao {
 
     List<Product> searByOwner(@Param("ownerId") Long ownerId,@Param("start") int start,@Param("pageNum") int pageNum);
     Integer getOwnerProductCount(Long ownerId);
+    List<Product> searByShop(@Param("id") Long id,@Param("start") int start,@Param("pageNum") int pageNum);
+    Integer getShopProductCount(Long id);
 
     String searchPhotoURL(Long productPhotoId);
     Product searchProductById(Long id);

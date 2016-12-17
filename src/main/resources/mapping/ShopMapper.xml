@@ -11,6 +11,11 @@
         FROM shop
         WHERE name=#{name} AND status != 2
     </select>
+    <select id="selectShopById" parameterType="java.lang.Long" resultMap="ShopBaseMap">
+        SELECT id,owner_id,name,contact,email,telephone,status
+        FROM shop
+        WHERE id=#{id} AND status != 2
+    </select>
     <select id="selectShopsByName" parameterType="java.lang.String" resultMap="ShopBaseMap">
         SELECT id,owner_id,name,contact,email,telephone,status
         FROM shop

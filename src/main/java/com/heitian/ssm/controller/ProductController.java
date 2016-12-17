@@ -134,6 +134,14 @@ public class ProductController {
         return productService.searchProductBosByOwner(Long.valueOf(ownerId),1,40);
     }
 
+    @ResponseBody
+    @RequestMapping(value="/searchByShop",method= RequestMethod.GET)
+    public List<ProductBo> searchByShop(@RequestParam Long id,
+                                        @RequestParam int page,
+                                        @RequestParam int count) {
+        return productService.searchProductBosByShop(id, page ,count);
+    }
+
     /**
      * 得到当前owner的product数量
      * @return 存到result.message中
@@ -148,6 +156,15 @@ public class ProductController {
 
         Result result =new Result();
         result.setMessage(Integer.toString(productService.getOwnerProductCount(Long.valueOf(ownerId))));
+        result.setStatus(1);
+        return result;
+    }
+
+    @ResponseBody
+    @RequestMapping(value="/getNumByShop",method= RequestMethod.GET)
+    public Result getProductsNumByShop(@RequestParam Long id) {
+        Result result =new Result();
+        result.setMessage(Integer.toString(productService.getShopProductCount(id)));
         result.setStatus(1);
         return result;
     }

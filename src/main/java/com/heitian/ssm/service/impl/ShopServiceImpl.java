@@ -40,6 +40,15 @@ public class ShopServiceImpl implements ShopService {
         return shopBo;
     }
 
+    public ShopBo getShopById(Long id) {
+        Shop shop =  shopDao.selectShopById(id);
+        if(shop == null)
+            return new ShopBo();
+        ShopBo shopBo = new ShopBo(shop);
+        shopBo.setIdPhotoUrl(shopDao.selectUrlByOwnerId(shop.getOwnerId()));
+        return shopBo;
+    }
+
     public ShopBo getShopByOwnerId(Long id) {
         Shop shop =  shopDao.selectShopByOwnerId(id);
         if(shop == null || shop.getStatus() == 3)
