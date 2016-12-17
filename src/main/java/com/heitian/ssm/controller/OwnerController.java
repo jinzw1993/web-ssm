@@ -5,8 +5,8 @@ import com.heitian.ssm.model.Owner;
 import com.heitian.ssm.service.OwnerService;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
@@ -43,8 +43,14 @@ public class OwnerController {
      */
     @ResponseBody
     @RequestMapping(value="/activate",method = RequestMethod.GET)
-    public Result ownerActivate( @RequestParam String email, @RequestParam String validateCode) {
-        return ownerService.processActivate(email, validateCode);
+    public ModelAndView ownerActivate(@RequestParam String email, @RequestParam String validateCode) {
+        Result result =  ownerService.processActivate(email, validateCode);
+        ModelAndView mov = new ModelAndView();
+        if(result.getStatus() == 1)
+            mov.setViewName("success");
+        else
+            mov.setViewName("error");
+        return mov;
     }
 
     /**
@@ -59,24 +65,6 @@ public class OwnerController {
         log.info("店主登录");
 
         Result result = ownerService.ownerLogin(owner);
-
-        if (result.getStatus() == 1 && response != null) {
-            Cookie emailCookie = new Cookie("OwnerEmail", owner.getEmail());
-            Cookie pwdCookie = new Cookie("OwnerPassword", owner.getPassword());
-            Cookie idCookie = new Cookie("OwnerId", owner.getId().toString());
-            emailCookie.setMaxAge(60 * 60 * 24 * 3);
-            pwdCookie.setMaxAge(60 * 60 * 24 * 3);
-            idCookie.setMaxAge(60 * 60 * 24 * 3);
-            response.addCookie(emailCookie);
-            response.addCookie(pwdCookie);
-            response.addCookie(idCookie);
-            if(!"success".equals(result.getMessage())) {
-                Cookie shopIdCookie = new Cookie("ShopId", result.getMessage());
-                shopIdCookie.setMaxAge(60 * 60 * 24 * 3);
-                response.addCookie(shopIdCookie);
-            }
-            result.setMessage("success");
-        }
         return result;
     }
 

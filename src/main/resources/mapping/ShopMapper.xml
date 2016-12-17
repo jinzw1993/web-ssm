@@ -9,7 +9,12 @@
     <select id="selectShopByName" parameterType="java.lang.String" resultMap="ShopBaseMap">
         SELECT id,owner_id,name,contact,email,telephone,status
         FROM shop
-        WHERE name=#{name}
+        WHERE name=#{name} AND status != 2
+    </select>
+    <select id="selectShopById" parameterType="java.lang.Long" resultMap="ShopBaseMap">
+        SELECT id,owner_id,name,contact,email,telephone,status
+        FROM shop
+        WHERE id=#{id} AND status != 2
     </select>
     <select id="selectShopsByName" parameterType="java.lang.String" resultMap="ShopBaseMap">
         SELECT id,owner_id,name,contact,email,telephone,status
@@ -19,12 +24,17 @@
     <select id="selectShopByOwnerId" resultMap="ShopBaseMap">
         SELECT id,owner_id,name,contact,email,telephone,status
         FROM shop
-        WHERE owner_id=#{id}
+        WHERE owner_id=#{id} AND status != 2
     </select>
     <select id="selectShops" resultMap="ShopBaseMap" parameterType="map">
         SELECT id,owner_id,name,contact,email,telephone,status
         FROM shop
         WHERE status = #{status}
+        limit #{start},#{count}
+    </select>
+    <select id="selectAllShops" resultMap="ShopBaseMap" parameterType="map">
+        SELECT id,owner_id,name,contact,email,telephone,status
+        FROM shop
         limit #{start},#{count}
     </select>
     <insert id="insertShop" useGeneratedKeys="true" keyProperty="id" parameterType="com.heitian.ssm.model.Shop">
@@ -37,7 +47,7 @@
         contact=#{contact},
         email=#{email},
         telephone=#{telephone}
-        WHERE id=#{id}
+        WHERE id=#{id} AND status != 2
     </update>
     <update id="updateStatus">
         UPDATE shop SET

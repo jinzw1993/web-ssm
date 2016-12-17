@@ -13,11 +13,15 @@ import java.util.List;
 public interface ShopDao {
     Shop selectShopByName(String name);
 
+    Shop selectShopById(Long id);
+
     Shop selectShopByOwnerId(Long id);
 
     List<Shop> selectShopsByName(String name);
 
     List<Shop> selectShops(@Param("start") int start,@Param("count") int count,@Param("status") Long status);
+
+    List<Shop> selectAllShops(@Param("start") int start,@Param("count") int count);
 
     int updateShop(Shop shop);
 

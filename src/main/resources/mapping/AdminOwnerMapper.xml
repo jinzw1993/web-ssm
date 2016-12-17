@@ -12,7 +12,7 @@
     </resultMap>
     
     <select id="findOwnerById" parameterType="java.lang.Long" resultMap="ownerMap">
-        SELECT * FROM customer WHERE id=#{id}
+        SELECT * FROM owner WHERE id=#{id}
     </select>
     
     <!-- 将商家数据拉入白名单 -->

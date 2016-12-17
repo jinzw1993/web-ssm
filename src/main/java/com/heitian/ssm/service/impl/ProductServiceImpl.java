@@ -10,6 +10,7 @@ import com.heitian.ssm.dao.ProductDao;
 import com.heitian.ssm.dao.ShopDao;
 import com.heitian.ssm.model.Photo;
 import com.heitian.ssm.model.Product;
+import com.heitian.ssm.model.Shop;
 import com.heitian.ssm.service.ProductService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -73,19 +74,24 @@ public class ProductServiceImpl implements ProductService {
         long pId=photoDao.selectMaxId();
         prdtBo.setProductPhotoId((long)pId);
         Product product=(Product)prdtBo;
-        prdtBo.setShopId(shopDao.selectShopByOwnerId(prdtBo.getOwnId()).getId());
+        if(prdtBo.getOwnId() == null)
+            return returnRes(0);
+        Shop shop = shopDao.selectShopByOwnerId(prdtBo.getOwnId());
+        if(shop == null)
+            return returnRes(0);
+        prdtBo.setShopId(shop.getId());
+
         int i= productDao.insertProduct(product);
         long pdId= productDao.selectMaxId();
         photo.setId((long)pId);
         photo.setProductId(pdId);
-        photoDao.updatePhoto(photo);
+        photoDao.updatePhotoProId(photo);
         return returnRes(i);
     }
-    public Result deleteProduct(ProductBo prdtBo) {
+    public Result deleteProduct(Long productId) {
 
-        photoDao.deletePhoto(prdtBo.getId(),prdtBo.getPhotoURL());
-        Product product=(Product)prdtBo;
-        int i = productDao.deleteProduct(product);
+        photoDao.deletePhoto(productId);
+        int i = productDao.deleteProduct(productId);
         return returnRes(i);
     }
     public Result updateProduct(ProductBo prdtBo) {
@@ -93,7 +99,6 @@ public class ProductServiceImpl implements ProductService {
         Photo photo = new Photo();
         photo.setPath(prdtBo.getPhotoURL());
         photo.setProductId(prdtBo.getId());
-        photo.setId(prdtBo.getProductPhotoId());
         photoDao.updatePhoto(photo);
         Product product = (Product)prdtBo;
 
@@ -111,10 +116,28 @@ public class ProductServiceImpl implements ProductService {
         return productDao.getOwnerProductCount(ownerId);
     }
 
+    public List<ProductBo> searchProductBosByOwnerForAd(long ownerId,int page, int pageNum) {
+        List<ProductBo> productBos=new ArrayList<>();
+        List<Product> products= productDao.searByOwnerForAd(ownerId,(page-1)*pageNum,pageNum);
+        return addPhotos(productBos, products);
+    }
+    public int getOwnerProductCountForAd(Long ownerId) {
+        return productDao.getOwnerProductForAdCount(ownerId);
+    }
+
+    public List<ProductBo> searchProductBosByShop(Long id,int page, int pageNum) {
+        List<ProductBo> productBos=new ArrayList<>();
+        List<Product> products= productDao.searByShop(id,(page-1)*pageNum,pageNum);
+        return addPhotos(productBos, products);
+    }
+    public int getShopProductCount(Long id) {
+        return productDao.getShopProductCount(id);
+    }
+
     private List<ProductBo> addPhotos(List<ProductBo> productBos, List<Product> products) {
         if(products!=null) {
             for (int i = 0; i < products.size(); i++) {
-                String path = productDao.searchPhotoURL(products.get(i).getProductPhotoId());
+                String path = productDao.searchPhotoURL(products.get(i).getId());
                 ProductBo productBo = new ProductBo(products.get(i));
                 productBo.setPhotoURL(path);
                 productBos.add(productBo);

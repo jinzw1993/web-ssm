@@ -1,14 +1,16 @@
 package com.heitian.ssm.service.impl;
 
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.heitian.ssm.bo.Result;
+import com.heitian.ssm.dao.CartDao;
 import com.heitian.ssm.dao.CustomerDao;
 import com.heitian.ssm.model.Customer;
 import com.heitian.ssm.service.CustomerService;
 import com.heitian.ssm.util.SendEmail;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import javax.annotation.Resource;
 
 /**
  * Created by Lanting on 2016/11/25.
@@ -18,6 +20,8 @@ import javax.annotation.Resource;
 public class CustomerServiceImpl implements CustomerService {
     @Resource
     private CustomerDao customerDao;
+    @Resource
+    private CartDao cartDao;
 
     //customer register method
     public Result addCustomer(Customer customer) {
@@ -37,13 +41,13 @@ public class CustomerServiceImpl implements CustomerService {
                     String email = customer.getEmail();
                     String telephone = customer.getTelephone();
                     StringBuffer sb = new StringBuffer("点击下面链接激活账号，48小时生效，否则重新注册账号，链接只能使用一次，请尽快激活！</br>");
-                    sb.append("<a href=\"http://localhost:8080/customer/activate?email=");
+                    sb.append("<a href=\"http://106.14.70.91:8080/web-ssm/customer/activate?email=");
                     sb.append(email);
                     sb.append("&");
                     sb.append("telephone=");
                     sb.append(telephone);
 
-                    sb.append("\">http://localhost:8080/customer/activate?email=");
+                    sb.append("\">http://106.14.70.91:8080/web-ssm/customer/activate?email=");
                     sb.append(email);
                     sb.append("&");
                     sb.append("telephone=");
@@ -55,7 +59,7 @@ public class CustomerServiceImpl implements CustomerService {
                     result.setMessage("success");
                 } catch (Exception e) {
                     result.setStatus(0);
-                    result.setMessage("failed,please register again.");
+                    result.setMessage("failed, please register again.");
                     return result;
                 }
                 int num = customerDao.addCustomer(customer);//添加用户
@@ -82,6 +86,7 @@ public class CustomerServiceImpl implements CustomerService {
             } else {
                 int num = customerDao.activateCustomerEmail(telephone, email);
                 result.setStatus(num);
+                cartDao.insertCart(customer.getId());
             }
         }
         return result;
@@ -110,7 +115,7 @@ public class CustomerServiceImpl implements CustomerService {
         } else {
             if (cus.getStatus() == 0) {
                 result.setStatus(1);
-                result.setMessage("login successful");
+                result.setMessage(String.valueOf(cus.getId()));
             } else {
                 result.setMessage("Login failed,the account is invalid.");
             }

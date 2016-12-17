@@ -1,7 +1,9 @@
 package com.heitian.ssm.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
-import java.sql.Time;
+import java.util.Date;
 
 /**
  * Created by Lanting on 2016/11/26.
@@ -15,8 +17,10 @@ public class Product implements Serializable{
     private Long price;
     private Long categoryId;
     private String detail;
-    private Time createdAt;
-    private Time modifiedAt;
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
+    private Date createdAt;
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
+    private Date modifiedAt;
 
     public Long getId() {
         return id;
@@ -83,19 +87,19 @@ public class Product implements Serializable{
         this.productPhotoId = productPhotoId;
     }
 
-    public Time getCreatedAt() {
+    public Date getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Time createdAt) {
+    public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
 
-    public Time getModifiedAt() {
+    public Date getModifiedAt() {
         return modifiedAt;
     }
 
-    public void setModifiedAt(Time modifiedAt) {
+    public void setModifiedAt(Date modifiedAt) {
         this.modifiedAt = modifiedAt;
     }
 

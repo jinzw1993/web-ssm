@@ -12,6 +12,6 @@
     
 </head>
 <body>
-      <a href="localhost:8080">Home page</a>
+    You failed to activate your account.
 </body>
 </html>

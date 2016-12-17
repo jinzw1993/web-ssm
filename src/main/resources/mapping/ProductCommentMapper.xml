@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.heitian.ssm.dao.ProductCommentDao">
+
+    <resultMap id="ProductCommentBaseMap" type="com.heitian.ssm.model.ProductComment">
+        <id column="id" property="id" />
+        <result column="product_id" property="productId" />
+        <result column="customer_id" property="customerId" />
+        <result column="comment" property="comment"/>
+        <result column="created_at" property="createdAt"/>
+    </resultMap>
+
+    <resultMap id="CommentBoMap" type="com.heitian.ssm.bo.ProductCommentBo">
+        <id column="id" property="id" />
+        <result column="product_id" property="productId" />
+        <result column="customer_id" property="customerId" />
+        <result column="comment" property="comment"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="email" property="customerEmail"/>
+    </resultMap>
+
+    <select id="getCommentBos" resultMap="CommentBoMap">
+        SELECT product_comment.id, customer_id, product_id, comment, created_at, customer.email
+        FROM product_comment JOIN customer ON product_comment.customer_id=customer.id
+        WHERE product_id=#{productId} limit #{start}, #{pageNum}
+    </select>
+
+    <select id="getCommentNum" resultType="_int">
+        SELECT count(*)
+        FROM product_comment
+        WHERE product_id=#{productId}
+    </select>
+</mapper>

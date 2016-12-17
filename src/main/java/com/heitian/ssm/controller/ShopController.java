@@ -33,6 +33,19 @@ public class ShopController {
         return shopService.getShopByName(name);
     }
 
+    @RequestMapping(value="/searchById")
+    public @ResponseBody
+    ShopBo getShopByName(@RequestParam Long id) {
+        return shopService.getShopById(id);
+    }
+
+    @RequestMapping(value="/searchByOwner")
+    public @ResponseBody
+    ShopBo getShopByOwnerId(@RequestParam Long id) {
+        log.info("查询店铺");
+        return shopService.getShopByOwnerId(id);
+    }
+
     @RequestMapping(value="/searchLike")
     public @ResponseBody
     List<ShopBo> getShopsByName(@RequestParam String name) {
@@ -51,14 +64,14 @@ public class ShopController {
     public @ResponseBody
     List<ShopBo> getShops(@RequestParam int page, @RequestParam int count) {
         log.info("查询店铺列表");
-        return shopService.getShops(page, count ,(long)0);
+        return shopService.getAllShops(page, count);
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public @ResponseBody
     Result addNewShop(@RequestBody ShopBo shopBo,
-                      HttpServletRequest request,
-                      HttpServletResponse response) {
+                      HttpServletRequest request) {
+
         log.info("新店注册");
         String auth = request.getHeader("Authorization");
         if(auth == null)
@@ -66,12 +79,6 @@ public class ShopController {
         String ownerId = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
         shopBo.setOwnerId(Long.valueOf(ownerId));
         Result result = shopService.addShop(shopBo);
-        if(result.getStatus() == 1 && response != null) {
-            Cookie shopIdCookie = new Cookie("ShopId", result.getMessage());
-            result.setMessage("success");
-            shopIdCookie.setMaxAge(60 * 60 * 24 * 3);
-            response.addCookie(shopIdCookie);
-        }
         return result;
     }
 
@@ -108,7 +115,7 @@ public class ShopController {
         return result;
     }
 
-    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    @RequestMapping(value = "/delete")
     public @ResponseBody
     Result delete(@RequestParam Long id, HttpServletRequest request) {
         String auth = request.getHeader("Authorization");

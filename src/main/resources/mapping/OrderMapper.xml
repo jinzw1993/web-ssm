@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.heitian.ssm.dao.OrderDao">
+    <resultMap id="OrderMap" type="com.heitian.ssm.model.Order">
+        <id column="id" property="id" />
+        <result column="customer_id" property="customerId" />
+        <result column="owner_id" property="ownerId" />
+        <result column="express_id" property="expressId" />
+        <result column="commission_rate" property="commissionRate" />
+        <result column="process_status" property="processStatus" />
+        <result column="created_at" property="createdAt" />
+    </resultMap>
+
+    <resultMap id="OrderBoMap" type="com.heitian.ssm.bo.OrderBo">
+        <id column="id" property="id" />
+        <result column="express_id" property="expressId" />
+        <result column="order_status" property="status" />
+        <result column="process_status" property="processStatus" />
+        <result column="created_at" property="createdAt" />
+    </resultMap>
+
+    <sql id="selectOrder">
+        select `order`.id,
+          owner.email ownerEmail,
+          shop.name shopName,
+          customer.email customerEmail,
+          express_id,
+          price,
+          amount,
+          commission,
+          `order`.status order_status,
+          process_status,
+          created_at
+    </sql>
+
+    <sql id="fromOrder">
+        from `order`
+          join owner on `order`.owner_id=owner.id
+          join shop on `order`.shop_id=shop.id
+          join customer on `order`.customer_id=customer.id
+    </sql>
+
+
+    <!-- ____________________________________________ Luxuriant Splitter______________________________________  -->
+    <select id="getOrderById" parameterType="java.lang.Long" resultMap="OrderBoMap">
+        <include refid="selectOrder"/>
+        <include refid="fromOrder"/>
+        WHERE `order`.id=#{orderId}
+    </select>
+
+
+    <select id="getOwnerOrderBoByProcessStatus" resultMap="OrderBoMap">
+        <include refid="selectOrder"/>
+        <include refid="fromOrder"/>
+        WHERE process_status=#{processStatus} AND `order`.owner_id=#{ownerId} limit #{start}, #{pageNum}
+    </select>
+
+    <select id="getOwnerOrderBoByProcessStatusNum" resultType="_int">
+        SELECT count(*)
+        FROM `order`
+        WHERE process_status=#{processStatus} AND owner_id=#{ownerId}
+    </select>
+
+    <update id="changeOrderProcessStatus" >
+        UPDATE `order` set process_status=#{status}
+        WHERE id=#{orderId}
+    </update>
+    <!-- ____________________________________________ End of Luxuriant Splitter______________________________  -->
+
+
+    <!--天周月年查询店主所有已完成的订单-->
+    <select id="getOwnerOrders" parameterType="map" resultMap="OrderBoMap">
+      <include refid="selectOrder" />
+      <include refid="fromOrder" />
+      <where>
+          <choose>
+              <when test="time.id == 0">
+                  AND #{time.year} = year(created_at) AND #{time.month} = month(created_at) AND #{time.day} = day(created_at)
+              </when>
+              <when test="time.id == 1">
+                  AND #{time.year} = year(created_at) AND #{time.week} = week(created_at)
+              </when>
+              <when test="time.id == 2">
+                  AND #{time.year} = year(created_at) AND #{time.month} = month(created_at)
+              </when>
+              <when test="time.id == 3">
+                  AND #{time.year} = year(created_at)
+              </when>
+          </choose>
+      </where>
+      AND `order`.owner_id=#{id} AND `order`.process_status=4 AND `order`.status=1
+      order by `order`.created_at desc
+      limit #{time.start},#{time.count}
+    </select>
+
+
+
+    <!--店主所有已完成的订单数量，用于天周月年查询分页-->
+    <select id="getOwnOrderCompleteNum" parameterType="map" resultType="int">
+        select count(*)
+        <include refid="fromOrder" />
+        <where>
+            <choose>
+                <when test="time.id == 0">
+                    AND #{time.year} = year(created_at) AND #{time.month} = month(created_at) AND #{time.day} = day(created_at)
+                </when>
+                <when test="time.id == 1">
+                    AND #{time.year} = year(created_at) AND #{time.week} = week(created_at)
+                </when>
+                <when test="time.id == 2">
+                    AND #{time.year} = year(created_at) AND #{time.month} = month(created_at)
+                </when>
+                <when test="time.id == 3">
+                    AND #{time.year} = year(created_at)
+                </when>
+            </choose>
+        </where>
+        AND `order`.owner_id=#{id} and `order`.process_status=4 and `order`.status=1
+    </select>
+</mapper>

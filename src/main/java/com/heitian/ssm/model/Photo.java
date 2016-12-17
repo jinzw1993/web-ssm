@@ -1,7 +1,5 @@
 package com.heitian.ssm.model;
 
-import java.io.File;
-
 /**
  * Created by oasis on 11/27/16.
  */
