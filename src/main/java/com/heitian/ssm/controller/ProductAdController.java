@@ -1,13 +1,10 @@
 package com.heitian.ssm.controller;
 
-import java.sql.Date;
 import java.util.List;
 
 import com.heitian.ssm.bo.ProductAdBo;
 import com.heitian.ssm.bo.Result;
-import com.heitian.ssm.model.ProductAd;
 import com.heitian.ssm.service.ProductAdService;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -42,8 +39,6 @@ public class ProductAdController {
             result.setStatus(0);
             return result;
         }
-        String id = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
-
         return productAdService.addProductAd(productId);
     }
 
@@ -62,26 +57,18 @@ public class ProductAdController {
             result.setStatus(0);
             return result;
         }
-        String id = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
         return productAdService.deleteProductAd(productAdId);
     }
 
     /**
      * 更新productAd.status需要ProductAd.id ProductAd.status
      *
-     * @param request
+     * @param
      * @return
      */
     @RequestMapping("/update")
     @ResponseBody
-    public Result updateProductAd(HttpServletRequest request, @RequestParam Long pAdId,@RequestParam Long status) {
-        String auth = request.getHeader("Authorization");
-        if (auth == null) {
-            result.setMessage("haven't log in");
-            result.setStatus(0);
-            return result;
-        }
-        String id = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
+    public Result updateProductAd(@RequestParam Long pAdId,@RequestParam Long status) {
         return productAdService.updateProductAdStatus(pAdId, status);
     }
 
@@ -92,11 +79,6 @@ public class ProductAdController {
         return productAdService.getVerifiedProductAd();
     }
 
-    @RequestMapping("/getVerifiedNum")
-    @ResponseBody
-    public Result getVerifiedPAdNum() {
-        return productAdService.getVerifiedPAdNum();
-    }
 
     @RequestMapping("/getUnverified")
     @ResponseBody
@@ -120,7 +102,6 @@ public class ProductAdController {
             return null;
         }
         String id = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
-     //   String id="32";
         return productAdService.getProductAdByOwnerId(Long.valueOf(id), page, pageNum);
     }
 
@@ -134,7 +115,6 @@ public class ProductAdController {
             return result;
         }
         String id = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
-      //  String id="32";
         return productAdService.getProductAdNumByOwnerId(Long.valueOf(id));
     }
 
