@@ -19,5 +19,14 @@
 	    SELECT * FROM  favorite_product
 	    ORDER BY id
 	</select>
+	
+	<select id="searchFavoriteProductByCidAndPid" resultMap="FavoriteProductBaseMap">
+	    SELECT * FROM  favorite_product
+	    WHERE product_id = #{productId} AND customer_id = #{customerId}
+	</select>
+	
+	<delete id="deleteFavoriteProduct" >
+        DELETE FROM favorite_product WHERE product_id = #{productId} AND customer_id = #{customerId}
+    </delete>
     
 </mapper>
