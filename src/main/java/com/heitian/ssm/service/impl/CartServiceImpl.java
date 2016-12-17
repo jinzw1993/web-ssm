@@ -1,4 +1,4 @@
-package com.heitian.ssm.service.impl;
+﻿package com.heitian.ssm.service.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,7 +18,6 @@ import com.heitian.ssm.dao.ProductDao;
 import com.heitian.ssm.dao.ProductInCartDao;
 import com.heitian.ssm.dao.ShopDao;
 import com.heitian.ssm.model.Cart;
-
 import com.heitian.ssm.model.Product;
 import com.heitian.ssm.model.ProductInCart;
 import com.heitian.ssm.service.CartService;
@@ -104,6 +103,11 @@ public class CartServiceImpl implements CartService {
 				}
 			}
 			
+		} else {
+			Result r = new Result();
+			r.setStatus(0);
+			r.setMessage("You can't avtive!");
+			return r;
 		}
 		
 		return returnRes(i);
@@ -115,7 +119,13 @@ public class CartServiceImpl implements CartService {
 		Cart cart = cartDao.searchCartByCustomerId(customerId);
 		if(cart != null) {
 			ProductInCart productInCart = productInCartDao.searchProductInCartByCartIdAndProductId(cart.getId(), productId);
-			i = productInCartDao.deleteProductInCart(productInCart);
+			if(productInCart == null) {
+				Result r = new Result();
+				r.setStatus(0);
+				r.setMessage("You have been deleted");
+				return r;
+			} else 
+				i = productInCartDao.deleteProductInCart(productInCart);
 		}
 		
 		return returnRes(i);
@@ -131,6 +141,11 @@ public class CartServiceImpl implements CartService {
 			ProductInCart productInCart = productInCartDao.searchProductInCartByCartIdAndProductId(cart.getId(), productId);
 			productInCart.setAmount(amount);
 			i = productInCartDao.updateProductInCart(productInCart);
+		} else {
+			Result r = new Result();
+			r.setStatus(0);
+			r.setMessage("You can't avtive!");
+			return r;
 		}
 		
 		return returnRes(i);

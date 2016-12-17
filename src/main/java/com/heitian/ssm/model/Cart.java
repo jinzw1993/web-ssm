@@ -4,7 +4,7 @@ public class Cart {
 	
 	private Long id;
 	private Long customerId;
-	private Boolean status;	
+	private Long amount;	
 	
 	public Cart() {
 		super();
@@ -19,17 +19,18 @@ public class Cart {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public Boolean getStatus() {
-		return status;
-	}
-	public void setStatus(Boolean status) {
-		this.status = status;
-	}
+	
 	public Long getCustomerId() {
 		return customerId;
 	}
 	public void setCustomerId(Long customerId) {
 		this.customerId = customerId;
+	}
+	public Long getAmount() {
+		return amount;
+	}
+	public void setAmount(Long amount) {
+		this.amount = amount;
 	}
 	
 
