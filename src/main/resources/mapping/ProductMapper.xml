@@ -11,8 +11,8 @@
 		<result column="price" property="price" jdbcType="BIGINT"/>
 		<result column="category_id" property="categoryId" jdbcType="BIGINT"/>
 		<result column="detail" property="detail" jdbcType="VARCHAR"/>
-		<result column="created_at" property="createdAt" jdbcType="TIME"/>
-		<result column="modified_at" property="modifiedAt" jdbcType="TIME"/>
+		<result column="created_at" property="createdAt"/>
+		<result column="modified_at" property="modifiedAt"/>
 	</resultMap>
 
 	<select id="searchByNone" resultMap="ProductBaseMap">
