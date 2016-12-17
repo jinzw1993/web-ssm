@@ -30,13 +30,13 @@ public class ProductAdServiceImplTest {
 	@Autowired
 	private ProductAdService ps;
 
-	
-	public void testShowProductAd()
-	{
-		List<ProductAd> productAds = ppa.showProductAd();
-		System.out.println("-----------------------\n" + productAds.size());
-
-	}
+//
+//	public void testShowProductAd()
+//	{
+//		List<ProductAd> productAds = ppa.showProductAd();
+//		System.out.println("-----------------------\n" + productAds.size());
+//
+//	}
 
 	public void testDeleteProductAd()
 	{
@@ -48,26 +48,26 @@ public class ProductAdServiceImplTest {
 		List<ShopAd> pro = sha.applyShopAd();
 		System.out.println("-----------------------\n" + pro.size());
 	}
-	
-	public void testAddProductAd()
-	{
-		Result i=ps.addProductAd(10L, new Date(1010020010L));
-		System.out.println(i.getMessage());
-	}
-	
-	
-	public void testRejectProductAd()
-	{
-		Result i=ps.rejectProductAd(3L);
-		System.out.println(i.getMessage());
-	}
+//
+//	public void testAddProductAd()
+//	{
+//		Result i=ps.addProductAd(10L, new Date(1010020010L));
+//		System.out.println(i.getMessage());
+//	}
 	
 	
-	public void testAgreeProductAd()
-	{
-		Result i=ps.agreeProductAd(3L);
-		System.out.println(i.getMessage());
-	}
+//	public void testRejectProductAd()
+//	{
+//		Result i=ps.rejectProductAd(3L);
+//		System.out.println(i.getMessage());
+//	}
+//
+//
+//	public void testAgreeProductAd()
+//	{
+//		Result i=ps.agreeProductAd(3L);
+//		System.out.println(i.getMessage());
+//	}
 	
 	
 	

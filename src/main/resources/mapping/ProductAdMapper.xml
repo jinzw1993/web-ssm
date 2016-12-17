@@ -2,29 +2,118 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.heitian.ssm.dao.ProductAdDao">
 	<resultMap type="com.heitian.ssm.model.ProductAd" id="productAd">
-		<id column="id" property="id" jdbcType="BIGINT" />
+		<id column="id" property="id" />
+		<result column="product_id" property="productId"  />
+	</resultMap>
+
+	<!-- ____________________________________________________edited and coded _______________________________-->
+	<resultMap id="ProductAdBoBaseMap" type="com.heitian.ssm.bo.ProductAdBo">
+		<id column="adId" property="id"/>
 		<result column="product_id" property="productId" jdbcType="BIGINT" />
-		<result column="status" property="status" jdbcType="BIGINT" />
+		<result column="adStatus" property="status" jdbcType="BIGINT" />
 		<result column="rank" property="rank" jdbcType="BIGINT" />
 		<result column="date" property="date" jdbcType="DATE" />
+		<!-- AdBo part-->
+		<result column="name" property="name"/>
+		<result column="price" property="price"/>
+		<result column="category_id" property="categoryId"/>
 	</resultMap>
 
 	<insert id="addProductAd" parameterType="map">
 		INSERT INTO
 		product_advertisement(product_id, status, rank, date)
-		VALUE
-		(#{productId}, 1, 0, #{date});
+		VALUES
+		(#{productId}, 0, 0, now());
 	</insert>
 
+    <select id="getPermittedProductAd" resultMap="ProductAdBoBaseMap">
+        SELECT  product_advertisement.id AS adId,
+                product_id,
+                product_advertisement.status AS adStatus,
+                rank,
+                date,
+                name,
+                price,
+                category_id
+        FROM product_advertisement JOIN product ON product_advertisement.product_id=product.id
+        WHERE  product_advertisement.status=1
+    </select>
 
-	<delete id="deleteProductAd" parameterType="java.lang.Long">
-		DELETE FROM
-		product_advertisement
-		WHERE
-		product_id=#{productId}
-	</delete>
+    <select id="getPermittedPAdNum" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM product_advertisement
+        WHERE status=1
+    </select>
+
+    <update id="updateProductAdStatus">
+        UPDATE product_advertisement
+        SET status=#{status}
+        WHERE id=#{id}
+    </update>
+
+    <update id="verifyProductAd">
+        UPDATE product_advertisement
+        SET status=1, rank=#{rank}
+        WHERE product_id=#{productId}
+    </update>
+
+    <select id="getUnverifiedProductAd" resultMap="ProductAdBoBaseMap">
+        SELECT  product_advertisement.id AS adId,
+                product_id,
+                product_advertisement.status AS adStatus,
+                rank,
+                date,
+                name,
+                price,
+                category_id
+        FROM product_advertisement JOIN product ON product_advertisement.product_id=product.id
+        WHERE  product_advertisement.status=0 limit #{start}, #{pageNum}
+    </select>
+    <select id="getUnverifiedPAdNum" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM product_advertisement
+        WHERE status=0
+    </select>
+
+    <select id="getProductAdByOwnerId" resultMap="ProductAdBoBaseMap">
+        SELECT  product_advertisement.id AS adId,
+        product_id,
+        product_advertisement.status AS adStatus,
+        rank,
+        date,
+        name,
+        price,
+        category_id
+        FROM product_advertisement JOIN product ON product_advertisement.product_id=product.id
+        WHERE  product.owner_id=#{ownerId} limit #{start}, #{pageNum}
+    </select>
+
+    <select id="getProductAdNumByOwnerId" resultType="java.lang.Integer">
+        SELECT  COUNT(*)
+        FROM product_advertisement JOIN product ON product_advertisement.product_id=product.id
+        WHERE  product.owner_id=#{ownerId}
+    </select>
+
+    <delete id="deleteProductAd" parameterType="java.lang.Long">
+        DELETE FROM
+        product_advertisement
+        WHERE
+        id=#{id}
+    </delete>
+    <select id="getProductAdByProductId" resultMap="productAd">
+        SELECT  id
+        product_id,
+        status,
+        rank,
+        date
+        FROM product_advertisement
+        WHERE  product_id=#{productId}
+    </select>
+	<!--______________________________________________________________________________________________________-->
 
 
+
+<!--
 	<select id="showProductAd" resultMap="productAd">
 		SELECT * FROM
 		product_advertisement
@@ -49,5 +138,5 @@
 	  UPDATE product_advertisement
       SET `status`=2
       WHERE product_id=#{productId}
-	</update>
+	</update>-->
 </mapper>
