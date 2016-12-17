@@ -116,6 +116,15 @@ public class ProductServiceImpl implements ProductService {
         return productDao.getOwnerProductCount(ownerId);
     }
 
+    public List<ProductBo> searchProductBosByOwnerForAd(long ownerId,int page, int pageNum) {
+        List<ProductBo> productBos=new ArrayList<>();
+        List<Product> products= productDao.searByOwnerForAd(ownerId,(page-1)*pageNum,pageNum);
+        return addPhotos(productBos, products);
+    }
+    public int getOwnerProductCountForAd(Long ownerId) {
+        return productDao.getOwnerProductForAdCount(ownerId);
+    }
+
     public List<ProductBo> searchProductBosByShop(Long id,int page, int pageNum) {
         List<ProductBo> productBos=new ArrayList<>();
         List<Product> products= productDao.searByShop(id,(page-1)*pageNum,pageNum);

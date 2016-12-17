@@ -90,6 +90,8 @@ public class OrderServiceImpl implements OrderService {
             time.setMonth(now.get(Calendar.MONTH) +1);
         if(time.getWeek() == null)
             time.setWeek(now.get(Calendar.WEEK_OF_YEAR) -1);
+        else
+            time.setWeek(now.get(Calendar.WEEK_OF_YEAR) -time.getWeek());
         if(time.getDay() == null)
             time.setDay(now.get(Calendar.DAY_OF_MONTH));
     }

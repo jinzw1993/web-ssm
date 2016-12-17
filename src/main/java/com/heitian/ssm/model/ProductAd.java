@@ -1,5 +1,7 @@
 package com.heitian.ssm.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 /**
@@ -10,6 +12,7 @@ public class ProductAd {
     private Long productId;
     private Long status; //0--待审核，1--已允许，2--被拒绝，3--已过期
     private Long rank;
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
     private Date date; //不用
 
     public Long getId() {

@@ -40,6 +40,20 @@
 		 WHERE product.owner_id=#{ownerId} AND shop.status !=2
 	</select>
 
+    <select id="searByOwnerForAd" resultMap="ProductBaseMap">
+		SELECT product.id, product.owner_id, shop_id, product_photo_id, product.name, price, category_id, detail, created_at, modified_at
+		FROM  product JOIN shop ON product.shop_id=shop.id
+		WHERE product.owner_id=#{ownerId} AND shop.status !=2
+		AND product.id NOT IN (SELECT product_id FROM product_advertisement WHERE <![CDATA[ product_advertisement.status <2 ]]>)
+		limit #{start},#{pageNum}
+	</select>
+
+	<select id="getOwnerProductForAdCount" resultType="java.lang.Integer">
+		SELECT count(*) FROM  product JOIN shop ON product.shop_id=shop.id
+		WHERE product.owner_id=#{ownerId} AND shop.status !=2
+        AND product.id NOT IN (SELECT product_id FROM product_advertisement WHERE <![CDATA[ product_advertisement.status <2 ]]>)
+	</select>
+
 	<select id="searByShop" resultMap="ProductBaseMap">
 		SELECT product.id, product.owner_id, shop_id, product_photo_id, product.name, price, category_id, detail, created_at, modified_at
 		FROM  product JOIN shop ON product.shop_id=shop.id

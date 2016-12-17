@@ -76,7 +76,7 @@ public class ProductAdServiceImpl implements ProductAdService {
      */
     public Result addProductAd(Long productId) {
         ProductAd productAd= productAdDao.getProductAdByProductId(productId);
-        if(productAd!=null&&(productAd.getStatus()==1||productAd.getStatus()==0)) {
+        if(productAd!=null) {
             Result result=new Result();
             result.setMessage("failed, advertisement exists");
             result.setStatus(0);

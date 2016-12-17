@@ -3,12 +3,13 @@ package com.heitian.ssm.bo;
 /**
  * Created by oasis on 2016/12/15.
  */
+//这个类的处理在OrderServiceImpl中的setTimeCon方法里
 public class TimeCondition {
     private Integer id = 0;
-    private Integer year;
-    private Integer month;
-    private Integer week;
-    private Integer day;
+    private Integer year; //年份
+    private Integer month; //月份
+    private Integer week; //当前周为1，前一周为2，依次类推
+    private Integer day; //天
     private int page =1;
     private int count = 30;
     private int start;

@@ -20,6 +20,8 @@ public interface ProductService {
     Result updateProduct(ProductBo product);
     List<ProductBo> searchProductBosByOwner(long ownerId,int page, int pageNum);
     int getOwnerProductCount(Long ownerId);
+    List<ProductBo> searchProductBosByOwnerForAd(long ownerId,int page, int pageNum);
+    int getOwnerProductCountForAd(Long ownerId);
     List<ProductBo> searchProductBosByShop(Long shopId, int page, int count);
     int getShopProductCount(Long shopId);
 }

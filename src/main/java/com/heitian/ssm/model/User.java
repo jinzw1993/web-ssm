@@ -1,5 +1,7 @@
 package com.heitian.ssm.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 /**
@@ -13,7 +15,9 @@ public class User {
     private String userEmail;
     private String userPwd;
     private String pwdSalt;
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
     private Date createTime;
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
     private Date modifyTime;
     private Short isDelete;
 

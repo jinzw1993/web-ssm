@@ -134,14 +134,6 @@ public class ProductController {
         return productService.searchProductBosByOwner(Long.valueOf(ownerId),1,40);
     }
 
-    @ResponseBody
-    @RequestMapping(value="/searchByShop",method= RequestMethod.GET)
-    public List<ProductBo> searchByShop(@RequestParam Long id,
-                                        @RequestParam int page,
-                                        @RequestParam int count) {
-        return productService.searchProductBosByShop(id, page ,count);
-    }
-
     /**
      * 得到当前owner的product数量
      * @return 存到result.message中
@@ -158,6 +150,49 @@ public class ProductController {
         result.setMessage(Integer.toString(productService.getOwnerProductCount(Long.valueOf(ownerId))));
         result.setStatus(1);
         return result;
+    }
+
+    /**
+     * 根据Owner查找未申请或已批准广告的product
+
+     * @return ProductBo List
+     */
+    @ResponseBody
+    @RequestMapping(value="/searchByOwnForAd",method= RequestMethod.GET)
+    public List<ProductBo> searchByOwnerForAd(HttpServletRequest request,
+                                              @RequestParam int page,
+                                              @RequestParam int count) {
+        String auth = request.getHeader("Authorization");
+        if(auth == null)
+            return new ArrayList<>();
+        String ownerId = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
+        return productService.searchProductBosByOwnerForAd(Long.valueOf(ownerId),page,count);
+    }
+
+    /**
+     * 得到当前owner的product数量
+     * @return 存到result.message中
+     */
+    @ResponseBody
+    @RequestMapping(value="/getNumForAd",method= RequestMethod.GET)
+    public Result getProductsNumForAd(HttpServletRequest request) {
+        String auth = request.getHeader("Authorization");
+        if(auth == null)
+            return new Result();
+        String ownerId = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
+
+        Result result =new Result();
+        result.setMessage(Integer.toString(productService.getOwnerProductCountForAd(Long.valueOf(ownerId))));
+        result.setStatus(1);
+        return result;
+    }
+
+    @ResponseBody
+    @RequestMapping(value="/searchByShop",method= RequestMethod.GET)
+    public List<ProductBo> searchByShop(@RequestParam Long id,
+                                        @RequestParam int page,
+                                        @RequestParam int count) {
+        return productService.searchProductBosByShop(id, page ,count);
     }
 
     @ResponseBody

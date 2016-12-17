@@ -1,6 +1,8 @@
 package com.heitian.ssm.model;
 
-import java.sql.Time;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import java.util.Date;
 
 /**
  * Created by oasis on 12/12/16.
@@ -17,13 +19,14 @@ public class Order {
     Long commissionRate;
     Long status;
     Long processStatus;
-    Time createdAt;
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
+    Date createdAt;
 
-    public Time getCreatedAt() {
+    public Date getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Time createdAt) {
+    public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
 
