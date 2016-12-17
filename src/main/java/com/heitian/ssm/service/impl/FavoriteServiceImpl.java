@@ -90,13 +90,14 @@ public class FavoriteServiceImpl implements FavoriteService {
 	@Override
 	public Result addFavoriteShop(Long shopId, Long customerId) {
 		
-		FavoriteShop favoriteShop = favoriteShopDao.searchFavoriteShopBySidAndPid(shopId, customerId);
-		if(favoriteShop != null) {			
+		FavoriteShop favoriteShop = favoriteShopDao.searchFavoriteShopByCidAndSid(shopId, customerId);	
+		
+		if(favoriteShop != null) {		
 			Result result = new Result();
 			result.setStatus(0);
 			result.setMessage("You have been added");
 			return result;						
-		} else {
+		} else {			
 			FavoriteShop fs = new FavoriteShop();
 			fs.setCustomerId(customerId);
 			fs.setShopId(shopId);
@@ -113,9 +114,10 @@ public class FavoriteServiceImpl implements FavoriteService {
 		List<FavoriteShop> favoriteShops = favoriteShopDao.searchFavoriteShop();
 		if(favoriteShops != null) {
 			for(FavoriteShop favoriteShop : favoriteShops) {
+				
 				Long shopId = favoriteShop.getShopId();
 				Shop shop = shopDao.selectShopByOwnerId(shopId);
-				ShopBo shopBo = new ShopBo(shop);
+				ShopBo shopBo = new ShopBo(shop, shopDao.selectUrlByOwnerId(shop.getOwnerId()));
 				shopBos.add(shopBo);
 			}
 		}
@@ -124,7 +126,7 @@ public class FavoriteServiceImpl implements FavoriteService {
 	
 	@Override
 	public Result deleteFavoriteShop(Long shopId, Long customerId) {
-		FavoriteShop favoriteShop = favoriteShopDao.searchFavoriteShopBySidAndPid(shopId, customerId);
+		FavoriteShop favoriteShop = favoriteShopDao.searchFavoriteShopByCidAndSid(shopId, customerId);
 		if(favoriteShop == null) { 
 			Result result = new Result();
 			result.setStatus(0);

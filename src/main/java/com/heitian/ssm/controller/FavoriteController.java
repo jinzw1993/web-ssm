@@ -115,7 +115,7 @@ public class FavoriteController {
         
         Long shopId = Long.valueOf(request.getParameter("id"));
         
-        return favoriteService.addFavoriteProduct(shopId, customerId);
+        return favoriteService.addFavoriteShop(shopId, customerId);
     }
 	
 	/**

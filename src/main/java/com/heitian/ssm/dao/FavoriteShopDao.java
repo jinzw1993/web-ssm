@@ -11,7 +11,7 @@ public interface FavoriteShopDao {
 	
 	public int insertFavoriteShop(@Param("favoriteShop") FavoriteShop favoriteShop);
 	public List<FavoriteShop> searchFavoriteShop();
-	public FavoriteShop searchFavoriteShopBySidAndPid(@Param("shopId") Long shopId, @Param("customerId") Long customerId);
+	public FavoriteShop searchFavoriteShopByCidAndSid(@Param("shopId") Long shopId, @Param("customerId") Long customerId);
 	public int deleteFavoriteShop(@Param("shopId") Long shopId, @Param("customerId") Long customerId);
 
 }
