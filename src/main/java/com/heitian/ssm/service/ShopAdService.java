@@ -21,4 +21,6 @@ public interface ShopAdService {
 	List<ShopAdBo> unverifiedShopAd(int page, int count);
 
 	Result changeShopAdStatus(Long id, Long status);
+
+    Result getNum(Long status);
 }

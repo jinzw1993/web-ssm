@@ -46,6 +46,11 @@
 		ORDER BY shop_advertisement.date
     </select>
 
+    <select id="getNum" resultType="int">
+        SELECT count(*) FROM shop_advertisement
+        WHERE status =#{status}
+    </select>
+
     <update id="changeShopAdStatus" parameterType="java.lang.Long">
 	  UPDATE shop_advertisement
       SET `status`= #{status}

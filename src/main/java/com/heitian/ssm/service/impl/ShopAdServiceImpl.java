@@ -5,6 +5,8 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import com.heitian.ssm.bo.ShopAdBo;
+import com.heitian.ssm.dao.ShopDao;
+import com.heitian.ssm.model.Shop;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.heitian.ssm.bo.Result;
@@ -18,16 +20,27 @@ public class ShopAdServiceImpl implements ShopAdService {
 	@Resource
 	private ShopAdDao shopAdDao;
 
+    @Resource
+    private ShopDao shopDao;
+
 	@Override
-	public Result addShopAd(Long shopId, String photoUrl)
+	public Result addShopAd(Long ownerId, String photoUrl)
 	{
+        Shop tmp = shopDao.selectShopByOwnerId(ownerId);
+        Long shopId = tmp.getId();
+        if(shopId == null || tmp.getStatus() != 0)
+            return returnRes(1);
 		int i = shopAdDao.addShopAd(shopId, photoUrl);
 		return returnRes(i);
 	}
 
 	@Override
-	public Result showShopAdStatus(Long shopId)
+	public Result showShopAdStatus(Long ownerId)
 	{
+        Shop tmp = shopDao.selectShopByOwnerId(ownerId);
+        Long shopId = tmp.getId();
+        if(shopId == null || tmp.getStatus() != 0)
+            return returnRes(1);
         Result result = new Result();
 		Long status = shopAdDao.selectStatus(shopId);
         if(status == null) {
@@ -49,16 +62,24 @@ public class ShopAdServiceImpl implements ShopAdService {
 	}
 
 	@Override
-	public Result deleteShopAd(Long id)
+	public Result deleteShopAd(Long ownerId)
 	{
-		int i = shopAdDao.deleteShopAd(id);
+        Shop tmp = shopDao.selectShopByOwnerId(ownerId);
+        Long shopId = tmp.getId();
+        if(shopId == null || tmp.getStatus() != 0)
+            return returnRes(1);
+		int i = shopAdDao.deleteShopAd(shopId);
 		return returnRes(i);
 	}
 
     @Override
-    public Result changeShopAdStatus(Long id, Long status)
+    public Result changeShopAdStatus(Long ownerId, Long status)
     {
-        int i = shopAdDao.changeShopAdStatus(id, status);
+        Shop tmp = shopDao.selectShopByOwnerId(ownerId);
+        Long shopId = tmp.getId();
+        if(shopId == null || tmp.getStatus() != 0)
+            return returnRes(1);
+        int i = shopAdDao.changeShopAdStatus(shopId, status);
         return returnRes(i);
     }
 
@@ -74,6 +95,13 @@ public class ShopAdServiceImpl implements ShopAdService {
         if(list == null)
             return new ArrayList<>();
         else return list;
+    }
+
+    public Result getNum(Long status) {
+        Result result = new Result();
+        result.setStatus(0);
+        result.setMessage(String.valueOf(shopAdDao.getNum(status)));
+        return result;
     }
 
 	private Result returnRes(int i)

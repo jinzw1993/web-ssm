@@ -19,5 +19,7 @@ public interface ShopAdDao {
 
     List<ShopAdBo> unverifiedShopAdBo(@Param("start") int start, @Param("count") int count);
 
+    int getNum(@Param("status") Long status);
+
 	int changeShopAdStatus(@Param(value = "shopId") Long shopId, @Param("status") Long status);
 }

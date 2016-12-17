@@ -19,7 +19,7 @@
 	    ORDER BY id
 	</select>
 	
-	<select id="searchFavoriteShopBySidAndPid" resultMap="FavoriteShopBaseMap">
+	<select id="searchFavoriteShopByCidAndSid" resultMap="FavoriteShopBaseMap">
 	    SELECT * FROM  favorite_shop
 	    WHERE shop_id = #{shopId} AND customer_id = #{customerId}
 	</select>
