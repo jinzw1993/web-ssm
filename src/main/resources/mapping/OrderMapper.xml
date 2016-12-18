@@ -17,6 +17,7 @@
         <result column="order_status" property="status" />
         <result column="process_status" property="processStatus" />
         <result column="created_at" property="createdAt" />
+        <result column="customer_name" property="customerName" />
     </resultMap>
 
     <sql id="selectOrder">
@@ -30,7 +31,10 @@
           commission,
           `order`.status order_status,
           process_status,
-          created_at
+          created_at,
+          customer_address.name customer_name,
+          customer_address.telephone,
+          address
     </sql>
 
     <sql id="fromOrder">
@@ -38,6 +42,7 @@
           join owner on `order`.owner_id=owner.id
           join shop on `order`.shop_id=shop.id
           join customer on `order`.customer_id=customer.id
+          join customer_address on `order`.address_id = customer_address.id
     </sql>
 
 

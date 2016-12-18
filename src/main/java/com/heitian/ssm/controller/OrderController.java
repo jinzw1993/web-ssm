@@ -37,7 +37,7 @@ public class OrderController {
     public @ResponseBody
     Result changeProcessStatus(@RequestParam Long id, @RequestParam Long status, HttpServletRequest request) {
         if(request.getHeader("Authorization") == null) {
-            returnFailResult();
+            return returnFailResult();
         }
         return orderService.changeProcessStatus(id, status);
     }
@@ -67,10 +67,11 @@ public class OrderController {
                                          @RequestParam int page,
                                          @RequestParam int count,
                                          HttpServletRequest request) {
-        String auth = request.getHeader("Authorization");
-        if(auth == null)
-            return new ArrayList<>();
-        String ownerId = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
+//        String auth = request.getHeader("Authorization");
+//        if(auth == null)
+//            return new ArrayList<>();
+//        String ownerId = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
+        String ownerId= "4";
         return orderService.getOwnerOrderBoByPStatus(status, Long.valueOf(ownerId), page, count);
     }
 
@@ -86,7 +87,7 @@ public class OrderController {
                                   HttpServletRequest request) {
         String auth = request.getHeader("Authorization");
         if(auth == null) {
-            returnFailResult();
+            return returnFailResult();
         }
         String ownerId = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
         return orderService.getOwnerOrderBoByPStatusNum(status, Long.valueOf(ownerId));
@@ -120,7 +121,7 @@ public class OrderController {
                                  HttpServletRequest request) {
         String auth = request.getHeader("Authorization");
         if(auth == null) {
-            returnFailResult();
+            return returnFailResult();
         }
         String ownerId = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
         return orderService.getOwnOrderByTimeNum(Long.valueOf(ownerId), time);
