@@ -85,7 +85,7 @@ public class ShopAdController {
 
     @RequestMapping("/verified")
     @ResponseBody
-    public List<ShopAdBo> verifiedShopAd(@RequestParam int page, @RequestParam int count) {
+    public List<ShopAdBo> verifiedShopAd() {
         return shopAdService.verifiedShopAd();
     }
 
