@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.heitian.ssm.dao.CustomerAddressDao">
+
+    <resultMap id="customerAddressMap" type="com.heitian.ssm.model.CustomerAddress">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="customer_id" property="customerId" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="telephone" property="telephone" jdbcType="VARCHAR"/>
+        <result column="address" property="address" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="BIGINT"/>
+    </resultMap>
+    
+    <insert id="addCustomerAddress" parameterType="com.heitian.ssm.model.CustomerAddress">
+        INSERT INTO customer_address
+        (
+        customer_id,
+        name,
+        telephone,
+        address
+        )
+        VALUES
+        (
+        #{customerId},
+        #{name},
+        #{telephone},
+        #{address}
+        )
+    </insert>
+    
+    <select id="getCustomerAddressById" parameterType="java.lang.Long" resultMap="customerAddressMap">
+        SELECT * FROM customer_address
+        WHERE id = #{id}
+    </select>
+
+    <select id="getCustomerAddressByCustomerId" parameterType="java.lang.Long" resultMap="customerAddressMap">
+        SELECT * FROM customer_address
+        WHERE customer_id = #{customerId} AND status = 0
+    </select>
+    
+    <update id="deleteCustomerAddress" parameterType="java.lang.Long">
+        UPDATE customer_address
+        SET
+        status = 1
+        WHERE
+        id = #{id}
+    </update>
+   
+</mapper>

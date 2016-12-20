@@ -53,7 +53,8 @@ public class CartServiceImpl implements CartService {
 				cartBo.setAmount(productInCart.getAmount());
 				cartBo.setSubPrice(productInCart.getAmount() * product.getPrice());
 				cartBo.setPhotoURL(path);
-
+				cartBo.setAllAmount(cart.getAmount());
+				
 				cartBos.add(cartBo);
 			}
 		}
@@ -80,6 +81,7 @@ public class CartServiceImpl implements CartService {
 				pic2.setProductId(productId);
 				pic2.setCreatedAt(new java.sql.Timestamp(new Date().getTime()));
 				i = productInCartDao.insertProductInCart(pic2);
+				
 			} else {
 				List<Long> productIds = new LinkedList<Long>();
 				for(ProductInCart productInCart : productInCarts) {
@@ -102,7 +104,7 @@ public class CartServiceImpl implements CartService {
 					i = productInCartDao.insertProductInCart(pic2);
 				}
 			}
-			
+			cartDao.updateCartAmount(cart.getAmount() + amount, customerId);
 		} else {
 			Result r = new Result();
 			r.setStatus(0);
@@ -126,6 +128,7 @@ public class CartServiceImpl implements CartService {
 				return r;
 			} else 
 				i = productInCartDao.deleteProductInCart(productInCart);
+			cartDao.updateCartAmount(cart.getAmount() - productInCart.getAmount(), customerId);
 		}
 		
 		return returnRes(i);
@@ -141,6 +144,7 @@ public class CartServiceImpl implements CartService {
 			ProductInCart productInCart = productInCartDao.searchProductInCartByCartIdAndProductId(cart.getId(), productId);
 			productInCart.setAmount(amount);
 			i = productInCartDao.updateProductInCart(productInCart);
+			cartDao.updateCartAmount(cart.getAmount() + amount, customerId);
 		} else {
 			Result r = new Result();
 			r.setStatus(0);
