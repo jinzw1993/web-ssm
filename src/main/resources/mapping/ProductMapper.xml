@@ -5,7 +5,6 @@
 		<id column="id" property="id" jdbcType="BIGINT"/>
 		<result column="owner_id" property="ownId" jdbcType="BIGINT"/>
 		<result column="shop_id" property="shopId" jdbcType="BIGINT"/>
-
 		<result column="product_photo_id" property="productPhotoId" jdbcType="BIGINT"/>
 		<result column="name" property="name" jdbcType="VARCHAR"/>
 		<result column="price" property="price" jdbcType="BIGINT"/>
@@ -16,7 +15,7 @@
 	</resultMap>
 
 	<select id="searchByNone" resultMap="ProductBaseMap">
-		SELECT product.id, product.owner_id, shop_id, product_photo_id, product.name, price, category_id, detail, created_at, modified_at
+		SELECT product.id, product.owner_id, shop_id, product_photo_id, product.name, price, category_id, detail, created_at, modified_at, product.amount
 		FROM  product JOIN shop ON product.shop_id=shop.id
 		WHERE shop.status =0
 		ORDER BY product.id
@@ -29,7 +28,7 @@
 	</select>
 
 	<select id="searByOwner" resultMap="ProductBaseMap">
-		SELECT product.id, product.owner_id, shop_id, product_photo_id, product.name, price, category_id, detail, created_at, modified_at
+		SELECT product.id, product.owner_id, shop_id, product_photo_id, product.name, price, category_id, detail, created_at, modified_at, product.amount
 		FROM  product JOIN shop ON product.shop_id=shop.id
 		WHERE product.owner_id=#{ownerId} AND shop.status !=2
 		limit #{start},#{pageNum}
@@ -55,7 +54,7 @@
 	</select>
 
 	<select id="searByShop" resultMap="ProductBaseMap">
-		SELECT product.id, product.owner_id, shop_id, product_photo_id, product.name, price, category_id, detail, created_at, modified_at
+		SELECT product.id, product.owner_id, shop_id, product_photo_id, product.name, price, category_id, detail, created_at, modified_at, product.amount
 		FROM  product JOIN shop ON product.shop_id=shop.id
 		WHERE product.shop_id=#{id} AND shop.status !=2
 		limit #{start},#{pageNum}
@@ -67,7 +66,7 @@
 	</select>
 
 	<select id="searchWithKeyword" resultMap="ProductBaseMap" parameterType="com.heitian.ssm.bo.ProductCondition">
-		SELECT product.id, product.owner_id, shop_id, product_photo_id, product.name, price, category_id, detail, created_at, modified_at
+		SELECT product.id, product.owner_id, shop_id, product_photo_id, product.name, price, category_id, detail, created_at, modified_at, product.amount
 		from product JOIN shop ON product.shop_id=shop.id
 		WHERE shop.status =0
 		<if test="categoryId != null and categoryId != ''">
@@ -121,9 +120,9 @@
 
 	<insert id="insertProduct" parameterType="com.heitian.ssm.model.Product">
 		insert into
-		product(owner_id, shop_id, product_photo_id, name, price, category_id, detail)
-		VALUES (#{product.ownId}, #{product.shopId},#{product.productPhotoId}, #{product.name}, #{product.price},
-		#{product.categoryId}, #{product.detail})
+		product(owner_id, shop_id, product_photo_id, name, price, category_id, detail, amount)
+		VALUES (#{product.ownId}, #{product.shopId},#{product.productPhotoId}, #{product.name},
+		 #{product.price}, #{product.categoryId}, #{product.detail}, #{product.amount})
 	</insert>
 
 	<delete id="deleteProduct">
@@ -131,11 +130,24 @@
 	</delete>
 
 	<update id="updateProduct" parameterType="com.heitian.ssm.model.Product">
-		UPDATE product SET
-		name=#{product.name},
-		price=#{product.price},
-		category_id=#{product.categoryId},
-		detail=#{product.detail}
+		UPDATE product
+		<set>
+			<if test="product.name != null">
+				name = #{product.name},
+			</if>
+			<if test="product.price != null">
+				price = #{product.price},
+			</if>
+			<if test="product.categoryId != null">
+				category_id = #{product.categoryId},
+			</if>
+			<if test="product.detail != null">
+				detail = #{product.detail},
+			</if>
+			<if test="product.amount != null">
+				amount = #{product.amount}
+			</if>
+		</set>
 		WHERE id=#{product.id}
 	</update>
 </mapper>

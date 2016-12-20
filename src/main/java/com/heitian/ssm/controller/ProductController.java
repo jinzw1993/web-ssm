@@ -57,14 +57,12 @@ public class ProductController {
 
     /**
      *  根据id搜索商品
-     * @param request 需要参数id
+     * @param id 需要参数id
      * @return ProductBo List
      */
     @ResponseBody
     @RequestMapping(value="/id",method= RequestMethod.GET)
-    public ProductBo searchProductBo(HttpServletRequest request) {
-        String idt=request.getParameter("id");
-        Long id=Long.parseLong(idt);
+    public ProductBo searchProductBo(@RequestParam Long id) {
         return productService.searchProductBo(id);
     }
 
@@ -85,7 +83,7 @@ public class ProductController {
         productBo.setPhotoURL(request.getParameter("photoURL"));
         productBo.setDetail(request.getParameter("detail"));
         productBo.setPrice(Long.valueOf(request.getParameter("price")));
-
+        productBo.setAmount(Long.valueOf(request.getParameter("amount")));
         productBo.setOwnId(Long.valueOf(ownerId));
         return productService.addProduct(productBo);
     }
@@ -106,7 +104,7 @@ public class ProductController {
 
     /**
      * 更新商品
-     * @param productBo  ProductBo对象，需要id, name, detail, categoryId, photoURL, price, productPhotoId
+     * @param productBo  ProductBo对象，需要id, [name, detail, categoryId, photoURL, price, amount]
      * @return result.status=0失败，1成功
      */
     @ResponseBody

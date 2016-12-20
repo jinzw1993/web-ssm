@@ -96,10 +96,12 @@ public class ProductServiceImpl implements ProductService {
     }
     public Result updateProduct(ProductBo prdtBo) {
 
-        Photo photo = new Photo();
-        photo.setPath(prdtBo.getPhotoURL());
-        photo.setProductId(prdtBo.getId());
-        photoDao.updatePhoto(photo);
+        if(prdtBo.getPhotoURL() != null) {
+            Photo photo = new Photo();
+            photo.setPath(prdtBo.getPhotoURL());
+            photo.setProductId(prdtBo.getId());
+            photoDao.updatePhoto(photo);
+        }
         Product product = (Product)prdtBo;
 
         int i= productDao.updateProduct(product);

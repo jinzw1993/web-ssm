@@ -16,6 +16,7 @@ public class Product implements Serializable{
     private String name;
     private Long price;
     private Long categoryId;
+    private Long amount;
     private String detail;
     @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
     private Date createdAt;
@@ -78,6 +79,13 @@ public class Product implements Serializable{
         this.detail = detail;
     }
 
+    public Long getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Long amount) {
+        this.amount = amount;
+    }
 
     public Long getProductPhotoId() {
         return productPhotoId;
