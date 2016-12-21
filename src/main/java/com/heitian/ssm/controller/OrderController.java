@@ -1,10 +1,10 @@
 package com.heitian.ssm.controller;
 
-import com.heitian.ssm.bo.OrderBo;
-import com.heitian.ssm.bo.ProductInOrderBo;
-import com.heitian.ssm.bo.Result;
-import com.heitian.ssm.bo.TimeCondition;
-import com.heitian.ssm.service.OrderService;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,9 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.List;
+import com.heitian.ssm.bo.OrderBo;
+import com.heitian.ssm.bo.PageCondition;
+import com.heitian.ssm.bo.ProductInOrderBo;
+import com.heitian.ssm.bo.Result;
+import com.heitian.ssm.bo.TimeCondition;
+import com.heitian.ssm.service.OrderService;
 
 /**
  * Created by oasis on 12/13/16.
@@ -136,6 +139,64 @@ public class OrderController {
     public @ResponseBody
     List<ProductInOrderBo> getProductInOrder(@RequestParam Long id) {
         return orderService.getProductInOrder(id);
+    }
+    
+    /* -------------------customer------------------*/
+    
+    /**
+     * 添加订单
+     * @return
+     */
+    @RequestMapping("/add")
+    @ResponseBody
+    public Result addOrder(HttpServletRequest request) {
+    	String auth = request.getHeader("Authorization");
+        if(auth == null)
+            return returnFailResult();       
+       
+        Long cartId = Long.valueOf(request.getParameter("cartId"));
+        
+        Long expressId = Long.valueOf(request.getParameter("expressId"));
+        
+        Long addressId = Long.valueOf(request.getParameter("addressId"));
+        return orderService.addOrder(cartId, expressId, addressId);
+    }
+    
+    /**
+     * 用户状态响应 status
+     * @param id
+     * @param status
+     * @param request
+     * @return
+     */
+    @RequestMapping("/changeStatus")
+    public @ResponseBody
+    Result changeStatus(@RequestParam Long id, @RequestParam Long status, HttpServletRequest request) {
+        if(request.getHeader("Authorization") == null) {
+            returnFailResult();
+        }
+        return orderService.changeStatus(id, status);
+    }
+    
+    /**
+     * 用户查询自己订单
+     * @param request
+     * @return
+     */
+    @RequestMapping("/search")
+    @ResponseBody
+    public List<OrderBo> search(@RequestBody PageCondition page, HttpServletRequest request) {
+    	String auth = request.getHeader("Authorization");
+    	
+        if(auth == null) {
+            return new ArrayList<OrderBo>();
+        }
+        
+        String s[] = auth.split(";");//前提是，传参为ownerId=xxx;customerId=xxx;adress=xxx...格式
+        Long customerId = Long.valueOf(s[1].substring(11));
+    	//long customerId = 1;
+        
+        return orderService.search(page, customerId);
     }
 
     private Result returnFailResult() {

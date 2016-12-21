@@ -13,6 +13,7 @@ public class Order {
     Long shopId;
     Long ownerId;
     Long expressId;
+    Long addressId;
     Long price;
     Long amount;
     Long commission;
@@ -117,5 +118,13 @@ public class Order {
     public void setProcessStatus(Long processStatus) {
         this.processStatus = processStatus;
     }
+
+	public Long getAddressId() {
+		return addressId;
+	}
+
+	public void setAddressId(Long addressId) {
+		this.addressId = addressId;
+	}
 
 }

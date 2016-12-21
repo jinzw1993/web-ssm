@@ -1,19 +1,38 @@
 package com.heitian.ssm.service.impl;
 
-import com.heitian.ssm.bo.OrderBo;
-import com.heitian.ssm.bo.ProductInOrderBo;
-import com.heitian.ssm.bo.Result;
-import com.heitian.ssm.bo.TimeCondition;
-import com.heitian.ssm.dao.OrderDao;
-import com.heitian.ssm.dao.ProductInOrderDao;
-import com.heitian.ssm.service.OrderService;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import javax.annotation.Resource;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
+import com.heitian.ssm.bo.OrderBo;
+import com.heitian.ssm.bo.PageCondition;
+import com.heitian.ssm.bo.ProductInOrderBo;
+import com.heitian.ssm.bo.Result;
+import com.heitian.ssm.bo.TimeCondition;
+import com.heitian.ssm.dao.CartDao;
+import com.heitian.ssm.dao.CustomerAddressDao;
+import com.heitian.ssm.dao.MallConfigDao;
+import com.heitian.ssm.dao.OrderDao;
+import com.heitian.ssm.dao.ProductDao;
+import com.heitian.ssm.dao.ProductInCartDao;
+import com.heitian.ssm.dao.ProductInOrderDao;
+import com.heitian.ssm.dao.ShopDao;
+import com.heitian.ssm.model.Cart;
+import com.heitian.ssm.model.Order;
+import com.heitian.ssm.model.Product;
+import com.heitian.ssm.model.ProductInCart;
+import com.heitian.ssm.model.ProductInOrder;
+import com.heitian.ssm.model.Shop;
+import com.heitian.ssm.service.OrderService;
 
 /**
  * Created by unname on 2016/12/12.
@@ -25,6 +44,19 @@ public class OrderServiceImpl implements OrderService {
     private OrderDao orderDao;
     @Resource
     private ProductInOrderDao productInOrderDao;
+    @Resource
+    private CartDao cartDao;
+    @Resource
+    private ProductInCartDao productInCartDao;
+    @Resource
+    private ProductDao productDao;
+    @Resource
+    private MallConfigDao mallConfigDao;
+    @Resource
+    private CustomerAddressDao customerAddressDao;
+    @Resource
+    private ShopDao shopDao;
+    
     private Result result = new Result();
 
     public Result changeProcessStatus(Long orderId, Long status) {
@@ -95,4 +127,114 @@ public class OrderServiceImpl implements OrderService {
         if(time.getDay() == null)
             time.setDay(now.get(Calendar.DAY_OF_MONTH));
     }
+
+    
+	@Override
+	public Result addOrder(Long cartId, Long expressId, Long addressId) {
+		int i = 0;
+		Cart cart = cartDao.searchCartById(cartId);
+		if(cart != null) {
+			List<ProductInCart> productInCarts = productInCartDao.searchProductInCartByCartId(cart.getId());
+			if(productInCarts != null && productInCarts.size() > 0) {
+				
+				List<Product> products = new ArrayList<Product>();
+				for(ProductInCart pic : productInCarts) {
+					products.add(productDao.searchProductById(pic.getProductId()));
+				}
+				Set<Long> ownerIds = new HashSet<Long>();
+				for(Product p : products) {
+					ownerIds.add(p.getOwnId());
+				}
+				
+				for(Long ownerId : ownerIds) {
+					
+					Long orderPrice = (long)0;
+					Long orderAmount = (long)0;
+					for(Product p : products) {
+						if(p.getOwnId() == ownerId) {
+							ProductInCart pic = productInCartDao.searchProductInCartByCartIdAndProductId(cart.getId(), p.getId());
+							orderAmount += pic.getAmount();
+							orderPrice += p.getPrice() * pic.getAmount();
+						}
+					}
+					
+					Order order = new Order();
+					
+					order.setCustomerId(cart.getCustomerId());					
+					Shop shop = shopDao.selectShopByOwnerId(ownerId);
+					order.setShopId(shop.getId());
+					order.setOwnerId(ownerId);
+					order.setExpressId(expressId);
+					order.setPrice(orderPrice);
+					order.setAmount(orderAmount);
+					order.setCommission((long) 1);
+					order.setCommissionRate((long)(orderPrice * Double.valueOf(mallConfigDao.getMallConfigByKey("1").getValue())));
+					order.setStatus((long)0); 
+					order.setProcessStatus((long)0);
+					order.setCreatedAt(new Timestamp(new Date().getTime()));
+					order.setAddressId(addressId);
+					
+					//添加订单信息
+					i = orderDao.insertOrder(order);
+					
+					for(Product p : products) {
+						if(p.getOwnId() == ownerId) {
+							int orderId = orderDao.getMaxOrderId();
+							ProductInCart pic = productInCartDao.searchProductInCartByCartIdAndProductId(cart.getId(), p.getId());
+							ProductInOrder productInOrder = new ProductInOrder();
+							productInOrder.setProductId(p.getId());
+							productInOrder.setOrderId((long)orderId);
+							productInOrder.setPrice(pic.getAmount() * p.getPrice());
+							productInOrder.setAmount(pic.getAmount());
+							productInOrder.setShopId(p.getShopId());
+							productInOrder.setCreatedAt(new Timestamp(new Date().getTime()));
+							//添加订单产品信息
+							i = productInOrderDao.insertProductInOrder(productInOrder);
+							
+						}
+					}					
+				}				
+			}
+			productInCartDao.cleanCart(cart.getId());
+			cartDao.updateCartAmount((long)0, cart.getCustomerId());
+		} else {
+			Result r = new Result();
+			r.setStatus(0);
+			r.setMessage("You can't avtive!");
+			return r;
+		}
+		return returnRes(i);
+	}
+	
+	@Override
+	public Result changeStatus(Long orderId, Long status) {
+        int i = orderDao.changeOrderStatus(orderId, status);
+        if (i > 0) {
+            result.setStatus(1);
+            result.setMessage("success");
+        } else {
+            result.setStatus(0);
+            result.setMessage("failed");
+        }
+        return result;
+    }
+	
+	@Override
+	public List<OrderBo> search(PageCondition page, Long customerId) {
+		return orderDao.search(page, customerId);
+	}
+	
+	private Result returnRes(int i) {
+        Result result = new Result();
+        if(i!=0) {
+            result.setStatus(1);
+            result.setMessage("success");
+        } else {
+            result.setMessage("failed");
+            result.setStatus(0);
+        }
+        return result;
+    }
+
+	
 }

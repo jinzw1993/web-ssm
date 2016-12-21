@@ -6,7 +6,6 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.heitian.ssm.model.ProductInCart;
-import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ProductInCartDao {
@@ -21,4 +20,5 @@ public interface ProductInCartDao {
 	
 	public int deleteProductInCart(@Param("productInCart") ProductInCart productInCart);
 
+	public int cleanCart(Long cartId);
 }

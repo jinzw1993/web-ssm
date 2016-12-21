@@ -9,6 +9,7 @@ public class CartBo extends Product implements Serializable{
 	private Long amount;
 	private Long subPrice;
 	private String photoURL;
+	private Long allAmount;
 	
 	public CartBo(){}
 	
@@ -45,6 +46,14 @@ public class CartBo extends Product implements Serializable{
 		this.photoURL = photoURL;
 	}	
 	
+	public Long getAllAmount() {
+		return allAmount;
+	}
+
+	public void setAllAmount(Long allAmount) {
+		this.allAmount = allAmount;
+	}
+
 	@Override
 	public String toString() {
 		return "CartBo [amount=" + amount + ", subPrice=" + subPrice

@@ -1,9 +1,9 @@
 package com.heitian.ssm.bo;
 
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 
-import java.sql.Date;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import java.util.Date;
 
 /**
  * Created by oasis on 12/12/16.
