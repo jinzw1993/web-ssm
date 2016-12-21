@@ -179,8 +179,6 @@ public class OrderController {
     
     /**
      * 用户查询自己订单
-     * @param id
-     * @param status
      * @param request
      * @return
      */
@@ -188,8 +186,9 @@ public class OrderController {
     @ResponseBody
     public List<OrderBo> search(@RequestBody PageCondition page, HttpServletRequest request) {
     	String auth = request.getHeader("Authorization");
+    	
         if(auth == null) {
-            returnFailResult();
+            return new ArrayList<OrderBo>();
         }
         
         String s[] = auth.split(";");//前提是，传参为ownerId=xxx;customerId=xxx;adress=xxx...格式
