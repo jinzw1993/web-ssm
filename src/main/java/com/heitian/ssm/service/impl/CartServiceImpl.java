@@ -166,6 +166,16 @@ public class CartServiceImpl implements CartService {
             result.setStatus(0);
         }
         return result;
-    }	
+    }
+
+	@Override
+	public Cart getCartById(Long id) {
+		return cartDao.searchCartById(id);
+	}
+
+	@Override
+	public ProductInCart getProductInCartById(Long id) {
+		return productInCartDao.searchProductInCartById(id);
+	}	
 
 }

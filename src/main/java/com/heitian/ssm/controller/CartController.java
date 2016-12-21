@@ -8,13 +8,15 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.heitian.ssm.bo.CartBo;
 import com.heitian.ssm.bo.Result;
+import com.heitian.ssm.model.Cart;
+import com.heitian.ssm.model.ProductInCart;
 import com.heitian.ssm.service.CartService;
 
 @Controller
@@ -25,7 +27,19 @@ public class CartController {
 
     @Resource
     private CartService cartService;
-
+    
+    @RequestMapping("/id")
+    @ResponseBody
+    public Cart getCart(@RequestParam Long id) {
+        return cartService.getCartById(id);
+    }
+    
+    @RequestMapping("/pid")
+    @ResponseBody
+    public ProductInCart getProductCart(@RequestParam Long id) {
+        return cartService.getProductInCartById(id);
+    }
+    
     /**
      * 查询购物车及其条目
      * @param request
