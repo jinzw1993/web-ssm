@@ -24,7 +24,7 @@ public class ShopAdServiceImpl implements ShopAdService {
     private ShopDao shopDao;
 
 	@Override
-	public Result addShopAd(Long ownerId, String photoUrl)
+	public Result addShopAd(Long ownerId, String photoUrl, Long price)
 	{
         Shop tmp = shopDao.selectShopByOwnerId(ownerId);
         Long shopId = tmp.getId();
@@ -32,7 +32,7 @@ public class ShopAdServiceImpl implements ShopAdService {
             return returnRes(0);
         Long status = shopAdDao.selectStatus(shopId);
         if(status == null || status > 1) {
-            int i = shopAdDao.addShopAd(shopId, photoUrl);
+            int i = shopAdDao.addShopAd(shopId, photoUrl, price);
             return returnRes(i);
         } else {
             Result result = new Result();

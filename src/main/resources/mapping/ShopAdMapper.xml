@@ -10,9 +10,9 @@
 
 	<insert id="addShopAd" parameterType="map">
 		INSERT INTO
-		shop_advertisement(shop_id, status, rank, date ,path)
+		shop_advertisement(shop_id, status, rank, date ,path, price)
 		VALUE
-		(#{shopId}, 0, 0, now(), #{photoUrl})
+		(#{shopId}, 0, 0, now(), #{photoUrl}, #{price})
 		ON DUPLICATE KEY
 		UPDATE status=0, rank=0, date=now(), path=#{photoUrl}
 	</insert>

@@ -24,7 +24,7 @@ public class ShopAdController {
 
     @RequestMapping("/add")
     public @ResponseBody
-    Result addShopAd(HttpServletRequest request, @RequestParam String photoUrl) {
+    Result addShopAd(HttpServletRequest request, @RequestParam String photoUrl, @RequestParam Long price) {
         String auth = request.getHeader("Authorization");
         if(auth == null) {
             result.setMessage("haven't log in");
@@ -32,7 +32,7 @@ public class ShopAdController {
             return result;
         }
         String id = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
-        return shopAdService.addShopAd(Long.valueOf(id), photoUrl);
+        return shopAdService.addShopAd(Long.valueOf(id), photoUrl, price);
     }
 
 	@RequestMapping("/status")

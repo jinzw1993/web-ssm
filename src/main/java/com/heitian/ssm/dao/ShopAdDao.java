@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ShopAdDao {
 
-    int addShopAd(@Param(value = "shopId") Long shopId, @Param("photoUrl") String photoUrl);
+    int addShopAd(@Param(value = "shopId") Long shopId, @Param("photoUrl") String photoUrl, @Param("price") Long price);
 
 	int deleteShopAd(@Param(value = "shopId") Long shopId);
 

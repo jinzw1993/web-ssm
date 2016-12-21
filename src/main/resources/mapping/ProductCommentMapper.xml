@@ -20,13 +20,19 @@
     </resultMap>
 
     <select id="getCommentBos" resultMap="CommentBoMap">
-        SELECT product_comment.id, customer_id, product_id, comment, created_at, customer.email
+        SELECT product_comment.id, customer_id, product_id, comment, created_at, customer.email, rate
         FROM product_comment JOIN customer ON product_comment.customer_id=customer.id
         WHERE product_id=#{productId} limit #{start}, #{pageNum}
     </select>
 
     <select id="getCommentNum" resultType="_int">
         SELECT count(*)
+        FROM product_comment
+        WHERE product_id=#{productId}
+    </select>
+
+    <select id="getAvgRate" resultType="double">
+        SELECT sum(rate)/count(*)
         FROM product_comment
         WHERE product_id=#{productId}
     </select>

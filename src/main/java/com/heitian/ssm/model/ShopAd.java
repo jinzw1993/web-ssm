@@ -14,6 +14,7 @@ public class ShopAd {
     private Long rank;
     @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
     private Date date;
+    private Long price;
 
     public Long getId() {
         return id;
@@ -53,5 +54,13 @@ public class ShopAd {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public Long getPrice() {
+        return price;
+    }
+
+    public void setPrice(Long price) {
+        this.price = price;
     }
 }

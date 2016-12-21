@@ -14,4 +14,5 @@ import java.util.List;
 public interface ProductCommentDao {
     List<ProductCommentBo> getCommentBos(@Param("productId") Long productId, @Param("start") int start, @Param("pageNum") int pageNum);
     int getCommentNum(Long productId);
+    Double getAvgRate(Long productId);
 }

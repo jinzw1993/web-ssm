@@ -10,6 +10,7 @@ import java.sql.Time;
  */
 public class ProductBo extends Product implements Serializable {
     private String photoURL;
+    private Double rate;
     public ProductBo(){}
     public ProductBo(Product product){
         this.setId(product.getId());
@@ -32,4 +33,11 @@ public class ProductBo extends Product implements Serializable {
         this.photoURL = photoURL;
     }
 
+    public Double getRate() {
+        return rate;
+    }
+
+    public void setRate(Double rate) {
+        this.rate = rate;
+    }
 }

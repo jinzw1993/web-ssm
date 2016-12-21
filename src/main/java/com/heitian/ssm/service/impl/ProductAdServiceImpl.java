@@ -74,7 +74,7 @@ public class ProductAdServiceImpl implements ProductAdService {
      * @param productId
      * @return
      */
-    public Result addProductAd(Long productId) {
+    public Result addProductAd(Long productId, Long price) {
         ProductAd productAd= productAdDao.getProductAdByProductId(productId);
         if(productAd!=null) {
             Result result=new Result();
@@ -82,7 +82,7 @@ public class ProductAdServiceImpl implements ProductAdService {
             result.setStatus(0);
             return result;
         }
-        int i = productAdDao.addProductAd(productId);
+        int i = productAdDao.addProductAd(productId, price);
         return returnRes(i);
     }
 

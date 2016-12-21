@@ -13,6 +13,7 @@
 		<result column="adStatus" property="status" jdbcType="BIGINT" />
 		<result column="rank" property="rank" jdbcType="BIGINT" />
 		<result column="date" property="date" jdbcType="DATE" />
+        <result column="rent_price" property="rentPrice" />
 		<!-- AdBo part-->
 		<result column="name" property="name"/>
 		<result column="price" property="price"/>
@@ -21,9 +22,9 @@
 
 	<insert id="addProductAd" parameterType="map">
 		INSERT INTO
-		product_advertisement(product_id, status, rank, date)
+		product_advertisement(product_id, status, rank, date, price)
 		VALUES
-		(#{productId}, 0, 0, now());
+		(#{productId}, 0, 0, now(), #{price});
 	</insert>
 
     <select id="getPermittedProductAd" resultMap="ProductAdBoBaseMap">
@@ -33,8 +34,9 @@
                 rank,
                 date,
                 name,
-                price,
-                category_id
+                product.price,
+                category_id,
+                product_advertisement.price rent_price
         FROM product_advertisement JOIN product ON product_advertisement.product_id=product.id
         WHERE  product_advertisement.status=1
     </select>
@@ -64,8 +66,9 @@
                 rank,
                 date,
                 name,
-                price,
-                category_id
+                product.price,
+                category_id,
+                product_advertisement.price rent_price
         FROM product_advertisement JOIN product ON product_advertisement.product_id=product.id
         WHERE  product_advertisement.status=0 limit #{start}, #{pageNum}
     </select>
@@ -82,8 +85,9 @@
         rank,
         date,
         name,
-        price,
-        category_id
+        product.price,
+        category_id,
+        product_advertisement.price rent_price
         FROM product_advertisement JOIN product ON product_advertisement.product_id=product.id
         WHERE  product.owner_id=#{ownerId} limit #{start}, #{pageNum}
     </select>

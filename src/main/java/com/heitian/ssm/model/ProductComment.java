@@ -15,6 +15,7 @@ public class ProductComment {
     private String comment;
     @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
     private Date createdAt;
+    private Long rate;
 
     public Long getId() {
         return id;
@@ -56,5 +57,11 @@ public class ProductComment {
         this.createdAt = createdAt;
     }
 
+    public Long getRate() {
+        return rate;
+    }
 
+    public void setRate(Long rate) {
+        this.rate = rate;
+    }
 }

@@ -32,14 +32,14 @@ public class ProductAdController {
      */
     @RequestMapping("/add")
     @ResponseBody
-    public Result addProductAd(HttpServletRequest request,@RequestParam Long productId) {
+    public Result addProductAd(HttpServletRequest request,@RequestParam Long productId, @RequestParam Long price) {
         String auth = request.getHeader("Authorization");
         if (auth == null) {
             result.setMessage("haven't log in");
             result.setStatus(0);
             return result;
         }
-        return productAdService.addProductAd(productId);
+        return productAdService.addProductAd(productId, price);
     }
 
     /**

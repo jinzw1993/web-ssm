@@ -23,7 +23,7 @@ public interface ProductAdService {
     Result getUnverifiedPAdNum();
 
     //Owner Part
-    Result addProductAd(Long productId);
+    Result addProductAd(Long productId, Long price);
 
     List<ProductAdBo> getProductAdByOwnerId(Long ownerId, int page, int pageNum);
 

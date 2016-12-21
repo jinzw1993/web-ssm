@@ -6,20 +6,14 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.heitian.ssm.dao.*;
+import com.heitian.ssm.model.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.heitian.ssm.bo.ProductBo;
 import com.heitian.ssm.bo.Result;
 import com.heitian.ssm.bo.ShopBo;
-import com.heitian.ssm.dao.FavoriteProductDao;
-import com.heitian.ssm.dao.FavoriteShopDao;
-import com.heitian.ssm.dao.ProductDao;
-import com.heitian.ssm.dao.ShopDao;
-import com.heitian.ssm.model.FavoriteProduct;
-import com.heitian.ssm.model.FavoriteShop;
-import com.heitian.ssm.model.Product;
-import com.heitian.ssm.model.Shop;
 import com.heitian.ssm.service.FavoriteService;
 
 @Service
@@ -34,6 +28,8 @@ public class FavoriteServiceImpl implements FavoriteService {
 	private FavoriteShopDao favoriteShopDao;
 	@Resource
 	private ShopDao shopDao;
+    @Resource
+    private ProductCommentDao productCommentDao;
 
 	@Override
 	public Result deleteFavoriteProduct(Long productId, Long customerId) {
@@ -80,7 +76,8 @@ public class FavoriteServiceImpl implements FavoriteService {
 				ProductBo pb = new ProductBo(product);
 				String photoURL = productDao.searchPhotoURL(product.getProductPhotoId());
 				pb.setPhotoURL(photoURL);
-				
+                setRate(pb);
+
 				productBos.add(pb);
 			}
 		}
@@ -150,4 +147,8 @@ public class FavoriteServiceImpl implements FavoriteService {
         return result;
     }
 
+	private void setRate(ProductBo pbo) {
+        Double t = productCommentDao.getAvgRate(pbo.getId());
+		pbo.setRate(t == null ? 0 : t);
+	}
 }

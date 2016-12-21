@@ -15,7 +15,7 @@ import java.util.List;
 public interface ProductAdDao {
     //修改
     //Owner Part
-    int addProductAd(@Param(value = "productId") Long proId);//status:0 rank:0 date:now()
+    int addProductAd(@Param(value = "productId") Long proId, @Param("price") Long id);//status:0 rank:0 date:now()
 
     List<ProductAdBo> getProductAdByOwnerId(@Param("ownerId") Long ownerId,
                                             @Param("start") int start, @Param("pageNum") int pageNum);//未得到photoURL
