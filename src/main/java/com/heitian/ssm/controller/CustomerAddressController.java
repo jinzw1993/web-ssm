@@ -10,9 +10,11 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.heitian.ssm.bo.Result;
+import com.heitian.ssm.model.Cart;
 import com.heitian.ssm.model.CustomerAddress;
 import com.heitian.ssm.service.CustomerAddressService;
 
@@ -28,6 +30,12 @@ public class CustomerAddressController {
 	private Logger log = Logger.getLogger(CustomerController.class);
     @Resource
     private CustomerAddressService customerAddressService;
+    
+    @RequestMapping("/id")
+    @ResponseBody
+    public CustomerAddress getAddress(@RequestParam Long id) {
+        return customerAddressService.getAddressById(id);
+    }
     
     @ResponseBody
     @RequestMapping("/add")

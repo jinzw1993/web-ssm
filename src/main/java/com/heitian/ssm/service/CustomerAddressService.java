@@ -10,5 +10,5 @@ public interface CustomerAddressService {
 	public Result deleteCustomerAddress(Long customerAddressId);
 	public Result addCustomerAddress(CustomerAddress customerAddress);
 	public List<CustomerAddress> searchCustomerAddress(Long customerId);
-
+	public CustomerAddress getAddressById(Long id);
 }
