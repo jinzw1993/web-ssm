@@ -54,6 +54,7 @@ public class CartServiceImpl implements CartService {
 				cartBo.setSubPrice(productInCart.getAmount() * product.getPrice());
 				cartBo.setPhotoURL(path);
 				cartBo.setAllAmount(cart.getAmount());
+				cartBo.setId(cart.getId());
 				
 				cartBos.add(cartBo);
 			}

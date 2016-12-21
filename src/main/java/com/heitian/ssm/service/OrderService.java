@@ -1,8 +1,13 @@
 package com.heitian.ssm.service;
 
-import com.heitian.ssm.bo.*;
-
 import java.util.List;
+
+import com.heitian.ssm.bo.OrderBo;
+import com.heitian.ssm.bo.PageCondition;
+import com.heitian.ssm.bo.ProductInOrderBo;
+import com.heitian.ssm.bo.Result;
+import com.heitian.ssm.bo.TimeCondition;
+import com.heitian.ssm.model.Order;
 
 /**
  * Created by unname on 2016/12/12.
@@ -15,4 +20,8 @@ public interface OrderService {
     List<OrderBo> getOwnerOrderBoByPStatus(Long processStatus, Long ownerId, int page, int pageNum);
     Result getOwnerOrderBoByPStatusNum(Long processStatus, Long ownerId);
     List<ProductInOrderBo> getProductInOrder(Long orderId);
+    
+    public Result addOrder(Long cartId, Long expressId, Long addressId);
+    public Result changeStatus(Long orderId, Long status);
+	public List<OrderBo> search(PageCondition page, Long customerId);
 }

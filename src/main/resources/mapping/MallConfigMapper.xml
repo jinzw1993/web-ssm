@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.heitian.ssm.dao.MallConfigDao">
+
+    <resultMap id="MallConfigMap" type="com.heitian.ssm.model.MallConfig">
+        <id column="key" property="key" jdbcType="VARCHAR"/>
+        <result column="value" property="value" jdbcType="VARCHAR"/>
+    </resultMap>
+    
+    <insert id="addMallConfig" parameterType="com.heitian.ssm.model.MallConfig">
+        INSERT INTO mall_config
+        (
+        `key`,
+        `value`
+        )
+        VALUES
+        (
+        #{mallConfig.key},
+        #{mallConfig.value}
+        )
+    </insert>
+    
+    <select id="getMallConfigByKey" parameterType="java.lang.String" resultMap="MallConfigMap">
+        SELECT * FROM mall_config
+        WHERE `key` = #{key}
+    </select>
+    
+    <update id="updateMallConfig" parameterType="com.heitian.ssm.model.MallConfig">
+        UPDATE mall_config
+        SET
+        `value` = #{mallConfig.value}
+        WHERE
+        `key` = #{mallConfig.key}
+    </update>
+   
+</mapper>

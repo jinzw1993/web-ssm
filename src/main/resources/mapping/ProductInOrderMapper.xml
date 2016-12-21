@@ -17,4 +17,11 @@
         join product_photo on product.id = product_photo.product_id
         where order_id=#{id}
     </select>
+    
+    <!--customer order -->
+    
+    <insert id="insertProductInOrder" useGeneratedKeys="true" parameterType="com.heitian.ssm.model.ProductInOrder">
+        insert into product_in_order(product_id,order_id,price,amount,shop_id,created_at) VALUES
+          (#{productInOrder.productId},#{productInOrder.orderId},#{productInOrder.price},#{productInOrder.amount},#{productInOrder.shopId},#{productInOrder.createdAt})
+    </insert>
 </mapper>
