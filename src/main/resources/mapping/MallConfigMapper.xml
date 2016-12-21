@@ -32,5 +32,9 @@
         WHERE
         `key` = #{mallConfig.key}
     </update>
+    
+    <delete id="deleteMallConfig" parameterType="java.lang.String">
+        DELETE FROM mall_config WHERE `key` = #{key}
+    </delete>
    
 </mapper>
