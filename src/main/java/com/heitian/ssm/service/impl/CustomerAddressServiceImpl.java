@@ -47,4 +47,9 @@ public class CustomerAddressServiceImpl implements CustomerAddressService {
         return result;
     }
 
+	@Override
+	public CustomerAddress getAddressById(Long id) {		
+		return cad.getCustomerAddressById(id);
+	}
+
 }

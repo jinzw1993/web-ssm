@@ -9,6 +9,7 @@
         <result column="commission_rate" property="commissionRate" />
         <result column="process_status" property="processStatus" />
         <result column="created_at" property="createdAt" />
+        <result column="address_id" property="addressId" />
     </resultMap>
 
     <resultMap id="OrderBoMap" type="com.heitian.ssm.bo.OrderBo">
@@ -122,4 +123,41 @@
         </where>
         AND `order`.owner_id=#{id} and `order`.process_status=4 and `order`.status=1
     </select>
+    
+    <!-- _______________________customer order__________________________________ -->
+    
+    <insert id="insertOrder" useGeneratedKeys="true" parameterType="com.heitian.ssm.model.Order">
+        insert into `order`(customer_id,shop_id,owner_id,express_id,price,amount,commission,
+        commission_rate,status,process_status,created_at,address_id) VALUES
+          (#{order.customerId},#{order.shopId},#{order.ownerId},#{order.expressId},#{order.price},#{order.amount},#{order.commission},
+          #{order.commissionRate}, #{order.status}, #{order.processStatus}, #{order.createdAt}, #{order.addressId})
+    </insert>
+    
+    <select id="getOrderByCreatedAt" parameterType="com.heitian.ssm.model.Order" resultType="java.util.Date">
+        select * from `order` where created_at = #{createdAt}        
+    </select>
+    
+    <select id="getMaxOrderId" resultType="int">
+        select max(id) from `order`        
+    </select>
+    
+    <update id="changeOrderStatus" >
+        UPDATE `order` set status=#{status}
+        WHERE id=#{orderId}
+    </update>
+    
+    <select id="search" parameterType="map" resultMap="OrderBoMap">
+      <include refid="selectOrder" />
+      <include refid="fromOrder" />
+      where `order`.customer_id = #{customerId}
+      <if test="page.status != null and page.status != ''">
+            and `order`.status=#{page.status} 
+      </if> 
+      <if test="page.processStatus != null and page.processStatus != ''">
+            and `order`.process_status=#{page.processStatus} 
+      </if>      
+      order by `order`.created_at desc
+      limit #{page.start},#{page.count}
+    </select>
+    
 </mapper>

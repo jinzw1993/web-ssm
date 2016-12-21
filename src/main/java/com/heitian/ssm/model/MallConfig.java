@@ -4,6 +4,13 @@ public class MallConfig {
 	
 	private String key;
 	private String value;
+	
+	public MallConfig() {
+	}
+	public MallConfig(String key, String value) {
+		this.key = key;
+		this.value = value;
+	}
 	public String getKey() {
 		return key;
 	}

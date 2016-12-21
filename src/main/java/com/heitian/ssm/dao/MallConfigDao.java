@@ -11,5 +11,6 @@ public interface MallConfigDao {
 	public int addMallConfig(@Param("mallConfig") MallConfig mallConfig);
 	public MallConfig getMallConfigByKey(String key);
 	public int updateMallConfig(@Param("mallConfig") MallConfig mallConfig);
+	public int deleteMallConfig(String key);
 
 }

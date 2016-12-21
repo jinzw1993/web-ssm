@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.heitian.ssm.bo.CartBo;
 import com.heitian.ssm.bo.Result;
+import com.heitian.ssm.model.Cart;
+import com.heitian.ssm.model.ProductInCart;
 
 public interface CartService {
 
@@ -14,4 +16,8 @@ public interface CartService {
 	public Result deleteProductInCart(Long productId, Long customerId);
 	
 	public Result updateProductAmount(Long productId, Long customerId, Long amount);
+	
+	public Cart getCartById(Long id);
+	
+	public ProductInCart getProductInCartById(Long id);
 }

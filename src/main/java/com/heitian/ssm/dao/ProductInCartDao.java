@@ -21,4 +21,6 @@ public interface ProductInCartDao {
 	public int deleteProductInCart(@Param("productInCart") ProductInCart productInCart);
 
 	public int cleanCart(Long cartId);
+
+	public ProductInCart searchProductInCartById(Long id);
 }
