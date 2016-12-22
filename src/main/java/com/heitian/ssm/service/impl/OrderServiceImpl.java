@@ -207,27 +207,35 @@ public class OrderServiceImpl implements OrderService {
 		
 		OrderBo orderBo = orderDao.getOrderById(orderId);
 		Customer customer = customerDao.getCustomerByEmail(orderBo.getCustomerEmail());
-		if(0 == orderBo.getStatus()) {
-			if(customer.getBalance() < orderBo.getAmount()) {
+		if(orderBo != null && customer != null) {
+			if(0 == orderBo.getStatus()) {
+				if(customer.getBalance() < orderBo.getAmount()) {
+					Result r = new Result();
+					r.setStatus(0);
+					r.setMessage("Not sufficient funds");
+					return r;
+				} else {
+					customerDao.updateBalance(customer.getBalance() - orderBo.getPrice(), customer.getEmail());
+					orderDao.changeOrderAddress(orderId, addressId);
+					orderDao.changeOrderStatus(orderId, (long) 1);
+					Result r = new Result();
+					r.setStatus(1);
+					r.setMessage("Pay for success");
+					return r;
+				}
+			} else {
 				Result r = new Result();
 				r.setStatus(0);
-				r.setMessage("Not sufficient funds");
-				return r;
-			} else {
-				customerDao.updateBalance(customer.getBalance() - orderBo.getPrice(), customer.getEmail());
-				orderDao.changeOrderAddress(orderId, addressId);
-				orderDao.changeOrderStatus(orderId, (long) 1);
-				Result r = new Result();
-				r.setStatus(1);
-				r.setMessage("Pay for success");
+				r.setMessage("Account paid");
 				return r;
 			}
 		} else {
 			Result r = new Result();
 			r.setStatus(0);
-			r.setMessage("Account paid");
+			r.setMessage("wrong");
 			return r;
 		}
+		
 		
 	}
 	
