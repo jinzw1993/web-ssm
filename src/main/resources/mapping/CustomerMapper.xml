@@ -48,4 +48,11 @@
         #{email}
         )
     </insert>
+    
+    <update id="updateBalance" >
+        UPDATE `customer` set balance=#{balance}
+        WHERE email=#{email}
+    </update>
+    
+    
 </mapper>

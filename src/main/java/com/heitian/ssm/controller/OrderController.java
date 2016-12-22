@@ -17,6 +17,7 @@ import com.heitian.ssm.bo.PageCondition;
 import com.heitian.ssm.bo.ProductInOrderBo;
 import com.heitian.ssm.bo.Result;
 import com.heitian.ssm.bo.TimeCondition;
+import com.heitian.ssm.model.Order;
 import com.heitian.ssm.service.OrderService;
 
 /**
@@ -167,17 +168,31 @@ public class OrderController {
      */
     @RequestMapping("/add")
     @ResponseBody
-    public Result addOrder(HttpServletRequest request) {
+    public OrderBo addOrder(HttpServletRequest request) {
+    	String auth = request.getHeader("Authorization");
+        if(auth == null)
+            return new OrderBo();       
+       
+        Long cartId = Long.valueOf(request.getParameter("cartId"));
+        
+        return orderService.addOrder(cartId);
+    }
+    
+    /**
+     * 确认订单
+     * @return
+     */
+    @RequestMapping("/confirm")
+    @ResponseBody
+    public Result confirmOrder(HttpServletRequest request) {
     	String auth = request.getHeader("Authorization");
         if(auth == null)
             return returnFailResult();       
        
-        Long cartId = Long.valueOf(request.getParameter("cartId"));
-        
-        Long expressId = Long.valueOf(request.getParameter("expressId"));
+        Long orderId = Long.valueOf(request.getParameter("orderId"));
         
         Long addressId = Long.valueOf(request.getParameter("addressId"));
-        return orderService.addOrder(cartId, expressId, addressId);
+        return orderService.confirmOrder(orderId, addressId);
     }
     
     /**
@@ -204,15 +219,15 @@ public class OrderController {
     @RequestMapping("/search")
     @ResponseBody
     public List<OrderBo> search(@RequestBody PageCondition page, HttpServletRequest request) {
-    	String auth = request.getHeader("Authorization");
+    	/*String auth = request.getHeader("Authorization");
     	
         if(auth == null) {
             return new ArrayList<OrderBo>();
         }
         
         String s[] = auth.split(";");//前提是，传参为ownerId=xxx;customerId=xxx;adress=xxx...格式
-        Long customerId = Long.valueOf(s[1].substring(11));
-    	//long customerId = 1;
+        Long customerId = Long.valueOf(s[1].substring(11));*/
+    	long customerId = 1;
         
         return orderService.search(page, customerId);
     }
