@@ -26,8 +26,8 @@ public interface OrderDao {
     int getOwnerOrderBoByProcessStatusNum(@Param("processStatus") Long processStatus, @Param("ownerId")Long ownerId);
 
     public int insertOrder(@Param("order") Order order);
-    public Order getOrderByCreatedAt(Date date);
     public int getMaxOrderId();
 	public int changeOrderStatus(@Param("orderId") Long orderId,@Param("status") Long status);
 	public List<OrderBo> search(@Param("page") PageCondition page, @Param("customerId") Long customerId);
+	public int changeOrderAddress(@Param("orderId") Long orderId,@Param("addressId") Long addressId);
 }

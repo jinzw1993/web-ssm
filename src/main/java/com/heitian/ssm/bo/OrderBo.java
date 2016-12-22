@@ -18,6 +18,7 @@ public class OrderBo {
     private Long status;
     private Long processStatus;
     private Date createdAt;
+    private Long addressId;
 
     public Long getId() {
         return id;
@@ -106,4 +107,12 @@ public class OrderBo {
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
+
+	public Long getAddressId() {
+		return addressId;
+	}
+
+	public void setAddressId(Long addressId) {
+		this.addressId = addressId;
+	}
 }

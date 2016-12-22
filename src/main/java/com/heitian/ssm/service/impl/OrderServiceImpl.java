@@ -20,6 +20,7 @@ import com.heitian.ssm.bo.Result;
 import com.heitian.ssm.bo.TimeCondition;
 import com.heitian.ssm.dao.CartDao;
 import com.heitian.ssm.dao.CustomerAddressDao;
+import com.heitian.ssm.dao.CustomerDao;
 import com.heitian.ssm.dao.MallConfigDao;
 import com.heitian.ssm.dao.OrderDao;
 import com.heitian.ssm.dao.ProductDao;
@@ -27,6 +28,7 @@ import com.heitian.ssm.dao.ProductInCartDao;
 import com.heitian.ssm.dao.ProductInOrderDao;
 import com.heitian.ssm.dao.ShopDao;
 import com.heitian.ssm.model.Cart;
+import com.heitian.ssm.model.Customer;
 import com.heitian.ssm.model.Order;
 import com.heitian.ssm.model.Product;
 import com.heitian.ssm.model.ProductInCart;
@@ -56,6 +58,8 @@ public class OrderServiceImpl implements OrderService {
     private CustomerAddressDao customerAddressDao;
     @Resource
     private ShopDao shopDao;
+    @Resource
+    private CustomerDao customerDao;
     
     private Result result = new Result();
 
@@ -128,8 +132,7 @@ public class OrderServiceImpl implements OrderService {
 
     
 	@Override
-	public Result addOrder(Long cartId, Long expressId, Long addressId) {
-		int i = 0;
+	public OrderBo addOrder(Long cartId) {
 		Cart cart = cartDao.searchCartById(cartId);
 		if(cart != null) {
 			List<ProductInCart> productInCarts = productInCartDao.searchProductInCartByCartId(cart.getId());
@@ -162,18 +165,18 @@ public class OrderServiceImpl implements OrderService {
 					Shop shop = shopDao.selectShopByOwnerId(ownerId);
 					order.setShopId(shop.getId());
 					order.setOwnerId(ownerId);
-					order.setExpressId(expressId);
+					order.setExpressId((long)0);
 					order.setPrice(orderPrice);
 					order.setAmount(orderAmount);
 					order.setCommission((long) 1);
 					order.setCommissionRate((long)(orderPrice * Double.valueOf(mallConfigDao.getMallConfigByKey("1").getValue())));
 					order.setStatus((long)0); 
-					order.setProcessStatus((long)0);
+					order.setProcessStatus((long)1);
 					order.setCreatedAt(new Timestamp(new Date().getTime()));
-					order.setAddressId(addressId);
+					order.setAddressId((long)0);
 					
 					//添加订单信息
-					i = orderDao.insertOrder(order);
+					orderDao.insertOrder(order);
 					
 					for(Product p : products) {
 						if(p.getOwnId() == ownerId) {
@@ -187,7 +190,7 @@ public class OrderServiceImpl implements OrderService {
 							productInOrder.setShopId(p.getShopId());
 							productInOrder.setCreatedAt(new Timestamp(new Date().getTime()));
 							//添加订单产品信息
-							i = productInOrderDao.insertProductInOrder(productInOrder);
+							productInOrderDao.insertProductInOrder(productInOrder);
 							
 						}
 					}					
@@ -195,13 +198,37 @@ public class OrderServiceImpl implements OrderService {
 			}
 			productInCartDao.cleanCart(cart.getId());
 			cartDao.updateCartAmount((long)0, cart.getCustomerId());
+		}
+		return orderDao.getOrderById((long)(orderDao.getMaxOrderId()));
+	}	
+
+	@Override
+	public Result confirmOrder(Long orderId, Long addressId) {
+		
+		OrderBo orderBo = orderDao.getOrderById(orderId);
+		Customer customer = customerDao.getCustomerByEmail(orderBo.getCustomerEmail());
+		if(0 == orderBo.getStatus()) {
+			if(customer.getBalance() < orderBo.getAmount()) {
+				Result r = new Result();
+				r.setStatus(0);
+				r.setMessage("Not sufficient funds");
+				return r;
+			} else {
+				customerDao.updateBalance(customer.getBalance() - orderBo.getPrice(), customer.getEmail());
+				orderDao.changeOrderAddress(orderId, addressId);
+				orderDao.changeOrderStatus(orderId, (long) 1);
+				Result r = new Result();
+				r.setStatus(1);
+				r.setMessage("Pay for success");
+				return r;
+			}
 		} else {
 			Result r = new Result();
 			r.setStatus(0);
-			r.setMessage("You can't avtive!");
+			r.setMessage("Account paid");
 			return r;
 		}
-		return returnRes(i);
+		
 	}
 	
 	@Override
@@ -221,18 +248,5 @@ public class OrderServiceImpl implements OrderService {
 	public List<OrderBo> search(PageCondition page, Long customerId) {
 		return orderDao.search(page, customerId);
 	}
-	
-	private Result returnRes(int i) {
-        Result result = new Result();
-        if(i!=0) {
-            result.setStatus(1);
-            result.setMessage("success");
-        } else {
-            result.setMessage("failed");
-            result.setStatus(0);
-        }
-        return result;
-    }
-
 	
 }
