@@ -46,6 +46,25 @@ public class OrderController {
     }
 
     /**
+     * 送货
+     * @param id
+     * @param expressId
+     * @param request
+     * @return
+     */
+    @RequestMapping("/deliver")
+    public @ResponseBody
+    Result deliver(@RequestParam Long id,
+                   @RequestParam Long expressId,
+                   @RequestParam String number,
+                   HttpServletRequest request) {
+        if(request.getHeader("Authorization") == null) {
+            return returnFailResult();
+        }
+        return orderService.deliver(expressId,number,id);
+    }
+
+    /**
      * 获取order
      * @param id
      * @return
@@ -70,11 +89,10 @@ public class OrderController {
                                          @RequestParam int page,
                                          @RequestParam int count,
                                          HttpServletRequest request) {
-//        String auth = request.getHeader("Authorization");
-//        if(auth == null)
-//            return new ArrayList<>();
-//        String ownerId = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
-        String ownerId= "4";
+        String auth = request.getHeader("Authorization");
+        if(auth == null)
+            return new ArrayList<>();
+        String ownerId = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
         return orderService.getOwnerOrderBoByPStatus(status, Long.valueOf(ownerId), page, count);
     }
 

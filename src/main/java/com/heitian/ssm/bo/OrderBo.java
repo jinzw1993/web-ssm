@@ -15,6 +15,7 @@ public class OrderBo {
     private String ownerEmail;
     private Long expressId;
     private Long price;
+    private Long expressPrice;
     private Long amount;
     private Long commission;
     private Long status;
@@ -135,5 +136,13 @@ public class OrderBo {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public Long getExpressPrice() {
+        return expressPrice;
+    }
+
+    public void setExpressPrice(Long expressPrice) {
+        this.expressPrice = expressPrice;
     }
 }

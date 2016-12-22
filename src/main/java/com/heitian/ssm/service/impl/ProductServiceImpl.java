@@ -4,14 +4,10 @@ import com.heitian.ssm.bo.ProductBo;
 import com.heitian.ssm.bo.ProductCondition;
 
 import com.heitian.ssm.bo.Result;
-import com.heitian.ssm.dao.PhotoDao;
+import com.heitian.ssm.dao.*;
 
-import com.heitian.ssm.dao.ProductCommentDao;
-import com.heitian.ssm.dao.ProductDao;
-import com.heitian.ssm.dao.ShopDao;
 import com.heitian.ssm.model.Photo;
 import com.heitian.ssm.model.Product;
-import com.heitian.ssm.model.ProductComment;
 import com.heitian.ssm.model.Shop;
 import com.heitian.ssm.service.ProductService;
 import org.springframework.stereotype.Service;
@@ -37,6 +33,8 @@ public class ProductServiceImpl implements ProductService {
     private ShopDao shopDao;
     @Resource
     private ProductCommentDao productCommentDao;
+    @Resource
+    private ProductInOrderDao productInOrderDao;
 
     public List<ProductBo> searchProductBos(ProductCondition productCondition) {
         List<ProductBo> productBos = new ArrayList<ProductBo>();
@@ -92,12 +90,14 @@ public class ProductServiceImpl implements ProductService {
         photoDao.updatePhotoProId(photo);
         return returnRes(i);
     }
-    public Result deleteProduct(Long productId) {
 
-        photoDao.deletePhoto(productId);
+    public Result deleteProduct(Long productId) {
+        if(productInOrderDao.hasProduct(productId) == 0)
+            photoDao.deletePhoto(productId);
         int i = productDao.deleteProduct(productId);
         return returnRes(i);
     }
+
     public Result updateProduct(ProductBo prdtBo) {
 
         if(prdtBo.getPhotoURL() != null) {

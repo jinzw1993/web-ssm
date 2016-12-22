@@ -7,7 +7,7 @@
     </resultMap>
     <select id="getProductByOrderId" resultMap="ProductInOrderBoMap">
         select product_in_order.product_id,
-        product.name,
+        product_in_order.name,
         product_in_order.price,
         product_in_order.amount,
         path
@@ -16,6 +16,12 @@
         join product on product.id = product_in_order.product_id
         join product_photo on product.id = product_photo.product_id
         where order_id=#{id}
+    </select>
+
+    <select id="hasProduct" resultType="_int">
+        select count(*)
+        from `order`
+        where product_id=#{productId}
     </select>
     
     <!--customer order -->

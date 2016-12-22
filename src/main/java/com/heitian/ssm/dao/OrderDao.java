@@ -24,6 +24,7 @@ public interface OrderDao {
 
     List<OrderBo> getOwnerOrderBoByProcessStatus(@Param("processStatus") Long processStatus, @Param("ownerId")Long ownerId, @Param("start") int start,@Param("pageNum") int pageNum);
     int getOwnerOrderBoByProcessStatusNum(@Param("processStatus") Long processStatus, @Param("ownerId")Long ownerId);
+    int setExpress(@Param("expressId") Long expressId, @Param("number") String number, @Param("orderId") Long orderId);
 
     public int insertOrder(@Param("order") Order order);
     public Order getOrderByCreatedAt(Date date);

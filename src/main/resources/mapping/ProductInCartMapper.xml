@@ -32,7 +32,7 @@
     
     <delete id="deleteProductInCart" parameterType="com.heitian.ssm.model.ProductInCart">
         DELETE FROM product_in_cart WHERE cart_id = #{productInCart.cartId} AND product_id = #{productInCart.productId}
-    </delete>   
+    </delete>
     
     <delete id="cleanCart" parameterType="java.lang.Long">
         DELETE FROM product_in_cart WHERE cart_id = #{cartId}

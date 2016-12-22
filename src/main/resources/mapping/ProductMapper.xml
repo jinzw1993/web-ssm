@@ -18,7 +18,7 @@
 		SELECT product.id, product.owner_id, shop_id, product_photo_id, product.name, price, category_id, detail, created_at, modified_at, product.amount
 		FROM  product JOIN shop ON product.shop_id=shop.id
 		WHERE shop.status =0
-		ORDER BY product.id
+		ORDER BY product.created_at desc
 		limit #{start},#{num}
 	</select>
 
@@ -31,6 +31,7 @@
 		SELECT product.id, product.owner_id, shop_id, product_photo_id, product.name, price, category_id, detail, created_at, modified_at, product.amount
 		FROM  product JOIN shop ON product.shop_id=shop.id
 		WHERE product.owner_id=#{ownerId} AND shop.status !=2
+		ORDER BY product.created_at desc
 		limit #{start},#{pageNum}
 	</select>
 
@@ -57,6 +58,7 @@
 		SELECT product.id, product.owner_id, shop_id, product_photo_id, product.name, price, category_id, detail, created_at, modified_at, product.amount
 		FROM  product JOIN shop ON product.shop_id=shop.id
 		WHERE product.shop_id=#{id} AND shop.status !=2
+		ORDER BY product.created_at desc
 		limit #{start},#{pageNum}
 	</select>
 
@@ -81,7 +83,7 @@
 		<if test="keyWord != null and keyWord != ''">
 			AND product.name LIKE "%"#{keyWord,jdbcType=VARCHAR}"%"
 		</if>
-		ORDER BY product.id
+		ORDER BY product.created_at desc
 		limit #{start},#{num}
 	</select>
 
@@ -126,7 +128,10 @@
 	</insert>
 
 	<delete id="deleteProduct">
-		DELETE FROM product WHERE id=#{productId}
+		DELETE FROM product,product_advertisement,product_comment,favourite_product,product_in_cart
+		USING product,product_advertisement,product_comment,favourite_product,product_in_cart
+		WHERE product.id=product_advertisement.product_id=favourite_product.product_id=product_in_cart.product_id=product_comment.product_id
+		AND product.id=#{productId}
 	</delete>
 
 	<update id="updateProduct" parameterType="com.heitian.ssm.model.Product">

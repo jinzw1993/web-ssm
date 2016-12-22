@@ -60,6 +60,7 @@ public class OrderServiceImpl implements OrderService {
     private Result result = new Result();
 
     public Result changeProcessStatus(Long orderId, Long status) {
+
         int i = orderDao.changeOrderProcessStatus(orderId, status);
         if (i > 0) {
             result.setStatus(1);
@@ -128,6 +129,9 @@ public class OrderServiceImpl implements OrderService {
             time.setDay(now.get(Calendar.DAY_OF_MONTH));
     }
 
+    public Result deliver(Long expressId, String number, Long orderId) {
+        return returnRes(orderDao.setExpress(expressId, number, orderId));
+    }
     
 	@Override
 	public Result addOrder(Long cartId, Long expressId, Long addressId) {

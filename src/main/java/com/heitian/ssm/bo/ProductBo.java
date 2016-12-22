@@ -1,6 +1,8 @@
 package com.heitian.ssm.bo;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.heitian.ssm.model.Product;
+import com.heitian.ssm.util.CustomDoubleSerializer;
 
 import java.io.Serializable;
 import java.sql.Time;
@@ -33,6 +35,7 @@ public class ProductBo extends Product implements Serializable {
         this.photoURL = photoURL;
     }
 
+    @JsonSerialize(using=CustomDoubleSerializer.class)
     public Double getRate() {
         return rate;
     }
