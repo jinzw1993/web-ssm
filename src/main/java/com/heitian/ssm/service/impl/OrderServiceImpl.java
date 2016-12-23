@@ -90,6 +90,30 @@ public class OrderServiceImpl implements OrderService {
         return result;
     }
 
+    public List<OrderBo> getAdminOrderByTime(TimeCondition time) {
+        setTimeCon(time);
+        return orderDao.getAdminOrders(time);
+    }
+
+    public Result getAdminOrderByTimeNum(TimeCondition time) {
+        setTimeCon(time);
+        result.setStatus(1);
+        result.setMessage(String.valueOf(orderDao.getAdminOrderCompleteNum(time)));
+        return result;
+    }
+
+    public List<OrderBo> getCusOrderByTime(Long id, TimeCondition time) {
+        setTimeCon(time);
+        return orderDao.getCusOrders(id, time);
+    }
+
+    public Result getCusOrderByTimeNum(Long ownerId, TimeCondition time) {
+        setTimeCon(time);
+        result.setStatus(1);
+        result.setMessage(String.valueOf(orderDao.getCusOrderCompleteNum(ownerId, time)));
+        return result;
+    }
+
     public List<OrderBo> getOwnerOrderBoByPStatus(Long processStatus, Long ownerId, int page, int pageNum) {
         return orderDao.getOwnerOrderBoByProcessStatus(processStatus, ownerId, (page - 1) * pageNum, pageNum);
     }

@@ -5,7 +5,7 @@ package com.heitian.ssm.bo;
  */
 //这个类的处理在OrderServiceImpl中的setTimeCon方法里
 public class TimeCondition {
-    private Integer id = 0;
+    private Integer id = 0; //0天 1周 2月 3年
     private Integer year; //年份
     private Integer month; //月份
     private Integer week; //当前周为1，前一周为2，依次类推
