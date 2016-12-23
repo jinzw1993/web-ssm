@@ -1,5 +1,6 @@
 package com.heitian.ssm.dao;
 
+import com.heitian.ssm.bo.IncomeBo;
 import com.heitian.ssm.bo.TimeCondition;
 import org.springframework.stereotype.Repository;
 
@@ -11,5 +12,5 @@ import java.util.List;
 @Repository
 public interface MallIncomeDao {
     int insertIncome(Long orderId);
-    List<Long> getIncomeByTime(TimeCondition con);
+    List<IncomeBo> getIncomeByTime(TimeCondition con);
 }

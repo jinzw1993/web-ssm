@@ -8,19 +8,23 @@
         <result column="customer_id" property="customerId" />
         <result column="comment" property="comment"/>
         <result column="created_at" property="createdAt"/>
+        <result column="order_id" property="orderId"/>
+        <result column="rate" property="rate"/>
     </resultMap>
 
     <resultMap id="CommentBoMap" type="com.heitian.ssm.bo.ProductCommentBo">
         <id column="id" property="id" />
+        <result column="rate" property="rate"/>
         <result column="product_id" property="productId" />
         <result column="customer_id" property="customerId" />
         <result column="comment" property="comment"/>
         <result column="created_at" property="createdAt"/>
+        <result column="order_id" property="orderId"/>
         <result column="email" property="customerEmail"/>
     </resultMap>
 
     <select id="getCommentBos" resultMap="CommentBoMap">
-        SELECT product_comment.id, customer_id, product_id, comment, created_at, customer.email, rate
+        SELECT product_comment.id, customer_id, product_id, comment, created_at, customer.email, rate, order_id
         FROM product_comment JOIN customer ON product_comment.customer_id=customer.id
         WHERE product_id=#{productId} limit #{start}, #{pageNum}
     </select>
@@ -30,7 +34,17 @@
         FROM product_comment
         WHERE product_id=#{productId}
     </select>
-
+    <!-- ++++++++++++ 2017.12.23++++++++++++++++++-->
+    <insert id="addComment" parameterType="com.heitian.ssm.bo.ProductCommentBo">
+        INSERT INTO product_comment(customer_id, product_id, order_id, comment, rate)
+        VALUES (#{commentBo.customerId}, #{commentBo.productId}, #{commentBo.orderId), #{commentBo.comment}, #{commentBo.rate})
+    </insert>
+    <select id="getCommentByPidOid" resultMap="CommentBoMap">
+        SELECT product_comment.id, customer_id, product_id, comment, created_at, customer.email, rate, order_id
+        FROM product_comment JOIN customer ON product_comment.customer_id=customer.id
+        WHERE product_id=#{productId} AND order_id=#{orderId}
+    </select>
+    <!-- +++++++++++++++-->
     <select id="getAvgRate" resultType="double">
         SELECT sum(rate)/count(*)
         FROM product_comment

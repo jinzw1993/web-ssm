@@ -8,7 +8,7 @@
           where id=#{orderId};
     </insert>
 
-    <select id="getIncomeByTime" resultType="long" parameterType="map">
+    <select id="getIncomeByTime" resultType="com.heitian.ssm.bo.IncomeBo" parameterType="map">
         select income from shop_income
         <where>
             <choose>

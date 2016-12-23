@@ -12,4 +12,6 @@ public interface ProductCommentService {
     List<ProductCommentBo> getProductCommentBos(Long productId, int page, int pageNum);
 
     Result getCommentNum(Long productId);
+
+    Result addComment(ProductCommentBo productCommentBo);
 }

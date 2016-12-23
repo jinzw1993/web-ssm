@@ -4,6 +4,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
+import com.heitian.ssm.bo.IncomeBo;
 import com.heitian.ssm.bo.TimeCondition;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -48,7 +49,7 @@ public class AdminController {
 
     @ResponseBody
     @RequestMapping("/income")
-    public List<Long> getIncome(@RequestBody TimeCondition con) {
+    public List<IncomeBo> getIncome(@RequestBody TimeCondition con) {
         return adminService.getIncome(con);
     }
 }

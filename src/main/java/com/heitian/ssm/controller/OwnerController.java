@@ -1,5 +1,6 @@
 package com.heitian.ssm.controller;
 
+import com.heitian.ssm.bo.IncomeBo;
 import com.heitian.ssm.bo.Result;
 import com.heitian.ssm.bo.TimeCondition;
 import com.heitian.ssm.dao.ShopIncomeDao;
@@ -166,7 +167,7 @@ public class OwnerController {
 
     @ResponseBody
     @RequestMapping("/income")
-    public List<Long> getIncome(@RequestBody TimeCondition con, HttpServletRequest request) {
+    public List<IncomeBo> getIncome(@RequestBody TimeCondition con, HttpServletRequest request) {
         String auth = request.getHeader("Authorization");
         if(auth == null) {
             return new ArrayList<>();
