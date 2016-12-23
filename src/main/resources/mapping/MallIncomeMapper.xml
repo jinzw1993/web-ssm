@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.heitian.ssm.dao.MallIncomeDao">
+    <insert id="insertIncome">
+        insert into mall_income(income,year,month,day,week)
+        select commission,year(created_at),month(created_at),day(created_at),week(created_at)
+        from `order`
+        where id=#{orderId};
+    </insert>
+
+    <select id="getIncomeByTime" resultType="long" parameterType="map">
+        select income from shop_income
+        <where>
+            <choose>
+                <when test="time.id == 0">
+                    AND #{time.year} = year(created_at) AND #{time.month} = month(created_at) AND #{time.day} = day(created_at)
+                </when>
+                <when test="time.id == 1">
+                    AND #{time.year} = year(created_at) AND #{time.week} = week(created_at)
+                </when>
+                <when test="time.id == 2">
+                    AND #{time.year} = year(created_at) AND #{time.month} = month(created_at)
+                </when>
+                <when test="time.id == 3">
+                    AND #{time.year} = year(created_at)
+                </when>
+            </choose>
+        </where>
+    </select>
+</mapper>

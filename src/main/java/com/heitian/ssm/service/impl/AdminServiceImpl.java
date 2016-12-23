@@ -1,16 +1,24 @@
 package com.heitian.ssm.service.impl;
 
-import javax.transaction.Transactional;
 
+import com.heitian.ssm.bo.TimeCondition;
+import com.heitian.ssm.dao.MallIncomeDao;
 import org.springframework.stereotype.Service;
 
 import com.heitian.ssm.bo.Result;
 import com.heitian.ssm.model.Admin;
 import com.heitian.ssm.service.AdminService;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
-//@Transactional(rollbackFor = Exception.class)
+@Transactional(rollbackFor = Exception.class)
 public class AdminServiceImpl implements AdminService {
+    @Resource
+    private MallIncomeDao mallIncomeDao;
 
 	@Override
 	public Result adminLogin(Admin admin) {
@@ -34,5 +42,12 @@ public class AdminServiceImpl implements AdminService {
     	} 	
 
 	}
+
+    public List<Long> getIncome(TimeCondition con) {
+        List<Long> income = mallIncomeDao.getIncomeByTime(con);
+        if(income == null)
+            return new ArrayList<>();
+        return income;
+    }
 
 }

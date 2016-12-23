@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import com.heitian.ssm.bo.ShopAdBo;
 import com.heitian.ssm.dao.ShopDao;
 import com.heitian.ssm.model.Shop;
+import com.heitian.ssm.util.ResultResolver;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.heitian.ssm.bo.Result;
@@ -29,11 +30,11 @@ public class ShopAdServiceImpl implements ShopAdService {
         Shop tmp = shopDao.selectShopByOwnerId(ownerId);
         Long shopId = tmp.getId();
         if(shopId == null || tmp.getStatus() != 0)
-            return returnRes(0);
+            return ResultResolver.returnRes(0);
         Long status = shopAdDao.selectStatus(shopId);
         if(status == null || status > 1) {
             int i = shopAdDao.addShopAd(shopId, photoUrl, price);
-            return returnRes(i);
+            return ResultResolver.returnRes(i);
         } else {
             Result result = new Result();
             result.setStatus(0);
@@ -48,7 +49,7 @@ public class ShopAdServiceImpl implements ShopAdService {
         Shop tmp = shopDao.selectShopByOwnerId(ownerId);
         Long shopId = tmp.getId();
         if(shopId == null || tmp.getStatus() != 0)
-            return returnRes(0);
+            return ResultResolver.returnRes(0);
         Result result = new Result();
 		Long status = shopAdDao.selectStatus(shopId);
         if(status == null) {
@@ -75,9 +76,9 @@ public class ShopAdServiceImpl implements ShopAdService {
         Shop tmp = shopDao.selectShopByOwnerId(ownerId);
         Long shopId = tmp.getId();
         if(shopId == null || tmp.getStatus() != 0)
-            return returnRes(0);
+            return ResultResolver.returnRes(0);
 		int i = shopAdDao.deleteShopAd(shopId);
-		return returnRes(i);
+		return ResultResolver.returnRes(i);
 	}
 
     @Override
@@ -91,7 +92,7 @@ public class ShopAdServiceImpl implements ShopAdService {
                 return result;
             }
         int i = shopAdDao.changeShopAdStatus(shopId, status);
-        return returnRes(i);
+        return ResultResolver.returnRes(i);
     }
 
     public List<ShopAdBo> verifiedShopAd(){
@@ -114,17 +115,4 @@ public class ShopAdServiceImpl implements ShopAdService {
         result.setMessage(String.valueOf(shopAdDao.getNum(status)));
         return result;
     }
-
-	private Result returnRes(int i)
-	{
-		Result result = new Result();
-		if (i != 0) {
-			result.setStatus(1);
-			result.setMessage("success");
-		} else {
-			result.setMessage("failed");
-			result.setStatus(0);
-		}
-		return result;
-	}
 }

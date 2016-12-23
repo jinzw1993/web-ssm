@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 
 import com.heitian.ssm.bo.ProductAdBo;
 import com.heitian.ssm.dao.ProductDao;
+import com.heitian.ssm.util.ResultResolver;
 import org.springframework.jca.cci.core.InteractionCallback;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -62,10 +63,10 @@ public class ProductAdServiceImpl implements ProductAdService {
         if(status==1) {
             int num= productAdDao.getPermittedPAdNum();
             if(num==10)
-                return returnRes(0);
+                return ResultResolver.returnRes(0);
         }
         int i = productAdDao.updateProductAdStatus(id, status);
-        return returnRes(i);
+        return ResultResolver.returnRes(i);
     }
 
     /**
@@ -83,7 +84,7 @@ public class ProductAdServiceImpl implements ProductAdService {
             return result;
         }
         int i = productAdDao.addProductAd(productId, price);
-        return returnRes(i);
+        return ResultResolver.returnRes(i);
     }
 
     /**
@@ -149,19 +150,7 @@ public class ProductAdServiceImpl implements ProductAdService {
      */
     public Result deleteProductAd(Long id) {
         int i = productAdDao.deleteProductAd(id);
-        return returnRes(i);
-    }
-
-    private Result returnRes(int i) {
-        Result result = new Result();
-        if (i != 0) {
-            result.setStatus(1);
-            result.setMessage("success");
-        } else {
-            result.setMessage("failed");
-            result.setStatus(0);
-        }
-        return result;
+        return ResultResolver.returnRes(i);
     }
 
     private void getPhotoURL(List<ProductAdBo> productAdBos) {

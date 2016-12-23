@@ -2,7 +2,11 @@ package com.heitian.ssm.service;
 
 
 import com.heitian.ssm.bo.Result;
+import com.heitian.ssm.bo.TimeCondition;
 import com.heitian.ssm.model.Admin;
+
+import java.util.List;
+
 /**
  * 
  * @author Zrt666
@@ -10,7 +14,7 @@ import com.heitian.ssm.model.Admin;
  *
  */
 public interface AdminService {
-	
 	public Result adminLogin(Admin admin);
 
+    List<Long> getIncome(TimeCondition con);
 }

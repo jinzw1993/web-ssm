@@ -1,6 +1,7 @@
 package com.heitian.ssm.service;
 
 import com.heitian.ssm.bo.Result;
+import com.heitian.ssm.bo.TimeCondition;
 import com.heitian.ssm.model.Owner;
 
 
@@ -37,4 +38,6 @@ public interface OwnerService {
     //  public Result insertOwner(Owner owner);
     //    public boolean deleteOwnerById(long id);
 //    public boolean deleteOwnerByName(String ownerName);
+
+    List<Long> getIncome(TimeCondition con, Long ownerId);
 }

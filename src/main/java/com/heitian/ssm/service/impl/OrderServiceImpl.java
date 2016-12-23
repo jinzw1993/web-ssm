@@ -10,6 +10,8 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 
+import com.heitian.ssm.dao.*;
+import com.heitian.ssm.util.ResultResolver;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,15 +20,6 @@ import com.heitian.ssm.bo.PageCondition;
 import com.heitian.ssm.bo.ProductInOrderBo;
 import com.heitian.ssm.bo.Result;
 import com.heitian.ssm.bo.TimeCondition;
-import com.heitian.ssm.dao.CartDao;
-import com.heitian.ssm.dao.CustomerAddressDao;
-import com.heitian.ssm.dao.CustomerDao;
-import com.heitian.ssm.dao.MallConfigDao;
-import com.heitian.ssm.dao.OrderDao;
-import com.heitian.ssm.dao.ProductDao;
-import com.heitian.ssm.dao.ProductInCartDao;
-import com.heitian.ssm.dao.ProductInOrderDao;
-import com.heitian.ssm.dao.ShopDao;
 import com.heitian.ssm.model.Cart;
 import com.heitian.ssm.model.Customer;
 import com.heitian.ssm.model.Order;
@@ -60,20 +53,20 @@ public class OrderServiceImpl implements OrderService {
     private ShopDao shopDao;
     @Resource
     private CustomerDao customerDao;
+    @Resource
+    private ShopIncomeDao shopIncomeDao;
+    @Resource
+    private MallIncomeDao mallIncomeDao;
     
     private Result result = new Result();
 
     public Result changeProcessStatus(Long orderId, Long status) {
-
         int i = orderDao.changeOrderProcessStatus(orderId, status);
-        if (i > 0) {
-            result.setStatus(1);
-            result.setMessage("success");
-        } else {
-            result.setStatus(0);
-            result.setMessage("failed");
+        if(i == 4) {
+            shopIncomeDao.insertIncome(orderId);
+            mallIncomeDao.insertIncome(orderId);
         }
-        return result;
+        return ResultResolver.returnRes(i);
     }
 
     public OrderBo getOrderBoById(Long orderId) {
@@ -134,7 +127,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     public Result deliver(Long expressId, String number, Long orderId) {
-        return returnRes(orderDao.setExpress(expressId, number, orderId));
+        return ResultResolver.returnRes(orderDao.setExpress(expressId, number, orderId));
     }
     
 	@Override
@@ -240,27 +233,8 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public Result changeStatus(Long orderId, Long status) {
         int i = orderDao.changeOrderStatus(orderId, status);
-        if (i > 0) {
-            result.setStatus(1);
-            result.setMessage("success");
-        } else {
-            result.setStatus(0);
-            result.setMessage("failed");
-        }
-        return result;
+        return ResultResolver.returnRes(i);
     }
-
-	private Result returnRes(int i) {
-		Result result = new Result();
-		if(i!=0) {
-			result.setStatus(1);
-			result.setMessage("success");
-		} else {
-			result.setMessage("failed");
-			result.setStatus(0);
-		}
-		return result;
-	}
 	
 	@Override
 	public List<OrderBo> search(PageCondition page, Long customerId) {

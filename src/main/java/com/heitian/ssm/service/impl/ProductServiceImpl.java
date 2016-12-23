@@ -10,6 +10,7 @@ import com.heitian.ssm.model.Photo;
 import com.heitian.ssm.model.Product;
 import com.heitian.ssm.model.Shop;
 import com.heitian.ssm.service.ProductService;
+import com.heitian.ssm.util.ResultResolver;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -77,10 +78,10 @@ public class ProductServiceImpl implements ProductService {
         prdtBo.setProductPhotoId((long)pId);
         Product product=(Product)prdtBo;
         if(prdtBo.getOwnId() == null)
-            return returnRes(0);
+            return ResultResolver.returnRes(0);
         Shop shop = shopDao.selectShopByOwnerId(prdtBo.getOwnId());
         if(shop == null)
-            return returnRes(0);
+            return ResultResolver.returnRes(0);
         prdtBo.setShopId(shop.getId());
 
         int i= productDao.insertProduct(product);
@@ -88,14 +89,14 @@ public class ProductServiceImpl implements ProductService {
         photo.setId((long)pId);
         photo.setProductId(pdId);
         photoDao.updatePhotoProId(photo);
-        return returnRes(i);
+        return ResultResolver.returnRes(i);
     }
 
     public Result deleteProduct(Long productId) {
         if(productInOrderDao.hasProduct(productId) == 0)
             photoDao.deletePhoto(productId);
         int i = productDao.deleteProduct(productId);
-        return returnRes(i);
+        return ResultResolver.returnRes(i);
     }
 
     public Result updateProduct(ProductBo prdtBo) {
@@ -110,7 +111,7 @@ public class ProductServiceImpl implements ProductService {
 
         int i= productDao.updateProduct(product);
 
-        return returnRes(i);
+        return ResultResolver.returnRes(i);
     }
 
     public List<ProductBo> searchProductBosByOwner(long ownerId,int page, int pageNum) {
@@ -151,18 +152,6 @@ public class ProductServiceImpl implements ProductService {
             }
         }
         return productBos;
-    }
-
-    private Result returnRes(int i) {
-        Result result = new Result();
-        if(i!=0) {
-            result.setStatus(1);
-            result.setMessage("success");
-        } else {
-            result.setMessage("failed");
-            result.setStatus(0);
-        }
-        return result;
     }
 
     private void setRate(ProductBo pbo) {
