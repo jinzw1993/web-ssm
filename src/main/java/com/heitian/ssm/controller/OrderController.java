@@ -31,7 +31,7 @@ public class OrderController {
     private Result result = new Result();
 
     /**
-     * 店主更改 process status
+     * 更改 process status
      * @param id
      * @param status
      * @param request

@@ -15,7 +15,21 @@ public class ProductComment {
     private String comment;
     @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
     private Date createdAt;
+
     private Long rate;
+
+    //add order id
+    private Long orderId;
+
+    public Long getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
+    }
+
+
 
     public Long getId() {
         return id;

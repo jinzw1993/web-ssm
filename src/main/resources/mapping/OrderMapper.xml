@@ -46,7 +46,7 @@
           join owner on `order`.owner_id=owner.id
           join shop on `order`.shop_id=shop.id
           join customer on `order`.customer_id=customer.id
-          join customer_address on `order`.address_id = customer_address.id
+          left join customer_address on `order`.address_id = customer_address.id
     </sql>
 
     <sql id="whereTime">

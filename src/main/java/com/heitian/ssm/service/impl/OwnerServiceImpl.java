@@ -1,5 +1,6 @@
 package com.heitian.ssm.service.impl;
 
+import com.heitian.ssm.bo.IncomeBo;
 import com.heitian.ssm.bo.Result;
 import com.heitian.ssm.bo.TimeCondition;
 import com.heitian.ssm.dao.OwnerDao;
@@ -248,9 +249,9 @@ public class OwnerServiceImpl implements OwnerService {
         return ownerDao.getUnverifiedNum();
     }
 
-    public List<Long> getIncome(TimeCondition con, Long ownerId) {
+    public List<IncomeBo> getIncome(Long i, Long ownerId) {
         Long shopId = shopDao.selectShopByOwnerId(ownerId).getId();
-        List<Long> list = shopIncomeDao.getIncomeByTime(con, shopId);
+        List<IncomeBo> list = shopIncomeDao.getIncomeByTime(i, shopId);
         if(list == null) {
             return new ArrayList<>();
         }

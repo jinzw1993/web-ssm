@@ -3,28 +3,42 @@
 <mapper namespace="com.heitian.ssm.dao.MallIncomeDao">
     <insert id="insertIncome">
         insert into mall_income(income,year,month,day,week)
-        select commission,year(created_at),month(created_at),day(created_at),week(created_at)
-        from `order`
-        where id=#{orderId};
+          select commission,year(created_at),month(created_at),day(created_at),week(created_at)
+          from `order`
+          where id=#{orderId};
     </insert>
 
-    <select id="getIncomeByTime" resultType="long" parameterType="map">
-        select income from shop_income
-        <where>
-            <choose>
-                <when test="time.id == 0">
-                    AND #{time.year} = year(created_at) AND #{time.month} = month(created_at) AND #{time.day} = day(created_at)
-                </when>
-                <when test="time.id == 1">
-                    AND #{time.year} = year(created_at) AND #{time.week} = week(created_at)
-                </when>
-                <when test="time.id == 2">
-                    AND #{time.year} = year(created_at) AND #{time.month} = month(created_at)
-                </when>
-                <when test="time.id == 3">
-                    AND #{time.year} = year(created_at)
-                </when>
-            </choose>
-        </where>
+    <select id="getIncomeByTime" resultType="com.heitian.ssm.bo.IncomeBo">
+        select sum(income) income,
+        <choose>
+            <when test="i == 0">
+                year,month,day
+            </when>
+            <when test="i == 1">
+                year,week
+            </when>
+            <when test="i == 2">
+                year,month
+            </when>
+            <when test="i == 3">
+                year
+            </when>
+        </choose>
+        from shop_income
+        group by
+        <choose>
+            <when test="i == 0">
+                year,month,day
+            </when>
+            <when test="i == 1">
+                year,month,week
+            </when>
+            <when test="i == 2">
+                year,month
+            </when>
+            <when test="i == 3">
+                year
+            </when>
+        </choose>
     </select>
 </mapper>

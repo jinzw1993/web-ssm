@@ -1,6 +1,7 @@
 package com.heitian.ssm.service.impl;
 
 
+import com.heitian.ssm.bo.IncomeBo;
 import com.heitian.ssm.bo.TimeCondition;
 import com.heitian.ssm.dao.MallIncomeDao;
 import org.springframework.stereotype.Service;
@@ -43,8 +44,8 @@ public class AdminServiceImpl implements AdminService {
 
 	}
 
-    public List<Long> getIncome(TimeCondition con) {
-        List<Long> income = mallIncomeDao.getIncomeByTime(con);
+    public List<IncomeBo> getIncome(Long i) {
+        List<IncomeBo> income = mallIncomeDao.getIncomeByTime(i);
         if(income == null)
             return new ArrayList<>();
         return income;

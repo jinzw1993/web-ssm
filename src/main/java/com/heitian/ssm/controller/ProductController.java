@@ -5,6 +5,7 @@ import com.heitian.ssm.bo.ProductCommentBo;
 import com.heitian.ssm.bo.ProductCondition;
 
 import com.heitian.ssm.bo.Result;
+import com.heitian.ssm.model.ProductComment;
 import com.heitian.ssm.service.ProductCommentService;
 import com.heitian.ssm.service.ProductService;
 import org.apache.log4j.Logger;
@@ -222,5 +223,22 @@ public class ProductController {
         result.setStatus(0);
         result.setMessage("you haven't log in");
         return result;
+    }
+
+    @ResponseBody
+    @RequestMapping(value="/comment",method=RequestMethod.POST)
+    public Result comment(@RequestBody ProductComment comment, HttpServletRequest request) {
+        String auth = request.getHeader("Authorization");
+        if(auth == null) {
+            Result result = new Result();
+            result.setStatus(0);
+            result.setMessage("you haven't log in");
+            return result;
+        }
+
+        String s[] = auth.split(";");//前提是，传参为ownerId=xxx;customerId=xxx;adress=xxx...格式
+        Long customerId = Long.valueOf(s[1].substring(11));
+        comment.setCustomerId(customerId);
+        return productCommentService.addComment(comment);
     }
 }
