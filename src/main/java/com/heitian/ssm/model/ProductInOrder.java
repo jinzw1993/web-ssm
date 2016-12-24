@@ -16,6 +16,9 @@ public class ProductInOrder {
     private Long shopId;
     @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
     private Date createdAt;
+    
+    private String name;
+    private Long category;
 
     public Long getId() {
         return id;
@@ -72,4 +75,21 @@ public class ProductInOrder {
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Long getCategory() {
+		return category;
+	}
+
+	public void setCategory(Long category) {
+		this.category = category;
+	}
+
 }

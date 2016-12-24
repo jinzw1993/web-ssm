@@ -1,7 +1,6 @@
 package com.heitian.ssm.bo;
 
 
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.util.Date;
 

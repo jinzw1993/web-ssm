@@ -24,7 +24,7 @@ public interface OrderService {
     List<ProductInOrderBo> getProductInOrder(Long orderId);
     Result deliver(Long expressId, String number, Long orderId);
 
-    public OrderBo addOrder(Long cartId);
+    public List<OrderBo> addOrder(Long cartId);
     public Result changeStatus(Long orderId, Long status);
 	public List<OrderBo> search(PageCondition page, Long customerId);
 	public Result confirmOrder(Long orderId, Long addressId);

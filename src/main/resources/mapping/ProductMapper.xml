@@ -35,7 +35,7 @@
 		limit #{start},#{pageNum}
 	</select>
 
-	<select id="getOwnerProductCount" resultType="java.lang.Integer">
+	<select id="getOwnerProductCount" resultType="int">
 		SELECT count(*) FROM  product JOIN shop ON product.shop_id=shop.id
 		 WHERE product.owner_id=#{ownerId} AND shop.status !=2
 	</select>
@@ -87,7 +87,6 @@
 		limit #{start},#{num}
 	</select>
 
-
 	<select id="searchWithKeywordGN" parameterType="com.heitian.ssm.bo.ProductCondition" resultType="java.lang.Integer">
 		SELECT count(*) FROM  product JOIN shop ON product.shop_id=shop.id
 		WHERE shop.status =0
@@ -105,20 +104,20 @@
 		</if>
 	</select>
 
-	<select id="searchPhotoURL" parameterType="java.lang.Long" resultType="java.lang.String">
-		select path from product_photo
-		WHERE product_id=#{productPhotoId}
-	</select>
+    <select id="searchPhotoURL" parameterType="java.lang.Long" resultType="java.lang.String">
+        select path from product_photo
+        WHERE id=#{productPhotoId}
+    </select>
 
-	<select id="searchProductById" parameterType="java.lang.Long" resultMap="ProductBaseMap">
-		select * from product
-		WHERE id=#{id}
-	</select>
+    <select id="searchProductById" parameterType="java.lang.Long" resultMap="ProductBaseMap">
+        select * from product
+        WHERE id=#{id}
+    </select>
 
-	<select id="selectMaxId" resultType="java.lang.Integer">
-		SELECT MAX(id)
-		FROM product
-	</select>
+    <select id="selectMaxId" resultType="java.lang.Integer">
+        SELECT MAX(id)
+        FROM product
+    </select>
 
 	<insert id="insertProduct" parameterType="com.heitian.ssm.model.Product">
 		insert into
@@ -155,4 +154,11 @@
 		</set>
 		WHERE id=#{product.id}
 	</update>
+
+    <update id="updateProductAmount">
+        UPDATE product SET
+          amount=#{amount}
+        WHERE id=#{id}
+    </update>
 </mapper>
+

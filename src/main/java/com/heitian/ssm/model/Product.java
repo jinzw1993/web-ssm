@@ -110,7 +110,6 @@ public class Product implements Serializable{
     public void setModifiedAt(Date modifiedAt) {
         this.modifiedAt = modifiedAt;
     }
-
 }
 
 

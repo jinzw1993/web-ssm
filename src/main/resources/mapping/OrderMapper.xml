@@ -38,7 +38,7 @@
           created_at,
           customer_address.name customer_name,
           customer_address.telephone,
-          address
+          customer_address.address
     </sql>
 
     <sql id="fromOrder">
@@ -116,7 +116,7 @@
     </select>
 
     <!--owner/admin/customer所有已完成的订单数量，用于天周月年查询分页-->
-    <select id="getOwnOrderCompleteNum" parameterType="map" resultType="int">
+    <select id="getOrdersTimeNum" parameterType="map" resultType="int">
         select count(*)
         <include refid="fromOrder" />
         <include refid="whereTime" />
@@ -148,9 +148,9 @@
     
     <insert id="insertOrder" useGeneratedKeys="true" parameterType="com.heitian.ssm.model.Order">
         insert into `order`(customer_id,shop_id,owner_id,express_id,price,amount,commission,
-        commission_rate,status,process_status,created_at,address_id) VALUES
+        commission_rate,status,process_status,created_at,address_id,express_price) VALUES
           (#{order.customerId},#{order.shopId},#{order.ownerId},#{order.expressId},#{order.price},#{order.amount},#{order.commission},
-          #{order.commissionRate}, #{order.status}, #{order.processStatus}, #{order.createdAt}, #{order.addressId})
+          #{order.commissionRate}, #{order.status}, #{order.processStatus}, #{order.createdAt}, #{order.addressId}, #{order.expressPrice})
     </insert>
     
     <select id="getMaxOrderId" resultType="int">

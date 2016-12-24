@@ -179,10 +179,10 @@ public class OrderController {
      */
     @RequestMapping("/add")
     @ResponseBody
-    public OrderBo addOrder(HttpServletRequest request) {
+    public List<OrderBo> addOrder(HttpServletRequest request) {
     	String auth = request.getHeader("Authorization");
         if(auth == null)
-            return new OrderBo();       
+            return new ArrayList<OrderBo>();       
        
         Long cartId = Long.valueOf(request.getParameter("cartId"));
         
@@ -238,7 +238,6 @@ public class OrderController {
         
         String s[] = auth.split(";");//前提是，传参为ownerId=xxx;customerId=xxx;adress=xxx...格式
         Long customerId = Long.valueOf(s[1].substring(11));
-
         return orderService.search(page, customerId);
     }
 

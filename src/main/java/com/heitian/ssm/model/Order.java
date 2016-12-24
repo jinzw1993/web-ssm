@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 /**
  * Created by oasis on 12/12/16.
  */
@@ -12,8 +14,7 @@ public class Order {
     Long customerId;
     Long shopId;
     Long ownerId;
-    Long expressId;
-    Long addressId;
+    Long expressId;   
     Long price;
     Long amount;
     Long commission;
@@ -22,6 +23,8 @@ public class Order {
     Long processStatus;
     @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
     Date createdAt;
+    Long addressId;
+    Long expressPrice;
 
     public Date getCreatedAt() {
         return createdAt;
@@ -125,6 +128,14 @@ public class Order {
 
 	public void setAddressId(Long addressId) {
 		this.addressId = addressId;
+	}
+
+	public Long getExpressPrice() {
+		return expressPrice;
+	}
+
+	public void setExpressPrice(Long expressPrice) {
+		this.expressPrice = expressPrice;
 	}
 
 }
