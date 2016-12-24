@@ -121,9 +121,9 @@
 
 	<insert id="insertProduct" parameterType="com.heitian.ssm.model.Product">
 		insert into
-		product(owner_id, shop_id, product_photo_id, name, price*100, category_id, detail, amount)
+		product(owner_id, shop_id, product_photo_id, name, price, category_id, detail, amount)
 		VALUES (#{product.ownId}, #{product.shopId},#{product.productPhotoId}, #{product.name},
-		 #{product.price}, #{product.categoryId}, #{product.detail}, #{product.amount})
+		 #{product.price}*100, #{product.categoryId}, #{product.detail}, #{product.amount})
 	</insert>
 
 	<delete id="deleteProduct">

@@ -15,7 +15,7 @@ import java.util.List;
 public interface ProductAdDao {
     //修改
     //Owner Part
-    int addProductAd(@Param(value = "productId") Long proId, @Param("price") Long id);//status:0 rank:0 date:now()
+    int addProductAd(@Param(value = "productId") Long proId, @Param("price") Double price);//status:0 rank:0 date:now()
 
     List<ProductAdBo> getProductAdByOwnerId(@Param("ownerId") Long ownerId,
                                             @Param("start") int start, @Param("pageNum") int pageNum);//未得到photoURL
@@ -35,13 +35,4 @@ public interface ProductAdDao {
     List<ProductAdBo> getUnverifiedProductAd(@Param("start") int start, @Param("pageNum") int pageNum);//未得到photoURL
 
     int getUnverifiedPAdNum();
-    //int verifyProductAd(@Param("productId") Long productId, @Param("rank") Long rank);
-
-    //dying
-    //int deleteProductAd(@Param(value = "productId") Long proId);
-//	int agreeProductAd(@Param(value = "productId") Long proId);
-//	int rejectProductAd(@Param(value = "productId") Long proId);
-//	List<ProductAd> showProductAd();
-//	List<ProductAd> applyProductAd();
-
 }

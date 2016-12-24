@@ -6,7 +6,7 @@ package com.heitian.ssm.bo;
 public class ProductInOrderBo {
     private Long productId;
     private String name;
-    private Long price;
+    private Double price;
     private Long amount;
     private String photoURL;
     private Long category;
@@ -27,11 +27,11 @@ public class ProductInOrderBo {
         this.name = name;
     }
 
-    public Long getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(Long price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 

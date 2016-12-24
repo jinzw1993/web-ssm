@@ -9,7 +9,7 @@ public class ShopAdBo {
     private String name;
     private String photoUrl;
     private Long rank;
-    private Long price;
+    private Double price;
 
     public Long getId() {
         return id;
@@ -51,11 +51,11 @@ public class ShopAdBo {
         this.rank = rank;
     }
 
-    public Long getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(Long price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 }

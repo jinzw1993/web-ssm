@@ -1,6 +1,5 @@
 package com.heitian.ssm.service.impl;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Resource;
@@ -8,7 +7,6 @@ import javax.annotation.Resource;
 import com.heitian.ssm.bo.ProductAdBo;
 import com.heitian.ssm.dao.ProductDao;
 import com.heitian.ssm.util.ResultResolver;
-import org.springframework.jca.cci.core.InteractionCallback;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.heitian.ssm.bo.Result;
@@ -75,7 +73,7 @@ public class ProductAdServiceImpl implements ProductAdService {
      * @param productId
      * @return
      */
-    public Result addProductAd(Long productId, Long price) {
+    public Result addProductAd(Long productId, Double price) {
         ProductAd productAd= productAdDao.getProductAdByProductId(productId);
         if(productAd!=null) {
             Result result=new Result();
@@ -159,48 +157,4 @@ public class ProductAdServiceImpl implements ProductAdService {
             productAdBo.setPhotoURL(productDao.searchPhotoURL(productAdBo.getProductId()));
         }
     }
-
-/*
-    @Override
-    public List<ProductAd> showProductAd() {
-
-        List<ProductAd> product = productAdDao.showProductAd();
-        if (product == null || product.size() == 0) {
-            return null;
-        }
-        return product;
-    }
-
-    @Override
-
-
-    @Override
-    public List<ProductAd> applyProductAd() {
-        List<ProductAd> product = productAdDao.applyProductAd();
-        if (product == null || product.size() == 0) {
-            return null;
-        }
-
-        return product;
-    }
-
-    @Override
-    public Result addProductAd(Long proId, Date date) {
-        int i = productAdDao.addProductAd(proId, date);
-        return returnRes(i);
-    }
-
-
-    @Override
-    public Result rejectProductAd(Long proId) {
-        int i = productAdDao.rejectProductAd(proId);
-        return returnRes(i);
-    }
-
-    @Override
-    public Result agreeProductAd(Long proId) {
-        int i = productAdDao.agreeProductAd(proId);
-        return returnRes(i);
-    }
-*/
 }

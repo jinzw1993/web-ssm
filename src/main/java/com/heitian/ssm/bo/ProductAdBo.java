@@ -9,7 +9,7 @@ import java.io.Serializable;
  */
 public class ProductAdBo extends ProductAd implements Serializable {
     private String name;//product name
-    private Long price;//product price
+    private Double price;//product price
     private Long categoryId;//
     private String photoURL;
 
@@ -21,11 +21,11 @@ public class ProductAdBo extends ProductAd implements Serializable {
         this.name = name;
     }
 
-    public Long getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(Long price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 

@@ -9,7 +9,7 @@
     </insert>
 
     <select id="getIncomeByTime" resultType="com.heitian.ssm.bo.IncomeBo" parameterType="map">
-        select sum(income) income,
+        select sum(income)/100 income,
         <choose>
             <when test="i == 0">
                 year,month,day

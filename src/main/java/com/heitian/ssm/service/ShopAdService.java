@@ -8,7 +8,7 @@ import com.heitian.ssm.bo.ShopAdBo;
  * Created by oasis on 12/11/16.
  */
 public interface ShopAdService {
-	Result addShopAd(Long shopId, String photoUrl, Long price);
+	Result addShopAd(Long shopId, String photoUrl, Double price);
 
 	Result showShopAdStatus(Long id);
 
