@@ -95,59 +95,44 @@
     <!-- ____________________________________________ End of Luxuriant Splitter______________________________  -->
 
 
-    <!--天周月年查询店主所有已完成的订单-->
+    <!--天周月年查询owner/admin/customer所有已完成的订单-->
     <select id="getOwnerOrders" parameterType="map" resultMap="OrderBoMap">
       <include refid="selectOrder" />
       <include refid="fromOrder" />
       <include refid="whereTime" />
-      AND `order`.owner_id=#{id} AND `order`.process_status=4 AND `order`.status=1
-      order by `order`.created_at desc
-      limit #{time.start},#{time.count}
-    </select>
-
-    <!--店主所有已完成的订单数量，用于天周月年查询分页-->
-    <select id="getOwnOrderCompleteNum" parameterType="map" resultType="int">
-        select count(*)
-        <include refid="fromOrder" />
-        <include refid="whereTime" />
-        AND `order`.owner_id=#{id} and `order`.process_status=4 and `order`.status=1
-    </select>
-
-    <!--天周月年查询admin所有已完成的订单-->
-    <select id="getAdminOrders" parameterType="map" resultMap="OrderBoMap">
-      <include refid="selectOrder" />
-      <include refid="fromOrder" />
-      <include refid="whereTime" />
+      <choose>
+          <when test="kind == 0">
+          </when>
+          <when test="kind == 1">
+              AND `order`.owner_id=#{id}
+          </when>
+          <when test="kind == 2">
+              AND `order`.customer_id=#{id}
+          </when>
+      </choose>
       AND `order`.process_status=4 AND `order`.status=1
       order by `order`.created_at desc
       limit #{time.start},#{time.count}
     </select>
 
-    <!--admin所有已完成的订单数量，用于天周月年查询分页-->
-    <select id="getAdminOrderCompleteNum" parameterType="map" resultType="int">
+    <!--owner/admin/customer所有已完成的订单数量，用于天周月年查询分页-->
+    <select id="getOwnOrderCompleteNum" parameterType="map" resultType="int">
         select count(*)
         <include refid="fromOrder" />
         <include refid="whereTime" />
-        AND `order`.process_status=4 and `order`.status=1
+        <choose>
+            <when test="kind == 0">
+            </when>
+            <when test="kind == 1">
+                AND `order`.owner_id=#{id}
+            </when>
+            <when test="kind == 2">
+                AND `order`.customer_id=#{id}
+            </when>
+        </choose>
+        and `order`.process_status=4 and `order`.status=1
     </select>
 
-    <!--天周月年查询customer所有已完成的订单-->
-    <select id="getCusOrders" parameterType="map" resultMap="OrderBoMap">
-      <include refid="selectOrder" />
-      <include refid="fromOrder" />
-      <include refid="whereTime" />
-      AND `order`.customer_id=#{id} AND `order`.process_status=4 AND `order`.status=1
-      order by `order`.created_at desc
-      limit #{time.start},#{time.count}
-    </select>
-
-    <!--customer所有已完成的订单数量，用于天周月年查询分页-->
-    <select id="getCusOrderCompleteNum" parameterType="map" resultType="int">
-        select count(*)
-        <include refid="fromOrder" />
-        <include refid="whereTime" />
-        AND `order`.customer_id=#{id} AND `order`.process_status=4 and `order`.status=1
-    </select>
 
     <update id="setExpress">
         update `order`,express_order_log

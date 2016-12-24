@@ -16,12 +16,8 @@ public interface OrderService {
     Result changeProcessStatus(Long orderId, Long status);
     OrderBo getOrderBoById(Long orderId);
 
-    Result getOwnOrderByTimeNum(Long id, TimeCondition time);
-    List<OrderBo> getOwnOrderByTime(Long id, TimeCondition time);
-    Result getAdminOrderByTimeNum(TimeCondition time);
-    List<OrderBo> getAdminOrderByTime(TimeCondition time);
-    Result getCusOrderByTimeNum(Long id, TimeCondition time);
-    List<OrderBo> getCusOrderByTime(Long id, TimeCondition time);
+    Result getOrderByTimeNum(Long id, TimeCondition time, int kind);
+    List<OrderBo> getOrderByTime(Long id, TimeCondition time, int kind);
 
     List<OrderBo> getOwnerOrderBoByPStatus(Long processStatus, Long ownerId, int page, int pageNum);
     Result getOwnerOrderBoByPStatusNum(Long processStatus, Long ownerId);

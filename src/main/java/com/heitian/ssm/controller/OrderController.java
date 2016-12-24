@@ -116,94 +116,48 @@ public class OrderController {
     }
 
     /**
-     * 店主按日周月年查询正常订单列表，time的值 0天 1周 2月 3年
+     * admin/owner/customer按日周月年查询正常订单列表，time的值 0天 1周 2月 3年
      * @param time
      * @param request
      * @return
      */
-    @RequestMapping("/listByOwnerTime")
+    @RequestMapping("/listByTime")
     public @ResponseBody
-    List<OrderBo> getListByOwnerTime(@RequestBody TimeCondition time,
+    List<OrderBo> getListByTime(@RequestBody TimeCondition time,
                                          HttpServletRequest request) {
         String auth = request.getHeader("Authorization");
-        if(auth == null)
-            return new ArrayList<>();
+
         String ownerId = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
-        return orderService.getOwnOrderByTime(Long.valueOf(ownerId), time);
+        if(ownerId != null && ownerId != "")
+            return orderService.getOrderByTime(Long.valueOf(ownerId), time, 1);
+
+        String customerId = auth.split(";")[1].substring(11);
+        if(customerId != null && customerId != "")
+            return orderService.getOrderByTime(Long.valueOf(customerId), time, 2);
+
+        return orderService.getOrderByTime(0L, time, 0);
     }
 
     /**
-     * 店主查询正常所有订单数目，用于按日周月年查询的分页
+     * admin/owner/customer查询正常所有订单数目，用于按日周月年查询的分页
      * @param request
      * @return
      */
-    @RequestMapping("/listByOwnerTimeNum")
+    @RequestMapping("/listByTimeNum")
     public @ResponseBody
-    Result getListByOwnerTimeNum(@RequestBody TimeCondition time,
+    Result getListByTimeNum(@RequestBody TimeCondition time,
                                  HttpServletRequest request) {
         String auth = request.getHeader("Authorization");
-        if(auth == null) {
-            return returnFailResult();
-        }
+
         String ownerId = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
-        return orderService.getOwnOrderByTimeNum(Long.valueOf(ownerId), time);
-    }
+        if(ownerId != null && ownerId != "")
+            return orderService.getOrderByTimeNum(Long.valueOf(ownerId), time, 1);
 
-    /**
-     * Admin按日周月年查询正常订单列表，time的值 0天 1周 2月 3年
-     * @param time
-     * @return
-     */
-    @RequestMapping("/listByAdminTime")
-    public @ResponseBody
-    List<OrderBo> getListByAdminTime(@RequestBody TimeCondition time) {
-        return orderService.getAdminOrderByTime(time);
-    }
+        String customerId = auth.split(";")[1].substring(11);
+        if(customerId != null && customerId != "")
+            return orderService.getOrderByTimeNum(Long.valueOf(customerId), time, 2);
 
-    /**
-     * Admin查询正常所有订单数目，用于按日周月年查询的分页
-     * @return
-     */
-    @RequestMapping("/listByAdminTimeNum")
-    public @ResponseBody
-    Result getListByAdminTimeNum(@RequestBody TimeCondition time) {
-        return orderService.getAdminOrderByTimeNum(time);
-    }
-
-    /**
-     * Customer按日周月年查询正常订单列表，time的值 0天 1周 2月 3年
-     * @param time
-     * @param request
-     * @return
-     */
-    @RequestMapping("/listByCusTime")
-    public @ResponseBody
-    List<OrderBo> getListByCusTime(@RequestBody TimeCondition time,
-                                         HttpServletRequest request) {
-        String auth = request.getHeader("Authorization");
-        if(auth == null)
-            return new ArrayList<>();
-        String s[] = auth.split(";");
-        Long customerId = Long.valueOf(s[1].substring(11));
-        return orderService.getCusOrderByTime(Long.valueOf(customerId), time);
-    }
-
-    /**
-     * Customer查询正常所有订单数目，用于按日周月年查询的分页
-     * @param request
-     * @return
-     */
-    @RequestMapping("/listByCusTimeNum")
-    public @ResponseBody
-    Result getListByCusTimeNum(@RequestBody TimeCondition time,
-                                 HttpServletRequest request) {
-        String auth = request.getHeader("Authorization");
-        if(auth == null) {
-            return returnFailResult();
-        }
-        String s[] = auth.split(";");
-        Long customerId = Long.valueOf(s[1].substring(11));
-        return orderService.getCusOrderByTimeNum(Long.valueOf(customerId), time);
+        return orderService.getOrderByTimeNum(0L, time, 0);
     }
 
     /**
