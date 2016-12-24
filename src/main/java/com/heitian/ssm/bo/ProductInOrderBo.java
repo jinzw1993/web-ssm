@@ -9,6 +9,7 @@ public class ProductInOrderBo {
     private Long price;
     private Long amount;
     private String photoURL;
+    private Long category;
 
     public Long getProductId() {
         return productId;
@@ -49,4 +50,12 @@ public class ProductInOrderBo {
     public void setPhotoURL(String photoURL) {
         this.photoURL = photoURL;
     }
+
+	public Long getCategory() {
+		return category;
+	}
+
+	public void setCategory(Long category) {
+		this.category = category;
+	}
 }

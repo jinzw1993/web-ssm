@@ -1,111 +1,120 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.heitian.ssm.dao.ProductDao">
-	<resultMap id="ProductBaseMap" type="com.heitian.ssm.model.Product">
-		<id column="id" property="id" jdbcType="BIGINT"/>
-		<result column="owner_id" property="ownId" jdbcType="BIGINT"/>
-		<result column="shop_id" property="shopId" jdbcType="BIGINT"/>
+    <resultMap id="ProductBaseMap" type="com.heitian.ssm.model.Product">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="owner_id" property="ownId" jdbcType="BIGINT"/>
+        <result column="shop_id" property="shopId" jdbcType="BIGINT"/>
 
-		<result column="product_photo_id" property="productPhotoId" jdbcType="BIGINT"/>
-		<result column="name" property="name" jdbcType="VARCHAR"/>
-		<result column="price" property="price" jdbcType="BIGINT"/>
-		<result column="category_id" property="categoryId" jdbcType="BIGINT"/>
-		<result column="detail" property="detail" jdbcType="VARCHAR"/>
-		<result column="created_at" property="createdAt" jdbcType="TIME"/>
-		<result column="modified_at" property="modifiedAt" jdbcType="TIME"/>
-	</resultMap>
+        <result column="product_photo_id" property="productPhotoId" jdbcType="BIGINT"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="price" property="price" jdbcType="BIGINT"/>
+        <result column="category_id" property="categoryId" jdbcType="BIGINT"/>
+        <result column="detail" property="detail" jdbcType="VARCHAR"/>
+        <result column="created_at" property="createdAt" jdbcType="TIME"/>
+        <result column="modified_at" property="modifiedAt" jdbcType="TIME"/>
+        <result column="amount" property="amount" jdbcType="BIGINT"/>
+    </resultMap>
 
-	<select id="searchByNone" resultMap="ProductBaseMap">
-		SELECT * FROM  product
-		ORDER BY id
-		limit #{start},#{num}
+    <select id="searchByNone" resultMap="ProductBaseMap">
+    SELECT * FROM  product
+    ORDER BY id
+    limit #{start},#{num}
 
 	</select>
 
-	<select id="searchByNoneGN" resultType="java.lang.Integer">
-		SELECT count(*) FROM  product
-	</select>
+    <select id="searchByNoneGN" resultType="java.lang.Integer">
+        SELECT count(*) FROM  product
+    </select>
 
-	<select id="searByOwner" resultMap="ProductBaseMap">
-		SELECT id, owner_id, shop_id, product_photo_id, name, price, category_id, detail, created_at, modified_at
-		FROM  product
-		WHERE owner_id=#{ownerId}
-		limit #{start},#{pageNum}
-	</select>
+    <select id="searByOwner" resultMap="ProductBaseMap">
+        SELECT id, owner_id, shop_id, product_photo_id, name, price, category_id, detail, created_at, modified_at
+        FROM  product
+        WHERE owner_id=#{ownerId}
+        limit #{start},#{pageNum}
+    </select>
 
-	<select id="getOwnerProductCount" resultType="java.lang.Integer">
-		SELECT count(*) FROM product WHERE owner_id=#{ownerId}
-	</select>
+    <select id="getOwnerProductCount" resultType="java.lang.Integer">
+        SELECT count(*) FROM product WHERE owner_id=#{ownerId}
+    </select>
 
-	<select id="searchWithKeyword" resultMap="ProductBaseMap" parameterType="com.heitian.ssm.bo.ProductCondition">
-		SELECT * from product
-		WHERE 1=1
-		<if test="categoryId != null and categoryId != ''">
-			AND category_id= #{categoryId}
-		</if>
-		<if test="highPrice != null and highPrice != ''">
-			<![CDATA[ AND price< #{highPrice} ]]>
-		</if>
-		<if test="lowPrice != null and lowPrice != ''">
-			<![CDATA[ AND price> #{lowPrice} ]]>
-		</if>
-		<if test="keyWord != null and keyWord != ''">
-			AND name LIKE "%"#{keyWord,jdbcType=VARCHAR}"%"
-		</if>
-		ORDER BY id
-		limit #{start},#{num}
-	</select>
+    <select id="searchWithKeyword" resultMap="ProductBaseMap" parameterType="com.heitian.ssm.bo.ProductCondition">
+        SELECT * from product
+        WHERE 1=1
+        <if test="categoryId != null and categoryId != ''">
+            AND category_id= #{categoryId}
+        </if>
+        <if test="highPrice != null and highPrice != ''">
+            <![CDATA[ AND price< #{highPrice} ]]>
+        </if>
+        <if test="lowPrice != null and lowPrice != ''">
+            <![CDATA[ AND price> #{lowPrice} ]]>
+        </if>
+        <if test="keyWord != null and keyWord != ''">
+            AND name LIKE "%"#{keyWord,jdbcType=VARCHAR}"%"
+        </if>
+        ORDER BY id
+        limit #{start},#{num}
+    </select>
 
 
-	<select id="searchWithKeywordGN" parameterType="com.heitian.ssm.bo.ProductCondition" resultType="java.lang.Integer">
-		SELECT count(*) FROM  product
-		WHERE 1=1
-		<if test="categoryId != null and categoryId != ''">
-			AND category_id= #{categoryId}
-		</if>
-		<if test="highPrice != null and highPrice != ''">
-			<![CDATA[ AND price< #{highPrice} ]]>
-		</if>
-		<if test="lowPrice != null and lowPrice != ''">
-			<![CDATA[ AND price> #{lowPrice} ]]>
-		</if>
-		<if test="keyWord != null and keyWord != ''">
-			AND name LIKE "%"#{keyWord,jdbcType=VARCHAR}"%"
-		</if>
-	</select>
+    <select id="searchWithKeywordGN" parameterType="com.heitian.ssm.bo.ProductCondition" resultType="java.lang.Integer">
+        SELECT count(*) FROM  product
+        WHERE 1=1
+        <if test="categoryId != null and categoryId != ''">
+            AND category_id= #{categoryId}
+        </if>
+        <if test="highPrice != null and highPrice != ''">
+            <![CDATA[ AND price< #{highPrice} ]]>
+        </if>
+        <if test="lowPrice != null and lowPrice != ''">
+            <![CDATA[ AND price> #{lowPrice} ]]>
+        </if>
+        <if test="keyWord != null and keyWord != ''">
+            AND name LIKE "%"#{keyWord,jdbcType=VARCHAR}"%"
+        </if>
+    </select>
 
-	<select id="searchPhotoURL" parameterType="java.lang.Long" resultType="java.lang.String">
-		select path from product_photo
-		WHERE product_id=#{productPhotoId}
-	</select>
+    <select id="searchPhotoURL" parameterType="java.lang.Long" resultType="java.lang.String">
+        select path from product_photo
+        WHERE id=#{productPhotoId}
+    </select>
 
-	<select id="searchProductById" parameterType="java.lang.Long" resultMap="ProductBaseMap">
-		select * from product
-		WHERE id=#{id}
-	</select>
+    <select id="searchProductById" parameterType="java.lang.Long" resultMap="ProductBaseMap">
+        select * from product
+        WHERE id=#{id}
+    </select>
 
-	<select id="selectMaxId" resultType="java.lang.Integer">
-		SELECT MAX(id)
-		FROM product
-	</select>
+    <select id="selectMaxId" resultType="java.lang.Integer">
+        SELECT MAX(id)
+        FROM product
+    </select>
 
-	<insert id="insertProduct" parameterType="com.heitian.ssm.model.Product">
-		insert into
-		product(owner_id, shop_id, product_photo_id, name, price, category_id, detail)
-		VALUES (#{product.ownId}, #{product.shopId},#{product.productPhotoId}, #{product.name}, #{product.price},
-		#{product.categoryId}, #{product.detail})
-	</insert>
+    <insert id="insertProduct" parameterType="com.heitian.ssm.model.Product">
+        insert into
+                product(owner_id, shop_id, product_photo_id, name, price, category_id, detail)
+        VALUES (#{product.ownId}, #{product.shopId},#{product.productPhotoId}, #{product.name}, #{product.price},
+                #{product.categoryId}, #{product.detail})
+    </insert>
 
-	<delete id="deleteProduct">
-		DELETE FROM product WHERE id=#{productId}
-	</delete>
+    <delete id="deleteProduct" parameterType="com.heitian.ssm.model.Product">
+        DELETE FROM product WHERE id=#{product.id}
+    </delete>
 
-	<update id="updateProduct" parameterType="com.heitian.ssm.model.Product">
-		UPDATE product SET
-		name=#{product.name},
-		price=#{product.price},
-		category_id=#{product.categoryId},
-		detail=#{product.detail}
-		WHERE id=#{product.id}
-	</update>
+    <update id="updateProduct" parameterType="com.heitian.ssm.model.Product">
+        UPDATE product SET
+          name=#{product.name},
+          price=#{product.price},
+          category_id=#{product.categoryId},
+          detail=#{product.detail}
+        WHERE id=#{product.id}
+    </update>
+    
+    <update id="updateProductAmount">
+        UPDATE product SET
+          amount=#{amount}
+        WHERE id=#{id}
+    </update>
+    
 </mapper>
+

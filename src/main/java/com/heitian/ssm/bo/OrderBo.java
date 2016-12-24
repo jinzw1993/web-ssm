@@ -1,7 +1,9 @@
 package com.heitian.ssm.bo;
 
 
-import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import java.sql.Date;
 
 /**
  * Created by oasis on 12/12/16.
@@ -17,8 +19,12 @@ public class OrderBo {
     private Long commission;
     private Long status;
     private Long processStatus;
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
     private Date createdAt;
-    private Long addressId;
+    private String customerName;
+    private String telephone;
+    private String address;
+    private Long expressPrice;
 
     public Long getId() {
         return id;
@@ -108,11 +114,35 @@ public class OrderBo {
         this.createdAt = createdAt;
     }
 
-	public Long getAddressId() {
-		return addressId;
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
+    public String getTelephone() {
+        return telephone;
+    }
+
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+	public Long getExpressPrice() {
+		return expressPrice;
 	}
 
-	public void setAddressId(Long addressId) {
-		this.addressId = addressId;
+	public void setExpressPrice(Long expressPrice) {
+		this.expressPrice = expressPrice;
 	}
 }

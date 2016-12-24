@@ -22,6 +22,7 @@ public class ProductBo extends Product implements Serializable {
         this.setDetail(product.getDetail());
         this.setCreatedAt(product.getCreatedAt());
         this.setModifiedAt(product.getModifiedAt());
+        this.setAmount(product.getAmount());
     }
     public String getPhotoURL() {
         return photoURL;

@@ -132,8 +132,9 @@ public class OrderServiceImpl implements OrderService {
 
     
 	@Override
-	public OrderBo addOrder(Long cartId) {
+	public List<OrderBo> addOrder(Long cartId) {
 		Cart cart = cartDao.searchCartById(cartId);
+		int x = 0;
 		if(cart != null) {
 			List<ProductInCart> productInCarts = productInCartDao.searchProductInCartByCartId(cart.getId());
 			if(productInCarts != null && productInCarts.size() > 0) {
@@ -146,6 +147,8 @@ public class OrderServiceImpl implements OrderService {
 				for(Product p : products) {
 					ownerIds.add(p.getOwnId());
 				}
+				
+				x = ownerIds.size();
 				
 				for(Long ownerId : ownerIds) {
 					
@@ -168,13 +171,13 @@ public class OrderServiceImpl implements OrderService {
 					order.setExpressId((long)0);
 					order.setPrice(orderPrice);
 					order.setAmount(orderAmount);
-					order.setCommission((long) 1);
-					order.setCommissionRate((long)(orderPrice * Double.valueOf(mallConfigDao.getMallConfigByKey("1").getValue())));
+					order.setCommissionRate((long) 1);
+					order.setCommission((long)(orderPrice * Double.valueOf(mallConfigDao.getMallConfigByKey("1").getValue())));
 					order.setStatus((long)0); 
 					order.setProcessStatus((long)1);
 					order.setCreatedAt(new Timestamp(new Date().getTime()));
 					order.setAddressId((long)0);
-					
+					order.setExpressPrice((long)0);
 					//添加订单信息
 					orderDao.insertOrder(order);
 					
@@ -189,6 +192,9 @@ public class OrderServiceImpl implements OrderService {
 							productInOrder.setAmount(pic.getAmount());
 							productInOrder.setShopId(p.getShopId());
 							productInOrder.setCreatedAt(new Timestamp(new Date().getTime()));
+							
+							productInOrder.setName(p.getName());
+							productInOrder.setCategory(p.getCategoryId());
 							//添加订单产品信息
 							productInOrderDao.insertProductInOrder(productInOrder);
 							
@@ -199,7 +205,13 @@ public class OrderServiceImpl implements OrderService {
 			productInCartDao.cleanCart(cart.getId());
 			cartDao.updateCartAmount((long)0, cart.getCustomerId());
 		}
-		return orderDao.getOrderById((long)(orderDao.getMaxOrderId()));
+		//System.out.println("最大id" + orderDao.getMaxOrderId() + "订单数量" + x);
+		List<OrderBo> list = new ArrayList<OrderBo>();
+		for(int i = orderDao.getMaxOrderId() - x + 1; i <= orderDao.getMaxOrderId(); i++) {
+			list.add(orderDao.getOrderById((long)i));
+		}
+				/*orderDao.getListOrderBoLimit(, x);*/
+		return list;
 	}	
 
 	@Override
@@ -235,8 +247,7 @@ public class OrderServiceImpl implements OrderService {
 			r.setMessage("wrong");
 			return r;
 		}
-		
-		
+				
 	}
 	
 	@Override

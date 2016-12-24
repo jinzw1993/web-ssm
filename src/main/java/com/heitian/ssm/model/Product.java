@@ -17,6 +17,7 @@ public class Product implements Serializable{
     private String detail;
     private Time createdAt;
     private Time modifiedAt;
+    private Long amount;
 
     public Long getId() {
         return id;
@@ -98,6 +99,14 @@ public class Product implements Serializable{
     public void setModifiedAt(Time modifiedAt) {
         this.modifiedAt = modifiedAt;
     }
+
+	public Long getAmount() {
+		return amount;
+	}
+
+	public void setAmount(Long amount) {
+		this.amount = amount;
+	}
 
 }
 

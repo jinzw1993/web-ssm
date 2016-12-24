@@ -18,6 +18,8 @@
         <result column="order_status" property="status" />
         <result column="process_status" property="processStatus" />
         <result column="created_at" property="createdAt" />
+        <result column="customer_name" property="customerName" />
+       <result column="express_price" property="expressPrice" />
     </resultMap>
 
     <sql id="selectOrder">
@@ -32,7 +34,11 @@
           commission,
           `order`.status order_status,
           process_status,
-          created_at
+          created_at,
+          customer_address.name customer_name,
+          express_price,
+          customer_address.telephone,
+          customer_address.address
     </sql>
 
     <sql id="fromOrder">
@@ -40,6 +46,7 @@
           join owner on `order`.owner_id=owner.id
           join shop on `order`.shop_id=shop.id
           join customer on `order`.customer_id=customer.id
+          left join customer_address on `order`.address_id = customer_address.id
     </sql>
 
 
@@ -124,9 +131,9 @@
     
     <insert id="insertOrder" useGeneratedKeys="true" parameterType="com.heitian.ssm.model.Order">
         insert into `order`(customer_id,shop_id,owner_id,express_id,price,amount,commission,
-        commission_rate,status,process_status,created_at,address_id) VALUES
+        commission_rate,status,process_status,created_at,address_id,express_price) VALUES
           (#{order.customerId},#{order.shopId},#{order.ownerId},#{order.expressId},#{order.price},#{order.amount},#{order.commission},
-          #{order.commissionRate}, #{order.status}, #{order.processStatus}, #{order.createdAt}, #{order.addressId})
+          #{order.commissionRate}, #{order.status}, #{order.processStatus}, #{order.createdAt}, #{order.addressId}, #{order.expressPrice})
     </insert>
     
     <select id="getMaxOrderId" resultType="int">
