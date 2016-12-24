@@ -14,22 +14,15 @@
         product_in_order.category
         from `order`
         join product_in_order on `order`.id = product_in_order.order_id
-        join product on product.id = product_in_order.product_id
-        join product_photo on product.id = product_photo.product_id
+        join product_photo on product_in_order.product_id = product_photo.product_id
         where order_id=#{id}
-    </select>
-
-    <select id="hasProduct" resultType="_int">
-        select count(*)
-        from `order`
-        where product_id=#{productId}
     </select>
     
     <!--customer order -->
     
     <insert id="insertProductInOrder" useGeneratedKeys="true" parameterType="com.heitian.ssm.model.ProductInOrder">
         insert into product_in_order(product_id,order_id,price,amount,shop_id,created_at,name,category) VALUES
-          (#{productInOrder.productId},#{productInOrder.orderId},#{productInOrder.price}*100,#{productInOrder.amount},#{productInOrder.shopId},#{productInOrder.createdAt},
+          (#{productInOrder.productId},#{productInOrder.orderId},#{productInOrder.price} * 100,#{productInOrder.amount},#{productInOrder.shopId},#{productInOrder.createdAt},
           #{productInOrder.name},#{productInOrder.category})
     </insert>
 </mapper>

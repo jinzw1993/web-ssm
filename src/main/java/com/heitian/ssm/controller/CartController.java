@@ -89,7 +89,7 @@ public class CartController {
         
         Long productId = Long.valueOf(request.getParameter("id"));
         
-        Result result = cartService.deleteProductInCart(productId, customerId);
+        Result result = cartService.updateProductAmount(productId, customerId, (long) 0);
     	
         return result;
     }

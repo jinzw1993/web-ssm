@@ -24,29 +24,29 @@
 
     <sql id="selectOrder">
         select `order`.id,
-          owner.email ownerEmail,
-          shop.name shopName,
-          customer.email customerEmail,
-          express_id,
-          express_price,
-          address_id,
-          price,
-          amount,
-          commission,
-          `order`.status order_status,
-          process_status,
-          created_at,
-          customer_address.name customer_name,
-          customer_address.telephone,
-          customer_address.address
+        owner.email ownerEmail,
+        shop.name shopName,
+        customer.email customerEmail,
+        express_id,
+        express_price/100 express_price,
+        address_id,
+        price/100 price,
+        amount,
+        commission,
+        `order`.status order_status,
+        process_status,
+        created_at,
+        customer_address.name customer_name,
+        customer_address.telephone,
+        customer_address.address
     </sql>
 
     <sql id="fromOrder">
         from `order`
-          join owner on `order`.owner_id=owner.id
-          join shop on `order`.shop_id=shop.id
-          join customer on `order`.customer_id=customer.id
-          left join customer_address on `order`.address_id = customer_address.id
+        join owner on `order`.owner_id=owner.id
+        join shop on `order`.shop_id=shop.id
+        join customer on `order`.customer_id=customer.id
+        left join customer_address on `order`.address_id = customer_address.id
     </sql>
 
     <sql id="whereTime">
@@ -97,22 +97,22 @@
 
     <!--天周月年查询owner/admin/customer所有已完成的订单-->
     <select id="getOwnerOrders" parameterType="map" resultMap="OrderBoMap">
-      <include refid="selectOrder" />
-      <include refid="fromOrder" />
-      <include refid="whereTime" />
-      <choose>
-          <when test="kind == 0">
-          </when>
-          <when test="kind == 1">
-              AND `order`.owner_id=#{id}
-          </when>
-          <when test="kind == 2">
-              AND `order`.customer_id=#{id}
-          </when>
-      </choose>
-      AND `order`.process_status=4 AND `order`.status=1
-      order by `order`.created_at desc
-      limit #{time.start},#{time.count}
+        <include refid="selectOrder" />
+        <include refid="fromOrder" />
+        <include refid="whereTime" />
+        <choose>
+            <when test="kind == 0">
+            </when>
+            <when test="kind == 1">
+                AND `order`.owner_id=#{id}
+            </when>
+            <when test="kind == 2">
+                AND `order`.customer_id=#{id}
+            </when>
+        </choose>
+        AND `order`.process_status=4 AND `order`.status=1
+        order by `order`.created_at desc
+        limit #{time.start},#{time.count}
     </select>
 
     <!--owner/admin/customer所有已完成的订单数量，用于天周月年查询分页-->
@@ -149,8 +149,8 @@
     <insert id="insertOrder" useGeneratedKeys="true" parameterType="com.heitian.ssm.model.Order">
         insert into `order`(customer_id,shop_id,owner_id,express_id,price,amount,commission,
         commission_rate,status,process_status,created_at,address_id,express_price) VALUES
-          (#{order.customerId},#{order.shopId},#{order.ownerId},#{order.expressId},#{order.price},#{order.amount},#{order.commission},
-          #{order.commissionRate}, #{order.status}, #{order.processStatus}, #{order.createdAt}, #{order.addressId}, #{order.expressPrice})
+          (#{order.customerId},#{order.shopId},#{order.ownerId},#{order.expressId},#{order.price} * 100,#{order.amount},#{order.commission},
+          #{order.commissionRate}, #{order.status}, #{order.processStatus}, #{order.createdAt}, #{order.addressId}, #{order.expressPrice}*100)
     </insert>
     
     <select id="getMaxOrderId" resultType="int">

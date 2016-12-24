@@ -48,8 +48,6 @@ public class OrderServiceImpl implements OrderService {
     @Resource
     private MallConfigDao mallConfigDao;
     @Resource
-    private CustomerAddressDao customerAddressDao;
-    @Resource
     private ShopDao shopDao;
     @Resource
     private CustomerDao customerDao;
@@ -77,10 +75,9 @@ public class OrderServiceImpl implements OrderService {
             return order;
     }
 
-
-    public List<OrderBo> getOrderByTime(Long id, TimeCondition time ,int kind) {
+    public List<OrderBo> getOrderByTime(Long id, TimeCondition time, int kind) {
         setTimeCon(time);
-        return orderDao.getOrdersTime(id, time ,kind);
+        return orderDao.getOrdersTime(id, time, kind);
     }
 
     public Result getOrderByTimeNum(Long ownerId, TimeCondition time, int kind) {
@@ -89,7 +86,6 @@ public class OrderServiceImpl implements OrderService {
         result.setMessage(String.valueOf(orderDao.getOrdersTimeNum(ownerId, time, kind)));
         return result;
     }
-
 
     public List<OrderBo> getOwnerOrderBoByPStatus(Long processStatus, Long ownerId, int page, int pageNum) {
         return orderDao.getOwnerOrderBoByProcessStatus(processStatus, ownerId, (page - 1) * pageNum, pageNum);
@@ -103,6 +99,10 @@ public class OrderServiceImpl implements OrderService {
 
     public List<ProductInOrderBo> getProductInOrder(Long orderId) {
         return productInOrderDao.getProductByOrderId(orderId);
+    }
+
+    public Result deliver(Long expressId, String number, Long orderId) {
+        return ResultResolver.returnRes(orderDao.setExpress(expressId, number, orderId));
     }
 
     private void setTimeCon(TimeCondition time) {
@@ -121,15 +121,10 @@ public class OrderServiceImpl implements OrderService {
             time.setMonth(now.get(Calendar.MONTH) +1);
         if(time.getWeek() == null)
             time.setWeek(now.get(Calendar.WEEK_OF_YEAR) -1);
-        else
-            time.setWeek(now.get(Calendar.WEEK_OF_YEAR) -time.getWeek());
         if(time.getDay() == null)
             time.setDay(now.get(Calendar.DAY_OF_MONTH));
     }
 
-    public Result deliver(Long expressId, String number, Long orderId) {
-        return ResultResolver.returnRes(orderDao.setExpress(expressId, number, orderId));
-    }
     
 	@Override
 	public List<OrderBo> addOrder(Long cartId) {
@@ -153,7 +148,7 @@ public class OrderServiceImpl implements OrderService {
 				for(Long ownerId : ownerIds) {
 					
 					Double orderPrice = 0.0;
-					Long orderAmount = 0L;
+					Long orderAmount = (long)0;
 					for(Product p : products) {
 						if(p.getOwnId() == ownerId) {
 							ProductInCart pic = productInCartDao.searchProductInCartByCartIdAndProductId(cart.getId(), p.getId());
@@ -171,8 +166,8 @@ public class OrderServiceImpl implements OrderService {
 					order.setExpressId((long)0);
 					order.setPrice(orderPrice);
 					order.setAmount(orderAmount);
-					order.setCommissionRate(Long.valueOf(mallConfigDao.getMallConfigByKey("1").getValue())/100.0);
-					order.setCommission((orderPrice * order.getCommissionRate()));
+					order.setCommissionRate(Double.valueOf(mallConfigDao.getMallConfigByKey("1").getValue()));
+					order.setCommission(orderPrice * Double.valueOf(mallConfigDao.getMallConfigByKey("1").getValue()));
 					order.setStatus((long)0); 
 					order.setProcessStatus((long)1);
 					order.setCreatedAt(new Timestamp(new Date().getTime()));
@@ -253,7 +248,14 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public Result changeStatus(Long orderId, Long status) {
         int i = orderDao.changeOrderStatus(orderId, status);
-        return ResultResolver.returnRes(i);
+        if (i > 0) {
+            result.setStatus(1);
+            result.setMessage("success");
+        } else {
+            result.setStatus(0);
+            result.setMessage("failed");
+        }
+        return result;
     }
 	
 	@Override

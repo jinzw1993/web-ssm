@@ -6,14 +6,15 @@ import com.heitian.ssm.model.Product;
 
 public class CartBo extends Product implements Serializable{
 	
+	private Long id;
 	private Long amount;
 	private Double subPrice;
 	private String photoURL;
 	private Long allAmount;
 	
 	public CartBo(){}
-	
-    public CartBo(Product product){
+
+	public CartBo(Product product){
         this.setId(product.getId());
         this.setOwnId(product.getOwnId());
         this.setShopId(product.getShopId());
@@ -25,6 +26,13 @@ public class CartBo extends Product implements Serializable{
         this.setCreatedAt(product.getCreatedAt());
         this.setModifiedAt(product.getModifiedAt());
     }
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 	public Long getAmount() {
 		return amount;
 	}
