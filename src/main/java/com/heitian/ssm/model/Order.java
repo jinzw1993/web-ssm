@@ -1,7 +1,5 @@
 package com.heitian.ssm.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -14,7 +12,7 @@ public class Order {
     Long customerId;
     Long shopId;
     Long ownerId;
-    Long expressId;
+    Long expressId;   
     Double price;
     Long amount;
     Double commission;

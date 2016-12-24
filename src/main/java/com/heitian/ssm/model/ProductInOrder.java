@@ -1,7 +1,5 @@
 package com.heitian.ssm.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import java.util.Date;
 
 /**
@@ -14,7 +12,6 @@ public class ProductInOrder {
     private Double price;
     private Long amount;
     private Long shopId;
-    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
     private Date createdAt;
     
     private String name;
