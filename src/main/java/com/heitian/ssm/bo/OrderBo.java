@@ -13,8 +13,8 @@ public class OrderBo {
     private String shopName;
     private String ownerEmail;
     private Long expressId;
-    private Long price;
-    private Long expressPrice;
+    private Double price;
+    private Double expressPrice;
     private Long amount;
     private Long commission;
     private Long status;
@@ -65,11 +65,11 @@ public class OrderBo {
         this.expressId = expressId;
     }
 
-    public Long getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(Long price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
@@ -137,11 +137,11 @@ public class OrderBo {
         this.address = address;
     }
 
-    public Long getExpressPrice() {
+    public Double getExpressPrice() {
         return expressPrice;
     }
 
-    public void setExpressPrice(Long expressPrice) {
+    public void setExpressPrice(Double expressPrice) {
         this.expressPrice = expressPrice;
     }
 }

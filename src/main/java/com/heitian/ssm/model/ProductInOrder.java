@@ -11,7 +11,7 @@ public class ProductInOrder {
     private Long id;
     private Long productId;
     private Long orderId;
-    private Long price;
+    private Double price;
     private Long amount;
     private Long shopId;
     @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
@@ -44,11 +44,11 @@ public class ProductInOrder {
         this.orderId = orderId;
     }
 
-    public Long getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(Long price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 

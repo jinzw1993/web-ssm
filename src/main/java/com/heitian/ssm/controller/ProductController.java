@@ -83,7 +83,7 @@ public class ProductController {
         productBo.setCategoryId(Long.valueOf(request.getParameter("categoryId")));
         productBo.setPhotoURL(request.getParameter("photoURL"));
         productBo.setDetail(request.getParameter("detail"));
-        productBo.setPrice(Long.valueOf(request.getParameter("price")));
+        productBo.setPrice(Double.valueOf(request.getParameter("price")));
         productBo.setAmount(Long.valueOf(request.getParameter("amount")));
         productBo.setOwnId(Long.valueOf(ownerId));
         return productService.addProduct(productBo);

@@ -14,5 +14,5 @@ public interface CustomerDao {
     int activateCustomerEmail(@Param("telephone") String telephone, @Param("email") String email);
     int addCustomer(Customer customer);
     
-    int updateBalance(@Param("balance") Long balance, @Param("email") String email);
+    int updateBalance(@Param("balance") Double balance, @Param("email") String email);
 }

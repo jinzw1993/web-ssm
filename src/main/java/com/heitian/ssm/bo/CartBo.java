@@ -7,7 +7,7 @@ import com.heitian.ssm.model.Product;
 public class CartBo extends Product implements Serializable{
 	
 	private Long amount;
-	private Long subPrice;
+	private Double subPrice;
 	private String photoURL;
 	private Long allAmount;
 	
@@ -31,10 +31,10 @@ public class CartBo extends Product implements Serializable{
 	public void setAmount(Long amount) {
 		this.amount = amount;
 	}
-	public Long getSubPrice() {
+	public Double getSubPrice() {
 		return subPrice;
 	}
-	public void setSubPrice(Long subPrice) {
+	public void setSubPrice(Double subPrice) {
 		this.subPrice = subPrice;
 	}
 

@@ -15,7 +15,7 @@
 	</resultMap>
 
 	<select id="searchByNone" resultMap="ProductBaseMap">
-		SELECT product.id, product.owner_id, shop_id, product_photo_id, product.name, price, category_id, detail, created_at, modified_at, product.amount
+		SELECT product.id, product.owner_id, shop_id, product_photo_id, product.name, price/100 price, category_id, detail, created_at, modified_at, product.amount
 		FROM  product JOIN shop ON product.shop_id=shop.id
 		WHERE shop.status =0
 		ORDER BY product.created_at desc
@@ -28,7 +28,7 @@
 	</select>
 
 	<select id="searByOwner" resultMap="ProductBaseMap">
-		SELECT product.id, product.owner_id, shop_id, product_photo_id, product.name, price, category_id, detail, created_at, modified_at, product.amount
+		SELECT product.id, product.owner_id, shop_id, product_photo_id, product.name, price/100 price, category_id, detail, created_at, modified_at, product.amount
 		FROM  product JOIN shop ON product.shop_id=shop.id
 		WHERE product.owner_id=#{ownerId} AND shop.status !=2
 		ORDER BY product.created_at desc
@@ -41,7 +41,7 @@
 	</select>
 
     <select id="searByOwnerForAd" resultMap="ProductBaseMap">
-		SELECT product.id, product.owner_id, shop_id, product_photo_id, product.name, price, category_id, detail, created_at, modified_at
+		SELECT product.id, product.owner_id, shop_id, product_photo_id, product.name, price/100 price, category_id, detail, created_at, modified_at
 		FROM  product JOIN shop ON product.shop_id=shop.id
 		WHERE product.owner_id=#{ownerId} AND shop.status !=2
 		AND product.id NOT IN (SELECT product_id FROM product_advertisement WHERE <![CDATA[ product_advertisement.status <2 ]]>)
@@ -55,7 +55,7 @@
 	</select>
 
 	<select id="searByShop" resultMap="ProductBaseMap">
-		SELECT product.id, product.owner_id, shop_id, product_photo_id, product.name, price, category_id, detail, created_at, modified_at, product.amount
+		SELECT product.id, product.owner_id, shop_id, product_photo_id, product.name, price/100 price, category_id, detail, created_at, modified_at, product.amount
 		FROM  product JOIN shop ON product.shop_id=shop.id
 		WHERE product.shop_id=#{id} AND shop.status !=2
 		ORDER BY product.created_at desc
@@ -68,7 +68,7 @@
 	</select>
 
 	<select id="searchWithKeyword" resultMap="ProductBaseMap" parameterType="com.heitian.ssm.bo.ProductCondition">
-		SELECT product.id, product.owner_id, shop_id, product_photo_id, product.name, price, category_id, detail, created_at, modified_at, product.amount
+		SELECT product.id, product.owner_id, shop_id, product_photo_id, product.name, price/100 price, category_id, detail, created_at, modified_at, product.amount
 		from product JOIN shop ON product.shop_id=shop.id
 		WHERE shop.status =0
 		<if test="categoryId != null and categoryId != ''">
@@ -121,7 +121,7 @@
 
 	<insert id="insertProduct" parameterType="com.heitian.ssm.model.Product">
 		insert into
-		product(owner_id, shop_id, product_photo_id, name, price, category_id, detail, amount)
+		product(owner_id, shop_id, product_photo_id, name, price*100, category_id, detail, amount)
 		VALUES (#{product.ownId}, #{product.shopId},#{product.productPhotoId}, #{product.name},
 		 #{product.price}, #{product.categoryId}, #{product.detail}, #{product.amount})
 	</insert>
@@ -140,7 +140,7 @@
 				name = #{product.name},
 			</if>
 			<if test="product.price != null">
-				price = #{product.price},
+				price = #{product.price}*100,
 			</if>
 			<if test="product.categoryId != null">
 				category_id = #{product.categoryId},

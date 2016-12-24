@@ -12,7 +12,7 @@ public class Customer implements Serializable{
     private String password;
     private String email;
     private Integer isEmailVerified;
-    private Long balance;
+    private Double balance;
 
     public Long getId() {
         return id;
@@ -70,11 +70,11 @@ public class Customer implements Serializable{
         this.isEmailVerified = isEmailVerified;
     }
 
-	public Long getBalance() {
+	public Double getBalance() {
 		return balance;
 	}
 
-	public void setBalance(Long balance) {
+	public void setBalance(Double balance) {
 		this.balance = balance;
 	}
 

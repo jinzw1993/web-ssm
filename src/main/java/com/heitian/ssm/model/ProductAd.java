@@ -14,7 +14,7 @@ public class ProductAd {
     private Long rank;
     @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
     private Date date; //不用
-    private Long rentPrice;
+    private Double rentPrice;
 
     public Long getId() {
         return id;
@@ -56,11 +56,11 @@ public class ProductAd {
         this.date = date;
     }
 
-    public Long getRentPrice() {
+    public Double getRentPrice() {
         return rentPrice;
     }
 
-    public void setRentPrice(Long rentPrice) {
+    public void setRentPrice(Double rentPrice) {
         this.rentPrice = rentPrice;
     }
 }

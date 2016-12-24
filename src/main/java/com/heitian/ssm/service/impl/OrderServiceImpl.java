@@ -152,8 +152,8 @@ public class OrderServiceImpl implements OrderService {
 				
 				for(Long ownerId : ownerIds) {
 					
-					Long orderPrice = (long)0;
-					Long orderAmount = (long)0;
+					Double orderPrice = 0.0;
+					Long orderAmount = 0L;
 					for(Product p : products) {
 						if(p.getOwnId() == ownerId) {
 							ProductInCart pic = productInCartDao.searchProductInCartByCartIdAndProductId(cart.getId(), p.getId());
@@ -171,8 +171,8 @@ public class OrderServiceImpl implements OrderService {
 					order.setExpressId((long)0);
 					order.setPrice(orderPrice);
 					order.setAmount(orderAmount);
-					order.setCommissionRate((long) 1);
-					order.setCommission((long)(orderPrice * Double.valueOf(mallConfigDao.getMallConfigByKey("1").getValue())));
+					order.setCommissionRate(Long.valueOf(mallConfigDao.getMallConfigByKey("1").getValue())/100.0);
+					order.setCommission((orderPrice * order.getCommissionRate()));
 					order.setStatus((long)0); 
 					order.setProcessStatus((long)1);
 					order.setCreatedAt(new Timestamp(new Date().getTime()));
