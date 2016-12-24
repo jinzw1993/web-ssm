@@ -69,55 +69,66 @@ public class CartServiceImpl implements CartService {
 	 */
 	@Override
 	public Result addCart(Long productId, Long customerId, Long amount) {
+		long AllAmount = productDao.searchProductById(productId).getAmount();
 		int i = 0;
-		Cart cart = cartDao.searchCartByCustomerId(customerId);
-		
-		if(cart != null) {
-			List<ProductInCart> productInCarts = productInCartDao.searchProductInCartByCartId(cart.getId());
+		//productDao.updateProductAmount(productId,  - amount);
+		if(AllAmount < amount) {
+			Result r = new Result();
+			r.setStatus(0);
+			r.setMessage("Product's amount is " + AllAmount);
+			return r;
+		} else {
 			
-			if(productInCarts == null || productInCarts.size() < 1) {
-				ProductInCart pic2 = new ProductInCart();
-				pic2.setAmount(amount);
-				pic2.setCartId(cart.getId());
-				pic2.setProductId(productId);
-				pic2.setCreatedAt(new java.sql.Timestamp(new Date().getTime()));
-				i = productInCartDao.insertProductInCart(pic2);
+			Cart cart = cartDao.searchCartByCustomerId(customerId);
+			
+			if(cart != null) {
+				List<ProductInCart> productInCarts = productInCartDao.searchProductInCartByCartId(cart.getId());
 				
-			} else {
-				List<Long> productIds = new LinkedList<Long>();
-				for(ProductInCart productInCart : productInCarts) {
-					productIds.add(productInCart.getProductId());
-				}
-				
-				if(productIds.contains(Long.valueOf(productId))) {
-					ProductInCart pic1 = new ProductInCart();
-					pic1.setAmount(amount + productInCartDao.searchProductInCartByCartIdAndProductId(cart.getId(), productId).getAmount());
-					pic1.setCartId(cart.getId());
-					pic1.setProductId(productId);
-					pic1.setCreatedAt(new java.sql.Timestamp(new Date().getTime()));
-					i = productInCartDao.updateProductInCart(pic1);
-				} else {
+				if(productInCarts == null || productInCarts.size() < 1) {
 					ProductInCart pic2 = new ProductInCart();
 					pic2.setAmount(amount);
 					pic2.setCartId(cart.getId());
 					pic2.setProductId(productId);
 					pic2.setCreatedAt(new java.sql.Timestamp(new Date().getTime()));
-					i = productInCartDao.insertProductInCart(pic2);
+					i = productInCartDao.insertProductInCart(pic2);				
+				} else {
+					List<Long> productIds = new LinkedList<Long>();
+					for(ProductInCart productInCart : productInCarts) {
+						productIds.add(productInCart.getProductId());
+					}
+					
+					if(productIds.contains(Long.valueOf(productId))) {
+						ProductInCart pic1 = new ProductInCart();
+						pic1.setAmount(amount + productInCartDao.searchProductInCartByCartIdAndProductId(cart.getId(), productId).getAmount());
+						pic1.setCartId(cart.getId());
+						pic1.setProductId(productId);
+						pic1.setCreatedAt(new java.sql.Timestamp(new Date().getTime()));
+						i = productInCartDao.updateProductInCart(pic1);
+					} else {
+						ProductInCart pic2 = new ProductInCart();
+						pic2.setAmount(amount);
+						pic2.setCartId(cart.getId());
+						pic2.setProductId(productId);
+						pic2.setCreatedAt(new java.sql.Timestamp(new Date().getTime()));
+						i = productInCartDao.insertProductInCart(pic2);
+					}
 				}
+				cartDao.updateCartAmount(cart.getAmount() + amount, customerId);
+				productDao.updateProductAmount(productId, AllAmount - amount);
+			} else {
+				Result r = new Result();
+				r.setStatus(0);
+				r.setMessage("You can't active!");
+				return r;
 			}
-			cartDao.updateCartAmount(cart.getAmount() + amount, customerId);
-		} else {
-			Result r = new Result();
-			r.setStatus(0);
-			r.setMessage("You can't avtive!");
-			return r;
-		}
+		}		
 		
 		return returnRes(i);
 	}
 	
 	@Override
 	public Result deleteProductInCart(Long productId, Long customerId) {
+		
 		int i = 0;
 		Cart cart = cartDao.searchCartByCustomerId(customerId);
 		if(cart != null) {
@@ -129,7 +140,7 @@ public class CartServiceImpl implements CartService {
 				return r;
 			} else 
 				i = productInCartDao.deleteProductInCart(productInCart);
-			cartDao.updateCartAmount(cart.getAmount() - productInCart.getAmount(), customerId);
+				cartDao.updateCartAmount(cart.getAmount() - productInCart.getAmount(), customerId);
 		}
 		
 		return returnRes(i);
@@ -138,18 +149,29 @@ public class CartServiceImpl implements CartService {
 	@Override
 	public Result updateProductAmount(Long productId, Long customerId,
 			Long amount) {
+		long AllAmount = productDao.searchProductById(productId).getAmount();
 		int i = 0;
 		Cart cart = cartDao.searchCartByCustomerId(customerId);
 		
 		if(cart != null) {
 			ProductInCart productInCart = productInCartDao.searchProductInCartByCartIdAndProductId(cart.getId(), productId);
-			productInCart.setAmount(amount);
-			i = productInCartDao.updateProductInCart(productInCart);
-			cartDao.updateCartAmount(cart.getAmount() + amount, customerId);
+			long pAmount = productInCart.getAmount();
+			if(amount > pAmount + AllAmount) {
+				Result r = new Result();
+				r.setStatus(0);
+				r.setMessage("Product's amount is " + ( AllAmount + pAmount ));
+				return r;
+			} else {
+				productInCart.setAmount(amount);
+				i = productInCartDao.updateProductInCart(productInCart);
+				cartDao.updateCartAmount(cart.getAmount() + amount, customerId);
+				productDao.updateProductAmount(productId, AllAmount + pAmount - amount);
+			}
+			
 		} else {
 			Result r = new Result();
 			r.setStatus(0);
-			r.setMessage("You can't avtive!");
+			r.setMessage("You can't active!");
 			return r;
 		}
 		
