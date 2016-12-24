@@ -164,7 +164,7 @@ public class CartServiceImpl implements CartService {
 			} else {
 				productInCart.setAmount(amount);
 				i = productInCartDao.updateProductInCart(productInCart);
-				cartDao.updateCartAmount(cart.getAmount() + amount, customerId);
+				cartDao.updateCartAmount(cart.getAmount() - pAmount + amount, customerId);
 				productDao.updateProductAmount(productId, AllAmount + pAmount - amount);
 			}
 			

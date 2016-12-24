@@ -13,7 +13,7 @@
 	</select>
 	
 	<select id="searchProductInCartByCartId" resultMap="ProductInCartBaseMap">
-	    SELECT * FROM  product_in_cart WHERE cart_id = #{cartId}
+	    SELECT * FROM  product_in_cart WHERE cart_id = #{cartId} AND amount != 0
 	</select>
 	
 	<select id="searchProductInCartByCartIdAndProductId" resultMap="ProductInCartBaseMap">
