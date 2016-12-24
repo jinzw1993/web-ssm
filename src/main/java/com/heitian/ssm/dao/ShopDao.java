@@ -13,6 +13,8 @@ import java.util.List;
 public interface ShopDao {
     Shop selectShopByName(String name);
 
+    Shop selectShopById(Long id);
+
     Shop selectShopByOwnerId(Long id);
 
     List<Shop> selectShopsByName(String name);

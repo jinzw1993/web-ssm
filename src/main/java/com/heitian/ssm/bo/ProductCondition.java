@@ -7,8 +7,8 @@ public class ProductCondition {
     private String keyWord;
     private Long categoryId;
 
-    private Long highPrice;
-    private Long lowPrice;
+    private Double highPrice;
+    private Double lowPrice;
     private int page=1;
     private int num=30;
     private int start;
@@ -53,19 +53,19 @@ public class ProductCondition {
         this.start =(page-1)*num;
     }
 
-    public Long getHighPrice() {
+    public Double getHighPrice() {
         return highPrice;
     }
 
-    public void setHighPrice(Long highPrice) {
+    public void setHighPrice(Double highPrice) {
         this.highPrice = highPrice;
     }
 
-    public Long getLowPrice() {
+    public Double getLowPrice() {
         return lowPrice;
     }
 
-    public void setLowPrice(Long lowPrice) {
+    public void setLowPrice(Double lowPrice) {
         this.lowPrice = lowPrice;
     }
 

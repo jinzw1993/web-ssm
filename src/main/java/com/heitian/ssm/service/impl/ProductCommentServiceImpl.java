@@ -5,6 +5,7 @@ import com.heitian.ssm.bo.Result;
 import com.heitian.ssm.dao.ProductCommentDao;
 import com.heitian.ssm.model.ProductComment;
 import com.heitian.ssm.service.ProductCommentService;
+import com.heitian.ssm.util.ResultResolver;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,7 +17,7 @@ import java.util.List;
  */
 @Service
 @Transactional(rollbackFor = Exception.class)
-public class ProductCommentServiceImpl implements ProductCommentService{
+public class ProductCommentServiceImpl implements ProductCommentService {
     @Resource
     private ProductCommentDao productCommentDao;
 
@@ -29,5 +30,22 @@ public class ProductCommentServiceImpl implements ProductCommentService{
         result.setStatus(1);
         result.setMessage(String.valueOf(productCommentDao.getCommentNum(productId)));
         return result;
+    }
+
+    /**
+     * 添加评论，先判断商品是否已评论
+     *
+     * @param comment
+     * @return
+     */
+    public Result addComment(ProductComment comment) {
+        ProductComment pm = productCommentDao.getCommentByPidOid(comment.getProductId(), comment.getOrderId());
+        Result result = new Result();
+        if (pm != null) {
+            result.setMessage("has commented");
+            result.setStatus(0);
+            return result;
+        }
+        return ResultResolver.returnRes(productCommentDao.addComment(comment));
     }
 }

@@ -1,6 +1,8 @@
 package com.heitian.ssm.controller;
 
+import com.heitian.ssm.bo.IncomeBo;
 import com.heitian.ssm.bo.Result;
+import com.heitian.ssm.dao.ShopIncomeDao;
 import com.heitian.ssm.model.Owner;
 import com.heitian.ssm.service.OwnerService;
 import org.apache.log4j.Logger;
@@ -9,8 +11,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
-import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,6 +26,8 @@ public class OwnerController {
     private Logger log = Logger.getLogger(OwnerController.class);
     @Resource
     private OwnerService ownerService;
+    @Resource
+    private ShopIncomeDao shopIncomeDao;
 
     /**
      * 注册
@@ -100,7 +105,7 @@ public class OwnerController {
      * @return Owner对象
      */
     @ResponseBody
-    @RequestMapping("getById")
+    @RequestMapping("/getById")
     public Owner getOwnerById(@RequestParam long id) {
         log.info("根据id查找店主");
         Owner o = ownerService.selectOwnerById(id);
@@ -150,11 +155,22 @@ public class OwnerController {
      * @return 存到result.message中
      */
     @ResponseBody
-    @RequestMapping("getUnverifiedNum")
+    @RequestMapping("/getUnverifiedNum")
     public Result getUnverifiedNum() {
         Result result =new Result();
         result.setMessage(Integer.toString(ownerService.getUnverifiedNum()));
         result.setStatus(1);
         return result;
+    }
+
+    @ResponseBody
+    @RequestMapping("/income")
+    public List<IncomeBo> getIncome(@RequestParam Long cond, HttpServletRequest request) {
+        String auth = request.getHeader("Authorization");
+        if(auth == null) {
+            return new ArrayList<>();
+        }
+        String ownerId = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
+        return ownerService.getIncome(cond, Long.valueOf(ownerId));
     }
 }

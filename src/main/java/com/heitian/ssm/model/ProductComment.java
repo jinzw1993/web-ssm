@@ -1,7 +1,9 @@
 package com.heitian.ssm.model;
 
 
-import java.sql.Date;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import java.util.Date;
 
 /**
  * Created by unname on 2016/12/13.import java.sql.Time;
@@ -11,7 +13,23 @@ public class ProductComment {
     private Long productId;
     private Long customerId;
     private String comment;
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
     private Date createdAt;
+
+    private Long rate;
+
+    //add order id
+    private Long orderId;
+
+    public Long getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
+    }
+
+
 
     public Long getId() {
         return id;
@@ -53,5 +71,11 @@ public class ProductComment {
         this.createdAt = createdAt;
     }
 
+    public Long getRate() {
+        return rate;
+    }
 
+    public void setRate(Long rate) {
+        this.rate = rate;
+    }
 }

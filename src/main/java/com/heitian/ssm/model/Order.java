@@ -1,5 +1,7 @@
 package com.heitian.ssm.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -12,11 +14,11 @@ public class Order {
     Long customerId;
     Long shopId;
     Long ownerId;
-    Long expressId;   
-    Long price;
+    Long expressId;
+    Double price;
     Long amount;
-    Long commission;
-    Long commissionRate;
+    Double commission;
+    Double commissionRate;
     Long status;
     Long processStatus;
     @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
@@ -72,11 +74,11 @@ public class Order {
         this.expressId = expressId;
     }
 
-    public Long getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(Long price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
@@ -88,19 +90,19 @@ public class Order {
         this.amount = amount;
     }
 
-    public Long getCommission() {
+    public Double getCommission() {
         return commission;
     }
 
-    public void setCommission(Long commission) {
+    public void setCommission(Double commission) {
         this.commission = commission;
     }
 
-    public Long getCommissionRate() {
+    public Double getCommissionRate() {
         return commissionRate;
     }
 
-    public void setCommissionRate(Long commissionRate) {
+    public void setCommissionRate(Double commissionRate) {
         this.commissionRate = commissionRate;
     }
 

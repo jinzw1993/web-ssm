@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.heitian.ssm.dao.ShopAdDao">
-	<resultMap type="com.heitian.ssm.model.ShopAd" id="shopAd">
+	<resultMap type="com.heitian.ssm.bo.ShopAdBo" id="shopAd">
 		<id column="id" property="id" jdbcType="BIGINT" />
 		<result column="shop_id" property="shopId" jdbcType="BIGINT" />
-	<result column="status" property="status" jdbcType="BIGINT" />
+		<result column="path" property="photoUrl" jdbcType="BIGINT" />
 		<result column="rank" property="rank" jdbcType="BIGINT" />
-		<result column="date" property="date" jdbcType="DATE" />
 	</resultMap>
 
 	<insert id="addShopAd" parameterType="map">
 		INSERT INTO
-		shop_advertisement(shop_id, status, rank, date)
+		shop_advertisement(shop_id, status, rank, date ,path, price)
 		VALUE
-		(#{shopId}, 1, 0,#{date});
+		(#{shopId}, 0, 0, now(), #{photoUrl}, #{price})
+		ON DUPLICATE KEY
+		UPDATE status=0, rank=0, date=now(), path=#{photoUrl}
 	</insert>
 
 
@@ -24,30 +25,34 @@
 		shop_id=#{shopId}
 	</delete>
 
-
-	<select id="showShopAd" resultMap="shopAd">
-		SELECT * FROM
-		shop_advertisement
-		WHERE
-		`status`=0
+	<select id="selectStatus" parameterType="java.lang.Long" resultType="java.lang.Long">
+		SELECT status FROM shop_advertisement where shop_id=#{shopId}
 	</select>
 
-	<select id="applyShopAd" resultMap="shopAd">
-		SELECT * FROM
-		shop_advertisement
-		WHERE
-		`status`=1
+
+	<select id="unverifiedShopAdBo" resultMap="shopAd">
+		SELECT shop_advertisement.id, shop_id, shop_advertisement.path, name, rank
+		FROM shop_advertisement JOIN shop ON shop_advertisement.shop_id = shop.id
+		WHERE shop_advertisement.status = 0
+		ORDER BY shop_advertisement.date
+		limit #{start}, #{count}
 	</select>
 
-   <update id="agreeShopAd" parameterType="java.lang.Long">
+    <select id="verifiedShopAdBo" resultMap="shopAd">
+        SELECT shop_advertisement.id, shop_id, shop_advertisement.path, name, rank
+		FROM shop_advertisement JOIN shop ON shop_advertisement.shop_id = shop.id
+		WHERE shop_advertisement.status= 1
+		ORDER BY shop_advertisement.date
+    </select>
+
+    <select id="getNum" resultType="int">
+        SELECT count(*) FROM shop_advertisement
+        WHERE status =#{status}
+    </select>
+
+    <update id="changeShopAdStatus" parameterType="java.lang.Long">
 	  UPDATE shop_advertisement
-      SET `status`=0
+      SET `status`= #{status}
       WHERE shop_id=#{shopId}
-	</update>
-	
-	<update id="rejectShopAd" parameterType="java.lang.Long">
-	  UPDATE shop_advertisement
-      SET `status`=2
-      WHERE shop_id=#{shopId}
-	</update>
+    </update>
 </mapper>

@@ -5,6 +5,7 @@ import com.heitian.ssm.bo.ProductCommentBo;
 import com.heitian.ssm.bo.ProductCondition;
 
 import com.heitian.ssm.bo.Result;
+import com.heitian.ssm.model.ProductComment;
 import com.heitian.ssm.service.ProductCommentService;
 import com.heitian.ssm.service.ProductService;
 import org.apache.log4j.Logger;
@@ -57,14 +58,12 @@ public class ProductController {
 
     /**
      *  根据id搜索商品
-     * @param request 需要参数id
+     * @param id 需要参数id
      * @return ProductBo List
      */
     @ResponseBody
     @RequestMapping(value="/id",method= RequestMethod.GET)
-    public ProductBo searchProductBo(HttpServletRequest request) {
-        String idt=request.getParameter("id");
-        Long id=Long.parseLong(idt);
+    public ProductBo searchProductBo(@RequestParam Long id) {
         return productService.searchProductBo(id);
     }
 
@@ -84,8 +83,8 @@ public class ProductController {
         productBo.setCategoryId(Long.valueOf(request.getParameter("categoryId")));
         productBo.setPhotoURL(request.getParameter("photoURL"));
         productBo.setDetail(request.getParameter("detail"));
-        productBo.setPrice(Long.valueOf(request.getParameter("price")));
-
+        productBo.setPrice(Double.valueOf(request.getParameter("price")));
+        productBo.setAmount(Long.valueOf(request.getParameter("amount")));
         productBo.setOwnId(Long.valueOf(ownerId));
         return productService.addProduct(productBo);
     }
@@ -106,7 +105,7 @@ public class ProductController {
 
     /**
      * 更新商品
-     * @param productBo  ProductBo对象，需要id, name, detail, categoryId, photoURL, price, productPhotoId
+     * @param productBo  ProductBo对象，需要id, [name, detail, categoryId, photoURL, price, amount]
      * @return result.status=0失败，1成功
      */
     @ResponseBody
@@ -152,6 +151,58 @@ public class ProductController {
         return result;
     }
 
+    /**
+     * 根据Owner查找未申请或已批准广告的product
+
+     * @return ProductBo List
+     */
+    @ResponseBody
+    @RequestMapping(value="/searchByOwnForAd",method= RequestMethod.GET)
+    public List<ProductBo> searchByOwnerForAd(HttpServletRequest request,
+                                              @RequestParam int page,
+                                              @RequestParam int count) {
+        String auth = request.getHeader("Authorization");
+        if(auth == null)
+            return new ArrayList<>();
+        String ownerId = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
+        return productService.searchProductBosByOwnerForAd(Long.valueOf(ownerId),page,count);
+    }
+
+    /**
+     * 得到当前owner的product数量
+     * @return 存到result.message中
+     */
+    @ResponseBody
+    @RequestMapping(value="/getNumForAd",method= RequestMethod.GET)
+    public Result getProductsNumForAd(HttpServletRequest request) {
+        String auth = request.getHeader("Authorization");
+        if(auth == null)
+            return new Result();
+        String ownerId = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
+
+        Result result =new Result();
+        result.setMessage(Integer.toString(productService.getOwnerProductCountForAd(Long.valueOf(ownerId))));
+        result.setStatus(1);
+        return result;
+    }
+
+    @ResponseBody
+    @RequestMapping(value="/searchByShop",method= RequestMethod.GET)
+    public List<ProductBo> searchByShop(@RequestParam Long id,
+                                        @RequestParam int page,
+                                        @RequestParam int count) {
+        return productService.searchProductBosByShop(id, page ,count);
+    }
+
+    @ResponseBody
+    @RequestMapping(value="/getNumByShop",method= RequestMethod.GET)
+    public Result getProductsNumByShop(@RequestParam Long id) {
+        Result result =new Result();
+        result.setMessage(Integer.toString(productService.getShopProductCount(id)));
+        result.setStatus(1);
+        return result;
+    }
+
     @ResponseBody
     @RequestMapping("/getComments")
     public List<ProductCommentBo> getProductComments(@RequestParam Long id,
@@ -172,5 +223,22 @@ public class ProductController {
         result.setStatus(0);
         result.setMessage("you haven't log in");
         return result;
+    }
+
+    @ResponseBody
+    @RequestMapping(value="/comment",method=RequestMethod.POST)
+    public Result comment(@RequestBody ProductComment comment, HttpServletRequest request) {
+        String auth = request.getHeader("Authorization");
+        if(auth == null) {
+            Result result = new Result();
+            result.setStatus(0);
+            result.setMessage("you haven't log in");
+            return result;
+        }
+
+        String s[] = auth.split(";");//前提是，传参为ownerId=xxx;customerId=xxx;adress=xxx...格式
+        Long customerId = Long.valueOf(s[1].substring(11));
+        comment.setCustomerId(customerId);
+        return productCommentService.addComment(comment);
     }
 }

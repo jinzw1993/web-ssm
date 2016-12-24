@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.heitian.ssm.util.ResultResolver;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -123,7 +124,7 @@ public class CartServiceImpl implements CartService {
 			}
 		}		
 		
-		return returnRes(i);
+		return ResultResolver.returnRes(i);
 	}
 	
 	@Override
@@ -143,7 +144,7 @@ public class CartServiceImpl implements CartService {
 				cartDao.updateCartAmount(cart.getAmount() - productInCart.getAmount(), customerId);
 		}
 		
-		return returnRes(i);
+		return ResultResolver.returnRes(i);
 	}
 
 	@Override
@@ -175,20 +176,8 @@ public class CartServiceImpl implements CartService {
 			return r;
 		}
 		
-		return returnRes(i);
+		return ResultResolver.returnRes(i);
 	}
-	
-	private Result returnRes(int i) {
-        Result result = new Result();
-        if(i!=0) {
-            result.setStatus(1);
-            result.setMessage("success");
-        } else {
-            result.setMessage("failed");
-            result.setStatus(0);
-        }
-        return result;
-    }
 
 	@Override
 	public Cart getCartById(Long id) {

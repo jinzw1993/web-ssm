@@ -1,11 +1,14 @@
 package com.heitian.ssm.service.impl;
 
+import com.heitian.ssm.bo.IncomeBo;
 import com.heitian.ssm.bo.Result;
+import com.heitian.ssm.bo.TimeCondition;
 import com.heitian.ssm.dao.OwnerDao;
 import com.heitian.ssm.dao.ShopDao;
+import com.heitian.ssm.dao.ShopIncomeDao;
 import com.heitian.ssm.model.Owner;
-import com.heitian.ssm.model.Shop;
 import com.heitian.ssm.service.OwnerService;
+import com.heitian.ssm.util.ResultResolver;
 import com.heitian.ssm.util.SendEmail;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,7 +17,6 @@ import org.springframework.util.DigestUtils;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Date;
 
 /**
  * Created by S.W on 2016/11/27.
@@ -24,6 +26,8 @@ import java.util.Date;
 public class OwnerServiceImpl implements OwnerService {
     @Resource
     private OwnerDao ownerDao;
+    @Resource
+    private ShopIncomeDao shopIncomeDao;
     @Resource
     private ShopDao shopDao;
     /**
@@ -164,15 +168,7 @@ public class OwnerServiceImpl implements OwnerService {
      * @return true or false
      */
     public Result updateOwner(Owner owner) {
-        Result result = new Result();
-        if (ownerDao.updateOwner(owner) > 0) {
-            result.setStatus(1);
-            result.setMessage("success");
-        } else {
-            result.setStatus(0);
-            result.setMessage("failed");
-        }
-        return result;
+        return ResultResolver.returnRes(ownerDao.updateOwner(owner));
     }
 
     /**
@@ -253,4 +249,12 @@ public class OwnerServiceImpl implements OwnerService {
         return ownerDao.getUnverifiedNum();
     }
 
+    public List<IncomeBo> getIncome(Long i, Long ownerId) {
+        Long shopId = shopDao.selectShopByOwnerId(ownerId).getId();
+        List<IncomeBo> list = shopIncomeDao.getIncomeByTime(i, shopId);
+        if(list == null) {
+            return new ArrayList<>();
+        }
+        return list;
+    }
 }

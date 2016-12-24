@@ -13,5 +13,9 @@ import java.util.List;
 @Repository
 public interface ProductCommentDao {
     List<ProductCommentBo> getCommentBos(@Param("productId") Long productId, @Param("start") int start, @Param("pageNum") int pageNum);
+
     int getCommentNum(Long productId);
+    int addComment(@Param("comment") ProductComment comment);
+    Double getAvgRate(Long productId);
+    ProductComment getCommentByPidOid(@Param("productId")Long productId,@Param("orderId")Long orderId);
 }

@@ -1,5 +1,7 @@
 package com.heitian.ssm.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 /**
@@ -8,9 +10,11 @@ import java.util.Date;
 public class ProductAd {
     private Long id;
     private Long productId;
-    private Long status;
+    private Long status; //0--待审核，1--已允许，2--被拒绝，3--已过期
     private Long rank;
-    private Date date;
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
+    private Date date; //不用
+    private Double rentPrice;
 
     public Long getId() {
         return id;
@@ -52,5 +56,12 @@ public class ProductAd {
         this.date = date;
     }
 
+    public Double getRentPrice() {
+        return rentPrice;
+    }
+
+    public void setRentPrice(Double rentPrice) {
+        this.rentPrice = rentPrice;
+    }
 }
 

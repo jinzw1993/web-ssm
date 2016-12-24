@@ -1,6 +1,5 @@
 package com.heitian.ssm.dao;
 
-import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -19,11 +18,13 @@ public interface OrderDao {
     int changeOrderProcessStatus(@Param("orderId") Long orderId,@Param("status") Long status);
     OrderBo getOrderById(Long orderId);
 
-    List<OrderBo> getOwnerOrders(@Param("id") Long id, @Param("time")TimeCondition time);
-    int getOwnOrderCompleteNum(@Param("id") Long id, @Param("time")TimeCondition time);
+    List<OrderBo> getOrdersTime(@Param("id") Long id, @Param("time")TimeCondition time, @Param("kind") int kind);
+    int getOrdersTimeNum(@Param("id") Long id, @Param("time")TimeCondition time, @Param("kind") int kind);
+
 
     List<OrderBo> getOwnerOrderBoByProcessStatus(@Param("processStatus") Long processStatus, @Param("ownerId")Long ownerId, @Param("start") int start,@Param("pageNum") int pageNum);
     int getOwnerOrderBoByProcessStatusNum(@Param("processStatus") Long processStatus, @Param("ownerId")Long ownerId);
+    int setExpress(@Param("expressId") Long expressId, @Param("number") String number, @Param("orderId") Long orderId);
 
     public int insertOrder(@Param("order") Order order);
     public int getMaxOrderId();

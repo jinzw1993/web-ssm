@@ -1,24 +1,43 @@
 package com.heitian.ssm.service;
 
-import java.sql.Date;
 import java.util.List;
-import org.apache.ibatis.annotations.Param;
+
+import com.heitian.ssm.bo.ProductAdBo;
 import com.heitian.ssm.bo.Result;
-import com.heitian.ssm.model.ProductAd;
+
 
 /**
  * Created by oasis on 12/11/16.
  */
 public interface ProductAdService {
-	Result addProductAd(Long proId,Date date);
-	
-	Result rejectProductAd(Long proId);
-	
-	Result agreeProductAd(Long proId);
+    //changed
+    //Admin Part
+    List<ProductAdBo> getVerifiedProductAd();
 
-	List<ProductAd> showProductAd();
+    Result getVerifiedPAdNum();
 
-	Result deleteProductAd(Long id);
+    Result updateProductAdStatus(Long id, Long status);
 
-	List<ProductAd> applyProductAd();
+    List<ProductAdBo> getUnverifiedProductAd(int page, int pageNum);
+
+    Result getUnverifiedPAdNum();
+
+    //Owner Part
+    Result addProductAd(Long productId, Long price);
+
+    List<ProductAdBo> getProductAdByOwnerId(Long ownerId, int page, int pageNum);
+
+    Result getProductAdNumByOwnerId(Long ownerId);
+
+    Result deleteProductAd(Long id);
+    //dying
+    //Result addProductAd(Long proId,Date date);
+
+    //Result rejectProductAd(Long proId);
+
+    //Result agreeProductAd(Long proId);
+
+    //List<ProductAd> showProductAd();
+
+    //List<ProductAd> applyProductAd();
 }

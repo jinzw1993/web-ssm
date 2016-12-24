@@ -33,6 +33,12 @@ public class ShopController {
         return shopService.getShopByName(name);
     }
 
+    @RequestMapping(value="/searchById")
+    public @ResponseBody
+    ShopBo getShopByName(@RequestParam Long id) {
+        return shopService.getShopById(id);
+    }
+
     @RequestMapping(value="/searchByOwner")
     public @ResponseBody
     ShopBo getShopByOwnerId(@RequestParam Long id) {

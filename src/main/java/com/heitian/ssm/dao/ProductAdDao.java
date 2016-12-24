@@ -1,8 +1,10 @@
 package com.heitian.ssm.dao;
 
+import com.heitian.ssm.bo.ProductAdBo;
 import com.heitian.ssm.model.ProductAd;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+
 import java.sql.Date;
 import java.util.List;
 
@@ -11,16 +13,35 @@ import java.util.List;
  */
 @Repository
 public interface ProductAdDao {
-	int addProductAd(@Param(value = "productId") Long proId, @Param(value = "date") Date date);
+    //修改
+    //Owner Part
+    int addProductAd(@Param(value = "productId") Long proId, @Param("price") Long id);//status:0 rank:0 date:now()
 
-	int deleteProductAd(@Param(value = "productId") Long proId);
-	
-	int agreeProductAd(@Param(value = "productId") Long proId);
-	
-	int rejectProductAd(@Param(value = "productId") Long proId);
+    List<ProductAdBo> getProductAdByOwnerId(@Param("ownerId") Long ownerId,
+                                            @Param("start") int start, @Param("pageNum") int pageNum);//未得到photoURL
 
-	List<ProductAd> showProductAd();
+    int getProductAdNumByOwnerId(@Param("ownerId") Long ownerId);
 
-	List<ProductAd> applyProductAd();
-	
+    int deleteProductAd(@Param("id") Long id);
+
+    ProductAd getProductAdByProductId(@Param("productId")Long productId);
+    //Admin Part
+    List<ProductAdBo> getPermittedProductAd();//未得到photoURL
+
+    int getPermittedPAdNum();
+
+    int updateProductAdStatus(@Param(value = "id") Long id, @Param("status") Long status);
+
+    List<ProductAdBo> getUnverifiedProductAd(@Param("start") int start, @Param("pageNum") int pageNum);//未得到photoURL
+
+    int getUnverifiedPAdNum();
+    //int verifyProductAd(@Param("productId") Long productId, @Param("rank") Long rank);
+
+    //dying
+    //int deleteProductAd(@Param(value = "productId") Long proId);
+//	int agreeProductAd(@Param(value = "productId") Long proId);
+//	int rejectProductAd(@Param(value = "productId") Long proId);
+//	List<ProductAd> showProductAd();
+//	List<ProductAd> applyProductAd();
+
 }

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.heitian.ssm.dao.MallIncomeDao">
+    <insert id="insertIncome">
+        insert into mall_income(income,year,month,day,week)
+          select commission,year(created_at),month(created_at),day(created_at),week(created_at)
+          from `order`
+          where id=#{orderId};
+    </insert>
+
+    <select id="getIncomeByTime" resultType="com.heitian.ssm.bo.IncomeBo">
+        select sum(income) income,
+        <choose>
+            <when test="i == 0">
+                year,month,day
+            </when>
+            <when test="i == 1">
+                year,week
+            </when>
+            <when test="i == 2">
+                year,month
+            </when>
+            <when test="i == 3">
+                year
+            </when>
+        </choose>
+        from shop_income
+        group by
+        <choose>
+            <when test="i == 0">
+                year,month,day
+            </when>
+            <when test="i == 1">
+                year,month,week
+            </when>
+            <when test="i == 2">
+                year,month
+            </when>
+            <when test="i == 3">
+                year
+            </when>
+        </choose>
+    </select>
+</mapper>

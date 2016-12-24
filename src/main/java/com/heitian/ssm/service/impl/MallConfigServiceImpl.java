@@ -2,6 +2,7 @@ package com.heitian.ssm.service.impl;
 
 import javax.annotation.Resource;
 
+import com.heitian.ssm.util.ResultResolver;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,7 +21,7 @@ public class MallConfigServiceImpl implements MallConfigService {
 	@Override
 	public Result addMallConfig(MallConfig mallConfig) {
 		int i = mallConfigDao.addMallConfig(mallConfig);
-		return returnRes(i);
+		return ResultResolver.returnRes(i);
 	}
 		
 
@@ -32,25 +33,13 @@ public class MallConfigServiceImpl implements MallConfigService {
 	@Override
 	public Result updateMallConfig(MallConfig mallConfig) {
 		int i = mallConfigDao.updateMallConfig(mallConfig);
-		return returnRes(i);
+		return ResultResolver.returnRes(i);
 	}
 
 	@Override
 	public Result deleteMallConfig(String key) {		
 		int i = mallConfigDao.deleteMallConfig(key);
-		return returnRes(i);
+		return ResultResolver.returnRes(i);
 	}
-	
-	private Result returnRes(int i) {
-        Result result = new Result();
-        if(i!=0) {
-            result.setStatus(1);
-            result.setMessage("success");
-        } else {
-            result.setMessage("failed");
-            result.setStatus(0);
-        }
-        return result;
-    }
 
 }

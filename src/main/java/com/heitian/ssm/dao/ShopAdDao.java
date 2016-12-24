@@ -1,24 +1,25 @@
 package com.heitian.ssm.dao;
 
-import java.sql.Date;
 import java.util.List;
+
+import com.heitian.ssm.bo.ShopAdBo;
 import org.apache.ibatis.annotations.Param;
-import com.heitian.ssm.model.ShopAd;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ShopAdDao {
 
+    int addShopAd(@Param(value = "shopId") Long shopId, @Param("photoUrl") String photoUrl, @Param("price") Long price);
+
 	int deleteShopAd(@Param(value = "shopId") Long shopId);
 
-	List<ShopAd> applyShopAd();
+    Long selectStatus(@Param("shopId") Long shopId);
 
-	List<ShopAd> showShopAd();
+	List<ShopAdBo> verifiedShopAdBo();
 
-	int addShopAd(@Param(value = "shopId") Long shopId, @Param(value = "date") Date date);
-	
-	int agreeShopAd(@Param(value = "shopId") Long shopId);
-	
-	int rejectShopAd(@Param(value = "shopId") Long shopId);
+    List<ShopAdBo> unverifiedShopAdBo(@Param("start") int start, @Param("count") int count);
 
+    int getNum(@Param("status") Long status);
+
+	int changeShopAdStatus(@Param(value = "shopId") Long shopId, @Param("status") Long status);
 }

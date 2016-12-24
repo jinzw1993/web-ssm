@@ -2,8 +2,7 @@ package com.heitian.ssm.bo;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-
-import java.sql.Date;
+import java.util.Date;
 
 /**
  * Created by oasis on 12/12/16.
@@ -14,7 +13,8 @@ public class OrderBo {
     private String shopName;
     private String ownerEmail;
     private Long expressId;
-    private Long price;
+    private Double price;
+    private Double expressPrice;
     private Long amount;
     private Long commission;
     private Long status;
@@ -24,7 +24,6 @@ public class OrderBo {
     private String customerName;
     private String telephone;
     private String address;
-    private Long expressPrice;
 
     public Long getId() {
         return id;
@@ -66,11 +65,11 @@ public class OrderBo {
         this.expressId = expressId;
     }
 
-    public Long getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(Long price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
@@ -138,11 +137,11 @@ public class OrderBo {
         this.address = address;
     }
 
-	public Long getExpressPrice() {
-		return expressPrice;
-	}
+    public Double getExpressPrice() {
+        return expressPrice;
+    }
 
-	public void setExpressPrice(Long expressPrice) {
-		this.expressPrice = expressPrice;
-	}
+    public void setExpressPrice(Double expressPrice) {
+        this.expressPrice = expressPrice;
+    }
 }

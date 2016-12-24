@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * Created by Lanting on 2016/11/25.
@@ -20,7 +18,6 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 @RequestMapping("/customer")
 public class CustomerController {
-
     private Logger log = Logger.getLogger(CustomerController.class);
     @Resource
     private CustomerService customerService;

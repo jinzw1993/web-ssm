@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.heitian.ssm.util.ResultResolver;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,26 +27,14 @@ public class CustomerAddressServiceImpl implements CustomerAddressService {
 	@Override
 	public Result deleteCustomerAddress(Long customerAddressId) {
 		int i = cad.deleteCustomerAddress(customerAddressId);
-		return returnRes(i);
+		return ResultResolver.returnRes(i);
 	}
 
 	@Override
 	public Result addCustomerAddress(CustomerAddress customerAddress) {
 		int i = cad.addCustomerAddress(customerAddress);
-		return returnRes(i);
+		return ResultResolver.returnRes(i);
 	}
-	
-	private Result returnRes(int i) {
-        Result result = new Result();
-        if(i!=0) {
-            result.setStatus(1);
-            result.setMessage("success");
-        } else {
-            result.setMessage("failed");
-            result.setStatus(0);
-        }
-        return result;
-    }
 
 	@Override
 	public CustomerAddress getAddressById(Long id) {		

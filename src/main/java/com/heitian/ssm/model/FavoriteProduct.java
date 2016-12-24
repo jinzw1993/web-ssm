@@ -1,5 +1,7 @@
 package com.heitian.ssm.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class FavoriteProduct {
@@ -7,6 +9,7 @@ public class FavoriteProduct {
 	private Long id;
 	private Long productId;
 	private Long customerId;
+	@JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
 	private Date createdAt;
 	
 	public Long getId() {
