@@ -10,15 +10,18 @@
         <result column="password" property="password" jdbcType="VARCHAR"/>
         <result column="email" property="email" jdbcType="VARCHAR"/>
         <result column="is_email_verified" property="isEmailVerified" jdbcType="TINYINT"/>
+        <result column="balance" property="balance" jdbcType="BIGINT"/>
     </resultMap>
     
     <select id="getCustomerByTel" parameterType="java.lang.String" resultMap="customerMap">
-        SELECT * FROM customer
+        SELECT id,name,telephone,status,password,email,is_email_verified,balance/100 balance
+        FROM customer
         WHERE telephone = #{telephone}
     </select>
 
     <select id="getCustomerByEmail" parameterType="java.lang.String" resultMap="customerMap">
-        SELECT * FROM customer
+        SELECT id,name,telephone,status,password,email,is_email_verified,balance/100 balance
+        FROM customer
         WHERE email = #{email}
     </select>
     
@@ -50,7 +53,7 @@
     </insert>
     
     <update id="updateBalance" >
-        UPDATE `customer` set balance=#{balance}*100
+        UPDATE `customer` set balance= #{balance} * 100
         WHERE email=#{email}
     </update>
     
