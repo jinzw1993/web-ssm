@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import com.heitian.ssm.model.Product;
 
-public class CartBo extends Product implements Serializable{
+public class CartBo extends Product implements Serializable {
 	
 	private Long cartId;
 	private Long productInCartId;
@@ -14,6 +14,21 @@ public class CartBo extends Product implements Serializable{
 	private String photoURL;
 	private Long allAmount;
 	private Double allPrice;
+	
+	public CartBo(){}
+    public CartBo(Product product){
+        this.setId(product.getId());
+        this.setOwnId(product.getOwnId());
+        this.setShopId(product.getShopId());
+        this.setProductPhotoId(product.getProductPhotoId());
+        this.setName(product.getName());
+        this.setPrice(product.getPrice());
+        this.setCategoryId(product.getCategoryId());
+        this.setDetail(product.getDetail());
+        this.setCreatedAt(product.getCreatedAt());
+        this.setModifiedAt(product.getModifiedAt());
+        this.setAmount(product.getAmount());
+    }
 	
 	public Long getCartId() {
 		return cartId;
@@ -62,20 +77,6 @@ public class CartBo extends Product implements Serializable{
 		this.allAmount = allAmount;
 	}
 
-	@Override
-	public String toString() {
-		return "CartBo [amount=" + amount + ", subPrice=" + subPrice
-				+ ", getId()=" + getId() + ", getOwnId()=" + getOwnId()
-				+ ", getShopId()=" + getShopId() + ", getName()=" + getName()
-				+ ", getPrice()=" + getPrice() + ", getCategoryId()="
-				+ getCategoryId() + ", getDetail()=" + getDetail()
-				+ ", getProductPhotoId()=" + getProductPhotoId()
-				+ ", getCreatedAt()=" + getCreatedAt() + ", getModifiedAt()="
-				+ getModifiedAt() + ", getClass()=" + getClass()
-				+ ", hashCode()=" + hashCode() + ", toString()="
-				+ super.toString() + "]";
-	}
-
 	public Double getAllPrice() {
 		return allPrice;
 	}
@@ -83,7 +84,5 @@ public class CartBo extends Product implements Serializable{
 	public void setAllPrice(Double allPrice) {
 		this.allPrice = allPrice;
 	}
-	
-	
-    
+	   
 }

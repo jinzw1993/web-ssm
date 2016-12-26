@@ -54,7 +54,7 @@ public class CartServiceImpl implements CartService {
 				Product product = productDao.searchProductById(productInCart.getProductId());
 				
 				String path=productDao.searchPhotoURL(product.getId());
-				CartBo cartBo = new CartBo();
+				CartBo cartBo = new CartBo(product);
 				cartBo.setCartId(cart.getId());
 				cartBo.setProductId(product.getId());
 				cartBo.setProductInCartId(productInCart.getId());
