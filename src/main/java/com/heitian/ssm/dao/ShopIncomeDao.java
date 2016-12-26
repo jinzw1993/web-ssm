@@ -14,4 +14,5 @@ import java.util.List;
 public interface ShopIncomeDao {
     int insertIncome(@Param("orderId") Long orderId);
     List<IncomeBo> getIncomeByTime(@Param("i") Long i, @Param("shopId") Long shopId);
+    Double getAllIncome(Long shopId);
 }

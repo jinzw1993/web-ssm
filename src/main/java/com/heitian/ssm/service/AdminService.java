@@ -19,4 +19,6 @@ public interface AdminService {
 
     List<IncomeBo> getIncome(Long i);
 
+    Result getAllIncome();
+
 }

@@ -51,4 +51,15 @@ public class AdminServiceImpl implements AdminService {
         return income;
     }
 
+    public Result getAllIncome() {
+        Double income =  mallIncomeDao.getAllIncome();
+        Result result = new Result();
+        result.setStatus(1);
+        if(income == null) {
+            result.setMessage("0");
+        } else {
+            result.setMessage(String.valueOf(income));
+        }
+        return result;
+    }
 }

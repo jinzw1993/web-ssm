@@ -41,4 +41,6 @@ public interface OwnerService {
 //    public boolean deleteOwnerByName(String ownerName);
 
     List<IncomeBo> getIncome(Long i, Long ownerId);
+
+    Result getAllIncome(Long ownerId);
 }

@@ -57,4 +57,7 @@
             </when>
         </choose>
     </select>
+    <select id="getAllIncome" resultType="double">
+        select sum(income)/100 income from shop_income where shop_id=#{shopId}
+    </select>
 </mapper>

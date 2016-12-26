@@ -56,4 +56,7 @@
             </when>
         </choose>
     </select>
+    <select id="getAllIncome" resultType="double">
+        select sum(income)/100 income from mall_income
+    </select>
 </mapper>
