@@ -6,33 +6,32 @@ import com.heitian.ssm.model.Product;
 
 public class CartBo extends Product implements Serializable{
 	
-	private Long id;
+	private Long cartId;
+	private Long productInCartId;
+	private Long productId;
 	private Long amount;
 	private Double subPrice;
 	private String photoURL;
 	private Long allAmount;
 	private Double allPrice;
 	
-	public CartBo(){}
-
-	public CartBo(Product product){
-        this.setId(product.getId());
-        this.setOwnId(product.getOwnId());
-        this.setShopId(product.getShopId());
-        this.setProductPhotoId(product.getProductPhotoId());
-        this.setName(product.getName());
-        this.setPrice(product.getPrice());
-        this.setCategoryId(product.getCategoryId());
-        this.setDetail(product.getDetail());
-        this.setCreatedAt(product.getCreatedAt());
-        this.setModifiedAt(product.getModifiedAt());
-    }
-	public Long getId() {
-		return id;
+	public Long getCartId() {
+		return cartId;
 	}
-
-	public void setId(Long id) {
-		this.id = id;
+	public void setCartId(Long cartId) {
+		this.cartId = cartId;
+	}
+	public Long getProductInCartId() {
+		return productInCartId;
+	}
+	public void setProductInCartId(Long productInCartId) {
+		this.productInCartId = productInCartId;
+	}
+	public Long getProductId() {
+		return productId;
+	}
+	public void setProductId(Long productId) {
+		this.productId = productId;
 	}
 	public Long getAmount() {
 		return amount;
