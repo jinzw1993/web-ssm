@@ -13,6 +13,6 @@ public interface AdminCustomerService {
 	public Result whitelist(long id);
 	public Result deleteCustomerById(long id);
 	public List<CustomerBo> searchCustomerWithKeyword(CustomerCondition customerCondition);
-	public Result updateBalance(String idt, double balance);
+	public Result updateBalance(long idt, double balance);
 
 }

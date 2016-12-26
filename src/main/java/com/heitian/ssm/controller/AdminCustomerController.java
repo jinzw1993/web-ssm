@@ -64,8 +64,20 @@ public class AdminCustomerController {
 	@ResponseBody
 	@RequestMapping("/updateBalance")
 	public Result updateBalance(HttpServletRequest request){
+		String auth = request.getHeader("Authorization");
+        if(auth == null) {
+        	Result result = new Result();
+    		result.setStatus(0);
+    		result.setMessage("you haven't log in");
+    		return result;
+        }
+            
+        
+        String s[] = auth.split(";");//前提是，传参为ownerId=xxx;customerId=xxx;adress=xxx...格式
+        Long idt = Long.valueOf(s[1].substring(11));
+        
 		double balance = Double.valueOf(request.getParameter("balance"));
-		String idt = request.getParameter("id");
+
 		return adminCustomerService.updateBalance(idt, balance);
 	}
 
