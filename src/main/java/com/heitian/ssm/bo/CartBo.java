@@ -11,6 +11,7 @@ public class CartBo extends Product implements Serializable{
 	private Double subPrice;
 	private String photoURL;
 	private Long allAmount;
+	private Double allPrice;
 	
 	public CartBo(){}
 
@@ -74,6 +75,14 @@ public class CartBo extends Product implements Serializable{
 				+ getModifiedAt() + ", getClass()=" + getClass()
 				+ ", hashCode()=" + hashCode() + ", toString()="
 				+ super.toString() + "]";
+	}
+
+	public Double getAllPrice() {
+		return allPrice;
+	}
+
+	public void setAllPrice(Double allPrice) {
+		this.allPrice = allPrice;
 	}
 	
 	

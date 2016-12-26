@@ -60,5 +60,13 @@ public class AdminCustomerController {
 	public List<CustomerBo> searchCustomerWithKeyword(@RequestBody CustomerCondition customerCondition){
 		return adminCustomerService.searchCustomerWithKeyword(customerCondition);
 	}
+	
+	@ResponseBody
+	@RequestMapping("/updateBalance")
+	public Result updateBalance(HttpServletRequest request){
+		double balance = Double.valueOf(request.getParameter("balance"));
+		String idt = request.getParameter("id");
+		return adminCustomerService.updateBalance(idt, balance);
+	}
 
 }
