@@ -15,7 +15,7 @@ public class ProductCommentBo implements Serializable {
     @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
     private Date createdAt;
     private Long amount;
-    private Long price;
+    private Double price;
     private Long rate;
     private String comment;
 
@@ -67,11 +67,11 @@ public class ProductCommentBo implements Serializable {
         this.amount = amount;
     }
 
-    public Long getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(Long price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 }

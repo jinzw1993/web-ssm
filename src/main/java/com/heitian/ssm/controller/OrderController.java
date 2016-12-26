@@ -126,15 +126,15 @@ public class OrderController {
     List<OrderBo> getListByTime(@RequestBody TimeCondition time,
                                          HttpServletRequest request) {
         String auth = request.getHeader("Authorization");
+        if(auth != null) {
+            String ownerId = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
+            if (ownerId != null && !"".equals(ownerId))
+                return orderService.getOrderByTime(Long.valueOf(ownerId), time, 1);
 
-        String ownerId = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
-        if(ownerId != null && ownerId != "")
-            return orderService.getOrderByTime(Long.valueOf(ownerId), time, 1);
-
-        String customerId = auth.split(";")[1].substring(11);
-        if(customerId != null && customerId != "")
-            return orderService.getOrderByTime(Long.valueOf(customerId), time, 2);
-
+            String customerId = auth.split(";")[1].substring(11);
+            if (customerId != null && !"".equals(customerId))
+                return orderService.getOrderByTime(Long.valueOf(customerId), time, 2);
+        }
         return orderService.getOrderByTime(0L, time, 0);
     }
 
@@ -148,15 +148,15 @@ public class OrderController {
     Result getListByTimeNum(@RequestBody TimeCondition time,
                                  HttpServletRequest request) {
         String auth = request.getHeader("Authorization");
+        if(auth != null) {
+            String ownerId = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
+            if (ownerId != null && ownerId != "")
+                return orderService.getOrderByTimeNum(Long.valueOf(ownerId), time, 1);
 
-        String ownerId = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
-        if(ownerId != null && ownerId != "")
-            return orderService.getOrderByTimeNum(Long.valueOf(ownerId), time, 1);
-
-        String customerId = auth.split(";")[1].substring(11);
-        if(customerId != null && customerId != "")
-            return orderService.getOrderByTimeNum(Long.valueOf(customerId), time, 2);
-
+            String customerId = auth.split(";")[1].substring(11);
+            if (customerId != null && customerId != "")
+                return orderService.getOrderByTimeNum(Long.valueOf(customerId), time, 2);
+        }
         return orderService.getOrderByTimeNum(0L, time, 0);
     }
 

@@ -115,12 +115,19 @@ public class OrderServiceImpl implements OrderService {
         //默认设为当前日期
         Calendar now = Calendar.getInstance();
         now.setFirstDayOfWeek(Calendar.MONDAY);
+        int week = now.get(Calendar.WEEK_OF_YEAR);
+        if(now.get(Calendar.MONTH) == 11) {
+            week += 52;
+        }
         if(time.getYear() == null)
             time.setYear(now.get(Calendar.YEAR));
         if(time.getMonth() == null)
             time.setMonth(now.get(Calendar.MONTH) +1);
         if(time.getWeek() == null)
-            time.setWeek(now.get(Calendar.WEEK_OF_YEAR) -1);
+            time.setWeek(week -1);
+		else {
+            time.setWeek(week - time.getWeek());
+        }
         if(time.getDay() == null)
             time.setDay(now.get(Calendar.DAY_OF_MONTH));
     }
@@ -169,7 +176,7 @@ public class OrderServiceImpl implements OrderService {
 					order.setCommissionRate(Double.valueOf(mallConfigDao.getMallConfigByKey("1").getValue()));
 					order.setCommission(orderPrice * Double.valueOf(mallConfigDao.getMallConfigByKey("1").getValue()));
 					order.setStatus((long)0); 
-					order.setProcessStatus((long)1);
+					order.setProcessStatus((long)0);
 					order.setCreatedAt(new Timestamp(new Date().getTime()));
 					order.setAddressId((long)0);
 					order.setExpressPrice((long)0);
@@ -216,7 +223,7 @@ public class OrderServiceImpl implements OrderService {
 		Customer customer = customerDao.getCustomerByEmail(orderBo.getCustomerEmail());
 		if(orderBo != null && customer != null) {
 			if(0 == orderBo.getStatus()) {
-				if(customer.getBalance() < orderBo.getAmount()) {
+				if(customer.getBalance() < orderBo.getPrice() + orderBo.getExpressPrice()) {
 					Result r = new Result();
 					r.setStatus(0);
 					r.setMessage("Not sufficient funds");
@@ -225,6 +232,7 @@ public class OrderServiceImpl implements OrderService {
 					customerDao.updateBalance(customer.getBalance() - orderBo.getPrice(), customer.getEmail());
 					orderDao.changeOrderAddress(orderId, addressId);
 					orderDao.changeOrderStatus(orderId, (long) 1);
+                    orderDao.changeOrderProcessStatus(orderId, (long)1);
 					Result r = new Result();
 					r.setStatus(1);
 					r.setMessage("Pay for success");

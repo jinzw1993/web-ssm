@@ -3,7 +3,7 @@
 <mapper namespace="com.heitian.ssm.dao.ShopIncomeDao">
     <insert id="insertIncome">
         insert into shop_income(shop_id,income,year,month,day,week)
-          select shop_id,price-express_price,year(created_at),month(created_at),day(created_at),week(created_at)
+          select shop_id,price-commission,year(created_at),month(created_at),day(created_at),week(created_at)
           from `order`
           where id=#{orderId};
     </insert>
@@ -32,13 +32,28 @@
                 year,month,day
             </when>
             <when test="i == 1">
-                year,month,week
+                year,week
             </when>
             <when test="i == 2">
                 year,month
             </when>
             <when test="i == 3">
                 year
+            </when>
+        </choose>
+        order by
+        <choose>
+            <when test="i == 0">
+                year desc,month desc,day desc
+            </when>
+            <when test="i == 1">
+                year desc,week desc
+            </when>
+            <when test="i == 2">
+                year desc,month desc
+            </when>
+            <when test="i == 3">
+                year desc
             </when>
         </choose>
     </select>

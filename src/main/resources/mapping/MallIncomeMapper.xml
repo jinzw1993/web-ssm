@@ -24,20 +24,35 @@
                 year
             </when>
         </choose>
-        from shop_income
+        from mall_income
         group by
         <choose>
             <when test="i == 0">
                 year,month,day
             </when>
             <when test="i == 1">
-                year,month,week
+                year,week
             </when>
             <when test="i == 2">
                 year,month
             </when>
             <when test="i == 3">
                 year
+            </when>
+        </choose>
+        order by
+        <choose>
+            <when test="i == 0">
+                year desc,month desc,day desc
+            </when>
+            <when test="i == 1">
+                year desc,week desc
+            </when>
+            <when test="i == 2">
+                year desc,month desc
+            </when>
+            <when test="i == 3">
+                year desc
             </when>
         </choose>
     </select>

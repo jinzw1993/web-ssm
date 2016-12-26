@@ -124,7 +124,7 @@ public class ProductController {
      * @return ProductBo List
      */
     @ResponseBody
-    @RequestMapping(value="/searchByOwn",method= RequestMethod.GET)
+    @RequestMapping(value="/searchByOwner",method= RequestMethod.GET)
     public List<ProductBo> searchByOwner(HttpServletRequest request) {
         String auth = request.getHeader("Authorization");
         if(auth == null)

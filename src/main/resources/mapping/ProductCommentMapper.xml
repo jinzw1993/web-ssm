@@ -25,7 +25,7 @@
           customer.name customer_name,
           product_in_order.name product_name,
           amount,
-          price,
+          price/100 price,
           comment,
           product_comment.created_at,
           rate

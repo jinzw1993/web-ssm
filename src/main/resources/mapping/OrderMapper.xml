@@ -96,7 +96,7 @@
 
 
     <!--天周月年查询owner/admin/customer所有已完成的订单-->
-    <select id="getOwnerOrders" parameterType="map" resultMap="OrderBoMap">
+    <select id="getOrdersTime" parameterType="map" resultMap="OrderBoMap">
         <include refid="selectOrder" />
         <include refid="fromOrder" />
         <include refid="whereTime" />
@@ -138,7 +138,7 @@
         update `order`,express_order_log
         set
         `order`.express_id = #{expressId},
-        `order`.processStatus = 3,
+        `order`.process_status = 2,
         express_order_log.express_id=#{expressId},
         express_order_log.log=#{number}
         where express_order_log.order_id = `order`.id  AND express_order_log.order_id=#{orderId}
