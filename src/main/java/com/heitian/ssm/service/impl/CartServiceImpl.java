@@ -39,11 +39,16 @@ public class CartServiceImpl implements CartService {
 
 	@Override
 	public List<CartBo> searchCart(Long customerId) {
-		
+		double allPrice = 0.0;
 		Cart cart = cartDao.searchCartByCustomerId(customerId);
 		List<CartBo> cartBos = new ArrayList<CartBo>();
 		if(cart != null) {
 			List<ProductInCart> productInCarts = productInCartDao.searchProductInCartByCartId(cart.getId());
+			
+			for(ProductInCart productInCart : productInCarts) {
+				Product product = productDao.searchProductById(productInCart.getProductId());
+				allPrice += productInCart.getAmount() * product.getPrice();
+			}
 			
 			for(ProductInCart productInCart : productInCarts) {				
 				Product product = productDao.searchProductById(productInCart.getProductId());
@@ -55,6 +60,7 @@ public class CartServiceImpl implements CartService {
 				cartBo.setPhotoURL(path);
 				cartBo.setAllAmount(cart.getAmount());
 				cartBo.setId(cart.getId());
+				cartBo.setAllPrice(allPrice);
 				
 				cartBos.add(cartBo);
 			}
@@ -69,6 +75,12 @@ public class CartServiceImpl implements CartService {
 	 */
 	@Override
 	public Result addCart(Long productId, Long customerId, Long amount) {
+		if(amount < 0) {
+			Result r = new Result();
+			r.setStatus(0);
+			r.setMessage("Amount cannot be negative! ");
+			return r;
+		}
 		long AllAmount = productDao.searchProductById(productId).getAmount();
 		int i = 0;
 		//productDao.updateProductAmount(productId,  - amount);
@@ -149,23 +161,29 @@ public class CartServiceImpl implements CartService {
 	@Override
 	public Result updateProductAmount(Long productId, Long customerId,
 			Long amount) {
-		long AllAmount = productDao.searchProductById(productId).getAmount();
+		if(amount < 0) {
+			Result r = new Result();
+			r.setStatus(0);
+			r.setMessage("Amount cannot be negative! ");
+			return r;
+		}
+		long allAmount = productDao.searchProductById(productId).getAmount();
 		int i = 0;
 		Cart cart = cartDao.searchCartByCustomerId(customerId);
 		
 		if(cart != null) {
 			ProductInCart productInCart = productInCartDao.searchProductInCartByCartIdAndProductId(cart.getId(), productId);
 			long pAmount = productInCart.getAmount();
-			if(amount > pAmount + AllAmount) {
+			if(amount > pAmount + allAmount) {
 				Result r = new Result();
 				r.setStatus(0);
-				r.setMessage("Product's amount is " + ( AllAmount + pAmount ));
+				r.setMessage("Product's amount is " + ( allAmount + pAmount ));
 				return r;
 			} else {
 				productInCart.setAmount(amount);
 				i = productInCartDao.updateProductInCart(productInCart);
 				cartDao.updateCartAmount(cart.getAmount() - pAmount + amount, customerId);
-				productDao.updateProductAmount(productId, AllAmount + pAmount - amount);
+				productDao.updateProductAmount(productId, allAmount + pAmount - amount);
 			}
 			
 		} else {
