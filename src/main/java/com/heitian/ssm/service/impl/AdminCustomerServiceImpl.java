@@ -151,7 +151,6 @@ public class AdminCustomerServiceImpl implements AdminCustomerService {
 			r.setMessage("failed! ");
 			return r;
 		}
-		return null;
 	}
 
 }
