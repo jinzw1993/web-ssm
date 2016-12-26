@@ -12,6 +12,7 @@ import com.heitian.ssm.bo.CustomerBo;
 import com.heitian.ssm.bo.CustomerCondition;
 import com.heitian.ssm.bo.Result;
 import com.heitian.ssm.dao.AdminCustomerDao;
+import com.heitian.ssm.dao.CustomerDao;
 import com.heitian.ssm.model.Customer;
 import com.heitian.ssm.service.AdminCustomerService;
 
@@ -21,6 +22,8 @@ public class AdminCustomerServiceImpl implements AdminCustomerService {
 	
 	@Resource
 	private AdminCustomerDao adminCustomerDao;
+	@Resource
+	private CustomerDao customerDao;
 
 	@Override
 	public CustomerBo findCustomerBoById(long id) {
@@ -120,6 +123,35 @@ public class AdminCustomerServiceImpl implements AdminCustomerService {
 			}
 		}
 		return customerBos;
+	}
+
+	@Override
+	public Result updateBalance(String idt, double balance) {
+		if(balance < 0) {
+			Result r = new Result();
+			r.setStatus(0);
+			r.setMessage("Balance cannot be negative! ");
+			return r;
+		}
+		if(balance > 999999999) {
+			Result r = new Result();
+			r.setStatus(0);
+			r.setMessage("Balance id overflow! ");
+			return r;
+		}
+		int i = customerDao.updateBalance(balance, idt);
+		if(0 != i) {
+			Result r = new Result();
+			r.setStatus(1);
+			r.setMessage("success! ");
+			return r;
+		} else {
+			Result r = new Result();
+			r.setStatus(0);
+			r.setMessage("failed! ");
+			return r;
+		}
+		return null;
 	}
 
 }
