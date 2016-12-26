@@ -13,7 +13,9 @@
     </resultMap>
     
     <select id="findCustomerById" parameterType="java.lang.Long" resultMap="customerMap">
-        SELECT * FROM customer WHERE id=#{id}
+        SELECT id,name,telephone,status,password,email,is_email_verified,balance/100 balance
+        FROM customer
+        WHERE id=#{id}
     </select>
 
 	<!-- 将用户数据拉入黑名单 -->
@@ -50,7 +52,8 @@
     
     <!-- 分页 -->
     <select id="searchByNum" resultMap="customerMap">
-    	SELECT * FROM  customer
+    	SELECT id,name,telephone,status,password,email,is_email_verified,balance/100 balance
+    	FROM  customer
         ORDER BY id
         limit #{start},#{num}
     </select>
