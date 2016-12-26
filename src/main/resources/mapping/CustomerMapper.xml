@@ -50,7 +50,7 @@
     </insert>
     
     <update id="updateBalance" >
-        UPDATE `customer` set balance=#{balance}
+        UPDATE `customer` set balance=#{balance}*100
         WHERE email=#{email}
     </update>
     
