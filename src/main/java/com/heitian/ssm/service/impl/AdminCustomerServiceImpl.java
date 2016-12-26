@@ -126,20 +126,22 @@ public class AdminCustomerServiceImpl implements AdminCustomerService {
 	}
 
 	@Override
-	public Result updateBalance(String idt, double balance) {
+	public Result updateBalance(long idt, double balance) {
 		if(balance < 0) {
 			Result r = new Result();
 			r.setStatus(0);
 			r.setMessage("Balance cannot be negative! ");
 			return r;
 		}
-		if(balance > 999999999) {
+		Customer customer = adminCustomerDao.findCustomerById(idt);
+		double allBalance = customer.getBalance() + balance;
+		if(allBalance > 999999999) {
 			Result r = new Result();
 			r.setStatus(0);
 			r.setMessage("Balance id overflow! ");
 			return r;
 		}
-		int i = customerDao.updateBalance(balance, idt);
+		int i = customerDao.updateBalance(allBalance, customer.getEmail());
 		if(0 != i) {
 			Result r = new Result();
 			r.setStatus(1);
