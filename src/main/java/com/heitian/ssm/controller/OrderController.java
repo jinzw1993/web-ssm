@@ -204,6 +204,9 @@ public class OrderController {
         if(request.getHeader("Authorization") == null) {
             returnFailResult();
         }
+        if(status == 2) {
+            orderService.cancel(id);
+        }
         return orderService.changeStatus(id, status);
     }
     
@@ -226,23 +229,6 @@ public class OrderController {
     	//long customerId = 1;
         
         return orderService.search(page, customerId);
-    }
-    
-    /**
-     * 用户取消自己订单
-     * @param request
-     * @return
-     */
-    @RequestMapping("/cancel")
-    @ResponseBody
-    public Result cancel(@RequestParam Long id, HttpServletRequest request) {
-    	String auth = request.getHeader("Authorization");
-    	
-        if(auth == null) {
-            return returnFailResult();
-        }
-        
-        return orderService.cancel(id);
     }
 
     private Result returnFailResult() {
