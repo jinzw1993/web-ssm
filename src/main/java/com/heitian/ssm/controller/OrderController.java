@@ -107,18 +107,10 @@ public class OrderController {
     List<OrderBo> getListByOwnerTime(@RequestBody TimeCondition time,
                                          HttpServletRequest request) {
         String auth = request.getHeader("Authorization");
-
-        if(auth != null) {
-            String ownerId = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
-            if (ownerId != null && !"".equals(ownerId))
-                return orderService.getOrderByTime(Long.valueOf(ownerId), time, 1);
-
-            String customerId = auth.split(";")[1].substring(11);
-            if (customerId != null && !"".equals(customerId))
-                return orderService.getOrderByTime(Long.valueOf(customerId), time, 2);
-        }
-        return orderService.getOrderByTime(0L, time, 0);
-
+        if(auth == null)
+            return new ArrayList<>();
+        String ownerId = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
+        return orderService.getOwnOrderByTime(Long.valueOf(ownerId), time);
     }
 
     /**
@@ -131,18 +123,11 @@ public class OrderController {
     Result getListByOwnerTimeNum(@RequestBody TimeCondition time,
                                  HttpServletRequest request) {
         String auth = request.getHeader("Authorization");
-
-        if(auth != null) {
-            String ownerId = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
-            if (ownerId != null && ownerId != "")
-                return orderService.getOrderByTimeNum(Long.valueOf(ownerId), time, 1);
-
-            String customerId = auth.split(";")[1].substring(11);
-            if (customerId != null && customerId != "")
-                return orderService.getOrderByTimeNum(Long.valueOf(customerId), time, 2);
+        if(auth == null) {
+            returnFailResult();
         }
-        return orderService.getOrderByTimeNum(0L, time, 0);
-
+        String ownerId = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
+        return orderService.getOwnOrderByTimeNum(Long.valueOf(ownerId), time);
     }
 
     /**
@@ -174,22 +159,6 @@ public class OrderController {
         return orderService.addOrder(cartId);
     }
     
-    /**
-     * 确认订单
-     * @return
-     */
-    @RequestMapping("/confirm")
-    @ResponseBody
-    public Result confirmOrder(HttpServletRequest request) {
-    	String auth = request.getHeader("Authorization");
-        if(auth == null)
-            return returnFailResult();       
-       
-        Long orderId = Long.valueOf(request.getParameter("orderId"));
-        
-        Long addressId = Long.valueOf(request.getParameter("addressId"));
-        return orderService.confirmOrder(orderId, addressId);
-    }
     
     /**
      * 用户状态响应 status
@@ -204,7 +173,19 @@ public class OrderController {
         if(request.getHeader("Authorization") == null) {
             returnFailResult();
         }
-        return orderService.changeStatus(id, status);
+        if(0 == status) {
+        	Long addressId = Long.valueOf(request.getParameter("addressId"));
+        	return orderService.confirmOrder(id, addressId);
+        } else if(1 == status) {
+        	return orderService.pay(id);
+        } else if(2 == status){
+        	return orderService.cancel(id);
+        } else {
+        	Result r= new Result();
+        	r.setStatus(0);
+        	r.setMessage("The parameters of the illegal!");
+        	return r;
+        }
     }
     
     /**
@@ -228,23 +209,6 @@ public class OrderController {
         return orderService.search(page, customerId);
     }
     
-    /**
-     * 用户取消自己订单
-     * @param request
-     * @return
-     */
-    @RequestMapping("/cancel")
-    @ResponseBody
-    public Result cancel(@RequestParam Long id, HttpServletRequest request) {
-    	String auth = request.getHeader("Authorization");
-    	
-        if(auth == null) {
-            return returnFailResult();
-        }
-        
-        return orderService.cancel(id);
-    }
-
     private Result returnFailResult() {
         result.setStatus(0);
         result.setMessage("haven't log in");
