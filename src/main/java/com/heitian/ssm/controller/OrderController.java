@@ -214,7 +214,7 @@ public class OrderController {
     }
     
     /**
-     * 用户查询自己订单
+     * 用户取消自己订单
      * @param request
      * @return
      */
