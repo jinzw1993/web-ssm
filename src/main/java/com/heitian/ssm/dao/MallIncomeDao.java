@@ -14,4 +14,5 @@ import java.util.List;
 public interface MallIncomeDao {
     int insertIncome(Long orderId);
     List<IncomeBo> getIncomeByTime(@Param("i") Long i);
+    Double getAllIncome();
 }

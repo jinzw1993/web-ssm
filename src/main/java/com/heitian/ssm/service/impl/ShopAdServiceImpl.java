@@ -25,7 +25,7 @@ public class ShopAdServiceImpl implements ShopAdService {
     private ShopDao shopDao;
 
 	@Override
-	public Result addShopAd(Long ownerId, String photoUrl, Long price)
+	public Result addShopAd(Long ownerId, String photoUrl, Double price)
 	{
         Shop tmp = shopDao.selectShopByOwnerId(ownerId);
         Long shopId = tmp.getId();

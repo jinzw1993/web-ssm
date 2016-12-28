@@ -7,16 +7,14 @@
     </resultMap>
     <select id="getProductByOrderId" resultMap="ProductInOrderBoMap">
         select product_in_order.product_id,
-        product.name,
-        product_in_order.price / 100 price,
+        product_in_order.name,
+        product_in_order.price/100 price,
         product_in_order.amount,
         path,
         product_in_order.category
-        
         from `order`
         join product_in_order on `order`.id = product_in_order.order_id
-        join product on product.id = product_in_order.product_id
-        join product_photo on product.id = product_photo.product_id
+        join product_photo on product_in_order.product_id = product_photo.product_id
         where order_id=#{id}
     </select>
     

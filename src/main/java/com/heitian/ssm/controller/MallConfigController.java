@@ -42,7 +42,7 @@ private Logger log = Logger.getLogger(AdminCustomerController.class);
 	@ResponseBody
 	@RequestMapping("/update")
 	public Result update(HttpServletRequest request){
-		String key = request.getParameter("key");
+		String key = "1";
 		String value = request.getParameter("value");
 		MallConfig mallConfig = new MallConfig(key, value);
 		return mcs.updateMallConfig(mallConfig);

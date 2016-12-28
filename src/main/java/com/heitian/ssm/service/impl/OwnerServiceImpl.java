@@ -257,4 +257,17 @@ public class OwnerServiceImpl implements OwnerService {
         }
         return list;
     }
+
+    public Result getAllIncome(Long ownerId) {
+        Long shopId = shopDao.selectShopByOwnerId(ownerId).getId();
+        Double income = shopIncomeDao.getAllIncome(shopId);
+        Result result = new Result();
+        result.setStatus(1);
+        if(income == null) {
+            result.setMessage("0");
+        } else {
+            result.setMessage(String.valueOf(income));
+        }
+        return result;
+    }
 }

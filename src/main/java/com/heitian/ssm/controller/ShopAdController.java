@@ -24,7 +24,7 @@ public class ShopAdController {
 
     @RequestMapping("/add")
     public @ResponseBody
-    Result addShopAd(HttpServletRequest request, @RequestParam String photoUrl, @RequestParam Long price) {
+    Result addShopAd(HttpServletRequest request, @RequestParam String photoUrl, @RequestParam Double price) {
         String auth = request.getHeader("Authorization");
         if(auth == null) {
             result.setMessage("haven't log in");

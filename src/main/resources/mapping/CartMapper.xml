@@ -25,7 +25,7 @@
     </delete>
     
     <update id="updateCartAmount" parameterType="java.lang.Long">
-    	UPDATE cart SET amount = #{amount} WHERE id = #{customerId}
+    	UPDATE cart SET amount = #{amount} WHERE customer_id = #{customerId}
     </update>
     
 </mapper>

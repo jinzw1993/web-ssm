@@ -12,7 +12,7 @@
 		INSERT INTO
 		shop_advertisement(shop_id, status, rank, date ,path, price)
 		VALUE
-		(#{shopId}, 0, 0, now(), #{photoUrl}, #{price})
+		(#{shopId}, 0, 0, now(), #{photoUrl}, #{price}*100)
 		ON DUPLICATE KEY
 		UPDATE status=0, rank=0, date=now(), path=#{photoUrl}
 	</insert>
@@ -31,7 +31,7 @@
 
 
 	<select id="unverifiedShopAdBo" resultMap="shopAd">
-		SELECT shop_advertisement.id, shop_id, shop_advertisement.path, name, rank
+		SELECT shop_advertisement.id, shop_id, shop_advertisement.path, name, rank, price/100 price
 		FROM shop_advertisement JOIN shop ON shop_advertisement.shop_id = shop.id
 		WHERE shop_advertisement.status = 0
 		ORDER BY shop_advertisement.date

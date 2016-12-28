@@ -23,21 +23,11 @@ public interface ProductAdService {
     Result getUnverifiedPAdNum();
 
     //Owner Part
-    Result addProductAd(Long productId, Long price);
+    Result addProductAd(Long productId, Double price);
 
     List<ProductAdBo> getProductAdByOwnerId(Long ownerId, int page, int pageNum);
 
     Result getProductAdNumByOwnerId(Long ownerId);
 
     Result deleteProductAd(Long id);
-    //dying
-    //Result addProductAd(Long proId,Date date);
-
-    //Result rejectProductAd(Long proId);
-
-    //Result agreeProductAd(Long proId);
-
-    //List<ProductAd> showProductAd();
-
-    //List<ProductAd> applyProductAd();
 }

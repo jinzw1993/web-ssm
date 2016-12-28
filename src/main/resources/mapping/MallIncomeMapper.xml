@@ -9,7 +9,7 @@
     </insert>
 
     <select id="getIncomeByTime" resultType="com.heitian.ssm.bo.IncomeBo">
-        select sum(income) income,
+        select sum(income)/100 income,
         <choose>
             <when test="i == 0">
                 year,month,day
@@ -24,14 +24,14 @@
                 year
             </when>
         </choose>
-        from shop_income
+        from mall_income
         group by
         <choose>
             <when test="i == 0">
                 year,month,day
             </when>
             <when test="i == 1">
-                year,month,week
+                year,week
             </when>
             <when test="i == 2">
                 year,month
@@ -40,5 +40,23 @@
                 year
             </when>
         </choose>
+        order by
+        <choose>
+            <when test="i == 0">
+                year desc,month desc,day desc
+            </when>
+            <when test="i == 1">
+                year desc,week desc
+            </when>
+            <when test="i == 2">
+                year desc,month desc
+            </when>
+            <when test="i == 3">
+                year desc
+            </when>
+        </choose>
+    </select>
+    <select id="getAllIncome" resultType="double">
+        select sum(income)/100 income from mall_income
     </select>
 </mapper>

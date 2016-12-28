@@ -173,4 +173,18 @@ public class OwnerController {
         String ownerId = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
         return ownerService.getIncome(cond, Long.valueOf(ownerId));
     }
+
+    @ResponseBody
+    @RequestMapping("/allIncome")
+    public Result getAllIncome(HttpServletRequest request) {
+        String auth = request.getHeader("Authorization");
+        Result result = new Result();
+        if(auth == null) {
+            result.setStatus(0);
+            result.setMessage("haven't log in");
+            return result;
+        }
+        String ownerId = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
+        return ownerService.getAllIncome(Long.valueOf(ownerId));
+    }
 }
