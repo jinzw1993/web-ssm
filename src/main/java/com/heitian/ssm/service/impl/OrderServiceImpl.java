@@ -267,5 +267,31 @@ public class OrderServiceImpl implements OrderService {
 	public List<OrderBo> search(PageCondition page, Long customerId) {
 		return orderDao.search(page, customerId);
 	}
+
+	@Override
+	public Result cancel(Long id) {
+		OrderBo orderBo = orderDao.getOrderById(id);
+		if(1 == orderBo.getStatus()) {
+			result.setStatus(0);
+			result.setMessage("The order was cancelled!");
+			return result;
+		}
+		
+		int i = orderDao.changeOrderStatus(id, (long)2);
+        if (i > 0) {
+            result.setStatus(1);
+            result.setMessage("success");
+            List<ProductInOrderBo> list = productInOrderDao.getProductByOrderId(id);
+            for(ProductInOrderBo p : list) {
+            	Product product = productDao.searchProductById(p.getProductId());
+            	productDao.updateProductAmount(p.getProductId(), p.getAmount() + product.getAmount());
+            }
+        } else {
+            result.setStatus(0);
+            result.setMessage("failed");
+        }
+		
+		return result;
+	}
 	
 }

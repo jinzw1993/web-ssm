@@ -31,7 +31,7 @@ public class OrderController {
     private Result result = new Result();
 
     /**
-     * 更改 process status
+     * 店主更改 process status
      * @param id
      * @param status
      * @param request
@@ -41,28 +41,9 @@ public class OrderController {
     public @ResponseBody
     Result changeProcessStatus(@RequestParam Long id, @RequestParam Long status, HttpServletRequest request) {
         if(request.getHeader("Authorization") == null) {
-            return returnFailResult();
+            returnFailResult();
         }
         return orderService.changeProcessStatus(id, status);
-    }
-
-    /**
-     * 送货
-     * @param id
-     * @param expressId
-     * @param request
-     * @return
-     */
-    @RequestMapping("/deliver")
-    public @ResponseBody
-    Result deliver(@RequestParam Long id,
-                   @RequestParam Long expressId,
-                   @RequestParam String number,
-                   HttpServletRequest request) {
-        if(request.getHeader("Authorization") == null) {
-            return returnFailResult();
-        }
-        return orderService.deliver(expressId,number,id);
     }
 
     /**
@@ -109,55 +90,44 @@ public class OrderController {
                                   HttpServletRequest request) {
         String auth = request.getHeader("Authorization");
         if(auth == null) {
-            return returnFailResult();
+            returnFailResult();
         }
         String ownerId = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
         return orderService.getOwnerOrderBoByPStatusNum(status, Long.valueOf(ownerId));
     }
 
     /**
-     * admin/owner/customer按日周月年查询正常订单列表，time的值 0天 1周 2月 3年
+     * 店主按日周月年查询正常订单列表，time的值 0天 1周 2月 3年
      * @param time
      * @param request
      * @return
      */
-    @RequestMapping("/listByTime")
+    @RequestMapping("/listByOwnerTime")
     public @ResponseBody
-    List<OrderBo> getListByTime(@RequestBody TimeCondition time,
+    List<OrderBo> getListByOwnerTime(@RequestBody TimeCondition time,
                                          HttpServletRequest request) {
         String auth = request.getHeader("Authorization");
-
+        if(auth == null)
+            return new ArrayList<>();
         String ownerId = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
-        if(ownerId != null && ownerId != "")
-            return orderService.getOrderByTime(Long.valueOf(ownerId), time, 1);
-
-        String customerId = auth.split(";")[1].substring(11);
-        if(customerId != null && customerId != "")
-            return orderService.getOrderByTime(Long.valueOf(customerId), time, 2);
-
-        return orderService.getOrderByTime(0L, time, 0);
+        return orderService.getOwnOrderByTime(Long.valueOf(ownerId), time);
     }
 
     /**
-     * admin/owner/customer查询正常所有订单数目，用于按日周月年查询的分页
+     * 店主查询正常所有订单数目，用于按日周月年查询的分页
      * @param request
      * @return
      */
-    @RequestMapping("/listByTimeNum")
+    @RequestMapping("/listByOwnerTimeNum")
     public @ResponseBody
-    Result getListByTimeNum(@RequestBody TimeCondition time,
+    Result getListByOwnerTimeNum(@RequestBody TimeCondition time,
                                  HttpServletRequest request) {
         String auth = request.getHeader("Authorization");
-
+        if(auth == null) {
+            returnFailResult();
+        }
         String ownerId = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
-        if(ownerId != null && ownerId != "")
-            return orderService.getOrderByTimeNum(Long.valueOf(ownerId), time, 1);
-
-        String customerId = auth.split(";")[1].substring(11);
-        if(customerId != null && customerId != "")
-            return orderService.getOrderByTimeNum(Long.valueOf(customerId), time, 2);
-
-        return orderService.getOrderByTimeNum(0L, time, 0);
+        return orderService.getOwnOrderByTimeNum(Long.valueOf(ownerId), time);
     }
 
     /**
@@ -238,7 +208,26 @@ public class OrderController {
         
         String s[] = auth.split(";");//前提是，传参为ownerId=xxx;customerId=xxx;adress=xxx...格式
         Long customerId = Long.valueOf(s[1].substring(11));
+    	//long customerId = 1;
+        
         return orderService.search(page, customerId);
+    }
+    
+    /**
+     * 用户查询自己订单
+     * @param request
+     * @return
+     */
+    @RequestMapping("/cancel")
+    @ResponseBody
+    public Result cancel(@RequestParam Long id, HttpServletRequest request) {
+    	String auth = request.getHeader("Authorization");
+    	
+        if(auth == null) {
+            return returnFailResult();
+        }
+        
+        return orderService.cancel(id);
     }
 
     private Result returnFailResult() {

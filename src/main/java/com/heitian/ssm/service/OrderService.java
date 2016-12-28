@@ -15,17 +15,15 @@ import com.heitian.ssm.model.Order;
 public interface OrderService {
     Result changeProcessStatus(Long orderId, Long status);
     OrderBo getOrderBoById(Long orderId);
-
-    Result getOrderByTimeNum(Long id, TimeCondition time, int kind);
-    List<OrderBo> getOrderByTime(Long id, TimeCondition time, int kind);
-
+    Result getOwnOrderByTimeNum(Long orderId, TimeCondition time);
+    List<OrderBo> getOwnOrderByTime(Long orderId, TimeCondition time);
     List<OrderBo> getOwnerOrderBoByPStatus(Long processStatus, Long ownerId, int page, int pageNum);
     Result getOwnerOrderBoByPStatusNum(Long processStatus, Long ownerId);
     List<ProductInOrderBo> getProductInOrder(Long orderId);
-    Result deliver(Long expressId, String number, Long orderId);
-
+    
     public List<OrderBo> addOrder(Long cartId);
     public Result changeStatus(Long orderId, Long status);
 	public List<OrderBo> search(PageCondition page, Long customerId);
 	public Result confirmOrder(Long orderId, Long addressId);
+	public Result cancel(Long id);
 }
