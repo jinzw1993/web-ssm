@@ -21,7 +21,7 @@
 	</select>
 	
 	<update id="updateProductInCart" parameterType="com.heitian.ssm.model.ProductInCart">
-        UPDATE product_in_cart set  amount=#{productInCart.amount
+        UPDATE product_in_cart set  amount=#{productInCart.amount}
         WHERE product_id = #{productInCart.productId} AND cart_id = #{productInCart.cartId}
     </update>
     
