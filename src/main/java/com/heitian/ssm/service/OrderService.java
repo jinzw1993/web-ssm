@@ -20,6 +20,7 @@ public interface OrderService {
     List<OrderBo> getOwnerOrderBoByPStatus(Long processStatus, Long ownerId, int page, int pageNum);
     Result getOwnerOrderBoByPStatusNum(Long processStatus, Long ownerId);
     List<ProductInOrderBo> getProductInOrder(Long orderId);
+    Result deliver(Long orderId, Long expressId, String number);
     
     public List<OrderBo> addOrder(Long cartId);
 	public List<OrderBo> search(PageCondition page, Long customerId);
