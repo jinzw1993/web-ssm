@@ -246,7 +246,7 @@ public class OrderServiceImpl implements OrderService {
 		Customer customer = customerDao.getCustomerByEmail(orderBo.getCustomerEmail());
 		if(orderBo != null && customer != null) {
 			if(0 == orderBo.getStatus()) {
-				if(customer.getBalance() < orderBo.getAmount()) {
+				if(customer.getBalance() < orderBo.getPrice()) {
 					Result r = new Result();
 					r.setStatus(0);
 					r.setMessage("Not sufficient funds");
