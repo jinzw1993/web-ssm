@@ -105,7 +105,7 @@ public class OrderController {
     @RequestMapping("/listByTime")
     public @ResponseBody
     List<OrderBo> getListByTime(@RequestBody TimeCondition time,
-                                         HttpServletRequest request) {
+                                HttpServletRequest request) {
         String auth = request.getHeader("Authorization");
 
         if(auth != null) {
@@ -129,7 +129,7 @@ public class OrderController {
     @RequestMapping("/listByTimeNum")
     public @ResponseBody
     Result getListByTimeNum(@RequestBody TimeCondition time,
-                                 HttpServletRequest request) {
+                            HttpServletRequest request) {
         String auth = request.getHeader("Authorization");
 
         if(auth != null) {
@@ -174,22 +174,6 @@ public class OrderController {
         return orderService.addOrder(cartId);
     }
     
-    /**
-     * 确认订单
-     * @return
-     */
-    @RequestMapping("/confirm")
-    @ResponseBody
-    public Result confirmOrder(HttpServletRequest request) {
-    	String auth = request.getHeader("Authorization");
-        if(auth == null)
-            return returnFailResult();       
-       
-        Long orderId = Long.valueOf(request.getParameter("orderId"));
-        
-        Long addressId = Long.valueOf(request.getParameter("addressId"));
-        return orderService.confirmOrder(orderId, addressId);
-    }
     
     /**
      * 用户状态响应 status
@@ -204,10 +188,19 @@ public class OrderController {
         if(request.getHeader("Authorization") == null) {
             returnFailResult();
         }
-        if(status == 2) {
-            orderService.cancel(id);
+        if(0 == status) {
+        	Long addressId = Long.valueOf(request.getParameter("addressId"));
+        	return orderService.confirmOrder(id, addressId);
+        } else if(1 == status) {
+        	return orderService.pay(id);
+        } else if(2 == status){
+        	return orderService.cancel(id);
+        } else {
+        	Result r= new Result();
+        	r.setStatus(0);
+        	r.setMessage("The parameters of the illegal!");
+        	return r;
         }
-        return orderService.changeStatus(id, status);
     }
     
     /**

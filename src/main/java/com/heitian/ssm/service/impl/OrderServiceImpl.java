@@ -10,8 +10,6 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 
-import com.heitian.ssm.dao.*;
-import com.heitian.ssm.util.ResultResolver;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +18,15 @@ import com.heitian.ssm.bo.PageCondition;
 import com.heitian.ssm.bo.ProductInOrderBo;
 import com.heitian.ssm.bo.Result;
 import com.heitian.ssm.bo.TimeCondition;
+import com.heitian.ssm.dao.CartDao;
+import com.heitian.ssm.dao.CustomerAddressDao;
+import com.heitian.ssm.dao.CustomerDao;
+import com.heitian.ssm.dao.MallConfigDao;
+import com.heitian.ssm.dao.OrderDao;
+import com.heitian.ssm.dao.ProductDao;
+import com.heitian.ssm.dao.ProductInCartDao;
+import com.heitian.ssm.dao.ProductInOrderDao;
+import com.heitian.ssm.dao.ShopDao;
 import com.heitian.ssm.model.Cart;
 import com.heitian.ssm.model.Customer;
 import com.heitian.ssm.model.Order;
@@ -48,23 +55,24 @@ public class OrderServiceImpl implements OrderService {
     @Resource
     private MallConfigDao mallConfigDao;
     @Resource
+    private CustomerAddressDao customerAddressDao;
+    @Resource
     private ShopDao shopDao;
     @Resource
     private CustomerDao customerDao;
-    @Resource
-    private ShopIncomeDao shopIncomeDao;
-    @Resource
-    private MallIncomeDao mallIncomeDao;
     
     private Result result = new Result();
 
     public Result changeProcessStatus(Long orderId, Long status) {
         int i = orderDao.changeOrderProcessStatus(orderId, status);
-        if(i == 4) {
-            shopIncomeDao.insertIncome(orderId);
-            mallIncomeDao.insertIncome(orderId);
+        if (i > 0) {
+            result.setStatus(1);
+            result.setMessage("success");
+        } else {
+            result.setStatus(0);
+            result.setMessage("failed");
         }
-        return ResultResolver.returnRes(i);
+        return result;
     }
 
     public OrderBo getOrderBoById(Long orderId) {
@@ -74,6 +82,7 @@ public class OrderServiceImpl implements OrderService {
         else
             return order;
     }
+
 
     public List<OrderBo> getOrderByTime(Long id, TimeCondition time, int kind) {
         setTimeCon(time);
@@ -101,10 +110,6 @@ public class OrderServiceImpl implements OrderService {
         return productInOrderDao.getProductByOrderId(orderId);
     }
 
-    public Result deliver(Long expressId, String number, Long orderId) {
-        return ResultResolver.returnRes(orderDao.setExpress(expressId, number, orderId));
-    }
-
     private void setTimeCon(TimeCondition time) {
         if(time == null)
             time = new TimeCondition();
@@ -115,19 +120,12 @@ public class OrderServiceImpl implements OrderService {
         //默认设为当前日期
         Calendar now = Calendar.getInstance();
         now.setFirstDayOfWeek(Calendar.MONDAY);
-        int week = now.get(Calendar.WEEK_OF_YEAR);
-        if(now.get(Calendar.MONTH) == 11) {
-            week += 52;
-        }
         if(time.getYear() == null)
             time.setYear(now.get(Calendar.YEAR));
         if(time.getMonth() == null)
             time.setMonth(now.get(Calendar.MONTH) +1);
         if(time.getWeek() == null)
-            time.setWeek(week -1);
-		else {
-            time.setWeek(week - time.getWeek());
-        }
+            time.setWeek(now.get(Calendar.WEEK_OF_YEAR) -1);
         if(time.getDay() == null)
             time.setDay(now.get(Calendar.DAY_OF_MONTH));
     }
@@ -137,6 +135,7 @@ public class OrderServiceImpl implements OrderService {
 	public List<OrderBo> addOrder(Long cartId) {
 		Cart cart = cartDao.searchCartById(cartId);
 		int x = 0;
+		System.out.println(cart.getAmount());
 		if(cart != null) {
 			List<ProductInCart> productInCarts = productInCartDao.searchProductInCartByCartId(cart.getId());
 			if(productInCarts != null && productInCarts.size() > 0) {
@@ -175,8 +174,8 @@ public class OrderServiceImpl implements OrderService {
 					order.setAmount(orderAmount);
 					order.setCommissionRate(Double.valueOf(mallConfigDao.getMallConfigByKey("1").getValue()));
 					order.setCommission(orderPrice * Double.valueOf(mallConfigDao.getMallConfigByKey("1").getValue()));
-					order.setStatus((long)0); 
-					order.setProcessStatus((long)0);
+					order.setStatus((long)-1); 
+					order.setProcessStatus((long)-1);
 					order.setCreatedAt(new Timestamp(new Date().getTime()));
 					order.setAddressId((long)0);
 					order.setExpressPrice((long)0);
@@ -212,27 +211,41 @@ public class OrderServiceImpl implements OrderService {
 		for(int i = orderDao.getMaxOrderId() - x + 1; i <= orderDao.getMaxOrderId(); i++) {
 			list.add(orderDao.getOrderById((long)i));
 		}
-				/*orderDao.getListOrderBoLimit(, x);*/
+				
 		return list;
 	}	
 
 	@Override
 	public Result confirmOrder(Long orderId, Long addressId) {
-		
-		OrderBo orderBo = orderDao.getOrderById(orderId);
+			
+		int i = orderDao.changeOrderAddress(orderId, addressId);
+		orderDao.changeOrderStatus(orderId, (long) 0);
+		orderDao.changeOrderProcessStatus(orderId, (long) 0);
+		result.setStatus(1);
+		result.setMessage("confirm success");
+		return result;
+				
+	}
+	
+	@Override
+	public List<OrderBo> search(PageCondition page, Long customerId) {
+		return orderDao.search(page, customerId);
+	}
+	
+	@Override
+	public Result pay(Long id) {
+		OrderBo orderBo = orderDao.getOrderById(id);
 		Customer customer = customerDao.getCustomerByEmail(orderBo.getCustomerEmail());
 		if(orderBo != null && customer != null) {
 			if(0 == orderBo.getStatus()) {
-				if(customer.getBalance() < orderBo.getPrice() + orderBo.getExpressPrice()) {
+				if(customer.getBalance() < orderBo.getAmount()) {
 					Result r = new Result();
 					r.setStatus(0);
 					r.setMessage("Not sufficient funds");
 					return r;
 				} else {
 					customerDao.updateBalance(customer.getBalance() - orderBo.getPrice(), customer.getEmail());
-					orderDao.changeOrderAddress(orderId, addressId);
-					orderDao.changeOrderStatus(orderId, (long) 1);
-                    orderDao.changeOrderProcessStatus(orderId, (long)1);
+					orderDao.changeOrderStatus(id, (long) 1);
 					Result r = new Result();
 					r.setStatus(1);
 					r.setMessage("Pay for success");
@@ -250,25 +263,6 @@ public class OrderServiceImpl implements OrderService {
 			r.setMessage("wrong");
 			return r;
 		}
-				
-	}
-	
-	@Override
-	public Result changeStatus(Long orderId, Long status) {
-        int i = orderDao.changeOrderStatus(orderId, status);
-        if (i > 0) {
-            result.setStatus(1);
-            result.setMessage("success");
-        } else {
-            result.setStatus(0);
-            result.setMessage("failed");
-        }
-        return result;
-    }
-	
-	@Override
-	public List<OrderBo> search(PageCondition page, Long customerId) {
-		return orderDao.search(page, customerId);
 	}
 
 	@Override
@@ -296,5 +290,7 @@ public class OrderServiceImpl implements OrderService {
 		
 		return result;
 	}
+
+
 	
 }
