@@ -10,15 +10,11 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 
+import com.heitian.ssm.bo.*;
 import com.heitian.ssm.util.ResultResolver;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.heitian.ssm.bo.OrderBo;
-import com.heitian.ssm.bo.PageCondition;
-import com.heitian.ssm.bo.ProductInOrderBo;
-import com.heitian.ssm.bo.Result;
-import com.heitian.ssm.bo.TimeCondition;
 import com.heitian.ssm.dao.CartDao;
 import com.heitian.ssm.dao.CustomerAddressDao;
 import com.heitian.ssm.dao.CustomerDao;
@@ -95,6 +91,13 @@ public class OrderServiceImpl implements OrderService {
         result.setStatus(1);
         result.setMessage(String.valueOf(orderDao.getOrdersTimeNum(ownerId, time, kind)));
         return result;
+    }
+
+    public List<OrderCountBo> getOrderNum(Long id, int i, int kind) {
+        List<OrderCountBo> list = orderDao.getOrderNum(id, i, kind);
+        if(list == null)
+            return new ArrayList<>();
+        return list;
     }
 
     public List<OrderBo> getOwnerOrderBoByPStatus(Long processStatus, Long ownerId, int page, int pageNum) {

@@ -110,7 +110,7 @@
     </select>
 
     <select id="searchProductById" parameterType="java.lang.Long" resultMap="ProductBaseMap">
-        select * from product
+        select id,owner_id,shop_id,product_photo_id,name,price/100 price,category_id,detail,created_at,modified_at,amount from product
         WHERE id=#{id}
     </select>
 
