@@ -32,7 +32,7 @@
         address_id,
         price/100 price,
         amount,
-        commission,
+        commission/100 commission,
         `order`.status order_status,
         process_status,
         created_at,

@@ -9,7 +9,7 @@
         <result column="status" property="status" jdbcType="INTEGER"/>
         <result column="password" property="password" jdbcType="VARCHAR"/>
         <result column="email" property="email" jdbcType="VARCHAR"/>
-        <result column="isEmailVerified" property="is_email_verified" jdbcType="BOOLEAN"/>
+        <result column="is_email_verified" property="isEmailVerified" jdbcType="BOOLEAN"/>
     </resultMap>
     
     <select id="findCustomerById" parameterType="java.lang.Long" resultMap="customerMap">
