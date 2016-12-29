@@ -2,6 +2,7 @@ package com.heitian.ssm.bo;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.sql.Date;
 
@@ -16,6 +17,7 @@ public class OrderBo {
     private Long expressId;
     private Double price;
     private Long amount;
+    @JsonSerialize(using=com.heitian.ssm.util.CustomDoubleSerializer.class)
     private Double commission;
     private Long status;
     private Long processStatus;

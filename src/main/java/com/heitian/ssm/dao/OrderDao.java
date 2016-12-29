@@ -2,6 +2,7 @@ package com.heitian.ssm.dao;
 
 import java.util.List;
 
+import com.heitian.ssm.bo.OrderCountBo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -20,6 +21,7 @@ public interface OrderDao {
 
     List<OrderBo> getOrdersTime(@Param("id") Long id, @Param("time")TimeCondition time, @Param("kind") int kind);
     int getOrdersTimeNum(@Param("id") Long id, @Param("time")TimeCondition time, @Param("kind") int kind);
+    List<OrderCountBo> getOrderNum(@Param("id") Long id, @Param("i") int i, @Param("kind") int kind);
 
 
     List<OrderBo> getOwnerOrderBoByProcessStatus(@Param("processStatus") Long processStatus, @Param("ownerId")Long ownerId, @Param("start") int start,@Param("pageNum") int pageNum);

@@ -32,7 +32,7 @@
         address_id,
         price/100 price,
         amount,
-        commission,
+        commission/100 commission,
         `order`.status order_status,
         process_status,
         created_at,
@@ -133,6 +133,36 @@
         and `order`.process_status=4 and `order`.status=1
     </select>
 
+    <select id="getOrderNum" resultType="com.heitian.ssm.bo.OrderCountBo">
+        select count(*) num,
+        <choose>
+            <when test="i == 0">
+                year(created_at) year,month(created_at) month,day(created_at) day
+            </when>
+            <when test="i == 1">
+                year(created_at) year,week(created_at) week
+            </when>
+            <when test="i == 2">
+                year(created_at) year,month(created_at) month
+            </when>
+            <when test="i == 3">
+                year(created_at) year
+            </when>
+        </choose>
+        from `order`
+        where `order`.process_status=4 and `order`.status=1
+        <choose>
+            <when test="kind == 0">
+            </when>
+            <when test="kind == 1">
+                AND `order`.owner_id=#{id}
+            </when>
+            <when test="kind == 2">
+                AND `order`.customer_id=#{id}
+            </when>
+        </choose>
+        order by `order`.created_at desc
+    </select>
 
     <update id="setExpress">
         update `order`,express_order_log

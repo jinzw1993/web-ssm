@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.heitian.ssm.bo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,12 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.heitian.ssm.bo.OrderBo;
-import com.heitian.ssm.bo.PageCondition;
-import com.heitian.ssm.bo.ProductInOrderBo;
-import com.heitian.ssm.bo.Result;
-import com.heitian.ssm.bo.TimeCondition;
-import com.heitian.ssm.model.Order;
 import com.heitian.ssm.service.OrderService;
 
 /**
@@ -137,7 +132,6 @@ public class OrderController {
     Result getListByTimeNum(@RequestBody TimeCondition time,
                             HttpServletRequest request) {
         String auth = request.getHeader("Authorization");
-
         if(auth != null) {
             String ownerId = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
             if (ownerId != null && ownerId != "")
@@ -148,7 +142,28 @@ public class OrderController {
                 return orderService.getOrderByTimeNum(Long.valueOf(customerId), time, 2);
         }
         return orderService.getOrderByTimeNum(0L, time, 0);
+    }
 
+    /**
+     * 日/周/月/年 返回订单数目
+     * @param cond
+     * @param request
+     * @return
+     */
+    @RequestMapping("/num")
+    public @ResponseBody
+    List<OrderCountBo> getOrderNum(@RequestParam int cond, HttpServletRequest request) {
+        String auth = request.getHeader("Authorization");
+        if(auth != null) {
+            String ownerId = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
+            if (ownerId != null && !"".equals(ownerId))
+                return orderService.getOrderNum(Long.valueOf(ownerId), cond, 1);
+
+            String customerId = auth.split(";")[1].substring(11);
+            if (customerId != null && !"".equals(customerId))
+                return orderService.getOrderNum(Long.valueOf(customerId), cond, 2);
+        }
+        return orderService.getOrderNum(0L, cond, 0);
     }
 
     /**
