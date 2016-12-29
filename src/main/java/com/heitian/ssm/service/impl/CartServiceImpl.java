@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.heitian.ssm.bo.CartBo;
+import com.heitian.ssm.bo.ProductInCartBo;
 import com.heitian.ssm.bo.Result;
 import com.heitian.ssm.dao.CartDao;
 import com.heitian.ssm.dao.OwnerDao;
@@ -48,29 +49,41 @@ public class CartServiceImpl implements CartService {
 			for(ProductInCart productInCart : productInCarts) {
 				Product product = productDao.searchProductById(productInCart.getProductId());
 				allPrice += productInCart.getAmount() * product.getPrice();
-			}
+			}						
+				
+			CartBo cartBo = new CartBo();
+			cartBo.setCartId(cart.getId());
+			cartBo.setAllAmount(cart.getAmount());
+			cartBo.setAllPrice(allPrice);
 			
-			for(ProductInCart productInCart : productInCarts) {				
-				Product product = productDao.searchProductById(productInCart.getProductId());
-				
-				String path=productDao.searchPhotoURL(product.getId());
-				CartBo cartBo = new CartBo(product);
-				cartBo.setCartId(cart.getId());
-				cartBo.setProductId(product.getId());
-				cartBo.setProductInCartId(productInCart.getId());
-				cartBo.setAmount(productInCart.getAmount());
-				cartBo.setSubPrice(productInCart.getAmount() * product.getPrice());
-				cartBo.setPhotoURL(path);
-				cartBo.setAllAmount(cart.getAmount());
-				cartBo.setAllPrice(allPrice);
-				
-				cartBos.add(cartBo);
-			}
+			cartBos.add(cartBo);
 		}
 		
 		return cartBos;
 		
 	}
+	
+	@Override
+	public List<ProductInCartBo> getProductInCart(Long id) {
+		List<ProductInCart> list = productInCartDao.searchProductInCartByCartId(id);
+		List<ProductInCartBo> pBos = new ArrayList<ProductInCartBo>();
+		if(list != null && list.size() > 0) {
+			for(ProductInCart p : list) {
+				ProductInCartBo pBo = new ProductInCartBo();
+				Product product = productDao.searchProductById(p.getProductId());
+				String path=productDao.searchPhotoURL(product.getId());
+				pBo.setAmount(p.getAmount());
+				pBo.setCategory(product.getCategoryId());
+				pBo.setName(product.getName());
+				pBo.setPhotoURL(path);
+				pBo.setPrice(p.getAmount() * product.getPrice());
+				pBo.setProductId(product.getId());
+				
+				pBos.add(pBo);
+			}
+		}
+		return pBos;
+	}	
 	
 	/**
 	 * 添加购物车
@@ -218,6 +231,6 @@ public class CartServiceImpl implements CartService {
 	@Override
 	public ProductInCart getProductInCartById(Long id) {
 		return productInCartDao.searchProductInCartById(id);
-	}	
+	}
 
 }
