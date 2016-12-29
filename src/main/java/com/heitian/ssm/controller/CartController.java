@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.heitian.ssm.bo.CartBo;
+import com.heitian.ssm.bo.ProductInCartBo;
 import com.heitian.ssm.bo.Result;
 import com.heitian.ssm.model.Cart;
 import com.heitian.ssm.model.ProductInCart;
@@ -111,6 +112,17 @@ public class CartController {
         Result result = cartService.updateProductAmount(productId, customerId, amount);
     	
         return result;
+    }
+    
+    /**
+     * 根据购物车查询商品
+     * @param id
+     * @return
+     */
+    @RequestMapping("/products")
+    public @ResponseBody
+    List<ProductInCartBo> getProductInOrder(@RequestParam Long id) {
+        return cartService.getProductInCart(id);
     }
     
     private Result returnResult() {
