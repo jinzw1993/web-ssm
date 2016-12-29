@@ -10,6 +10,7 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 
+import com.heitian.ssm.util.ResultResolver;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -84,15 +85,15 @@ public class OrderServiceImpl implements OrderService {
     }
 
 
-    public List<OrderBo> getOwnOrderByTime(Long id, TimeCondition time) {
+    public List<OrderBo> getOrderByTime(Long id, TimeCondition time, int kind) {
         setTimeCon(time);
-        return orderDao.getOwnerOrders(id, time);
+        return orderDao.getOrdersTime(id, time, kind);
     }
 
-    public Result getOwnOrderByTimeNum(Long ownerId, TimeCondition time) {
+    public Result getOrderByTimeNum(Long ownerId, TimeCondition time, int kind) {
         setTimeCon(time);
         result.setStatus(1);
-        result.setMessage(String.valueOf(orderDao.getOwnOrderCompleteNum(ownerId, time)));
+        result.setMessage(String.valueOf(orderDao.getOrdersTimeNum(ownerId, time, kind)));
         return result;
     }
 
@@ -108,6 +109,10 @@ public class OrderServiceImpl implements OrderService {
 
     public List<ProductInOrderBo> getProductInOrder(Long orderId) {
         return productInOrderDao.getProductByOrderId(orderId);
+    }
+
+    public Result deliver(Long orderId, Long expressId, String number) {
+        return ResultResolver.returnRes(orderDao.setExpress(expressId, number, orderId));
     }
 
     private void setTimeCon(TimeCondition time) {

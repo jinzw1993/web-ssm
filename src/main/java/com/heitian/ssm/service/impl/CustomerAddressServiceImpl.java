@@ -33,7 +33,11 @@ public class CustomerAddressServiceImpl implements CustomerAddressService {
 	@Override
 	public Result addCustomerAddress(CustomerAddress customerAddress) {
 		int i = cad.addCustomerAddress(customerAddress);
-		return ResultResolver.returnRes(i);
+		Result r =  ResultResolver.returnRes(i);
+		if(i > 0) {
+			r.setMessage(String.valueOf(customerAddress.getId()));
+		}
+        return r;
 	}
 
 	@Override

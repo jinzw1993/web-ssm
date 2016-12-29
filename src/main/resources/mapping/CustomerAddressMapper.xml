@@ -26,6 +26,9 @@
         #{telephone},
         #{address}
         )
+        <selectKey resultType="long" keyProperty="id">
+          select last_insert_id() as id
+        </selectKey>
     </insert>
     
     <select id="getCustomerAddressById" parameterType="java.lang.Long" resultMap="customerAddressMap">

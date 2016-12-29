@@ -40,6 +40,12 @@ public class OrderController {
     @RequestMapping("/changeProcessStatus")
     public @ResponseBody
     Result changeProcessStatus(@RequestParam Long id, @RequestParam Long status, HttpServletRequest request) {
+        if(status == 2) {
+            String number  = request.getParameter("number");
+            Long expressId = Long.valueOf(request.getParameter("expressId"));
+            return orderService.deliver(id, expressId, number);
+        }
+
         if(request.getHeader("Authorization") == null) {
             returnFailResult();
         }
@@ -97,37 +103,52 @@ public class OrderController {
     }
 
     /**
-     * 店主按日周月年查询正常订单列表，time的值 0天 1周 2月 3年
+     * 按日周月年查询正常订单列表，time的值 0天 1周 2月 3年
      * @param time
      * @param request
      * @return
      */
-    @RequestMapping("/listByOwnerTime")
+    @RequestMapping("/listByTime")
     public @ResponseBody
-    List<OrderBo> getListByOwnerTime(@RequestBody TimeCondition time,
-                                         HttpServletRequest request) {
+    List<OrderBo> getListByTime(@RequestBody TimeCondition time,
+                                HttpServletRequest request) {
         String auth = request.getHeader("Authorization");
-        if(auth == null)
-            return new ArrayList<>();
-        String ownerId = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
-        return orderService.getOwnOrderByTime(Long.valueOf(ownerId), time);
+
+        if(auth != null) {
+            String ownerId = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
+            if (ownerId != null && !"".equals(ownerId))
+                return orderService.getOrderByTime(Long.valueOf(ownerId), time, 1);
+
+            String customerId = auth.split(";")[1].substring(11);
+            if (customerId != null && !"".equals(customerId))
+                return orderService.getOrderByTime(Long.valueOf(customerId), time, 2);
+        }
+        return orderService.getOrderByTime(0L, time, 0);
+
     }
 
     /**
-     * 店主查询正常所有订单数目，用于按日周月年查询的分页
+     * 查询正常所有订单数目，用于按日周月年查询的分页
      * @param request
      * @return
      */
-    @RequestMapping("/listByOwnerTimeNum")
+    @RequestMapping("/listByTimeNum")
     public @ResponseBody
-    Result getListByOwnerTimeNum(@RequestBody TimeCondition time,
-                                 HttpServletRequest request) {
+    Result getListByTimeNum(@RequestBody TimeCondition time,
+                            HttpServletRequest request) {
         String auth = request.getHeader("Authorization");
-        if(auth == null) {
-            returnFailResult();
+
+        if(auth != null) {
+            String ownerId = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
+            if (ownerId != null && ownerId != "")
+                return orderService.getOrderByTimeNum(Long.valueOf(ownerId), time, 1);
+
+            String customerId = auth.split(";")[1].substring(11);
+            if (customerId != null && customerId != "")
+                return orderService.getOrderByTimeNum(Long.valueOf(customerId), time, 2);
         }
-        String ownerId = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
-        return orderService.getOwnOrderByTimeNum(Long.valueOf(ownerId), time);
+        return orderService.getOrderByTimeNum(0L, time, 0);
+
     }
 
     /**
@@ -208,7 +229,7 @@ public class OrderController {
         
         return orderService.search(page, customerId);
     }
-    
+
     private Result returnFailResult() {
         result.setStatus(0);
         result.setMessage("haven't log in");
