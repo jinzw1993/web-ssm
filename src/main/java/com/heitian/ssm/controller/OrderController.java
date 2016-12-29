@@ -97,14 +97,14 @@ public class OrderController {
     }
 
     /**
-     * 店主按日周月年查询正常订单列表，time的值 0天 1周 2月 3年
+     * 按日周月年查询正常订单列表，time的值 0天 1周 2月 3年
      * @param time
      * @param request
      * @return
      */
-    @RequestMapping("/listByOwnerTime")
+    @RequestMapping("/listByTime")
     public @ResponseBody
-    List<OrderBo> getListByOwnerTime(@RequestBody TimeCondition time,
+    List<OrderBo> getListByTime(@RequestBody TimeCondition time,
                                          HttpServletRequest request) {
         String auth = request.getHeader("Authorization");
 
@@ -122,13 +122,13 @@ public class OrderController {
     }
 
     /**
-     * 店主查询正常所有订单数目，用于按日周月年查询的分页
+     * 查询正常所有订单数目，用于按日周月年查询的分页
      * @param request
      * @return
      */
-    @RequestMapping("/listByOwnerTimeNum")
+    @RequestMapping("/listByTimeNum")
     public @ResponseBody
-    Result getListByOwnerTimeNum(@RequestBody TimeCondition time,
+    Result getListByTimeNum(@RequestBody TimeCondition time,
                                  HttpServletRequest request) {
         String auth = request.getHeader("Authorization");
 
