@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.sql.Date;
+import java.util.List;
 
 /**
  * Created by oasis on 12/12/16.
@@ -27,6 +28,7 @@ public class OrderBo {
     private String telephone;
     private String address;
     private Double expressPrice;
+    private List<ProductInOrderBo> products;
 
     public Long getId() {
         return id;
@@ -147,4 +149,12 @@ public class OrderBo {
 	public void setExpressPrice(Double expressPrice) {
 		this.expressPrice = expressPrice;
 	}
+
+    public List<ProductInOrderBo> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<ProductInOrderBo> products) {
+        this.products = products;
+    }
 }
