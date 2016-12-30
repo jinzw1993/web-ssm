@@ -225,8 +225,7 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public Result confirmOrder(Long orderId, Long addressId) {
-			
-		int i = orderDao.changeOrderAddress(orderId, addressId);
+		int i = orderDao.changeOrderAddress(orderId, addressId, 10 + (addressId + 2)%10);
 		orderDao.changeOrderStatus(orderId, (long) 0);
 		orderDao.changeOrderProcessStatus(orderId, (long) 0);
 		result.setStatus(1);
@@ -246,7 +245,7 @@ public class OrderServiceImpl implements OrderService {
 		Customer customer = customerDao.getCustomerByEmail(orderBo.getCustomerEmail());
 		if(orderBo != null && customer != null) {
 			if(0 == orderBo.getStatus()) {
-				if(customer.getBalance() < orderBo.getPrice()) {
+				if(customer.getBalance() < orderBo.getPrice() + orderBo.getExpressPrice()) {
 					Result r = new Result();
 					r.setStatus(0);
 					r.setMessage("Not sufficient funds");
