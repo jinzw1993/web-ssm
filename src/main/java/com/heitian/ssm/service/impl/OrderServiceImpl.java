@@ -74,6 +74,7 @@ public class OrderServiceImpl implements OrderService {
 
     public OrderBo getOrderBoById(Long orderId) {
         OrderBo order = orderDao.getOrderById(orderId);
+        order.setProducts(getProductInOrder(order.getId()));
         if(order == null)
             return new OrderBo();
         else
@@ -83,7 +84,14 @@ public class OrderServiceImpl implements OrderService {
 
     public List<OrderBo> getOrderByTime(Long id, TimeCondition time, int kind) {
         setTimeCon(time);
-        return orderDao.getOrdersTime(id, time, kind);
+        List<OrderBo> list =  orderDao.getOrdersTime(id, time, kind);
+        if(list != null)
+            for(OrderBo order : list) {
+                order.setProducts(getProductInOrder(order.getId()));
+            }
+        else
+            return new ArrayList<>();
+        return list;
     }
 
     public Result getOrderByTimeNum(Long ownerId, TimeCondition time, int kind) {
@@ -101,7 +109,14 @@ public class OrderServiceImpl implements OrderService {
     }
 
     public List<OrderBo> getOwnerOrderBoByPStatus(Long processStatus, Long ownerId, int page, int pageNum) {
-        return orderDao.getOwnerOrderBoByProcessStatus(processStatus, ownerId, (page - 1) * pageNum, pageNum);
+        List<OrderBo> list =  orderDao.getOwnerOrderBoByProcessStatus(processStatus, ownerId, (page - 1) * pageNum, pageNum);
+        if(list != null)
+            for(OrderBo order : list) {
+                order.setProducts(getProductInOrder(order.getId()));
+            }
+        else
+            return new ArrayList<>();
+        return list;
     }
 
     public Result getOwnerOrderBoByPStatusNum(Long processStatus, Long ownerId) {
@@ -219,14 +234,15 @@ public class OrderServiceImpl implements OrderService {
 		for(int i = orderDao.getMaxOrderId() - x + 1; i <= orderDao.getMaxOrderId(); i++) {
 			list.add(orderDao.getOrderById((long)i));
 		}
-				
+        for(OrderBo order : list) {
+            order.setProducts(getProductInOrder(order.getId()));
+        }
 		return list;
 	}	
 
 	@Override
 	public Result confirmOrder(Long orderId, Long addressId) {
-			
-		int i = orderDao.changeOrderAddress(orderId, addressId);
+		int i = orderDao.changeOrderAddress(orderId, addressId, 10 + (addressId + 2)%10);
 		orderDao.changeOrderStatus(orderId, (long) 0);
 		orderDao.changeOrderProcessStatus(orderId, (long) 0);
 		result.setStatus(1);
@@ -237,7 +253,14 @@ public class OrderServiceImpl implements OrderService {
 	
 	@Override
 	public List<OrderBo> search(PageCondition page, Long customerId) {
-		return orderDao.search(page, customerId);
+        List<OrderBo> list = orderDao.search(page, customerId);
+        if(list != null)
+            for(OrderBo order : list) {
+                order.setProducts(getProductInOrder(order.getId()));
+            }
+        else
+            return new ArrayList<>();
+        return list;
 	}
 	
 	@Override
@@ -246,13 +269,13 @@ public class OrderServiceImpl implements OrderService {
 		Customer customer = customerDao.getCustomerByEmail(orderBo.getCustomerEmail());
 		if(orderBo != null && customer != null) {
 			if(0 == orderBo.getStatus()) {
-				if(customer.getBalance() < orderBo.getPrice()) {
+				if(customer.getBalance() < orderBo.getPrice() + orderBo.getExpressPrice()) {
 					Result r = new Result();
 					r.setStatus(0);
 					r.setMessage("Not sufficient funds");
 					return r;
 				} else {
-					customerDao.updateBalance(customer.getBalance() - orderBo.getPrice(), customer.getEmail());
+					customerDao.updateBalance(customer.getBalance() - orderBo.getPrice() - orderBo.getExpressPrice(), customer.getEmail());
 					orderDao.changeOrderStatus(id, (long) 1);
 					Result r = new Result();
 					r.setStatus(1);
@@ -298,7 +321,4 @@ public class OrderServiceImpl implements OrderService {
 		
 		return result;
 	}
-
-
-	
 }

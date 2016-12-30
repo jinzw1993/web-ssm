@@ -32,5 +32,5 @@ public interface OrderDao {
     public int getMaxOrderId();
 	public int changeOrderStatus(@Param("orderId") Long orderId,@Param("status") Long status);
 	public List<OrderBo> search(@Param("page") PageCondition page, @Param("customerId") Long customerId);
-	public int changeOrderAddress(@Param("orderId") Long orderId,@Param("addressId") Long addressId);
+	public int changeOrderAddress(@Param("orderId") Long orderId,@Param("addressId") Long addressId, @Param("expressPrice") Long expressPrice);
 }
