@@ -251,7 +251,7 @@ public class OrderServiceImpl implements OrderService {
 					r.setMessage("Not sufficient funds");
 					return r;
 				} else {
-					customerDao.updateBalance(customer.getBalance() - orderBo.getPrice(), customer.getEmail());
+					customerDao.updateBalance(customer.getBalance() - orderBo.getPrice() - orderBo.getExpressPrice(), customer.getEmail());
 					orderDao.changeOrderStatus(id, (long) 1);
 					Result r = new Result();
 					r.setStatus(1);
