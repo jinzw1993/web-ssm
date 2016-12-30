@@ -114,17 +114,6 @@ public class CartController {
         return result;
     }
     
-    /**
-     * 根据购物车查询商品
-     * @param id
-     * @return
-     */
-    @RequestMapping("/products")
-    public @ResponseBody
-    List<ProductInCartBo> getProductInOrder(@RequestParam Long id) {
-        return cartService.getProductInCart(id);
-    }
-    
     private Result returnResult() {
 		Result result = new Result();
 		result.setStatus(0);

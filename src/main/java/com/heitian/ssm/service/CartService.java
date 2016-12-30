@@ -22,5 +22,4 @@ public interface CartService {
 	
 	public ProductInCart getProductInCartById(Long id);
 
-	public List<ProductInCartBo> getProductInCart(Long id);
 }

@@ -49,41 +49,31 @@ public class CartServiceImpl implements CartService {
 			for(ProductInCart productInCart : productInCarts) {
 				Product product = productDao.searchProductById(productInCart.getProductId());
 				allPrice += productInCart.getAmount() * product.getPrice();
-			}						
-				
-			CartBo cartBo = new CartBo();
-			cartBo.setCartId(cart.getId());
-			cartBo.setAllAmount(cart.getAmount());
-			cartBo.setAllPrice(allPrice);
+			}	
 			
-			cartBos.add(cartBo);
+			if(productInCarts != null && productInCarts.size() > 0) {
+				for(ProductInCart p : productInCarts) {
+					Product product = productDao.searchProductById(p.getProductId());
+					String path=productDao.searchPhotoURL(product.getId());
+					
+					CartBo cartBo = new CartBo(product);
+					cartBo.setCartId(cart.getId());
+					cartBo.setAllAmount(cart.getAmount());
+					cartBo.setAllPrice(allPrice);
+					
+					cartBo.setSubAmount(p.getAmount());
+					cartBo.setName(product.getName());
+					cartBo.setPhotoURL(path);
+					cartBo.setSubPrice(p.getAmount() * product.getPrice());
+
+					cartBos.add(cartBo);
+				}			
+			
+			}
 		}
-		
 		return cartBos;
 		
 	}
-	
-	@Override
-	public List<ProductInCartBo> getProductInCart(Long id) {
-		List<ProductInCart> list = productInCartDao.searchProductInCartByCartId(id);
-		List<ProductInCartBo> pBos = new ArrayList<ProductInCartBo>();
-		if(list != null && list.size() > 0) {
-			for(ProductInCart p : list) {
-				ProductInCartBo pBo = new ProductInCartBo();
-				Product product = productDao.searchProductById(p.getProductId());
-				String path=productDao.searchPhotoURL(product.getId());
-				pBo.setAmount(p.getAmount());
-				pBo.setCategory(product.getCategoryId());
-				pBo.setName(product.getName());
-				pBo.setPhotoURL(path);
-				pBo.setPrice(p.getAmount() * product.getPrice());
-				pBo.setProductId(product.getId());
-				
-				pBos.add(pBo);
-			}
-		}
-		return pBos;
-	}	
 	
 	/**
 	 * 添加购物车
@@ -196,6 +186,7 @@ public class CartServiceImpl implements CartService {
 				return r;
 			} else {
 				productInCart.setAmount(amount);
+				
 				i = productInCartDao.updateProductInCart(productInCart);
 				cartDao.updateCartAmount(cart.getAmount() - pAmount + amount, customerId);
 				productDao.updateProductAmount(productId, allAmount + pAmount - amount);
