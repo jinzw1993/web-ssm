@@ -147,8 +147,14 @@ public class OrderServiceImpl implements OrderService {
             time.setYear(now.get(Calendar.YEAR));
         if(time.getMonth() == null)
             time.setMonth(now.get(Calendar.MONTH) +1);
-        if(time.getWeek() == null)
-            time.setWeek(now.get(Calendar.WEEK_OF_YEAR) -1);
+        if(time.getWeek() == null) {
+			if(time.getMonth() == 12 && now.get(Calendar.WEEK_OF_YEAR) == 1)
+				time.setWeek(52);
+			else
+				time.setWeek(now.get(Calendar.WEEK_OF_YEAR) -1);
+		} else {
+			time.setWeek(time.getWeek() -1);
+		}
         if(time.getDay() == null)
             time.setDay(now.get(Calendar.DAY_OF_MONTH));
     }
