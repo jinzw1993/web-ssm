@@ -88,7 +88,6 @@ public class CartServiceImpl implements CartService {
 		}
 		long AllAmount = productDao.searchProductById(productId).getAmount();
 		int i = 0;
-		//productDao.updateProductAmount(productId,  - amount);
 		if(AllAmount < amount) {
 			Result r = new Result();
 			r.setStatus(0);
@@ -131,7 +130,7 @@ public class CartServiceImpl implements CartService {
 					}
 				}
 				cartDao.updateCartAmount(cart.getAmount() + amount, customerId);
-				productDao.updateProductAmount(productId, AllAmount - amount);
+			//	productDao.updateProductAmount(productId, AllAmount - amount);
 			} else {
 				Result r = new Result();
 				r.setStatus(0);
@@ -189,7 +188,7 @@ public class CartServiceImpl implements CartService {
 				
 				i = productInCartDao.updateProductInCart(productInCart);
 				cartDao.updateCartAmount(cart.getAmount() - pAmount + amount, customerId);
-				productDao.updateProductAmount(productId, allAmount + pAmount - amount);
+	//			productDao.updateProductAmount(productId, allAmount + pAmount - amount);
 			}
 			
 		} else {
