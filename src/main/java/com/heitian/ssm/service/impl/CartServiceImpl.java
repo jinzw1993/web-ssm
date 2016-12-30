@@ -178,10 +178,10 @@ public class CartServiceImpl implements CartService {
 		if(cart != null) {
 			ProductInCart productInCart = productInCartDao.searchProductInCartByCartIdAndProductId(cart.getId(), productId);
 			long pAmount = productInCart.getAmount();
-			if(amount > pAmount + allAmount) {
+			if(amount > allAmount) {
 				Result r = new Result();
 				r.setStatus(0);
-				r.setMessage("Product's amount is " + ( allAmount + pAmount ));
+				r.setMessage("Product's amount is " + allAmount);
 				return r;
 			} else {
 				productInCart.setAmount(amount);
