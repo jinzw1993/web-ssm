@@ -88,7 +88,6 @@ public class CartServiceImpl implements CartService {
 		}
 		long AllAmount = productDao.searchProductById(productId).getAmount();
 		int i = 0;
-		//productDao.updateProductAmount(productId,  - amount);
 		if(AllAmount < amount) {
 			Result r = new Result();
 			r.setStatus(0);
@@ -131,7 +130,7 @@ public class CartServiceImpl implements CartService {
 					}
 				}
 				cartDao.updateCartAmount(cart.getAmount() + amount, customerId);
-				productDao.updateProductAmount(productId, AllAmount - amount);
+			//	productDao.updateProductAmount(productId, AllAmount - amount);
 			} else {
 				Result r = new Result();
 				r.setStatus(0);
@@ -179,17 +178,17 @@ public class CartServiceImpl implements CartService {
 		if(cart != null) {
 			ProductInCart productInCart = productInCartDao.searchProductInCartByCartIdAndProductId(cart.getId(), productId);
 			long pAmount = productInCart.getAmount();
-			if(amount > pAmount + allAmount) {
+			if(amount > allAmount) {
 				Result r = new Result();
 				r.setStatus(0);
-				r.setMessage("Product's amount is " + ( allAmount + pAmount ));
+				r.setMessage("Product's amount is " + allAmount);
 				return r;
 			} else {
 				productInCart.setAmount(amount);
 				
 				i = productInCartDao.updateProductInCart(productInCart);
 				cartDao.updateCartAmount(cart.getAmount() - pAmount + amount, customerId);
-				productDao.updateProductAmount(productId, allAmount + pAmount - amount);
+	//			productDao.updateProductAmount(productId, allAmount + pAmount - amount);
 			}
 			
 		} else {

@@ -141,22 +141,17 @@ public class OrderServiceImpl implements OrderService {
             time.setYear(now.get(Calendar.YEAR));
         if(time.getMonth() == null)
             time.setMonth(now.get(Calendar.MONTH) +1);
-        if(time.getWeek() == null) {
-			if(time.getMonth() == 12 && now.get(Calendar.WEEK_OF_YEAR) == 1)
-				time.setWeek(52);
-			else
-				time.setWeek(now.get(Calendar.WEEK_OF_YEAR) -1);
-		} else {
-			time.setWeek(time.getWeek() -1);
-		}
+        if(time.getWeek() == null)
+            time.setWeek(now.get(Calendar.WEEK_OF_YEAR) -1);
         if(time.getDay() == null)
             time.setDay(now.get(Calendar.DAY_OF_MONTH));
     }
 
     
 	@Override
-	public List<OrderBo> addOrder(Long cartId) {
-		Cart cart = cartDao.searchCartById(cartId);
+	public List<OrderBo> addOrder(Long customerId) {
+		//Cart cart = cartDao.searchCartById(cartId);
+		Cart cart = cartDao.searchCartByCustomerId(customerId);
 		int x = 0;
 		System.out.println(cart.getAmount());
 		if(cart != null) {
@@ -242,7 +237,7 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public Result confirmOrder(Long orderId, Long addressId) {
-		int i = orderDao.changeOrderAddress(orderId, addressId, 10 + (addressId + 2)%10);
+		orderDao.changeOrderAddress(orderId, addressId, 10 + (addressId + 2)%10);
 		orderDao.changeOrderStatus(orderId, (long) 0);
 		orderDao.changeOrderProcessStatus(orderId, (long) 0);
 		result.setStatus(1);
@@ -278,6 +273,13 @@ public class OrderServiceImpl implements OrderService {
 					customerDao.updateBalance(customer.getBalance() - orderBo.getPrice() - orderBo.getExpressPrice(), customer.getEmail());
 					orderDao.changeOrderStatus(id, (long) 1);
                     orderDao.changeOrderProcessStatus(id, 1L);
+					List<ProductInOrderBo> list = orderBo.getProducts();
+					if(list != null && list.size() > 0) {
+						for(ProductInOrderBo p : list) {
+							Product product = productDao.searchProductById(p.getProductId());
+							productDao.updateProductAmount(p.getProductId(), product.getAmount() - p.getAmount());
+						}
+					}
 					Result r = new Result();
 					r.setStatus(1);
 					r.setMessage("Pay for success");
