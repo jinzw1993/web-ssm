@@ -19,7 +19,7 @@ public interface OrderService {
     List<ProductInOrderBo> getProductInOrder(Long orderId);
     Result deliver(Long orderId, Long expressId, String number);
     
-    public List<OrderBo> addOrder(Long cartId);
+    public List<OrderBo> addOrder(Long customerId);
 	public List<OrderBo> search(PageCondition page, Long customerId);
 	public Result confirmOrder(Long orderId, Long addressId);
 	public Result cancel(Long id);

@@ -190,9 +190,11 @@ public class OrderController {
         if(auth == null)
             return new ArrayList<OrderBo>();       
        
-        Long cartId = Long.valueOf(request.getParameter("cartId"));
+        //Long cartId = Long.valueOf(request.getParameter("cartId"));
+        String s[] = auth.split(";");//前提是，传参为ownerId=xxx;customerId=xxx;adress=xxx...格式
+        Long customerId = Long.valueOf(s[1].substring(11));
         
-        return orderService.addOrder(cartId);
+        return orderService.addOrder(customerId);
     }
     
     
