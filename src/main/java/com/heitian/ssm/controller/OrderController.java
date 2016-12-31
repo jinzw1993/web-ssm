@@ -35,7 +35,7 @@ public class OrderController {
     @RequestMapping("/changeProcessStatus")
     public @ResponseBody
     Result changeProcessStatus(@RequestParam Long id, @RequestParam Long status, HttpServletRequest request) {
-        if(status == 2) {
+        if(status == 3) {
             String number  = request.getParameter("number");
             Long expressId = Long.valueOf(request.getParameter("expressId"));
             return orderService.deliver(id, expressId, number);

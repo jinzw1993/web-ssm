@@ -170,7 +170,7 @@
         update `order`,express_order_log
         set
         `order`.express_id = #{expressId},
-        `order`.process_status = 2,
+        `order`.process_status = 3,
         express_order_log.express_id=#{expressId},
         express_order_log.log=#{number}
         where express_order_log.order_id = `order`.id  AND express_order_log.order_id=#{orderId}
