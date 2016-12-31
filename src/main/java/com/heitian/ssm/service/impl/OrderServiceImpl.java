@@ -11,19 +11,11 @@ import java.util.Set;
 import javax.annotation.Resource;
 
 import com.heitian.ssm.bo.*;
+import com.heitian.ssm.dao.*;
 import com.heitian.ssm.util.ResultResolver;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.heitian.ssm.dao.CartDao;
-import com.heitian.ssm.dao.CustomerAddressDao;
-import com.heitian.ssm.dao.CustomerDao;
-import com.heitian.ssm.dao.MallConfigDao;
-import com.heitian.ssm.dao.OrderDao;
-import com.heitian.ssm.dao.ProductDao;
-import com.heitian.ssm.dao.ProductInCartDao;
-import com.heitian.ssm.dao.ProductInOrderDao;
-import com.heitian.ssm.dao.ShopDao;
 import com.heitian.ssm.model.Cart;
 import com.heitian.ssm.model.Customer;
 import com.heitian.ssm.model.Order;
@@ -57,6 +49,8 @@ public class OrderServiceImpl implements OrderService {
     private ShopDao shopDao;
     @Resource
     private CustomerDao customerDao;
+    @Resource
+    private AdminCustomerDao adminCustomerDao;
     
     private Result result = new Result();
 
@@ -283,6 +277,7 @@ public class OrderServiceImpl implements OrderService {
 				} else {
 					customerDao.updateBalance(customer.getBalance() - orderBo.getPrice() - orderBo.getExpressPrice(), customer.getEmail());
 					orderDao.changeOrderStatus(id, (long) 1);
+                    orderDao.changeOrderProcessStatus(id, 1L);
 					Result r = new Result();
 					r.setStatus(1);
 					r.setMessage("Pay for success");
@@ -327,4 +322,25 @@ public class OrderServiceImpl implements OrderService {
 		
 		return result;
 	}
+
+    public Result payAllOrders(Long customerId, List<Long> ids) {
+        Result result = new Result();
+        Double balance = adminCustomerDao.findCustomerById(customerId).getBalance();
+        Double sumPrice = 0.0;
+        for(Long id : ids) {
+            OrderBo order = orderDao.getOrderById(id);
+            sumPrice += order.getPrice() + order.getExpressPrice();
+        }
+        if(balance < sumPrice) {
+            result.setStatus(0);
+            result.setMessage("you don't have enough money");
+            return result;
+        }
+        for(Long id :ids) {
+            pay(id);
+        }
+        result.setStatus(1);
+        result.setMessage("success");
+        return result;
+    }
 }

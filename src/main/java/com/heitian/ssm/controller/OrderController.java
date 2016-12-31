@@ -223,7 +223,21 @@ public class OrderController {
         	return r;
         }
     }
-    
+
+    @RequestMapping("/pay")
+    public @ResponseBody
+    Result payOrders(@RequestBody List<Long> ids, HttpServletRequest request) {
+        String auth = request.getHeader("Authorization");
+        Result result = new Result();
+        result.setMessage("you haven't login");
+        result.setStatus(0);
+        if(auth == null) {
+            return result;
+        }
+        Long customerId = Long.valueOf(auth.split(";")[1].substring(11));
+        return orderService.payAllOrders(customerId, ids);
+    }
+
     /**
      * 用户查询自己订单
      * @param request
