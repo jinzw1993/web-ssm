@@ -41,7 +41,7 @@
 	</select>
 
     <select id="searByOwnerForAd" resultMap="ProductBaseMap">
-		SELECT product.id, product.owner_id, shop_id, product_photo_id, product.name, price/100 price, category_id, detail, created_at, modified_at
+		SELECT product.id, product.owner_id, shop_id, product_photo_id, product.name, price/100 price, category_id, detail, created_at, modified_at, product.amount
 		FROM  product JOIN shop ON product.shop_id=shop.id
 		WHERE product.owner_id=#{ownerId} AND shop.status !=2
 		AND product.id NOT IN (SELECT product_id FROM product_advertisement WHERE <![CDATA[ product_advertisement.status <2 ]]>)
@@ -106,7 +106,7 @@
 
     <select id="searchPhotoURL" parameterType="java.lang.Long" resultType="java.lang.String">
         select path from product_photo
-        WHERE id=#{productPhotoId}
+        WHERE product_id=#{productPhotoId}
     </select>
 
     <select id="searchProductById" parameterType="java.lang.Long" resultMap="ProductBaseMap">

@@ -29,6 +29,7 @@ public class OrderBo {
     private String address;
     private Double expressPrice;
     private List<ProductInOrderBo> products;
+    private String number;
 
     public Long getId() {
         return id;
@@ -156,5 +157,13 @@ public class OrderBo {
 
     public void setProducts(List<ProductInOrderBo> products) {
         this.products = products;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
     }
 }
