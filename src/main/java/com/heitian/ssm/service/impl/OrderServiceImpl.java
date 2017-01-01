@@ -76,11 +76,10 @@ public class OrderServiceImpl implements OrderService {
 
     public OrderBo getOrderBoById(Long orderId) {
         OrderBo order = orderDao.getOrderById(orderId);
-        order.setProducts(getProductInOrder(order.getId()));
         if(order == null)
             return new OrderBo();
-        else
-            return order;
+        order.setProducts(getProductInOrder(order.getId()));
+        return order;
     }
 
 
