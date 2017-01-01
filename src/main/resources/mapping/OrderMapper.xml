@@ -163,7 +163,22 @@
                 AND `order`.customer_id=#{id}
             </when>
         </choose>
-        order by `order`.created_at desc
+        group by
+        <choose>
+            <when test="i == 0">
+                year,month,day
+            </when>
+            <when test="i == 1">
+                year,week
+            </when>
+            <when test="i == 2">
+                year,month
+            </when>
+            <when test="i == 3">
+                year
+            </when>
+        </choose>
+        order by `order`.created_at
     </select>
 
     <update id="setExpress">

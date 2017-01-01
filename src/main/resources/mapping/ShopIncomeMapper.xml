@@ -44,16 +44,16 @@
         order by
         <choose>
             <when test="i == 0">
-                year desc,month desc,day desc
+                year,month,day
             </when>
             <when test="i == 1">
-                year desc,week desc
+                year,week
             </when>
             <when test="i == 2">
-                year desc,month desc
+                year,month
             </when>
             <when test="i == 3">
-                year desc
+                year
             </when>
         </choose>
     </select>
