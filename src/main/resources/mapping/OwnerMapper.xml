@@ -12,30 +12,30 @@
     </resultMap>
 
     <select id="selectOwnerById" parameterType="java.lang.Long" resultMap="OwnerBaseMap">
-        SELECT id,name,password,status, email, is_email_verified
+        SELECT id,name,password,status, email, is_email_verified,balance/100 balance
         FROM owner
         WHERE id = #{id}
     </select>
 
     <select id="selectOwnerByName" parameterType="java.lang.String" resultMap="OwnerBaseMap">
-        SELECT id,name,password,status,email, is_email_verified
+        SELECT id,name,password,status,email, is_email_verified,balance/100 balance
         FROM owner
         WHERE name = #{ownerName}
     </select>
 
     <select id="selectOwnerByEmail" parameterType="java.lang.String" resultMap="OwnerBaseMap">
-        SELECT id,name,password,status,email, is_email_verified
+        SELECT id,name,password,status,email, is_email_verified,balance/100 balance
         FROM owner
         WHERE email = #{email}
     </select>
 
     <select id="selectAllOwners" resultMap="OwnerBaseMap">
-        SELECT id,name,password,status, email, is_email_verified
+        SELECT id,name,password,status, email, is_email_verified,balance/100 balance
         FROM owner limit #{start}, #{pageNum}
     </select>
 
     <select id="getAllUnverifiedOwner" resultMap="OwnerBaseMap">
-        SELECT id,name,password,status, email, is_email_verified
+        SELECT id,name,password,status, email, is_email_verified,balance/100 balance
         FROM owner
         WHERE is_email_verified=0 limit #{start}, #{pageNum}
     </select>
@@ -56,7 +56,21 @@
     </insert>
 
     <update id="updateOwner" parameterType="com.heitian.ssm.model.Owner">
-        UPDATE owner set password=#{owner.password}, status=#{owner.status}, is_email_verified=#{owner.isEmailVerified}
+        UPDATE owner
+        <set>
+            <if test="owner.password!=null">
+                password=#{owner.password},
+            </if>
+            <if test="owner.status!=null">
+                status=#{owner.status},
+            </if>
+            <if test="owner.isEmailVerified!=null">
+                is_email_verified=#{owner.isEmailVerified},
+            </if>
+            <if test="owner.balance!=null">
+                balance=#{owner.balance} * 100
+            </if>
+        </set>
         WHERE email=#{owner.email}
     </update>
 

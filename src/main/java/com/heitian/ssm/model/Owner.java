@@ -6,6 +6,7 @@ public class Owner {
     private String password;
     private Long status;
     private String email;
+    private Double balance;
 
     private Integer isEmailVerified;
 
@@ -55,5 +56,13 @@ public class Owner {
 
     public void setStatus(Long status) {
         this.status = status;
+    }
+
+    public Double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(Double balance) {
+        this.balance = balance;
     }
 }

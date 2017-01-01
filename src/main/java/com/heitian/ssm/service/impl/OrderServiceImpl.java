@@ -12,17 +12,11 @@ import javax.annotation.Resource;
 
 import com.heitian.ssm.bo.*;
 import com.heitian.ssm.dao.*;
+import com.heitian.ssm.model.*;
 import com.heitian.ssm.util.ResultResolver;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.heitian.ssm.model.Cart;
-import com.heitian.ssm.model.Customer;
-import com.heitian.ssm.model.Order;
-import com.heitian.ssm.model.Product;
-import com.heitian.ssm.model.ProductInCart;
-import com.heitian.ssm.model.ProductInOrder;
-import com.heitian.ssm.model.Shop;
 import com.heitian.ssm.service.OrderService;
 
 /**
@@ -51,10 +45,18 @@ public class OrderServiceImpl implements OrderService {
     private CustomerDao customerDao;
     @Resource
     private AdminCustomerDao adminCustomerDao;
+    @Resource
+    private OwnerDao ownerDao;
     
     private Result result = new Result();
 
     public Result changeProcessStatus(Long orderId, Long status) {
+        if(status == 4) {
+            OrderBo orderBo = orderDao.getOrderById(orderId);
+            Owner owner = ownerDao.selectOwnerByEmail(orderBo.getOwnerEmail());
+            owner.setBalance(owner.getBalance() + orderBo.getPrice());
+            ownerDao.updateOwner(owner);
+        }
         int i = orderDao.changeOrderProcessStatus(orderId, status);
         if (i > 0) {
             result.setStatus(1);

@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import com.heitian.ssm.bo.ShopAdBo;
+import com.heitian.ssm.dao.OwnerDao;
 import com.heitian.ssm.dao.ShopDao;
 import com.heitian.ssm.model.Shop;
 import com.heitian.ssm.util.ResultResolver;
@@ -24,6 +25,9 @@ public class ShopAdServiceImpl implements ShopAdService {
     @Resource
     private ShopDao shopDao;
 
+    @Resource
+    private OwnerDao ownerDao;
+
 	@Override
 	public Result addShopAd(Long ownerId, String photoUrl, Double price)
 	{
@@ -33,6 +37,12 @@ public class ShopAdServiceImpl implements ShopAdService {
             return ResultResolver.returnRes(0);
         Long status = shopAdDao.selectStatus(shopId);
         if(status == null || status > 1) {
+            if(price > ownerDao.selectOwnerById(ownerId).getBalance()) {
+                Result result = new Result();
+                result.setStatus(0);
+                result.setMessage("You balance isn't enough for this price");
+                return result;
+            }
             int i = shopAdDao.addShopAd(shopId, photoUrl, price);
             return ResultResolver.returnRes(i);
         } else {

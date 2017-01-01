@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import com.heitian.ssm.bo.ProductAdBo;
+import com.heitian.ssm.dao.OwnerDao;
 import com.heitian.ssm.dao.ProductDao;
 import com.heitian.ssm.util.ResultResolver;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,8 @@ public class ProductAdServiceImpl implements ProductAdService {
     private ProductAdDao productAdDao;
     @Resource
     private ProductDao productDao;
+    @Resource
+    private OwnerDao ownerDao;
 
     /**
      * 得到已审核的商品广告列表及其photoURL
@@ -79,6 +82,12 @@ public class ProductAdServiceImpl implements ProductAdService {
             Result result=new Result();
             result.setMessage("failed, advertisement exists");
             result.setStatus(0);
+            return result;
+        }
+        if(price > ownerDao.selectOwnerById(productDao.searchProductById(productId).getOwnId()).getBalance()) {
+            Result result = new Result();
+            result.setStatus(0);
+            result.setMessage("You balance isn't enough for this price");
             return result;
         }
         int i = productAdDao.addProductAd(productId, price);
