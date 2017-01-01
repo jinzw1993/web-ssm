@@ -181,6 +181,22 @@
         order by `order`.created_at
     </select>
 
+    <select id="getOrderSumNum" resultType="int">
+        select count(*) num
+        from `order`
+        where `order`.process_status=4 and `order`.status=1
+        <choose>
+            <when test="kind == 0">
+            </when>
+            <when test="kind == 1">
+                AND `order`.owner_id=#{id}
+            </when>
+            <when test="kind == 2">
+                AND `order`.customer_id=#{id}
+            </when>
+        </choose>
+    </select>
+
     <update id="setExpress">
         update `order`,express_order_log
         set

@@ -130,6 +130,13 @@ public class OrderServiceImpl implements OrderService {
         return productInOrderDao.getProductByOrderId(orderId);
     }
 
+    public Result getOrderSumNum(Long id, int kind) {
+        Result r = new Result();
+        r.setStatus(1);
+        r.setMessage(String.valueOf(orderDao.getOrderSumNum(id, kind)));
+        return r;
+    }
+
     public Result deliver(Long orderId, Long expressId, String number) {
         return ResultResolver.returnRes(orderDao.setExpress(expressId, number, orderId));
     }

@@ -166,6 +166,22 @@ public class OrderController {
         return orderService.getOrderNum(0L, cond, 0);
     }
 
+    @RequestMapping("/sum")
+    public @ResponseBody
+    Result getOrderSumNum(HttpServletRequest request) {
+        String auth = request.getHeader("Authorization");
+        if(auth != null) {
+            String ownerId = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
+            if (ownerId != null && !"".equals(ownerId))
+                return orderService.getOrderSumNum(Long.valueOf(ownerId), 1);
+
+            String customerId = auth.split(";")[1].substring(11);
+            if (customerId != null && !"".equals(customerId))
+                return orderService.getOrderSumNum(Long.valueOf(customerId), 2);
+        }
+        return orderService.getOrderSumNum(0L, 0);
+    }
+
     /**
      * 根据订单查询商品
      * @param id

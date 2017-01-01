@@ -15,6 +15,7 @@ public interface OrderService {
     List<OrderBo> getOrderByTime(Long orderId, TimeCondition time, int kind);
     List<OrderBo> getOwnerOrderBoByPStatus(Long processStatus, Long ownerId, int page, int pageNum);
     List<OrderCountBo> getOrderNum(Long id, int i, int kind);
+    Result getOrderSumNum(Long id, int kind);
     Result getOwnerOrderBoByPStatusNum(Long processStatus, Long ownerId);
     List<ProductInOrderBo> getProductInOrder(Long orderId);
     Result deliver(Long orderId, Long expressId, String number);
