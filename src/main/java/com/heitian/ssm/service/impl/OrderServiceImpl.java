@@ -76,7 +76,7 @@ public class OrderServiceImpl implements OrderService {
 
     public OrderBo getOrderBoById(Long orderId) {
         OrderBo order = orderDao.getOrderById(orderId);
-        if(order == null)
+        if(order == null || order.getProcessStatus() == -1)
             return new OrderBo();
         order.setProducts(getProductInOrder(order.getId()));
         return order;
