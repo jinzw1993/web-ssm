@@ -68,7 +68,7 @@
                 is_email_verified=#{owner.isEmailVerified},
             </if>
             <if test="owner.balance!=null">
-                balance=#{owner.balance} * 100
+                balance=balance+#{owner.balance}*100
             </if>
         </set>
         WHERE email=#{owner.email}
