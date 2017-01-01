@@ -3,7 +3,7 @@
 <mapper namespace="com.heitian.ssm.dao.MallIncomeDao">
     <insert id="insertIncome">
         insert into mall_income(income,year,month,day,week)
-          select commission,year(created_at),month(created_at),day(created_at),week(created_at)
+          select commission,year(now()),month(now()),day(now()),week(now())
           from `order`
           where id=#{orderId};
     </insert>

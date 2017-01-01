@@ -47,15 +47,21 @@ public class OrderServiceImpl implements OrderService {
     private AdminCustomerDao adminCustomerDao;
     @Resource
     private OwnerDao ownerDao;
-    
+    @Resource
+    private ShopIncomeDao shopIncomeDao;
+    @Resource
+    private MallIncomeDao mallIncomeDao;
+
     private Result result = new Result();
 
     public Result changeProcessStatus(Long orderId, Long status) {
         if(status == 4) {
             OrderBo orderBo = orderDao.getOrderById(orderId);
             Owner owner = ownerDao.selectOwnerByEmail(orderBo.getOwnerEmail());
-            owner.setBalance(owner.getBalance() + orderBo.getPrice());
+            owner.setBalance(owner.getBalance() + orderBo.getPrice() - orderBo.getCommission());
             ownerDao.updateOwner(owner);
+            shopIncomeDao.insertIncome(orderId);
+            mallIncomeDao.insertIncome(orderId);
         }
         int i = orderDao.changeOrderProcessStatus(orderId, status);
         if (i > 0) {
