@@ -76,7 +76,11 @@ public class FavoriteController {
         String auth = request.getHeader("Authorization");
         if(auth == null)
             return new ArrayList<>();
-        return favoriteService.searchFavoriteProduct();
+        
+        String s[] = auth.split(";");//前提是，传参为ownerId=xxx;customerId=xxx;adress=xxx...格式
+        Long customerId = Long.valueOf(s[1].substring(11));
+        
+        return favoriteService.searchFavoriteProduct(customerId);
     }
 	
 	@ResponseBody
@@ -129,7 +133,11 @@ public class FavoriteController {
         String auth = request.getHeader("Authorization");
         if(auth == null)
             return new ArrayList<>();
-        return favoriteService.searchFavoriteShop();
+        
+        String s[] = auth.split(";");//前提是，传参为ownerId=xxx;customerId=xxx;adress=xxx...格式
+        Long customerId = Long.valueOf(s[1].substring(11));
+        
+        return favoriteService.searchFavoriteShop(customerId);
     }
 	
 	public Result returnResult() {

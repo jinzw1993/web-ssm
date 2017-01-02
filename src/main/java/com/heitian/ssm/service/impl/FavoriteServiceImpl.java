@@ -66,9 +66,9 @@ public class FavoriteServiceImpl implements FavoriteService {
 	}
 
 	@Override
-	public List<ProductBo> searchFavoriteProduct() {
+	public List<ProductBo> searchFavoriteProduct(Long customerId) {
 		List<ProductBo> productBos = new ArrayList<ProductBo>();
-		List<FavoriteProduct> favoriteProducts = favoriteProductDao.searchFavoriteProduct();
+		List<FavoriteProduct> favoriteProducts = favoriteProductDao.searchFavoriteProduct(customerId);
 		if(favoriteProducts != null && favoriteProducts.size() > 0) {
 			for(FavoriteProduct favoriteProduct : favoriteProducts) {
 				
@@ -107,9 +107,9 @@ public class FavoriteServiceImpl implements FavoriteService {
 	}
 
 	@Override
-	public List<ShopBo> searchFavoriteShop() {
+	public List<ShopBo> searchFavoriteShop(Long customerId) {
 		List<ShopBo> shopBos = new ArrayList<ShopBo>();
-		List<FavoriteShop> favoriteShops = favoriteShopDao.searchFavoriteShop();
+		List<FavoriteShop> favoriteShops = favoriteShopDao.searchFavoriteShop(customerId);
 		if(favoriteShops != null) {
 			for(FavoriteShop favoriteShop : favoriteShops) {
 				

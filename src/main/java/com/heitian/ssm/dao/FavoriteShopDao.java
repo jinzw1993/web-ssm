@@ -10,7 +10,7 @@ import com.heitian.ssm.model.FavoriteShop;
 public interface FavoriteShopDao {
 	
 	public int insertFavoriteShop(@Param("favoriteShop") FavoriteShop favoriteShop);
-	public List<FavoriteShop> searchFavoriteShop();
+	public List<FavoriteShop> searchFavoriteShop(Long customerId);
 	public FavoriteShop searchFavoriteShopByCidAndSid(@Param("shopId") Long shopId, @Param("customerId") Long customerId);
 	public int deleteFavoriteShop(@Param("shopId") Long shopId, @Param("customerId") Long customerId);
 

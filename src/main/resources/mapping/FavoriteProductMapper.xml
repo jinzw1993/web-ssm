@@ -16,8 +16,8 @@
     </insert>
     
     <select id="searchFavoriteProduct" resultMap="FavoriteProductBaseMap">
-	    SELECT * FROM  favorite_product
-	    ORDER BY id
+	    SELECT * FROM  favorite_product WHERE customer_id = #{customerId}
+	    ORDER BY created_at desc
 	</select>
 	
 	<select id="searchFavoriteProductByCidAndPid" resultMap="FavoriteProductBaseMap">
