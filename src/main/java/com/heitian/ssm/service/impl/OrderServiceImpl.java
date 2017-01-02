@@ -258,7 +258,7 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public Result confirmOrder(Long orderId, Long addressId, Long customerId) {
         productInCartDao.cleanCart(cartDao.searchCartByCustomerId(customerId).getId());
-		orderDao.changeOrderAddress(orderId, addressId, 10 + (addressId + 2)%10);
+		orderDao.changeOrderAddress(orderId, addressId, 10L);
 		orderDao.changeOrderStatus(orderId, (long) 0);
 		orderDao.changeOrderProcessStatus(orderId, (long) 0);
 		result.setStatus(1);

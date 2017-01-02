@@ -242,7 +242,7 @@
     </select>
     
     <update id="changeOrderAddress" >
-        UPDATE `order` set address_id=#{addressId}, express_price=#{expressPrice}
+        UPDATE `order` set address_id=#{addressId}, express_price=#{expressPrice}*100
         WHERE id=#{orderId}
     </update>
     
