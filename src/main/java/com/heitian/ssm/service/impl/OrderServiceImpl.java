@@ -294,7 +294,7 @@ public class OrderServiceImpl implements OrderService {
 					customerDao.updateBalance(customer.getBalance() - orderBo.getPrice() - orderBo.getExpressPrice(), customer.getEmail());
 					orderDao.changeOrderStatus(id, (long) 1);
                     orderDao.changeOrderProcessStatus(id, 1L);
-					List<ProductInOrderBo> list = orderBo.getProducts();
+					List<ProductInOrderBo> list = productInOrderDao.getProductByOrderId(orderBo.getId());
 					if(list != null && list.size() > 0) {
 						for(ProductInOrderBo p : list) {
 							Product product = productDao.searchProductById(p.getProductId());
