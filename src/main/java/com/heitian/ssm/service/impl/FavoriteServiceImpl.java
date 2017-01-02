@@ -114,7 +114,7 @@ public class FavoriteServiceImpl implements FavoriteService {
 			for(FavoriteShop favoriteShop : favoriteShops) {
 				
 				Long shopId = favoriteShop.getShopId();
-				Shop shop = shopDao.selectShopByOwnerId(shopId);
+				Shop shop = shopDao.selectShopById(shopId);
 				ShopBo shopBo = new ShopBo(shop, shopDao.selectUrlByOwnerId(shop.getOwnerId()));
 				shopBos.add(shopBo);
 			}
