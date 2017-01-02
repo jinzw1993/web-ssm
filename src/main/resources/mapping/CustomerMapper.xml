@@ -24,6 +24,12 @@
         FROM customer
         WHERE email = #{email}
     </select>
+
+    <select id="getCustomerById" parameterType="long" resultMap="customerMap">
+        SELECT id,name,telephone,status,password,email,is_email_verified,balance/100 balance
+        FROM customer
+        WHERE id = #{id}
+    </select>
     
     <update id="activateCustomerEmail">
         UPDATE customer

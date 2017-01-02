@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Created by Lanting on 2016/11/25.
@@ -46,5 +47,15 @@ public class CustomerController {
         else
             mov.setViewName("error");
         return mov;
+    }
+
+    @RequestMapping("/info")
+    @ResponseBody
+    public Customer getInfo(HttpServletRequest request) {
+        String auth = request.getHeader("Authorization");
+        if(auth == null) {
+            return new Customer();
+        }
+        return customerService.getCustomer(Long.valueOf(auth.split(";")[1].substring(11)));
     }
 }

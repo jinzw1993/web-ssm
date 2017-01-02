@@ -122,4 +122,11 @@ public class CustomerServiceImpl implements CustomerService {
         }
         return result;
     }
+
+    public Customer getCustomer(Long id) {
+        Customer c = customerDao.getCustomerById(id);
+        if(c == null)
+            return new Customer();
+        return c;
+    }
 }
