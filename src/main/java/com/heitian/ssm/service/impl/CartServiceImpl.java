@@ -115,6 +115,14 @@ public class CartServiceImpl implements CartService {
 					
 					if(productIds.contains(Long.valueOf(productId))) {
 						ProductInCart pic1 = new ProductInCart();
+						
+						if(amount + productInCartDao.searchProductInCartByCartIdAndProductId(cart.getId(), productId).getAmount() > AllAmount) {
+							Result r = new Result();
+							r.setStatus(0);
+							r.setMessage("Product's amount is " + AllAmount);
+							return r;
+						}
+						
 						pic1.setAmount(amount + productInCartDao.searchProductInCartByCartIdAndProductId(cart.getId(), productId).getAmount());
 						pic1.setCartId(cart.getId());
 						pic1.setProductId(productId);
