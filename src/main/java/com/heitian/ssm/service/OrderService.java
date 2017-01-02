@@ -23,7 +23,7 @@ public interface OrderService {
     
     public List<OrderBo> addOrder(Long customerId);
 	public List<OrderBo> search(PageCondition page, Long customerId);
-	public Result confirmOrder(Long orderId, Long addressId);
+	public Result confirmOrder(Long orderId, Long addressId, Long customerId);
 	public Result cancel(Long id);
 	public Result pay(Long id);
 }

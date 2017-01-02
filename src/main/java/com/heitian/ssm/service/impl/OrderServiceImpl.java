@@ -241,7 +241,6 @@ public class OrderServiceImpl implements OrderService {
 					}					
 				}				
 			}
-			productInCartDao.cleanCart(cart.getId());
 			cartDao.updateCartAmount((long)0, cart.getCustomerId());
 		}
 		//System.out.println("最大id" + orderDao.getMaxOrderId() + "订单数量" + x);
@@ -256,7 +255,8 @@ public class OrderServiceImpl implements OrderService {
 	}	
 
 	@Override
-	public Result confirmOrder(Long orderId, Long addressId) {
+	public Result confirmOrder(Long orderId, Long addressId, Long customerId) {
+        productInCartDao.cleanCart(cartDao.searchCartByCustomerId(customerId).getId());
 		orderDao.changeOrderAddress(orderId, addressId, 10 + (addressId + 2)%10);
 		orderDao.changeOrderStatus(orderId, (long) 0);
 		orderDao.changeOrderProcessStatus(orderId, (long) 0);

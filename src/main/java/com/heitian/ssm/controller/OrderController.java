@@ -224,12 +224,14 @@ public class OrderController {
     @RequestMapping("/changeStatus")
     public @ResponseBody
     Result changeStatus(@RequestParam Long id, @RequestParam Long status, HttpServletRequest request) {
-        if(request.getHeader("Authorization") == null) {
+        String auth = request.getHeader("Authorization");
+        if(auth == null) {
             returnFailResult();
         }
+        String customerId = auth.split(";")[1].substring(11);
         if(0 == status) {
         	Long addressId = Long.valueOf(request.getParameter("addressId"));
-        	return orderService.confirmOrder(id, addressId);
+        	return orderService.confirmOrder(id, addressId, Long.valueOf(customerId));
         } else if(1 == status) {
         	return orderService.pay(id);
         } else if(2 == status){
