@@ -154,9 +154,11 @@ public class CartServiceImpl implements CartService {
 				r.setStatus(0);
 				r.setMessage("You have been deleted");
 				return r;
-			} else 
+			} else {
 				i = productInCartDao.deleteProductInCart(productInCart);
 				cartDao.updateCartAmount(cart.getAmount() - productInCart.getAmount(), customerId);
+			}
+				
 		}
 		
 		return returnRes(i);
@@ -165,12 +167,14 @@ public class CartServiceImpl implements CartService {
 	@Override
 	public Result updateProductAmount(Long productId, Long customerId,
 			Long amount) {
+		
 		if(amount < 0) {
 			Result r = new Result();
 			r.setStatus(0);
 			r.setMessage("Amount cannot be negative! ");
 			return r;
 		}
+		
 		long allAmount = productDao.searchProductById(productId).getAmount();
 		int i = 0;
 		Cart cart = cartDao.searchCartByCustomerId(customerId);
@@ -184,11 +188,13 @@ public class CartServiceImpl implements CartService {
 				r.setMessage("Product's amount is " + allAmount);
 				return r;
 			} else {
-				productInCart.setAmount(amount);
-				
-				i = productInCartDao.updateProductInCart(productInCart);
-				cartDao.updateCartAmount(cart.getAmount() - pAmount + amount, customerId);
-	//			productDao.updateProductAmount(productId, allAmount + pAmount - amount);
+
+					productInCart.setAmount(amount);
+					
+					i = productInCartDao.updateProductInCart(productInCart);
+					cartDao.updateCartAmount(cart.getAmount() - pAmount + amount, customerId);
+//					productDao.updateProductAmount(productId, allAmount + pAmount - amount);			
+	
 			}
 			
 		} else {
