@@ -201,11 +201,13 @@
         update `order`,express_order_log
         set
         `order`.express_id = #{expressId},
-        `order`.process_status = 3,
-        express_order_log.express_id=#{expressId},
-        express_order_log.log=#{number}
-        where express_order_log.order_id = `order`.id  AND express_order_log.order_id=#{orderId}
+        `order`.process_status = 3
+        where `order`.id= #{orderId}
     </update>
+
+    <insert id="setExpressNum">
+        insert into express_order_log(order_id,express_id,log) values(#{orderId}, #{expressId}, #{number})
+    </insert>
     
     <!-- _______________________customer order__________________________________ -->
     
