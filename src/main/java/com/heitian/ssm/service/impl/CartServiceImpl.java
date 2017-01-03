@@ -41,6 +41,7 @@ public class CartServiceImpl implements CartService {
 	@Override
 	public List<CartBo> searchCart(Long customerId) {
 		double allPrice = 0.0;
+		long allAmount = 0;
 		Cart cart = cartDao.searchCartByCustomerId(customerId);
 		List<CartBo> cartBos = new ArrayList<CartBo>();
 		if(cart != null) {
@@ -49,6 +50,7 @@ public class CartServiceImpl implements CartService {
 			for(ProductInCart productInCart : productInCarts) {
 				Product product = productDao.searchProductById(productInCart.getProductId());
 				allPrice += productInCart.getAmount() * product.getPrice();
+				allAmount += productInCart.getAmount();
 			}	
 			
 			if(productInCarts != null && productInCarts.size() > 0) {
@@ -58,7 +60,7 @@ public class CartServiceImpl implements CartService {
 					
 					CartBo cartBo = new CartBo(product);
 					cartBo.setCartId(cart.getId());
-					cartBo.setAllAmount(cart.getAmount());
+					cartBo.setAllAmount(allAmount);
 					cartBo.setAllPrice(allPrice);
 					
 					cartBo.setSubAmount(p.getAmount());
