@@ -264,6 +264,7 @@ public class OwnerServiceImpl implements OwnerService {
         if(shop == null) {
             Result result =  ResultResolver.returnRes(0);
             result.setMessage("0");
+            return result;
         }
         Long shopId = shop.getId();
         Double income = shopIncomeDao.getAllIncome(shopId);
