@@ -96,22 +96,17 @@ public class CustomerServiceImpl implements CustomerService {
     public Result customerLogin(Customer customer) {
         Result result = new Result();
         result.setStatus(0);
-        if (customer == null || customer.getTelephone() == null || customer.getPassword() == null || customer.getName() == null || customer.getEmail() == null) {
+        if (customer == null || customer.getPassword() == null || customer.getEmail() == null) {
             result.setMessage("telephone/password/name/email is not allowed to be empty.");
             return result;
         }
         Customer cus = customerDao.getCustomerByEmail(customer.getEmail());
-        Customer cus1 = customerDao.getCustomerByTel(customer.getTelephone());
-        if (cus == null || cus1 == null) {
+        if (cus == null) {
             result.setMessage("login failed,email or telephone is not exist");
             return result;
         }
-        if (cus.getId() != cus1.getId()) {
-            result.setMessage("login failed,invalid email/telephone combination");
-            return result;
-        }
         if (!cus.getPassword().equals(customer.getPassword())) {
-            result.setMessage("Login failed,invalid email+telephone/password combination");
+            result.setMessage("Login failed, invalid email+telephone/password combination");
         } else {
             if (cus.getStatus() == 0) {
                 result.setStatus(1);
