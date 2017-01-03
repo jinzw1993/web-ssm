@@ -158,4 +158,10 @@ public class ProductServiceImpl implements ProductService {
         Double t = productCommentDao.getAvgRate(pbo.getId());
         pbo.setRate(t == null ? 0 : t);
     }
+
+	@Override
+	public int searchAllProduct() {
+		return productDao.searchAllProduct();
+	}
+
 }
