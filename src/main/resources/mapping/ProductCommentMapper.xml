@@ -23,7 +23,7 @@
     <select id="getCommentBos" resultMap="CommentBoMap">
         SELECT
           customer.name customer_name,
-          product_in_order.name product_name,
+          product.name product_name,
           amount,
           price/100 price,
           comment,
@@ -31,7 +31,10 @@
           rate
         FROM product_comment
         JOIN customer ON customer_id=customer.id
-        JOIN product_in_order ON product_comment.product_id=product_in_order.product_id AND product_comment.order_id=product_in_order.order_id
+        JOIN product ON product_comment.product_id=product.id
+        WHERE product_comment.product_id=#{productId}
+        ORDER BY product_comment.created_at desc
+        limit #{start},#{pageNum}
     </select>
 
     <select id="getCommentNum" resultType="_int">
