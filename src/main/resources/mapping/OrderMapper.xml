@@ -81,7 +81,9 @@
     <select id="getOwnerOrderBoByProcessStatus" resultMap="OrderBoMap">
         <include refid="selectOrder"/>
         <include refid="fromOrder"/>
-        WHERE process_status=#{processStatus} AND `order`.owner_id=#{ownerId} limit #{start}, #{pageNum}
+        WHERE process_status=#{processStatus} AND `order`.owner_id=#{ownerId}
+        order by `order`.created_at desc
+        limit #{start}, #{pageNum}
     </select>
 
     <select id="getOwnerOrderBoByProcessStatusNum" resultType="_int">
