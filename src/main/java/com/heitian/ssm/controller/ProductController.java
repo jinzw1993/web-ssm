@@ -43,6 +43,7 @@ public class ProductController {
     @ResponseBody
     @RequestMapping("/search")
     public List<ProductBo> searchProductBos(@RequestBody ProductCondition productCondition) {
+		productCondition.setStart(productCondition.getPage());
         return productService.searchProductBos(productCondition);
     }
     /**
