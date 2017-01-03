@@ -24,4 +24,6 @@ public interface ProductService {
     int getOwnerProductCountForAd(Long ownerId);
     List<ProductBo> searchProductBosByShop(Long shopId, int page, int count);
     int getShopProductCount(Long shopId);
+
+	int searchAllProduct();
 }

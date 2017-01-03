@@ -241,4 +241,11 @@ public class ProductController {
         comment.setCustomerId(customerId);
         return productCommentService.addComment(comment);
     }
+
+	@ResponseBody
+    @RequestMapping("/searchProductNum")
+    public int searchProductMaxPage() {
+        return productService.searchAllProduct();
+    }
+
 }

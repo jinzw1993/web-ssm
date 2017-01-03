@@ -173,5 +173,11 @@
           amount=#{amount}
         WHERE id=#{id}
     </update>
+
+	<select id="searchAllProduct" resultType="java.lang.Integer">
+		SELECT count(*) FROM  product JOIN shop ON product.shop_id=shop.id
+		 WHERE shop.status !=2
+	</select>
+
 </mapper>
 

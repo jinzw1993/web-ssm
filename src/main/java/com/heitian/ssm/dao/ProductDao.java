@@ -36,5 +36,6 @@ public interface ProductDao {
     int selectMaxId();
     
     int updateProductAmount(@Param("id") Long id,@Param("amount") Long amount);
+	int searchAllProduct();
 }
 
