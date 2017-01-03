@@ -31,8 +31,9 @@
 
     <select id="selectAllOwners" resultMap="OwnerBaseMap">
         SELECT id,name,password,status, email, is_email_verified,balance/100 balance
-        FROM owner limit #{start}, #{pageNum}
+        FROM owner
         WHERE status != 2
+        limit #{start}, #{pageNum}
     </select>
 
     <select id="getAllUnverifiedOwner" resultMap="OwnerBaseMap">

@@ -48,8 +48,8 @@
     <select id="searchByNum" resultMap="ownerMap">
     	SELECT * FROM  owner
         ORDER BY id
-        limit #{start},#{num}
         WHERE status != 2
+        limit #{start},#{num}
     </select>
     
     <!-- 删除用户信息 -->
