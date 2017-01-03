@@ -35,6 +35,7 @@
     <select id="selectAllShops" resultMap="ShopBaseMap" parameterType="map">
         SELECT id,owner_id,name,contact,email,telephone,status
         FROM shop
+        WHERE status != 2
         limit #{start},#{count}
     </select>
     <insert id="insertShop" useGeneratedKeys="true" keyProperty="id" parameterType="com.heitian.ssm.model.Shop">

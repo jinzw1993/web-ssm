@@ -25,4 +25,9 @@
           (#{productInOrder.productId},#{productInOrder.orderId},#{productInOrder.price} * 100,#{productInOrder.amount},#{productInOrder.shopId},#{productInOrder.createdAt},
           #{productInOrder.name},#{productInOrder.category})
     </insert>
+
+    <select id="hasProduct" resultType="int">
+        select count(*) from product_in_order
+        where product_id=#{productId}
+    </select>
 </mapper>

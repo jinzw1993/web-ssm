@@ -5,6 +5,9 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.heitian.ssm.dao.ShopDao;
+import com.heitian.ssm.model.Shop;
+import com.heitian.ssm.service.ShopService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +24,10 @@ public class AdminOwnerServiceImpl implements AdminOwnerService {
 	
 	@Resource
 	private AdminOwnerDao adminOwnerDao;
+	@Resource
+	private ShopService shopService;
+	@Resource
+	private ShopDao shopDao;
 
 	@Override
 	public OwnerBo findOwnerBoById(long id) {
@@ -93,6 +100,9 @@ public class AdminOwnerServiceImpl implements AdminOwnerService {
 				result.setStatus(0);
 	            result.setMessage("The Owner has deleted!");
 			} else {
+				Shop shop = shopDao.selectShopByOwnerId(id);
+				if(shop != null)
+					shopService.updateStatus(shop.getId(), 2L);
 				adminOwnerDao.deleteOwnerById(id);
 				result.setStatus(1);
 	            result.setMessage("Delete success!");

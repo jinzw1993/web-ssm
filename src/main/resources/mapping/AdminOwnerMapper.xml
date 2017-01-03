@@ -48,6 +48,7 @@
     <select id="searchByNum" resultMap="ownerMap">
     	SELECT * FROM  owner
         ORDER BY id
+        WHERE status != 2
         limit #{start},#{num}
     </select>
     

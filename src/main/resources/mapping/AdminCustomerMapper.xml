@@ -47,6 +47,7 @@
         <if test="keyWord != null and keyWord != ''">
             AND name LIKE "%"#{keyWord,jdbcType=VARCHAR}"%"
         </if>
+        AND status != 2
         ORDER BY id limit #{start},#{num}
     </select>
     
@@ -55,6 +56,7 @@
     	SELECT id,name,telephone,status,password,email,is_email_verified,balance/100 balance
     	FROM  customer
         ORDER BY id
+        WHERE status != 2
         limit #{start},#{num}
     </select>
     
