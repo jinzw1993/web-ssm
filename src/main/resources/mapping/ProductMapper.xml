@@ -131,7 +131,7 @@
 		FROM
 		product left join product_advertisement a on product.id=a.product_id
 		left join product_comment c on product.id=c.product_id
-		left join favourite_product f on product.id=f.product_id
+		left join favorite_product f on product.id=f.product_id
 		left join product_in_cart t on product.id=t.product_id
 		WHERE product.id=#{productId}
 	</delete>
@@ -141,7 +141,7 @@
 		FROM
 		product left join product_advertisement a on product.id=a.product_id
 		left join product_comment c on product.id=c.product_id
-		left join favourite_product f on product.id=f.product_id
+		left join favorite_product f on product.id=f.product_id
 		left join product_in_cart t on product.id=t.product_id
 		WHERE product.shop_id=#{shopId}
 	</delete>
