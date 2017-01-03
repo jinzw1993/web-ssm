@@ -75,7 +75,7 @@ public class FavoriteServiceImpl implements FavoriteService {
 				Long productId = favoriteProduct.getProductId();
 				Product product = productDao.searchProductById(productId);
 				ProductBo pb = new ProductBo(product);
-				String photoURL = productDao.searchPhotoURL(product.getProductPhotoId());
+				String photoURL = productDao.searchPhotoURL(product.getId());
 				pb.setPhotoURL(photoURL);
                 setRate(pb);
 
