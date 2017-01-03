@@ -51,8 +51,9 @@ public class AdminController {
     @RequestMapping("/income")
     public List<IncomeBo> getIncome(@RequestParam Long cond) {
         return adminService.getIncome(cond);
-    }@ResponseBody
+    }
 
+    @ResponseBody
     @RequestMapping("/allIncome")
     public Result getAllIncome() {
         return adminService.getAllIncome();

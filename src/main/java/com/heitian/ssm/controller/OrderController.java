@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import com.heitian.ssm.bo.*;
+import com.heitian.ssm.util.ResultResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -100,86 +101,122 @@ public class OrderController {
     /**
      * 按日周月年查询正常订单列表，time的值 0天 1周 2月 3年
      * @param time
-     * @param request
      * @return
      */
-    @RequestMapping("/listByTime")
+    @RequestMapping("/listByTimeA")
     public @ResponseBody
-    List<OrderBo> getListByTime(@RequestBody TimeCondition time,
-                                HttpServletRequest request) {
-        String auth = request.getHeader("Authorization");
-
-        if(auth != null) {
-            String ownerId = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
-            if (ownerId != null && !"".equals(ownerId))
-                return orderService.getOrderByTime(Long.valueOf(ownerId), time, 1);
-
-            String customerId = auth.split(";")[1].substring(11);
-            if (customerId != null && !"".equals(customerId))
-                return orderService.getOrderByTime(Long.valueOf(customerId), time, 2);
-        }
+    List<OrderBo> getListByTimeA(@RequestBody TimeCondition time) {
         return orderService.getOrderByTime(0L, time, 0);
 
+    }
+    @RequestMapping("/listByTimeO")
+    public @ResponseBody
+    List<OrderBo> getListByTimeO(@RequestBody TimeCondition time,
+                                HttpServletRequest request) {
+        String auth = request.getHeader("Authorization");
+        String ownerId = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
+        if (ownerId != null && !"".equals(ownerId))
+            return orderService.getOrderByTime(Long.valueOf(ownerId), time, 1);
+        return new ArrayList<>();
+
+
+    }
+    @RequestMapping("/listByTimeC")
+    public @ResponseBody
+    List<OrderBo> getListByTimeC(@RequestBody TimeCondition time,
+                                HttpServletRequest request) {
+        String auth = request.getHeader("Authorization");
+        String customerId = auth.split(";")[1].substring(11);
+        if (customerId != null && !"".equals(customerId))
+            return orderService.getOrderByTime(Long.valueOf(customerId), time, 2);
+        return new ArrayList<>();
     }
 
     /**
      * 查询正常所有订单数目，用于按日周月年查询的分页
-     * @param request
      * @return
      */
-    @RequestMapping("/listByTimeNum")
+    @RequestMapping("/listByTimeNumA")
     public @ResponseBody
-    Result getListByTimeNum(@RequestBody TimeCondition time,
+    Result getListByTimeNumA(@RequestBody TimeCondition time) {
+        return orderService.getOrderByTimeNum(0L, time, 0);
+    }
+
+    @RequestMapping("/listByTimeNumO")
+    public @ResponseBody
+    Result getListByTimeNumO(@RequestBody TimeCondition time,
                             HttpServletRequest request) {
         String auth = request.getHeader("Authorization");
-        if(auth != null) {
-            String ownerId = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
-            if (ownerId != null && ownerId != "")
-                return orderService.getOrderByTimeNum(Long.valueOf(ownerId), time, 1);
+        String ownerId = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
+        if (ownerId != null && ownerId != "")
+            return orderService.getOrderByTimeNum(Long.valueOf(ownerId), time, 1);
+        return ResultResolver.returnRes(0);
+    }
 
-            String customerId = auth.split(";")[1].substring(11);
-            if (customerId != null && customerId != "")
-                return orderService.getOrderByTimeNum(Long.valueOf(customerId), time, 2);
-        }
-        return orderService.getOrderByTimeNum(0L, time, 0);
+    @RequestMapping("/listByTimeNumC")
+    public @ResponseBody
+    Result getListByTimeNumC(@RequestBody TimeCondition time,
+                            HttpServletRequest request) {
+        String auth = request.getHeader("Authorization");
+
+        String customerId = auth.split(";")[1].substring(11);
+        if (customerId != null && customerId != "")
+            return orderService.getOrderByTimeNum(Long.valueOf(customerId), time, 2);
+        return ResultResolver.returnRes(0);
     }
 
     /**
      * 日/周/月/年 返回订单数目
      * @param cond
-     * @param request
      * @return
      */
-    @RequestMapping("/num")
+    @RequestMapping("/numA")
     public @ResponseBody
-    List<OrderCountBo> getOrderNum(@RequestParam int cond, HttpServletRequest request) {
-        String auth = request.getHeader("Authorization");
-        if(auth != null) {
-            String ownerId = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
-            if (ownerId != null && !"".equals(ownerId))
-                return orderService.getOrderNum(Long.valueOf(ownerId), cond, 1);
-
-            String customerId = auth.split(";")[1].substring(11);
-            if (customerId != null && !"".equals(customerId))
-                return orderService.getOrderNum(Long.valueOf(customerId), cond, 2);
-        }
+    List<OrderCountBo> getOrderNumA(@RequestParam int cond) {
         return orderService.getOrderNum(0L, cond, 0);
     }
 
-    @RequestMapping("/sum")
+    @RequestMapping("/numO")
     public @ResponseBody
-    Result getOrderSumNum(HttpServletRequest request) {
+    List<OrderCountBo> getOrderNumO(@RequestParam int cond, HttpServletRequest request) {
         String auth = request.getHeader("Authorization");
-        if(auth != null) {
-            String ownerId = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
-            if (ownerId != null && !"".equals(ownerId))
-                return orderService.getOrderSumNum(Long.valueOf(ownerId), 1);
+        String ownerId = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
+        if (ownerId != null && !"".equals(ownerId))
+            return orderService.getOrderNum(Long.valueOf(ownerId), cond, 1);
+        return new ArrayList<>();
+    }
+    @RequestMapping("/numC")
+    public @ResponseBody
+    List<OrderCountBo> getOrderNumC(@RequestParam int cond, HttpServletRequest request) {
+        String auth = request.getHeader("Authorization");
+        String customerId = auth.split(";")[1].substring(11);
+        if (customerId != null && !"".equals(customerId))
+            return orderService.getOrderNum(Long.valueOf(customerId), cond, 2);
+        return new ArrayList<>();
+    }
 
-            String customerId = auth.split(";")[1].substring(11);
-            if (customerId != null && !"".equals(customerId))
-                return orderService.getOrderSumNum(Long.valueOf(customerId), 2);
-        }
+    @RequestMapping("/sumA")
+    public @ResponseBody
+    Result getOrderSumNumA() {
         return orderService.getOrderSumNum(0L, 0);
+    }
+    @RequestMapping("/sumO")
+    public @ResponseBody
+    Result getOrderSumNumO(HttpServletRequest request) {
+        String auth = request.getHeader("Authorization");
+        String ownerId = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
+        if (ownerId != null && !"".equals(ownerId))
+            return orderService.getOrderSumNum(Long.valueOf(ownerId), 1);
+        return ResultResolver.returnRes(0);
+    }
+    @RequestMapping("/sumC")
+    public @ResponseBody
+    Result getOrderSumNumC(HttpServletRequest request) {
+        String auth = request.getHeader("Authorization");
+        String customerId = auth.split(";")[1].substring(11);
+        if (customerId != null && !"".equals(customerId))
+            return orderService.getOrderSumNum(Long.valueOf(customerId), 2);
+        return ResultResolver.returnRes(0);
     }
 
     /**
