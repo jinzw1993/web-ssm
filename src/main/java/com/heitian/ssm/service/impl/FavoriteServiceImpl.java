@@ -112,10 +112,14 @@ public class FavoriteServiceImpl implements FavoriteService {
 		List<FavoriteShop> favoriteShops = favoriteShopDao.searchFavoriteShop(customerId);
 		if(favoriteShops != null) {
 			for(FavoriteShop favoriteShop : favoriteShops) {
-				
 				Long shopId = favoriteShop.getShopId();
 				Shop shop = shopDao.selectShopById(shopId);
-				ShopBo shopBo = new ShopBo(shop, shopDao.selectUrlByOwnerId(shop.getOwnerId()));
+                if(shop == null) {
+                    favoriteShopDao.deleteFavoriteShop(shopId, customerId);
+                    continue;
+                }
+				String url = shopDao.selectUrlByOwnerId(shop.getOwnerId());
+				ShopBo shopBo = new ShopBo(shop, url);
 				shopBos.add(shopBo);
 			}
 		}
