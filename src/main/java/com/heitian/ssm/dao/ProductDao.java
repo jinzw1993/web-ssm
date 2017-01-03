@@ -32,6 +32,7 @@ public interface ProductDao {
     int insertProduct(@Param("product") Product product);
     int deleteProduct(Long productId);
     int updateProduct(@Param("product") Product product);
+    int deleteShopProduct(Long shopId);
     int selectMaxId();
     
     int updateProductAmount(@Param("id") Long id,@Param("amount") Long amount);

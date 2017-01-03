@@ -4,6 +4,7 @@ import com.heitian.ssm.bo.Result;
 import com.heitian.ssm.bo.ShopBo;
 import com.heitian.ssm.dao.OwnerDao;
 import com.heitian.ssm.dao.OwnerPhotoDao;
+import com.heitian.ssm.dao.ProductDao;
 import com.heitian.ssm.dao.ShopDao;
 import com.heitian.ssm.model.Owner;
 import com.heitian.ssm.model.OwnerPhoto;
@@ -28,6 +29,8 @@ public class ShopServiceImpl implements ShopService {
     private OwnerPhotoDao photoDao;
     @Autowired
     private OwnerDao ownerDao;
+    @Autowired
+    private ProductDao productDao;
 
     private Result result = new Result();
 
@@ -141,6 +144,9 @@ public class ShopServiceImpl implements ShopService {
     }
 
     public Result updateStatus(Long id, Long status) {
+        if(status == 2) {
+            productDao.deleteShopProduct(id);
+        }
         return judge(shopDao.updateStatus(id, status) > 0);
     }
 
