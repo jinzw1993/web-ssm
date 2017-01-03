@@ -106,6 +106,7 @@ public class OrderController {
     @RequestMapping("/listByTimeA")
     public @ResponseBody
     List<OrderBo> getListByTimeA(@RequestBody TimeCondition time) {
+		time.setStart(time.getPage());
         return orderService.getOrderByTime(0L, time, 0);
 
     }
@@ -115,6 +116,7 @@ public class OrderController {
                                 HttpServletRequest request) {
         String auth = request.getHeader("Authorization");
         String ownerId = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
+		time.setStart(time.getPage());
         if (ownerId != null && !"".equals(ownerId))
             return orderService.getOrderByTime(Long.valueOf(ownerId), time, 1);
         return new ArrayList<>();
@@ -127,6 +129,7 @@ public class OrderController {
                                 HttpServletRequest request) {
         String auth = request.getHeader("Authorization");
         String customerId = auth.split(";")[1].substring(11);
+		time.setStart(time.getPage());
         if (customerId != null && !"".equals(customerId))
             return orderService.getOrderByTime(Long.valueOf(customerId), time, 2);
         return new ArrayList<>();
@@ -139,6 +142,7 @@ public class OrderController {
     @RequestMapping("/listByTimeNumA")
     public @ResponseBody
     Result getListByTimeNumA(@RequestBody TimeCondition time) {
+		time.setStart(time.getPage());
         return orderService.getOrderByTimeNum(0L, time, 0);
     }
 
@@ -148,6 +152,7 @@ public class OrderController {
                             HttpServletRequest request) {
         String auth = request.getHeader("Authorization");
         String ownerId = auth.substring(auth.indexOf("Id=") + 3, auth.indexOf(";"));
+		time.setStart(time.getPage());
         if (ownerId != null && ownerId != "")
             return orderService.getOrderByTimeNum(Long.valueOf(ownerId), time, 1);
         return ResultResolver.returnRes(0);
@@ -160,6 +165,7 @@ public class OrderController {
         String auth = request.getHeader("Authorization");
 
         String customerId = auth.split(";")[1].substring(11);
+		time.setStart(time.getPage());
         if (customerId != null && customerId != "")
             return orderService.getOrderByTimeNum(Long.valueOf(customerId), time, 2);
         return ResultResolver.returnRes(0);
@@ -312,7 +318,7 @@ public class OrderController {
         String s[] = auth.split(";");//前提是，传参为ownerId=xxx;customerId=xxx;adress=xxx...格式
         Long customerId = Long.valueOf(s[1].substring(11));
     	//long customerId = 1;
-        
+        page.setStart(page.getPage());
         return orderService.search(page, customerId);
     }
 
