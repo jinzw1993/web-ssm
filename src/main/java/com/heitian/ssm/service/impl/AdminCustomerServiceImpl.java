@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.heitian.ssm.dao.CartDao;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +25,8 @@ public class AdminCustomerServiceImpl implements AdminCustomerService {
 	private AdminCustomerDao adminCustomerDao;
 	@Resource
 	private CustomerDao customerDao;
+	@Resource
+	private CartDao cartDao;
 
 	@Override
 	public CustomerBo findCustomerBoById(long id) {
@@ -98,6 +101,7 @@ public class AdminCustomerServiceImpl implements AdminCustomerService {
 	            result.setMessage("The Customer has deleted!");
 			} else {
 				adminCustomerDao.deleteCustomerById(id);
+				cartDao.deleteCart(id);
 				result.setStatus(1);
 	            result.setMessage("Delete success!");
 			}

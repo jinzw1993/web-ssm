@@ -8,7 +8,7 @@
     </resultMap>
 
     <select id="searchCartById" resultMap="CartBaseMap">
-	    SELECT * FROM  cart WHERE id = #{id}
+	    SELECT * FROM  cart WHERE customer_id = #{id}
 	</select>
 	
 	<select id="searchCartByCustomerId" resultMap="CartBaseMap">
