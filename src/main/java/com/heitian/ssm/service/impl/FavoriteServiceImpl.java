@@ -115,7 +115,10 @@ public class FavoriteServiceImpl implements FavoriteService {
 				
 				Long shopId = favoriteShop.getShopId();
 				Shop shop = shopDao.selectShopById(shopId);
-				ShopBo shopBo = new ShopBo(shop, shopDao.selectUrlByOwnerId(shop.getOwnerId()));
+				String url = shopDao.selectUrlByOwnerId(shop.getOwnerId());
+				if(url == null)
+					url = "http://tse2.mm.bing.net/th?id=OIP.Mae61da0531b98ca77253d3c41c55261fo0&pid=15.1";
+				ShopBo shopBo = new ShopBo(shop, url);
 				shopBos.add(shopBo);
 			}
 		}
