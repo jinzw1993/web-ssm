@@ -49,6 +49,7 @@
     	SELECT * FROM  owner
         ORDER BY id
         limit #{start},#{num}
+        WHERE status != 2
     </select>
     
     <!-- 删除用户信息 -->
