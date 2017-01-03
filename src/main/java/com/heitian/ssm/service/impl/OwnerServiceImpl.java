@@ -7,6 +7,7 @@ import com.heitian.ssm.dao.OwnerDao;
 import com.heitian.ssm.dao.ShopDao;
 import com.heitian.ssm.dao.ShopIncomeDao;
 import com.heitian.ssm.model.Owner;
+import com.heitian.ssm.model.Shop;
 import com.heitian.ssm.service.OwnerService;
 import com.heitian.ssm.util.ResultResolver;
 import com.heitian.ssm.util.SendEmail;
@@ -259,7 +260,12 @@ public class OwnerServiceImpl implements OwnerService {
     }
 
     public Result getAllIncome(Long ownerId) {
-        Long shopId = shopDao.selectShopByOwnerId(ownerId).getId();
+        Shop shop = shopDao.selectShopByOwnerId(ownerId);
+        if(shop == null) {
+            Result result =  ResultResolver.returnRes(0);
+            result.setMessage("0");
+        }
+        Long shopId = shop.getId();
         Double income = shopIncomeDao.getAllIncome(shopId);
         Result result = new Result();
         result.setStatus(1);
