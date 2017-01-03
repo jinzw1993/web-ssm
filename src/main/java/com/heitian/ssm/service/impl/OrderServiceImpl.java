@@ -212,7 +212,7 @@ public class OrderServiceImpl implements OrderService {
 					order.setPrice(orderPrice);
 					order.setAmount(orderAmount);
 					order.setCommissionRate((Double.valueOf(mallConfigDao.getMallConfigByKey("1").getValue())));
-					order.setCommission(orderPrice * Double.valueOf(mallConfigDao.getMallConfigByKey("1").getValue())*100);
+					order.setCommission(orderPrice * Double.valueOf(mallConfigDao.getMallConfigByKey("1").getValue()));
 					order.setStatus((long)-1); 
 					order.setProcessStatus((long)-1);
 					order.setCreatedAt(new Timestamp(new Date().getTime()));
