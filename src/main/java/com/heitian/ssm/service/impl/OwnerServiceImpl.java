@@ -2,7 +2,6 @@ package com.heitian.ssm.service.impl;
 
 import com.heitian.ssm.bo.IncomeBo;
 import com.heitian.ssm.bo.Result;
-import com.heitian.ssm.bo.TimeCondition;
 import com.heitian.ssm.dao.OwnerDao;
 import com.heitian.ssm.dao.ShopDao;
 import com.heitian.ssm.dao.ShopIncomeDao;

@@ -211,7 +211,7 @@ public class OrderServiceImpl implements OrderService {
 					order.setExpressId((long)0);
 					order.setPrice(orderPrice);
 					order.setAmount(orderAmount);
-					order.setCommissionRate((Double.valueOf(mallConfigDao.getMallConfigByKey("1").getValue())*100));
+					order.setCommissionRate((Double.valueOf(mallConfigDao.getMallConfigByKey("1").getValue())));
 					order.setCommission(orderPrice * Double.valueOf(mallConfigDao.getMallConfigByKey("1").getValue())*100);
 					order.setStatus((long)-1); 
 					order.setProcessStatus((long)-1);
